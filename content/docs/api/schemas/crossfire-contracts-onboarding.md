@@ -1,0 +1,189 @@
+---
+title: "crossfire/node/packages/contracts/src/onboarding.ts"
+linkTitle: "onboarding"
+description: "Exact executable parser definitions and their imported contracts. Custom code is retained; no omitted checks are implied by field summaries."
+sourceProject: "ctlflow"
+sourcePath: "services/crossfire/node/packages/contracts/src/onboarding.ts"
+generated: true
+---
+
+
+## How to read this page
+
+These are the actual contract definitions at the documented source revision. They are reference text, not a distributed JavaScript SDK. All server implementations must enforce the same observable contract. `check.object` rejects unknown fields; custom functions and refinements remain part of validation.
+
+### Imported definitions
+
+- [`services/crossfire/node/packages/contracts/src/release.ts`](/docs/api/schemas/crossfire-contracts-release/)
+- [`services/crossfire/node/packages/domain/src/onboarding/values.ts`](/docs/api/schemas/crossfire-domain-onboarding-values/)
+- [`services/crossfire/node/packages/contracts/src/schema/validation.ts`](/docs/api/schemas/crossfire-contracts-schema-validation/)
+- [`services/crossfire/node/packages/contracts/src/origin.ts`](/docs/api/schemas/crossfire-contracts-origin/)
+- [`services/crossfire/node/packages/kernel/src/result.ts`](/docs/api/schemas/crossfire-kernel-result/)
+
+## setupVersion {#setupVersion}
+
+```typescript
+setupVersion = check.refine(check.text(100), value => /^\d+\.\d+\.\d+(?:-[0-9A-Za-z]+(?:\.[0-9A-Za-z]+)*)?$/u.test(value), 'Use one exact npm version')
+```
+
+Related definitions:
+
+- [`refine`](/docs/api/schemas/crossfire-contracts-schema-validation/#refine)
+- [`text`](/docs/api/schemas/crossfire-contracts-schema-validation/#text)
+
+## setupOrigin {#setupOrigin}
+
+```typescript
+setupOrigin = check.refine(check.text(2048), value => { const parsed = endpoint(value); return parsed.ok && parsed.value === value; }, 'Use an exact HTTPS or loopback HTTP origin')
+```
+
+Related definitions:
+
+- [`refine`](/docs/api/schemas/crossfire-contracts-schema-validation/#refine)
+- [`text`](/docs/api/schemas/crossfire-contracts-schema-validation/#text)
+- [`endpoint`](/docs/api/schemas/crossfire-contracts-origin/#endpoint)
+
+## schemaVersion {#schemaVersion}
+
+```typescript
+schemaVersion: check.Parser<1> = value => value === 1 ? success(1) : failure('invalid', 'Unsupported setup descriptor')
+```
+
+Related definitions:
+
+- [`success`](/docs/api/schemas/crossfire-kernel-result/#success)
+- [`failure`](/docs/api/schemas/crossfire-kernel-result/#failure)
+
+## setupDescriptorSchema {#setupDescriptorSchema}
+
+```typescript
+setupDescriptorSchema: check.Parser<SetupDescriptor> = check.object({ schemaVersion, server: setupOrigin, ownerMatrixId: check.matrixUserId,
+    package: check.object({ name: check.choice('@ctlflow/fleet'), version: setupVersion }), instructions: check.plainText(128 * 1024) })
+```
+
+Related definitions:
+
+- [`object`](/docs/api/schemas/crossfire-contracts-schema-validation/#object)
+- [`schemaVersion`](/docs/api/schemas/crossfire-contracts-onboarding/#schemaVersion)
+- [`setupOrigin`](/docs/api/schemas/crossfire-contracts-onboarding/#setupOrigin)
+- [`matrixUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#matrixUserId)
+- [`choice`](/docs/api/schemas/crossfire-contracts-schema-validation/#choice)
+- [`setupVersion`](/docs/api/schemas/crossfire-contracts-onboarding/#setupVersion)
+- [`plainText`](/docs/api/schemas/crossfire-contracts-schema-validation/#plainText)
+
+## quote {#quote}
+
+```typescript
+function quote(value: string): string { return "'" + value.replaceAll("'", "'\\''") + "'"; }
+```
+
+## onboardingUrl {#onboardingUrl}
+
+```typescript
+export function onboardingUrl(origin: string, owner: string): string {
+    return origin + '/onboarding/setup?ownerMatrixId=' + encodeURIComponent(owner);
+}
+```
+
+## setupDescriptorUrl {#setupDescriptorUrl}
+
+```typescript
+export function setupDescriptorUrl(origin: string, owner: string): string {
+    return origin + '/onboarding/setup.json?ownerMatrixId=' + encodeURIComponent(owner);
+}
+```
+
+## setupDescriptor {#setupDescriptor}
+
+```typescript
+export function setupDescriptor(origin: string, owner: string, release: Manifest, instructions = ''): SetupDescriptor {
+    return { schemaVersion: 1, server: origin, ownerMatrixId: owner,
+        package: { name: '@ctlflow/fleet', version: release.version }, instructions };
+}
+```
+
+Related definitions:
+
+- [`Manifest`](/docs/api/schemas/crossfire-contracts-release/#Manifest)
+- [`SetupDescriptor`](/docs/api/schemas/crossfire-domain-onboarding-values/#SetupDescriptor)
+- [`schemaVersion`](/docs/api/schemas/crossfire-contracts-onboarding/#schemaVersion)
+
+## onboardingCommand {#onboardingCommand}
+
+```typescript
+export function onboardingCommand(origin: string, owner: string, release: Manifest): string {
+    return [
+        'set -eu', 'umask 077',
+        'command -v node >/dev/null || { printf "%s\\n" "Install Node.js 26+: https://nodejs.org/en/download" >&2; exit 1; }',
+        'node -e \'if(Number(process.versions.node.split(".")[0]) < 26) { console.error("Install Node.js 26+: https://nodejs.org/en/download"); process.exit(1); }\'',
+        'command -v npm >/dev/null || { printf "%s\\n" "Install npm with Node.js: https://nodejs.org/en/download" >&2; exit 1; }',
+        'command -v git >/dev/null || { printf "%s\\n" "Install Git: https://git-scm.com/downloads" >&2; exit 1; }',
+        'command -v codex >/dev/null || { printf "%s\\n" "Install Codex: https://developers.openai.com/codex/cli" >&2; exit 1; }',
+        'installation=$(node --input-type=module - ' + quote(release.version) + ' <<\'NODE\'',
+        'import { lstatSync, mkdirSync, realpathSync } from "node:fs";',
+        'import { homedir } from "node:os";',
+        'import { join } from "node:path";',
+        'let directory = realpathSync(homedir());',
+        'for (const part of [".local", "share", "ctlflow", "releases", process.argv[2]]) {',
+        '  directory = join(directory, part);',
+        '  try { mkdirSync(directory, { mode: 0o700 }); } catch (error) { if (error.code !== "EEXIST") throw error; }',
+        '  const stat = lstatSync(directory);',
+        '  if (!stat.isDirectory() || stat.isSymbolicLink() || stat.uid !== process.getuid() || (stat.mode & 0o022)) throw new Error("Unsafe private installation directory");',
+        '}',
+        'console.log(directory);',
+        'NODE', ')',
+        'npm install --prefix "$installation" --ignore-scripts --omit=dev --no-audit --no-fund --save-exact ' + quote('@ctlflow/fleet@' + release.version),
+        '"$installation/node_modules/.bin/fleet" setup --descriptor ' + quote(setupDescriptorUrl(origin, owner)),
+    ].join('\n');
+}
+```
+
+Related definitions:
+
+- [`Manifest`](/docs/api/schemas/crossfire-contracts-release/#Manifest)
+- [`quote`](/docs/api/schemas/crossfire-contracts-onboarding/#quote)
+- [`setupDescriptorUrl`](/docs/api/schemas/crossfire-contracts-onboarding/#setupDescriptorUrl)
+
+## onboardingGuide {#onboardingGuide}
+
+```typescript
+export function onboardingGuide(origin: string, owner: string, release: Manifest, instructions = ''): string {
+    return [
+        '# Set up a crossfire agent',
+        '',
+        'crossfire lets people message managed agents through Matrix. fleetd owns each agent’s native session and the shared listener; a single agent is an ordinary one-agent fleet.',
+        'These instructions are for the coding harness performing setup. Always install the Node.js @ctlflow/fleet CLI and its Node.js fleetd dependency, regardless of the server implementation. Fleet attachment does not require .NET or a C# controller. Do not attach this coding session; fleetd starts a separate managed native session.',
+        'Server: ' + origin, 'Verified human owner: ' + owner,
+        '',
+        '## 1. Check prerequisites',
+        'Use the human-selected project directory on Linux or macOS. Requires Node.js 26+, npm, Git, Bash and Codex. Check node --version, npm --version, git --version and codex --version. The controller performs model-free native capability and authentication checks before enrolling or starting an agent.',
+        'If something is missing, help install it within the human’s normal permission policy. Official installation instructions: https://nodejs.org/en/download ; https://git-scm.com/downloads ; https://developers.openai.com/codex/cli . Provider login uses native Codex authentication. Never request Matrix passwords, administrator tokens, ports or session IDs. Do not silently use sudo, change host services or install global skills.',
+        'This coding session only performs setup. It stays independent: its process, conversation and project-native settings are not adopted or imported. fleetd creates a separate managed session. Subsequent resume and wake reuse that managed session’s saved histories. Linux inert-provider checks are not macOS or paid-provider certification.',
+        '',
+        '## 2. Run the complete setup command',
+        'Inspect and run this Bash command from the project directory. It installs the pinned public CLI/controller into private user-owned storage and runs one noninteractive setup operation. It asks no naming, model, controller or room questions. Stable names and state are derived and persisted automatically.',
+        '', '```bash', onboardingCommand(origin, owner, release), '```', '',
+        'Optional overrides use fleet setup --descriptor ' + quote(setupDescriptorUrl(origin, owner)) + ' --config /absolute/runtime.toml. Do not generate a configuration just to repeat defaults.',
+        'When awaiting approval, immediately show the exact approval URL and matching code to the human. Ordinary controller code continues waiting and resumes after approval; do not model-poll, enroll twice or start a separate listener. Human approval remains required authorization.',
+        'Repeated setup reuses the selected project, controller, fleet, identities and histories. It never silently upgrades software or activates explicitly stopped sessions. Errors are actionable failures, not prompts to guess another identity.',
+        '',
+        '## 3. Confirm readiness and room access',
+        'Setup returns the fleet identity and model-free readiness result. Use fleet test FLEET_KEY to verify the receiver, fleet daemon status to inspect the controller and fleet show FLEET_KEY for read-only session details, using the returned fleet key. These checks never start or wake a stopped session. A controller process or saved credentials alone do not prove delivery is ready. Busy, paused, sleeping and stopped states are distinct; no artificial test message or model turn is needed.',
+        'Enrollment creates no rooms or conversations. Humans create rooms in Element and invite the agent; authorized invitations grant read/reply access. Wake-up rules separately determine which senders trigger a turn. The first owner DM, actual terminal output or pending decision establishes a protected private owner conversation.',
+        'The managed agent can check its receiver using node "$CROSSFIRE_PROJECT/.crossfire/client.mjs" agent test. It does not start a listener, make a model call or advance unread positions.',
+        'Report the setup result and ' + origin + '/manage/fleets to the human. Lifecycle, fresh-history confirmations, model parameters, terminal pointers and software versions are available in management.',
+        '',
+        '## Software updates',
+        'Only @ctlflow/fleet and @ctlflow/fleetd are public npm packages. Internal modules stay bundled and private. A new release may notify the managed agent once. With human consent, install the pinned package version into the private installation, run fleet update FLEET_KEY and restart the controller with fleet daemon restart. Explicitly stopped agents remain stopped; running agents resume their saved histories. Read changed skill content after the verified update. Do not replace a live receiver or re-enroll.',
+        ...(instructions ? ['', '## Instructions from this instance’s administrator', instructions] : []),
+        '',
+    ].join('\n');
+}
+```
+
+Related definitions:
+
+- [`Manifest`](/docs/api/schemas/crossfire-contracts-release/#Manifest)
+- [`onboardingCommand`](/docs/api/schemas/crossfire-contracts-onboarding/#onboardingCommand)
+- [`quote`](/docs/api/schemas/crossfire-contracts-onboarding/#quote)
+- [`setupDescriptorUrl`](/docs/api/schemas/crossfire-contracts-onboarding/#setupDescriptorUrl)

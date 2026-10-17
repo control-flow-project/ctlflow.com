@@ -1,0 +1,27 @@
+baseURL = "https://ctlflow.com/"
+locale = "en-US"
+title = "ctlflow"
+enableRobotsTXT = true
+disableKinds = ["taxonomy", "term", "RSS"]
+
+[params]
+  description = "Technical documentation for ctlflow: crossfire, fleetd and fleet. Toolsmith is separate optional tooling."
+  repository = "https://github.com/control-flow-project/ctlflow.com"
+
+[outputs]
+  home = ["HTML", "JSON"]
+
+[markup.goldmark.renderer]
+  unsafe = false
+
+[markup.highlight]
+  noClasses = false
+  lineNos = false
+
+[markup.tableOfContents]
+  startLevel = 2
+  endLevel = 3
+  ordered = false
+
+[build]
+  noJSConfigInAssets = true

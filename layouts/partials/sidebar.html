@@ -1,0 +1,23 @@
+<aside class="sidebar" aria-label="Documentation navigation">
+  <details class="mobile-nav" id="docs-navigation" open>
+    <summary>Documentation navigation <span aria-hidden="true">⌄</span></summary>
+    <div class="sidebar-scroll">
+      <a class="sidebar-overview{{ if eq .RelPermalink "/docs/" }} active{{ end }}" href="/docs/">Overview <span aria-hidden="true">↗</span></a>
+      {{ $current := . }}
+      {{ with site.GetPage "/docs" }}
+      {{ range .Sections.ByWeight }}
+      <section class="nav-group">
+        <h2><a href="{{ .RelPermalink }}"{{ if eq .RelPermalink $current.RelPermalink }} aria-current="page"{{ end }}>{{ .Title }}</a></h2>
+        {{ range .Pages.ByWeight }}
+          <a href="{{ .RelPermalink }}" class="nav-item{{ if eq .RelPermalink $current.RelPermalink }} active{{ end }}"{{ if eq .RelPermalink $current.RelPermalink }} aria-current="page"{{ end }}>{{ .LinkTitle }}</a>
+          {{ if and .IsSection (or (eq .RelPermalink $current.RelPermalink) (.IsAncestor $current)) }}
+          <div class="nav-nested">{{ range .Pages.ByTitle }}<a href="{{ .RelPermalink }}" class="nav-item{{ if eq .RelPermalink $current.RelPermalink }} active{{ end }}"{{ if eq .RelPermalink $current.RelPermalink }} aria-current="page"{{ end }}>{{ .LinkTitle }}</a>{{ end }}</div>
+          {{ end }}
+        {{ end }}
+      </section>
+      {{ end }}
+      {{ end }}
+      <div class="sidebar-meta"><span class="status-dot" aria-hidden="true"></span>Source-based documentation<br><a href="/docs/reference-sources/">Revisions and coverage</a></div>
+    </div>
+  </details>
+</aside>
