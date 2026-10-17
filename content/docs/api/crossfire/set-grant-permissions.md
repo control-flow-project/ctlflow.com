@@ -34,6 +34,8 @@ HTTP 202 means the request was accepted for processing. Check the operation's st
 
 ## Path parameters
 
+Your HTTP client substitutes these values into the placeholders in the URL path.
+
 object; fields below; unknown fields rejected
 
 | Field path | Representation and constraints |
@@ -42,6 +44,8 @@ object; fields below; unknown fields rejected
 | `roomId` | immutable Matrix room ID; maximum 255 UTF-16 units |
 
 ### Validation
+
+This TypeScript is the server's validation code, reproduced from its contract. It describes the accepted format; client applications do not need to run or import it.
 
 ```typescript
 check.object({ agentId: check.identifier, roomId: check.roomId })
@@ -54,6 +58,8 @@ Referenced definitions:
 - [`roomId`](/docs/api/schemas/crossfire-contracts-schema-validation/#roomId)
 
 ## Query parameters
+
+Your HTTP client supplies these values in the URL query string.
 
 custom validation: [`none`](/docs/api/schemas/crossfire-contracts-schema-query/#none); see function below
 
@@ -74,6 +80,8 @@ export function none(input: unknown) {
 
 ### Validation
 
+This TypeScript is the server's validation code, reproduced from its contract. It describes the accepted format; client applications do not need to run or import it.
+
 ```typescript
 query.none
 ```
@@ -83,6 +91,8 @@ Referenced definitions:
 - [`none`](/docs/api/schemas/crossfire-contracts-schema-query/#none)
 
 ## Request body
+
+Your HTTP client supplies these fields as the JSON request body when the operation takes input. A no-input operation does not require JSON. This is protocol input, not text to send in a Matrix room.
 
 object; fields below; unknown fields rejected ([`roomPermissions`](/docs/api/schemas/crossfire-contracts-schema-request/#roomPermissions))
 
@@ -94,6 +104,8 @@ object; fields below; unknown fields rejected ([`roomPermissions`](/docs/api/sch
 
 ### Validation
 
+This TypeScript is the server's validation code, reproduced from its contract. It describes the accepted format; client applications do not need to run or import it.
+
 ```typescript
 req.roomPermissions
 ```
@@ -103,6 +115,8 @@ Referenced definitions:
 - [`roomPermissions`](/docs/api/schemas/crossfire-contracts-schema-request/#roomPermissions)
 
 ## Response data
+
+The service produces these fields inside `data` in its response. They are output for the client to read, not input for the caller to submit.
 
 object; fields below; unknown fields rejected ([`grantView`](/docs/api/schemas/crossfire-contracts-schema-response/#grantView))
 
@@ -149,6 +163,8 @@ application => !application.creator || application.powerLevel === null
 
 ### Validation
 
+This TypeScript is the server's validation code, reproduced from its contract. It describes the accepted format; client applications do not need to run or import it.
+
 ```typescript
 res.grantView
 ```
@@ -159,7 +175,7 @@ Referenced definitions:
 
 ## Response envelope
 
-A successful JSON response contains `data` and `meta`. Replace the `data` placeholder below with the response fields described above. Errors contain `error` instead of `data`.
+This JSON illustrates a response returned by the service, not a request to send. The service fills `data` with the operation result and `meta` with request metadata. The string below marks where the actual response data appears; it is not an example record. Errors contain `error` instead of `data`.
 
 ```json
 {

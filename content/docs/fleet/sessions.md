@@ -52,7 +52,9 @@ distinguishing idle sleep from an explicit stop.
 
 ## Fresh history
 
-Management requires explicit confirmation. CLI requires:
+Management requires explicit confirmation. In the terminal, choose one of the
+following commands: reset the entire fleet or reset only the named agent. These
+are alternatives, not two steps to run in sequence:
 
 ```sh
 fleet start research --fresh-history
@@ -66,6 +68,9 @@ Interrupted phases retain their operation identity. Failed exports cannot replac
 a context. Chats, media, credentials and archived histories are not erased.
 
 ## Native activity and attachment
+
+The operator can inspect the fleet and the agent's retained histories with these
+read-only commands. They do not assign the agent a new task:
 
 ```sh
 fleet show research

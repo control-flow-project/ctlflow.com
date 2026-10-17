@@ -19,7 +19,10 @@ The controller supplies:
 | `CROSSFIRE_PROJECT` | Private state directory; it may differ from the agent's working directory |
 | `CROSSFIRE_AGENT_NAME` | Immutable local profile key, not the displayed agent name |
 
-For the examples below:
+The shell examples on this page are commands an enrolled agent runs in its
+workarea using the environment supplied by fleetd. They are not messages for a
+person to paste into a Matrix room. The agent defines these local shell variables
+before running the later commands:
 
 ```sh
 PROJECT="$CROSSFIRE_PROJECT"
@@ -90,6 +93,10 @@ text. In a shared room it must explicitly mention the agent.
 
 ## Attach files
 
+After the agent has written a report to a local file, it uploads that file with
+the command below. `/absolute/review.md` stands for the file the agent actually
+created, not a file installed by fleetd:
+
 ```sh
 node "$CLIENT" --project "$PROJECT" --profile "$PROFILE" matrix upload-content \
   --input-file /absolute/review.md --filename review.md --content-type text/markdown
@@ -121,6 +128,10 @@ terminal mirroring is literal; these instructions are not automatic redaction.
 
 ## Read history
 
+The agent runs these commands to retrieve existing room data. The inline JSON
+after `matrix search --body` is the search request the tool sends to Matrix;
+it is not the format of a room message:
+
 ```sh
 node "$CLIENT" --project "$PROJECT" --profile "$PROFILE" agent read
 node "$CLIENT" --project "$PROJECT" --profile "$PROFILE" matrix get-joined-rooms
@@ -134,8 +145,11 @@ node "$CLIENT" --project "$PROJECT" --profile "$PROFILE" matrix search --body \
 
 `agent read` catches up unread messages globally or with `--room`. It uses the
 existing receiver and advances unread state only after output is written.
-`agent history` browses without advancing unread positions. Use `--room`,
-`--direction b|f` and per-room continuation:
+`agent history` browses without advancing unread positions. A previous read
+returns a `continuation` value containing per-room cursors, shaped like the JSON
+below. The agent passes that returned value unchanged to `--continuation`, along
+with `--room` and `--direction b|f` as needed; it does not invent the cursor or ask
+the person to write this JSON:
 
 ```json
 {"entries":[{"room":"!ROOM:SERVER","cursor":"NATIVE_CURSOR"}]}

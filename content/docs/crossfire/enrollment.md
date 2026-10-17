@@ -16,6 +16,9 @@ release. Its JSON descriptor is at:
 /onboarding/setup.json?ownerMatrixId=EXACT_MATRIX_ID
 ```
 
+The server generates this descriptor and fleet downloads it during setup. The
+person supplies the personalized guide URL, not a hand-written JSON document.
+
 The CLI checks the fixed path, exact origin/owner/version, strict schema and
 response bounds. Redirects, ambiguous queries and credential-bearing URLs fail.
 No default deployment account or inferred owner is used.

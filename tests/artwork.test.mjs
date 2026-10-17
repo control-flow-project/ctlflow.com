@@ -14,11 +14,10 @@ const selections = {
   "docs/fleet/_index.md": "fleet",
   "docs/examples/_index.md": "examples",
   "docs/examples/fleet-street.md": "theatre",
-  "docs/toolsmith/_index.md": "toolsmith",
 };
 
-test("ten distinct original illustrations are local RGBA PNGs with matching intrinsic dimensions", () => {
-  assert.deepEqual(Object.keys(registry).sort(), ["collaboration", "crossfire", "ctlflow", "examples", "fleet", "fleetd", "multitool", "playbill", "theatre", "toolsmith"]);
+test("nine distinct original illustrations are local RGBA PNGs with matching intrinsic dimensions", () => {
+  assert.deepEqual(Object.keys(registry).sort(), ["collaboration", "crossfire", "ctlflow", "examples", "fleet", "fleetd", "multitool", "playbill", "theatre"]);
   for (const [name, filename] of Object.entries(registry)) {
     assert.equal(filename, `artwork/${name}.png`);
     const bytes = fs.readFileSync(path.join(root, "assets", filename));
@@ -59,7 +58,7 @@ test("published illustrations have three fingerprinted responsive variants and n
     assert.equal(bytes.length < ({ 480: 80, 800: 160, 1200: 300 }[width]) * 1024, true, `${name} ${width}px byte budget`);
   }
   assert.equal(published.some(filename => filename.endsWith(".png")), false);
-  assert.deepEqual(verifyPublishedArtwork(root), { assets: 10, placements: 10 });
+  assert.deepEqual(verifyPublishedArtwork(root), { assets: 9, placements: 9 });
 });
 
 function artworkFixture(context) {

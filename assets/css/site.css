@@ -239,6 +239,7 @@ button, input { border-radius: 8px; }
 .chroma .nf, .chroma .fm, .chroma .nb, .chroma .bp { color: var(--syntax-function); }
 .chroma .nc, .chroma .nn, .chroma .ne, .chroma .na, .chroma .nt { color: var(--syntax-type); }
 @media (min-width: 1600px) { .header-inner { max-width: 1500px; } }
+@media (min-width: 1000px) { .section-heading { justify-content: flex-start; gap: 96px; } }
 @media (max-width: 1370px) {
   .doc-article { max-width: 900px; }
   .article-layout { display: block; }

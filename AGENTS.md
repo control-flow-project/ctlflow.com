@@ -26,6 +26,12 @@ file inventory or how the website is generated. Product licensing remains
 relevant; do not confuse it with incidental facts about a sample. Keep website
 maintenance procedures in the README, and preserve technical prerequisites,
 source references, security boundaries and legal notices.
+Introduce each example before its code block: who creates it, whether it is
+input or output, and how it is used. Distinguish ordinary chat from agent-written
+files, configuration, tool calls and server responses. Name supplied example
+files; never imply that people must write JSON in chat or that chat is converted
+into a task file automatically. Normal example setup uses clone and cd, not
+revision-fetch or detached-checkout steps.
 Name supported runtimes accurately and preserve exact package/API identifiers and
 verbatim generated contract excerpts. The default theme is white/light; the
 optional dark theme uses green. Render all code examples through the shared Hugo

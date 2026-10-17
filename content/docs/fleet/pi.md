@@ -25,6 +25,10 @@ Never send provider secrets through Matrix.
 
 ## Definition
 
+The fleet author puts runtime settings in a role's `agent.toml` file. This is a
+Pi role configuration, not text to send to an agent. Replace the provider/model
+placeholders with a pair available to the host's Pi account:
+
 ```toml
 name = "Research analyst"
 runtime = "pi"
@@ -86,7 +90,10 @@ The owned extension is loaded explicitly. Automatic native extensions, skills,
 templates and themes are disabled. Instructions come from the role/admin/skill
 producer, not global installation.
 
-The model's `crossfire_question` tool accepts:
+When the agent needs a choice, it calls its `crossfire_question` tool with
+arguments such as the JSON below. The agent creates these arguments; the owner
+receives a decision request in their DM and chooses an option. The owner does
+not write or send this JSON:
 
 ```json
 {"title":"Select approach","prompt":"Which report?","options":["Brief","Detailed","Cancel"]}

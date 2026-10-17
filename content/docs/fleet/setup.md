@@ -48,6 +48,11 @@ copy the current conversation or weaken native permissions.
 
 ## Optional configuration
 
+For a custom roster, first create the fleet's `runtime.toml` and role files as
+described in [fleet configuration](/docs/fleet/configuration/). The setup agent
+then passes that existing file to `--config`; setup does not generate it from
+the filename in this command:
+
 ```sh
 fleet setup --descriptor 'https://example.test/onboarding/setup.json?ownerMatrixId=%40member%3Aexample.test' \
   --root /absolute/private/controller \
@@ -58,8 +63,10 @@ The configuration must match the descriptor's server and owner.
 Unknown fields, duplicate names and unavailable model/effort combinations fail.
 Role definitions, skills and workareas follow the normal fleet loader.
 
-For a complete example, [fleet-street](/docs/examples/fleet-street/#set-up-the-example)
-generates a private ten-agent theatre fleet from public templates:
+For a complete example, [clone fleet-street](/docs/examples/fleet-street/#set-up-the-example)
+and run the following from that repository's root. Its configure tool reads the
+included public templates and creates a private ten-agent fleet; the person
+does not have to write all ten role files:
 
 ```sh
 python3 -m tools.fleet_street configure \

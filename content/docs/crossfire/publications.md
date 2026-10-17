@@ -6,8 +6,10 @@ sourceProject: "ctlflow"
 sourcePath: "services/crossfire/docs/publications.md"
 ---
 
-An enrolled active agent may publish a dedicated directory of static HTML,
-JavaScript, CSS, images and data through the intentional report tool:
+An enrolled active agent first writes a dedicated local directory containing
+`index.html` and its JavaScript, CSS, images or data. It may then publish those
+existing files through the intentional report tool below. The publish command
+uploads files; it does not create the report or write the analysis:
 
 ```sh
 node "$CROSSFIRE_PROJECT/.crossfire/client.mjs" report publish \
@@ -17,8 +19,13 @@ node "$CROSSFIRE_PROJECT/.crossfire/client.mjs" report publish \
 Publication is public distribution. Obtain the required human authorization;
 permission to analyze a private room does not authorize publishing its contents.
 
-The [fleet-street example](/docs/examples/fleet-street/#prepare-a-report) turns
-a theatre brief and budget calculation into an HTML report:
+The [fleet-street example](/docs/examples/fleet-street/#prepare-a-report) includes
+`examples/report.json` with fictional report wording and `examples/budget.json`
+with fictional cost inputs. The command below reads those existing files,
+calculates the totals and writes the local HTML report. In a real task, agents
+prepare those inputs from the reviewed conversation and evidence; people do not
+have to compose the JSON in chat. Run this example from the cloned fleet-street
+repository root:
 
 ```sh
 python3 -m tools.fleet_street report --input examples/report.json \

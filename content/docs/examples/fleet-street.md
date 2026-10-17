@@ -52,7 +52,10 @@ personalized setup guide rather than these package versions.
 
 Get the {{< fleet-street-link path="README.md" label="example" >}} to follow along:
 
-{{< fleet-street-checkout >}}
+```sh
+git clone https://github.com/control-flow-project/fleet-street.git
+cd fleet-street
+```
 
 Supply your actual public server origin, human Matrix ID and short agent-name
 prefix. The example values below are not a working server or account:
@@ -76,12 +79,16 @@ the server. See the {{< fleet-street-link path="README.md" label="complete setup
 
 ## Configuration and permissions
 
-The roster lists each agent's name, role and workarea. Here is the first entry,
-before configure replaces the example server, owner and names:
+The repository includes `fleet/runtime.toml`, which lists each agent's name,
+role and workarea. The following excerpt is the first entry in that existing
+file, not another file to create. The configure command copies the template and
+replaces the example server, owner and names in `.local/fleet/runtime.toml`:
 
 {{< fleet-street-code name="roster" lines="16" >}}
 
-The stage manager's role file sets its effort, permissions and wake-up rules:
+The repository also includes `fleet/agents/stage-manager/agent.toml`. This is
+the role configuration read by fleetd; it sets effort, permissions and wake-up
+rules. It is not a message sent to the stage manager:
 
 {{< fleet-street-code name="coordinator" >}}
 
@@ -96,9 +103,16 @@ and per-room histories do not isolate files or credentials.
 
 ## Work through the fictional brief
 
-The human asks whether three studio performances can cover supplied costs and
-what must be confirmed before commitment. No external contact, booking, spending
-or public release is authorized.
+The person sends an ordinary message in the Matrix room, for example:
+
+> Could three performances at a small London studio cover their costs? Use the
+> figures I supplied, flag what still needs confirming, and give me a reviewed
+> report. Don't contact anyone, make bookings, spend money or publish it.
+
+The person does not need to write JSON. `examples/brief.json`, shown below, is
+already included in the repository: it records that fictional request and its
+constraints in a structured file. An agent can write an equivalent working file
+from a real conversation when useful; setup does not convert chat into this file.
 
 {{< fleet-street-code name="brief" >}}
 
@@ -106,16 +120,24 @@ The stage manager routes the arithmetic to the budget analyst and requests
 independent fact-checking. Other specialists can address material venue,
 production, access or rights gaps without starting an unrequested research project.
 
+The next block is the supplied `examples/budget.json` file. Its fictional prices
+and attendance assumptions are already filled in for the calculator. In a real
+task, the budget analyst prepares this input from the supplied figures. The agent
+asks about missing values instead of inventing them. The person need not format
+those figures as JSON in the room.
+
 {{< fleet-street-code name="budget" >}}
 
-Run the calculation from the repository root:
+The analyst passes the saved file to the calculator. To run the supplied example
+yourself, use these commands from the repository root. The command reads
+`examples/budget.json` and writes the calculated result to `.local/budget.json`:
 
 ```sh
 python3 -m tools.fleet_street budget --input examples/budget.json \
   --output .local/budget.json
 ```
 
-The result is GBP 4,745.25 net receipts, GBP 5,203.00 costs and a GBP 457.75 gap.
+The generated result contains GBP 4,745.25 net receipts, GBP 5,203.00 costs and a GBP 457.75 gap.
 The paid break-even is 297 tickets, or 82.50% of the supplied saleable capacity.
 The {{< fleet-street-link path="fleet/.agents/skills/production-budget/references/calculation.md" label="calculation basis" >}}
 explains pence rounding, fees, contingency and exclusions. The analyst still
@@ -144,9 +166,19 @@ invitation nor an input receipt proves the analytical task is complete.
 
 ## Prepare a report
 
-The local report input labels its claims and unresolved questions:
+The next block is `examples/report.json`, also supplied in the repository. It
+contains the report's wording: summary, findings, open questions and source
+references. In a real task the writing agent prepares these fields from the
+reviewed analysis. This is input to the report renderer, not a JSON reply the
+person must compose.
 
 {{< fleet-street-code name="report" >}}
+
+The report command combines that saved wording with the original
+`examples/budget.json` inputs. It recomputes the same arithmetic and writes HTML,
+assets and calculated budget data to `.local/public-report`. The earlier
+`.local/budget.json` is output to inspect, not input to this renderer. The command
+does not write the analysis or authorize publication:
 
 ```sh
 python3 -m tools.fleet_street report --input examples/report.json \

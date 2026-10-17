@@ -10,7 +10,7 @@ generated: true
 
 ## Definitions
 
-These TypeScript definitions document server validation. `check.object` rejects unknown fields. Custom functions and refinements specify additional checks.
+All code blocks below are TypeScript declarations copied from the server. They document validation, not JSON to send or code to paste into a chat. Clients can use any HTTP library without importing these declarations. `check.object` rejects unknown fields. Custom functions and refinements specify additional checks.
 
 ### Imported definitions
 
