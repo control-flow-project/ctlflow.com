@@ -128,8 +128,8 @@ recorded contents. Shared edits and unrecorded outputs require review.
 
 Field tables are supplemented by validation source for custom checks. This is
 not an OpenAPI generator or SDK. Matrix catalog entries include restricted and
-unsupported operations. fleetd routes are private to its Unix socket even when
-their authentication field is `public`.
+unsupported operations. Every fleetd route requires the OS-user controller bearer
+credential and its private Unix socket; `controller` never means public access.
 
 ## fleet-street examples
 

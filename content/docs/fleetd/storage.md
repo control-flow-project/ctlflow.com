@@ -11,6 +11,13 @@ resume selections, operation files, diagnostics and private `fleetd.sock`.
 Registered fleets may live elsewhere. Private state is retained with its owning
 directory; a workarea does not move when native cwd changes.
 
+The OS-user authentication file is outside individual controller roots, at the
+native configuration location ending in `ctlflow/fleetd.json`. fleet and fleetd
+read that same private file. Back it up with the roots and native histories;
+moving a root does not move or regenerate its key.
+
+- [Authentication paths and recovery](/docs/fleetd/authentication/)
+
 ## Native registries
 
 | Runtime | Registry |

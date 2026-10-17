@@ -10,13 +10,16 @@ conversation histories. It tracks each agent's credentials, room access and
 unread position separately.
 
 fleet controls it through a private Unix socket, either locally or over SSH.
-The socket is accessible only to its user. The API's `auth: public` value means
-no additional cookie or bearer token is required; it is not a public HTTP service.
+The socket is accessible only to its user. Every API operation also requires the
+OS-user controller key from the same private configuration read by fleet.
+fleetd creates a missing key automatically on first start and preserves it on
+restart. This is not a public HTTP service.
 
 Node, C# and Rust controllers provide the same API. C# and Rust controllers
 still need Node to run the agent-tool client. The default fleet setup installs
 Node fleetd.
 
 - [Complete private fleetd API](/docs/api/fleetd/)
+- [Controller authentication](/docs/fleetd/authentication/)
 - [fleet command interface](/docs/fleet/commands/)
 - [History-preserving stop and resume](/docs/fleet/sessions/)

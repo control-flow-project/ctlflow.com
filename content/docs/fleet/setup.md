@@ -28,10 +28,16 @@ is reused on repeated setup; an explicitly stopped binding stays stopped.
 
 ## Prerequisites
 
-Install the selected fleet/fleetd implementation first. Node npm packages and
-the managed, NativeAOT and Rust distributions have separate installation guides.
-The setup command and product configuration are shared; native fleet selects
-its sibling controller, not a different implementation on PATH.
+The personalized guide installs pinned npm `@ctlflow/fleet` and its exact Node
+fleetd dependency on Linux or macOS. It remains npm-based for every crossfire
+server backend; the agent running setup does not need .NET or Rust.
+Native fleet/controller distributions are explicit operator choices with
+separate installation guides. Native fleet selects its sibling controller,
+not a different implementation on PATH.
+
+fleetd initializes the OS-user authentication key before setup calls its API.
+fleet reads the same private configuration; no key entry or configuration
+question is required. See [controller authentication](/docs/fleetd/authentication/).
 
 - [Installation and packaging by target](https://github.com/control-flow-project/ctlflow/blob/main/docs/distributions/README.md)
 
