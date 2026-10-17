@@ -1,0 +1,16 @@
+{{- $name := .name -}}
+{{- if not (in (slice "page" "section") .placement) }}{{ errorf "Artwork %s requires page or section placement" $name }}{{ end -}}
+{{- $path := index hugo.Data.artwork $name -}}
+{{- if not $path }}{{ errorf "Unknown landing artwork: %s" $name }}{{ end -}}
+{{- $source := resources.Get $path -}}
+{{- if not $source }}{{ errorf "Missing landing artwork: %s" $path }}{{ end -}}
+{{- $variants := slice -}}
+{{- range slice 480 800 1200 -}}
+  {{- $image := $source.Resize (printf "%dx webp q80" .) -}}
+  {{- $image = resources.Copy (printf "assets/artwork/%s-%d.webp" $name .) $image | fingerprint "sha256" -}}
+  {{- $variants = $variants | append $image -}}
+{{- end -}}
+{{- $default := index $variants 1 -}}
+<div class="landing-art" data-artwork="{{ $name }}" data-artwork-placement="{{ .placement }}" aria-hidden="true">
+  <img src="{{ $default.RelPermalink }}" srcset="{{ range $index, $image := $variants }}{{ if $index }}, {{ end }}{{ $image.RelPermalink }} {{ $image.Width }}w{{ end }}" sizes="{{ .sizes }}" width="{{ $source.Width }}" height="{{ $source.Height }}" alt="" loading="{{ .loading | default "eager" }}" decoding="async"{{ if .priority }} fetchpriority="high"{{ end }}>
+</div>

@@ -1,8 +1,7 @@
 {{ define "main" }}
 <article class="section-article">
-  <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/docs/">Docs</a><span aria-hidden="true">/</span><span>{{ .Title }}</span></nav>
-  <header class="article-heading"><span class="eyebrow">Documentation</span><h1>{{ .Title }}</h1>{{ with .Description }}<p class="article-description">{{ . }}</p>{{ end }}</header>
+  {{ partial "page-heading.html" . }}
   <div class="prose">{{ .Content }}</div>
-  {{ if not .Params.noCards }}<div class="section-grid">{{ range .Pages.ByWeight }}<a href="{{ .RelPermalink }}" class="section-card"><span class="card-arrow" aria-hidden="true">↗</span><h2>{{ .LinkTitle }}</h2>{{ with .Description }}<p>{{ . }}</p>{{ end }}{{ with .Params.operationCount }}<span class="card-meta">{{ . }} operations</span>{{ end }}</a>{{ end }}</div>{{ end }}
+  {{ if not .Params.noCards }}<div class="section-grid">{{ range .Pages.ByWeight }}<a href="{{ .RelPermalink }}" class="section-entry"><span class="entry-arrow" aria-hidden="true">↗</span><h2>{{ .LinkTitle }}</h2>{{ with .Description }}<p>{{ . }}</p>{{ end }}{{ with .Params.operationCount }}<span class="entry-meta">{{ . }} operations</span>{{ end }}</a>{{ end }}</div>{{ end }}
 </article>
 {{ end }}

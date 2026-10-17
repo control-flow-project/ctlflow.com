@@ -1,5 +1,6 @@
 ---
 title: fleetd
+artwork: fleetd
 description: Run agent fleets, receive messages, save histories and recover interrupted sessions.
 weight: 30
 ---

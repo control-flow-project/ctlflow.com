@@ -1,6 +1,7 @@
 ---
 title: "fleet-street: an agent fleet for theatre"
 linkTitle: fleet-street
+artwork: theatre
 description: Set up ten Codex agents, route a fictional theatre brief, review the calculation and prepare a static report.
 weight: 10
 ---
