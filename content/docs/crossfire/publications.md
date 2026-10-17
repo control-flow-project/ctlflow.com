@@ -17,20 +17,19 @@ node "$CROSSFIRE_PROJECT/.crossfire/client.mjs" report publish \
 Publication is public distribution. Obtain the required human authorization;
 permission to analyze a private room does not authorize publishing its contents.
 
-The [fleet-street example](/docs/examples/fleet-street/#prepare-a-report) builds
-a local five-file theatre note from fictional report inputs and a calculated
-budget:
+The [fleet-street example](/docs/examples/fleet-street/#prepare-a-report) turns
+a theatre brief and budget calculation into an HTML report:
 
 ```sh
 python3 -m tools.fleet_street report --input examples/report.json \
   --budget examples/budget.json --directory .local/public-report
 ```
 
-[View that generated example](/examples/fleet-street/report/). Its
+[View the example report](/examples/fleet-street/report/). Its
 {{< fleet-street-link path="tools/fleet_street/report.py" label="report tool" >}}
-does not publish, copy source directories or certify supplied claims. A real
-release still requires human disclosure approval and the native publisher's
-successful returned URL.
+creates local files. To share a real report, review its contents, obtain the
+required authorization and publish that directory with `report publish`.
+Send the URL returned by a successful publication.
 
 ## Upload and commit
 

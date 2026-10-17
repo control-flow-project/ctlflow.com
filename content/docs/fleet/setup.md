@@ -62,9 +62,9 @@ python3 -m tools.fleet_street configure \
 ./node_modules/.bin/fleet setup --config "$(pwd)/.local/fleet/runtime.toml"
 ```
 
-Run these in that repository after installing its matching pinned tools. The
-values shown are placeholders. The generator does not approve or start a fleet;
-native setup requests the human's roster approval. See its
+Run these in the example directory after installing its matching tools. Replace
+the placeholder server and owner. Configure prepares the files; setup then
+shows the roster for you to approve in crossfire. See the
 {{< fleet-street-link path="README.md" label="setup and prerequisites" >}}.
 
 ## After approval

@@ -13,6 +13,7 @@ uses no external fonts, analytics or remote diagram rendering.
 - [Theme, typography and code-example verification](docs/verification/20261017-theme-typography.md)
 - [fleet-street integration and homepage verification](docs/verification/20261017-fleet-street.md)
 - [Agent fleet terminology verification](docs/verification/20261017-agent-fleet-wording.md)
+- [Documentation copy review](docs/verification/20261017-reader-copy-review.md)
 
 ## Requirements
 

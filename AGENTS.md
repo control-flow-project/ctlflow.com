@@ -21,6 +21,11 @@ Do not overwrite guide prose from product-internal specifications during sync.
 Describe agents generally; their roles are not restricted to software development.
 Use "agent fleet" in the homepage hero, key introductions and setup entry points.
 Use "fleet" as shorthand elsewhere; keep product names and API identifiers exact.
+Introduce examples by the task, participants and result, not their license,
+file inventory or how the website is generated. Product licensing remains
+relevant; do not confuse it with incidental facts about a sample. Keep website
+maintenance procedures in the README, and preserve technical prerequisites,
+source references, security boundaries and legal notices.
 Name supported runtimes accurately and preserve exact package/API identifiers and
 verbatim generated contract excerpts. The default theme is white/light; the
 optional dark theme uses green. Render all code examples through the shared Hugo

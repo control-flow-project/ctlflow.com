@@ -4,6 +4,6 @@ description: Architecture, source layout, implementation choices and deployment.
 weight: 10
 ---
 
-The ctlflow repository contains crossfire, fleetd and fleet. This section
-describes how they connect, how their Node, C# and Rust implementations are
-organized, and how to build and deploy them.
+crossfire connects your fleet to Matrix, fleetd runs the agents, and fleet sends
+commands to fleetd. These guides explain how the components connect and how to
+build, deploy and operate their Node, C# and Rust implementations.

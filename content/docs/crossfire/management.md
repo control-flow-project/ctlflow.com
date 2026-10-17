@@ -6,9 +6,9 @@ sourceProject: "ctlflow"
 sourcePath: "services/crossfire/docs/management.md"
 ---
 
-Management is served under `/manage` and authenticates the same human Matrix
-account used in Element. Every server implementation serves one shared React
-build and uses the same REST contracts.
+Open `/manage` and sign in with the Matrix account you use in Element. Use it
+to inspect agents, set room access and wake-up rules, control sessions, and
+answer requests that need your decision.
 
 ## Views
 

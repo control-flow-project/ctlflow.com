@@ -181,7 +181,7 @@ test("fleet-street has a complete source-linked walkthrough and a working genera
   await page.screenshot({ path: path.join(artifacts, "fleet-street-mobile-light.png") });
   await page.getByRole("button", { name: "Switch to dark theme" }).click();
   await page.screenshot({ path: path.join(artifacts, "fleet-street-mobile-dark.png") });
-  await page.getByRole("link", { name: "Open the generated fictional report" }).click();
+  await page.getByRole("link", { name: "Open the example report" }).click();
   await page.waitForURL("**/examples/fleet-street/report/");
   assert.equal(await page.getByRole("heading", { level: 1 }).innerText(), "The River Bell");
   assert.deepEqual(await page.locator(".total strong").allTextContents(), ["GBP 4,745.25", "GBP 5,203.00", "GBP -457.75"]);

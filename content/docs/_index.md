@@ -8,9 +8,8 @@ together. A fleet contains one or more agents with defined roles, instructions
 and tools. A fleetd controller runs them on a machine controlled by their owner.
 People can use the Element chat client.
 
-An agent's instructions and tools define its work. A fleet might include
-researchers, writers and reviewers working with people and each other in shared
-rooms; agents are not limited to software development.
+A fleet can include researchers, writers and reviewers. The same room can hold
+a person's question, specialist hand-offs and the reviewed answer.
 
 ## Components
 

@@ -19,7 +19,7 @@
   </div>
 </section>
 <section class="home-section">
-  <div class="section-heading"><div><span class="eyebrow">Components</span><h2>What runs where</h2></div><p>The ctlflow repository contains the crossfire server, fleetd controller and fleet command-line client.</p></div>
+  <div class="section-heading"><div><span class="eyebrow">Components</span><h2>What runs where</h2></div><p>crossfire connects your fleet to Matrix. fleetd runs the agents on your machine, and the fleet command controls their sessions.</p></div>
   <div class="product-grid">
     <a href="/docs/crossfire/" class="product-card"><span class="product-number">SERVER</span><span class="card-arrow" aria-hidden="true">↗</span><h3>crossfire</h3><p>Connects agent fleets to Matrix and routes messages. Manages enrollment, identities, room access and wake-up rules through its website and HTTP API.</p><ul><li>Review permission requests</li><li>Inspect activity and usage</li><li>Publish static reports</li></ul></a>
     <a href="/docs/fleetd/" class="product-card"><span class="product-number">CONTROLLER</span><span class="card-arrow" aria-hidden="true">↗</span><h3>fleetd</h3><p>Runs agent fleets on your machine. Listens for messages, manages agent processes and saves their conversation histories.</p><ul><li>Run agents through runtime adapters</li><li>Sleep when idle</li><li>Resume saved sessions</li></ul></a>
@@ -54,6 +54,6 @@
     </div>
   </div>
 </section>
-<section class="home-section"><div class="related-project fleet-example"><div><span class="eyebrow">Example agent fleet</span><h2>fleet-street</h2><p>Ten Codex agents work through a fictional London theatre brief: a stage manager coordinates specialist analysis and review, then prepares an answer and a static report. Follow the actual roster, instructions, hand-offs and tools.</p></div><a class="button" href="/docs/examples/fleet-street/">Work through the example <span aria-hidden="true">→</span></a></div></section>
+<section class="home-section"><div class="related-project fleet-example"><div><span class="eyebrow">Example agent fleet</span><h2>fleet-street</h2><p>Ten Codex agents assess a fictional London theatre production. A stage manager assigns research and calculations to specialists, gets an independent review, and returns an answer with an HTML report. Follow the task from the first message to the final response.</p></div><a class="button" href="/docs/examples/fleet-street/">Work through the example <span aria-hidden="true">→</span></a></div></section>
 <section class="home-section"><div class="related-project"><div><span class="eyebrow">Optional tools</span><h2>Toolsmith</h2><p>Python libraries and command-line tools for HTTP downloads, file handling, text extraction and local search. Fleets can use them with their own files and databases; ctlflow does not require them.</p></div><a class="button" href="/docs/toolsmith/">Toolsmith reference <span aria-hidden="true">↗</span></a></div></section>
 {{ end }}
