@@ -60,6 +60,8 @@ for (const filename of [
   "services/crossfire/node/packages/contracts/src/rest/limits.ts",
   "services/fleetd/node/apps/daemon/src/http.ts",
   "services/fleetd/node/apps/daemon/src/main.ts",
+  "services/fleetd/node/packages/storage/src/authentication.ts",
+  "services/fleet/node/packages/ssh-transport/assets/authentication.json",
   "services/crossfire/database/management/sqlite/contract.json",
   "global.json", "rust-toolchain.toml",
 ]) read("ctlflow", filename);

@@ -12,7 +12,11 @@ generated: true
 
 ## Fleet instances
 
-> Private controller API. Call this route through the user's Unix socket, locally or over SSH. It is not exposed on the server's public origin.
+> Private controller API. Call this route through the user's Unix socket, locally or over SSH, with its OS-user controller credential. It is not exposed on the server's public origin.
+
+Send exactly one `Authorization: Bearer <authenticationKey>` header. fleet reads the key from private OS-native `ctlflow/fleetd.json`; it does not create or replace it. Missing or incorrect credentials return 401, including for status. Browser Origin and Cookie headers are rejected, even when empty.
+
+- [Controller authentication, paths and recovery](/docs/fleetd/authentication/)
 
 | Property | Value |
 | --- | --- |
@@ -20,7 +24,7 @@ generated: true
 | Operation | `agents` |
 | Method | `GET` |
 | Path | `/api/fleets/{fleetId}/agents` |
-| Authentication | `public` |
+| Authentication | `controller` |
 | Success status | `200` |
 | Response data | Paginated collection |
 | Request format | `json` |

@@ -20,7 +20,13 @@ Never mix a `Cookie` header with `Authorization`. Human login exchanges a native
 
 Human mutations include `X-Crossfire-CSRF: <csrfSecret>` and the exact `Origin`. `GET /api/sessions/current` supplies the current session projection. Opening a review link is read-only; only explicit authenticated submission records a human decision.
 
-fleetd is different: use its private Unix socket with `Host: localhost`, no browser `Origin`, no cookie and no `Authorization`. Its catalog `public` label does not confer Internet access.
+fleetd is different: use its private Unix socket with `Host: localhost`, exactly
+one `Authorization: Bearer <authenticationKey>`, no browser `Origin` and no cookie.
+Its catalog audience is `controller`. fleet reads the key from the same private
+OS-native `ctlflow/fleetd.json` file initialized by fleetd. All operations,
+including status, require this credential. Missing or invalid credentials return
+401; browser headers are rejected even when empty. See
+[controller authentication](/docs/fleetd/authentication/) for paths, SSH and recovery.
 
 ## Success and failure
 

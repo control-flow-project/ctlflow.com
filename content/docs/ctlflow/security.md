@@ -68,9 +68,17 @@ Reports use a separate hostname and a browser sandbox with scripts but without
 `allow-same-origin`. They execute at an opaque origin and cannot access the main
 application's cookies or storage. Anyone with a report link can still read it.
 
-fleetd's API is restricted to the user's private Unix socket. It rejects browser
-origins, cookies and bearer headers. SSH uses normal host-key and user
-authentication to transport requests to that socket.
+fleetd's API is restricted to the user's private Unix socket and requires its
+OS-user bearer credential on every operation. It rejects browser origins and
+cookies, including empty headers. fleetd initializes the random key in private
+OS-native `ctlflow/fleetd.json`; fleet reads the same file, never creating a key.
+Anyone able to read it has full controller authority, not per-fleet access.
+This key is separate from crossfire enrollment credentials.
+
+SSH uses normal host-key and user authentication, reads the remote user's
+private configuration and forwards authenticated requests to that socket.
+The key remains in memory, not profiles, logs or command arguments.
+See [controller authentication](/docs/fleetd/authentication/) for paths and rotation.
 
 ## Recovery limitations
 

@@ -22,6 +22,14 @@ connection description, not copied SSH/provider credentials. Do not disable host
 verification to make setup pass. Remote filesystem paths refer to the controller
 host, not the laptop running fleet.
 
+Before forwarding requests, fleet reads the remote user's private OS-native
+`ctlflow/fleetd.json` through strict-host-key SSH. It validates ownership, private
+permissions and bounded contents, then holds the controller key in memory.
+The local key is not used; credentials are not copied into the profile, logs
+or command arguments. The remote noninteractive SSH environment must select
+the same HOME/XDG_CONFIG_HOME as fleetd. Start fleetd on the remote host first
+if configuration is missing. See [controller authentication](/docs/fleetd/authentication/).
+
 Attachment wraps the runtime adapter's exact command through the verified SSH
 connection. The native endpoint remains loopback-only; its private token is read
 on the controller host, not printed or copied into the profile.

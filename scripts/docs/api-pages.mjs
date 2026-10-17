@@ -62,7 +62,9 @@ export function operationPage(model, operation, product) {
   };
   const lines = [frontmatter(info), `## ${operation.description}`, ""];
   if (product === "fleetd") lines.push(
-    "> Private controller API. Call this route through the user's Unix socket, locally or over SSH. It is not exposed on the server's public origin.", "");
+    "> Private controller API. Call this route through the user's Unix socket, locally or over SSH, with its OS-user controller credential. It is not exposed on the server's public origin.", "",
+    "Send exactly one `Authorization: Bearer <authenticationKey>` header. fleet reads the key from private OS-native `ctlflow/fleetd.json`; it does not create or replace it. Missing or incorrect credentials return 401, including for status. Browser Origin and Cookie headers are rejected, even when empty.", "",
+    "- [Controller authentication, paths and recovery](/docs/fleetd/authentication/)", "");
   lines.push("| Property | Value |", "| --- | --- |",
     `| Service | \`${product}\` |`,
     `| Operation | \`${operation.name}\` |`,
@@ -89,7 +91,7 @@ export function operationPage(model, operation, product) {
 
 export function apiIndex(operations, product) {
   const lines = [frontmatter({ title: product === "fleetd" ? "fleetd private API" : "crossfire HTTP API", description: `${operations.length} HTTP operations with request fields, responses and validation.`, weight: product === "crossfire" ? 30 : 40, operationCount: operations.length, generated: true, noCards: true }),
-    product === "fleetd" ? "fleet calls this **private Unix-socket API** locally or over SSH. Socket ownership restricts access. `auth: public` means no additional session cookie or bearer token is required." : "The crossfire server exposes these routes. Its Node, C# managed, C# NativeAOT and Rust implementations serve the same API.", "", "These pages are generated from the operation definitions and validation functions. Each page includes field limits and custom validation code.", "", "| Operation | Method | Path | Authentication | Success |", "| --- | --- | --- | --- | --- |"];
+    product === "fleetd" ? "fleet calls this **private Unix-socket API** locally or over SSH. Every operation requires the OS-user controller credential in `Authorization: Bearer <authenticationKey>`, in addition to private socket ownership. fleetd initializes the key; fleet reads it from the same private OS-native configuration. There are no anonymous endpoints. See [controller authentication](/docs/fleetd/authentication/) for paths, remote access and recovery." : "The crossfire server exposes these routes. Its Node, C# managed, C# NativeAOT and Rust implementations serve the same API.", "", "These pages are generated from the operation definitions and validation functions. Each page includes field limits and custom validation code.", "", "| Operation | Method | Path | Authentication | Success |", "| --- | --- | --- | --- | --- |"];
   for (const operation of operations) lines.push(`| [\`${operation.name}\`](/docs/api/${product}/${slug(operation.name)}/) | \`${operation.method}\` | \`${operation.path}\` | \`${operation.auth}\` | ${operation.status} |`);
   return `${lines.join("\n")}\n`;
 }

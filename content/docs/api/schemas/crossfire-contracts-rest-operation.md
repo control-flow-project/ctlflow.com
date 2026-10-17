@@ -22,7 +22,7 @@ These TypeScript definitions document server validation. `check.object` rejects 
 export type Operation<Params, Query, Input, Output> = {
     method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
     path: string;
-    auth: 'public' | 'human' | 'agent' | 'either' | 'fleet';
+    auth: 'public' | 'human' | 'agent' | 'either' | 'fleet' | 'controller';
     params: Parser<Params>;
     query: Parser<Query>;
     input: Parser<Input>;

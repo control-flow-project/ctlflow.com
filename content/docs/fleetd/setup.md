@@ -13,6 +13,14 @@ fleet validates crossfire's personalized setup descriptor and submits
 An existing agent may execute that command, but its process and
 conversation are never imported or attached.
 
+Management-generated instructions install pinned npm fleet and Node fleetd on
+Linux/macOS, regardless of the crossfire server backend. They impose no .NET or
+Rust prerequisite on the agent executing setup. fleetd initializes its private
+OS-native authentication key before fleet submits the request. Both read the
+same file; the user does not enter or copy a key.
+
+- [Controller authentication](/docs/fleetd/authentication/)
+
 The descriptor identifies one active registered human, exact server origin and
 exact installed public fleet version. Unknown fields, redirects, origin/owner
 substitution, ambiguous queries, oversized data and malformed text fail.
