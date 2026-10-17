@@ -149,7 +149,12 @@ test("homepage uses typography instead of panels and keeps message arrows betwee
         bodySize: Number.parseFloat(getComputedStyle(document.querySelector(".message-flow p")).fontSize),
         overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
         pageArtworkVisible: document.querySelector('.hero .landing-art[data-artwork-placement="page"]').getClientRects().length > 0,
-        ornaments: ornaments.map(element => ({ name: element.dataset.artwork, visible: element.getClientRects().length > 0 })),
+        ornaments: ornaments.map(element => ({ name: element.dataset.artwork, visible: element.getClientRects().length > 0,
+          width: element.getBoundingClientRect().width, height: element.getBoundingClientRect().height, sizes: element.querySelector("img").sizes,
+          top: element.getBoundingClientRect().top, right: element.getBoundingClientRect().right,
+          labelTop: element.closest(".related-project").querySelector(".eyebrow").getBoundingClientRect().top,
+          labelLeft: element.closest(".related-project").querySelector(".eyebrow").getBoundingClientRect().left,
+          radius: getComputedStyle(element).borderRadius, fit: getComputedStyle(element.querySelector("img")).objectFit })),
         ornamentDownloads: performance.getEntriesByType("resource").filter(resource => ornaments.some(element => new URL(resource.name).pathname.startsWith(`/assets/artwork/${element.dataset.artwork}-`))).length };
     });
     assert.equal(layout.panels.length, 6);
@@ -180,6 +185,17 @@ test("homepage uses typography instead of panels and keeps message arrows betwee
     assert.equal(layout.pageArtworkVisible, true, "page-level decoration remains visible");
     assert.deepEqual(layout.ornaments.map(ornament => ornament.name), ["playbill", "multitool"]);
     assert.equal(layout.ornaments.every(ornament => ornament.visible === (width >= 1000)), true, "section ornaments are desktop-only");
+    for (const ornament of layout.ornaments) {
+      assert.equal(ornament.sizes, "288px");
+      if (width >= 1000) {
+        assert.equal(ornament.width, 288, `${ornament.name}: displayed square width`);
+        assert.equal(ornament.height, 288, `${ornament.name}: displayed square height`);
+        assert.equal(ornament.radius, "20px");
+        assert.equal(ornament.fit, "contain", `${ornament.name}: artwork is not cropped`);
+        assert.equal(Math.abs(ornament.labelLeft - ornament.right - 32) <= 1, true, `${ornament.name}: image is left of the text`);
+        assert.equal(Math.abs(ornament.top - ornament.labelTop) <= 1, true, `${ornament.name}: top-aligned with the introductory label`);
+      }
+    }
     if (width < 1000) assert.equal(layout.ornamentDownloads, 0, "hidden section ornaments are not downloaded");
     evidence.paperLayout.push({ viewport: width, theme, ...layout });
     if ([390, 1440].includes(width)) {
@@ -223,6 +239,22 @@ test("homepage uses typography instead of panels and keeps message arrows betwee
   evidence.tests.push("paper-home-typography-unboxed-sections-four-step-arrows-six-widths-two-themes");
 });
 
+test("documentation index opens with its heading and content, without decorative artwork", async context => {
+  const { page } = await pageFor(context);
+  for (const width of [390, 1440]) for (const theme of ["light", "dark"]) {
+    await page.setViewportSize({ width, height: 1000 });
+    const response = await page.goto(`${preview.origin}/docs/`);
+    assert.equal(response.status(), 200);
+    if (await page.locator("html").getAttribute("data-theme") !== theme) await page.locator(".theme-toggle").click();
+    assert.equal(await page.getByRole("heading", { level: 1, name: "Documentation", exact: true }).isVisible(), true);
+    assert.equal(await page.locator("main .landing-art, main .hero").count(), 0);
+    assert.equal(await page.locator("h2#first-tasks").isVisible(), true);
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);
+    await page.screenshot({ path: path.join(artifacts, `docs-index-${width}-${theme}.png`) });
+  }
+  evidence.tests.push("documentation-index-without-decoration");
+});
+
 test("every generated HTML link, exact anchor and code example renders correctly", async context => {
   const { page } = await pageFor(context);
   await page.goto(preview.origin);
@@ -252,7 +284,7 @@ test("every generated HTML link, exact anchor and code example renders correctly
       }
       const illustratedPages = {
         "/": ["collaboration", "playbill", "multitool"],
-        "/docs/": ["documentation"], "/docs/ctlflow/": ["ctlflow"],
+        "/docs/ctlflow/": ["ctlflow"],
         "/docs/crossfire/": ["crossfire"], "/docs/fleetd/": ["fleetd"], "/docs/fleet/": ["fleet"],
         "/docs/examples/": ["examples"], "/docs/examples/fleet-street/": ["theatre"], "/docs/toolsmith/": ["toolsmith"],
       };
@@ -297,7 +329,7 @@ test("landing illustrations decode with transparent backgrounds in both themes a
   page.on("pageerror", error => failures.push(error.message));
   page.on("requestfailed", request => failures.push(request.url()));
   const landings = {
-    "/": "collaboration", "/docs/": "documentation", "/docs/ctlflow/": "ctlflow",
+    "/": "collaboration", "/docs/ctlflow/": "ctlflow",
     "/docs/crossfire/": "crossfire", "/docs/fleetd/": "fleetd", "/docs/fleet/": "fleet",
     "/docs/examples/": "examples", "/docs/examples/fleet-street/": "theatre", "/docs/toolsmith/": "toolsmith",
   };
@@ -367,7 +399,7 @@ test("landing illustrations decode with transparent backgrounds in both themes a
   await page.emulateMedia({ media: "print" });
   assert.equal(await page.locator(".landing-art").first().isVisible(), false);
   assert.deepEqual(failures, []);
-  evidence.tests.push("nine-illustrated-landings-two-themes-two-widths-alpha-responsive-local-assets");
+  evidence.tests.push("eight-illustrated-landings-two-themes-two-widths-alpha-responsive-local-assets");
 });
 
 test("search is URL-addressable, escapes input and supports the keyboard shortcut", async context => {

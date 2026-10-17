@@ -8,7 +8,6 @@ import { verifyPublishedArtwork } from "../scripts/artwork.mjs";
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const registry = JSON.parse(fs.readFileSync(path.join(root, "data/artwork.json"), "utf8"));
 const selections = {
-  "docs/_index.md": "documentation",
   "docs/ctlflow/_index.md": "ctlflow",
   "docs/crossfire/_index.md": "crossfire",
   "docs/fleetd/_index.md": "fleetd",
@@ -18,8 +17,8 @@ const selections = {
   "docs/toolsmith/_index.md": "toolsmith",
 };
 
-test("eleven distinct original illustrations are local RGBA PNGs with matching intrinsic dimensions", () => {
-  assert.deepEqual(Object.keys(registry).sort(), ["collaboration", "crossfire", "ctlflow", "documentation", "examples", "fleet", "fleetd", "multitool", "playbill", "theatre", "toolsmith"]);
+test("ten distinct original illustrations are local RGBA PNGs with matching intrinsic dimensions", () => {
+  assert.deepEqual(Object.keys(registry).sort(), ["collaboration", "crossfire", "ctlflow", "examples", "fleet", "fleetd", "multitool", "playbill", "theatre", "toolsmith"]);
   for (const [name, filename] of Object.entries(registry)) {
     assert.equal(filename, `artwork/${name}.png`);
     const bytes = fs.readFileSync(path.join(root, "assets", filename));
@@ -60,7 +59,7 @@ test("published illustrations have three fingerprinted responsive variants and n
     assert.equal(bytes.length < ({ 480: 80, 800: 160, 1200: 300 }[width]) * 1024, true, `${name} ${width}px byte budget`);
   }
   assert.equal(published.some(filename => filename.endsWith(".png")), false);
-  assert.deepEqual(verifyPublishedArtwork(root), { assets: 11, placements: 11 });
+  assert.deepEqual(verifyPublishedArtwork(root), { assets: 10, placements: 10 });
 });
 
 function artworkFixture(context) {
