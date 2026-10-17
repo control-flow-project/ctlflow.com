@@ -1,3 +1,6 @@
+{{- $sectionLanding := and .IsSection (eq .Parent.RelPermalink "/docs/") -}}
+{{- if and $sectionLanding (not .Params.artwork) }}{{ errorf "Sidebar section %s requires an illustration" .RelPermalink }}{{ end -}}
+{{- if and (not $sectionLanding) .Params.artwork }}{{ errorf "Illustrations are only allowed on top-level sidebar section pages: %s" .RelPermalink }}{{ end -}}
 <div class="page-heading">
   <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/docs/">Docs</a>{{ range .Ancestors.Reverse }}{{ if and (not .IsHome) (ne .RelPermalink "/docs/") }}<span aria-hidden="true">/</span><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>{{ end }}{{ end }}<span aria-hidden="true">/</span><span>{{ .LinkTitle }}</span></nav>
   <header class="article-heading"><span class="eyebrow">{{ if .IsSection }}Documentation{{ else }}{{ .Parent.Title }}{{ end }}</span><h1>{{ .Title }}</h1>{{ with .Description }}<p class="article-description">{{ . }}</p>{{ end }}</header>

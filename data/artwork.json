@@ -7,5 +7,6 @@
   "crossfire": "artwork/crossfire.png",
   "fleetd": "artwork/fleetd.png",
   "fleet": "artwork/fleet.png",
-  "theatre": "artwork/theatre.png"
+  "api": "artwork/api.png",
+  "toolsmith": "artwork/toolsmith.png"
 }

@@ -1,5 +1,6 @@
 ---
 title: API reference
+artwork: api
 description: Endpoints, request fields, responses, authentication and validation.
 weight: 50
 ---

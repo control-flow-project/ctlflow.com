@@ -40,11 +40,19 @@ Create visual hierarchy with typography, weight, spacing and occasional fine
 rules, not enclosing cards. Boxes remain appropriate for code and diagrams.
 
 Landing illustrations are decorative transparent cutouts, selected explicitly by
-`artwork` front matter and rendered through `landing-art.html`. Keep original
-PNGs in `assets/artwork/`; Hugo owns responsive fingerprinted WebP output. Keep
-technical guides and API pages unillustrated. Preserve alpha in both themes,
-intrinsic dimensions and local-only loading. Record generation prompts and
-asset maintenance details in `docs/artwork.md`, not reader-facing copy.
+`artwork` front matter and rendered through `landing-art.html`. Every top-level
+documentation section, represented by a bold sidebar heading, has exactly one
+panoramic 3:1 illustration. This includes API reference and Toolsmith. No child
+page, nested section, technical guide or operation reference has ornamental art;
+the fleet-street walkthrough is a child page, not an exception. The documentation
+index has none. The shared page-heading template rejects missing section art and
+art on any other documentation page. Homepage artwork is separately selected by
+the home template and retains its existing 3:2 originals and layout.
+Keep original PNGs in `assets/artwork/`; Hugo owns responsive fingerprinted WebP
+output. Preserve alpha in both themes, intrinsic dimensions and local-only
+loading. Regenerate section art as wide compositions, never squash or crop tall
+art to meet the ratio. Record generation prompts and asset maintenance details
+in `docs/artwork.md`, not reader-facing copy.
 Never reuse an illustration across pages or elsewhere on the same page. Home
 previews need their own artwork, distinct from the linked landing pages. The
 production build rejects repeated placements and duplicate source bytes.
