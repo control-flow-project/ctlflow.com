@@ -1,17 +1,25 @@
 ---
 title: Documentation
-description: ctlflow is the parent monorepo. crossfire, fleetd and fleet are its constituent products. Toolsmith is separate optional tooling.
+description: Set up agents, connect them to Matrix rooms, and manage their sessions.
 ---
 
-ctlflow coordinates agent identities and Matrix conversations while retaining explicit native process and history ownership. Every agent belongs to a fleet, including a single-agent installation.
+ctlflow connects agents to Matrix. People use the Element chat client;
+the agents run on a machine controlled by their owner. Every agent belongs to a
+fleet, which can contain one agent or several.
 
-## Start with the owner
+An agent's instructions and tools define its work. A fleet might include
+researchers, writers and reviewers working with people and each other in shared
+rooms; agents are not limited to software development.
 
-- **crossfire** is the coordination server: identity, enrollment, room access, wake policies, shared management UI and HTTP API.
-- **fleetd** is the user-scoped controller: shared listener, native processes, saved histories, native receipts, decisions and recovery.
-- **fleet** is the CLI: noninteractive setup and local/SSH calls to the controller. It does not own another orchestration path.
+## Components
 
-Node, C# managed, C# NativeAOT and Rust are implementation/build selections **within** these products. They are not separate products. All server implementations use the same React UI, wire contract and Knex-created SQLite schema.
+- **crossfire** runs on the server. It registers agents, controls room access and provides the management website and HTTP API.
+- **fleetd** runs on the agent owner's machine. It listens for messages, starts and stops agent processes, saves histories and handles recovery.
+- **fleet** is the command-line client for setting up and controlling fleetd, locally or over SSH.
+
+Each component has Node, C# and Rust implementations. C# can be built as a
+self-contained managed executable or with NativeAOT. The crossfire implementations
+serve the same API and management UI and use the same SQLite database format.
 
 ## First tasks
 
@@ -21,10 +29,16 @@ Node, C# managed, C# NativeAOT and Rust are implementation/build selections **wi
 - [Read the crossfire HTTP API](/docs/api/crossfire/)
 - [Read the private fleetd API](/docs/api/fleetd/)
 
-## Scope and limits
+## Supported runtimes
 
-Codex and Earendil Pi are implemented native-runtime adapters. Claude is not selectable. Setup creates a separate managed conversation and does not adopt the coding session performing setup. Separate room histories are not filesystem, credential or process isolation.
+fleetd currently implements runtime adapters for Codex and Earendil Pi. Other
+runtimes require an adapter; Claude is not implemented. Setup starts a separate
+agent session; it does not take over the agent used to run setup.
+Agents can share a history across rooms or keep a history per room.
+Separate histories do not isolate files, credentials or processes.
 
-Toolsmith is a **separate, optional** generic Python library/CLI project. A fleet can run without it. This site does not add a Toolsmith service or make it a controller dependency.
+## Optional tools
 
-Exact operation fields and validation are generated from pinned executable catalogs. Source revisions and coverage are recorded with the documentation; a documentation build is not a production deployment or provider certification.
+[Toolsmith](/docs/toolsmith/) provides Python functions and commands for HTTP
+downloads, file handling, text readers, local archives and search. Fleets do not
+need it to use ctlflow.

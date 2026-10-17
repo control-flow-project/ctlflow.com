@@ -1,16 +1,14 @@
 ---
 title: "Source layout"
-description: "Service-local packages, shared assets and equivalent ownership across implementation languages."
+description: "Source directories and corresponding Node, C# and Rust packages."
 weight: 25
 sourceProject: "ctlflow"
 sourcePath: "docs/architecture/native-layout.md"
-generated: true
 ---
 
 Node, C# and Rust implement the same three products. Selecting an implementation
 does not change the UI, wire contracts, database or product responsibilities.
-This document describes the current model, not historical unfinished checkouts.
-Verification evidence is recorded separately in the implementation reviews.
+The tree below shows shared files and language-specific code.
 
 ## Source tree
 
@@ -60,11 +58,9 @@ services/
 scripts/                              workspace/build/verification only
 ```
 
-Only implemented owners receive directories. Rust integration tests belong to
-their crates; there is no empty service test directory added for visual symmetry.
-Node TypeScript and Rust modules use their language conventions; C# uses .NET
-project/namespace/file conventions. Semantic ownership, rather than matching
-class names or artificial files, is authoritative.
+Rust integration tests live in their crates. C# uses .NET project, namespace and
+file conventions. Corresponding packages have the same responsibilities but
+need not have identical file names.
 
 ## Semantic package map
 
@@ -73,13 +69,13 @@ class names or artificial files, is authoritative.
 | Primitive results, identity and time | kernel | Crossfire.Kernel | kernel |
 | Rules and repository ports | domain | Crossfire.Domain | domain |
 | Wire validation and views | contracts | Crossfire.Contracts | contracts |
-| Filesystem authority | adapter-filesystem | Crossfire.AdapterFilesystem | adapter-filesystem |
+| Private files and path validation | adapter-filesystem | Crossfire.AdapterFilesystem | adapter-filesystem |
 | REST client and transport | client + native HTTP | Crossfire.AdapterHttp | adapter-http |
-| Native Matrix authority | adapter-matrix | Crossfire.AdapterMatrix | adapter-matrix |
+| Matrix HTTP integration | adapter-matrix | Crossfire.AdapterMatrix | adapter-matrix |
 | SQLite connections, query metadata and transactions | adapter-sqlite | Crossfire.AdapterSqlite | adapter-sqlite |
 | Calendar scheduling | adapter-schedule | Crossfire.AdapterSchedule | adapter-schedule |
 | Pure listener/runtime coordination | agent-core | Crossfire.AgentCore | agent-core |
-| Journals, exact receipts and restart state | adapter-runtime | Crossfire.AdapterRuntime | adapter-runtime |
+| Journals, delivery confirmation and restart state | adapter-runtime | Crossfire.AdapterRuntime | adapter-runtime |
 | Codex integration | adapter-codex | Crossfire.AdapterCodex | adapter-codex |
 | Earendil Pi integration | adapter-pi | Crossfire.AdapterPi | adapter-pi |
 | Enrollment, fleet connection and private listener host | adapter-crossfire | Crossfire.AdapterCrossfire | adapter-crossfire |
@@ -139,9 +135,8 @@ login, never unrelated MCP servers, profiles or host permission overrides.
 Every native activation refreshes that login; removing host login removes the
 stale native copy. Corrupt/public/hard-linked/symlinked private state fails closed.
 Private HTTP/WebSocket transports explicitly avoid ambient proxies in every
-implementation. The parent review corrects confirmed defects in their owning
-Node, C# or Rust modules. Structural alignment is checked separately from the
-four-target behavioral and packaging gates; neither substitutes for the other.
+implementation. Structure checks and behavioral tests run separately. Matching directory layouts
+do not establish that the implementations behave alike.
 
 ## Architecture and verification gates
 
@@ -159,5 +154,4 @@ application reach-through. Negative fixtures prove that violations are rejected.
 `npm run verify:parity -- /absolute/new-evidence-directory` builds and exercises
 Node, managed C#, NativeAOT C# and Rust. The same installed-product assertions run
 against all selected products; native unit/adapter tests remain language-owned.
-Container, exact same-file SQLite and shared Knex migration proofs are additional
-gates, not inferred from directory shape or focused fixture success.
+Container, same-file SQLite and Knex migration tests run as additional checks.

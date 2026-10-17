@@ -1,15 +1,14 @@
 ---
 title: "Earendil Pi"
-description: "Pi 1.0.0 RPC, model options, native sessions and explicit differences from Codex."
+description: "Install Pi 1.0.0, configure its model and use it in a fleet."
 weight: 60
 sourceProject: "ctlflow"
 sourcePath: "services/fleet/docs/pi.md"
-generated: true
 ---
 
 ## Supported integration
 
-The admitted native executable is `@earendil-works/pi-coding-agent@1.0.0`.
+The supported executable is `@earendil-works/pi-coding-agent@1.0.0`.
 It must be available as `pi` on the controller's PATH.
 Other versions fail until their actual RPC behavior is verified.
 Setup does not install or silently upgrade the runtime.
@@ -67,7 +66,7 @@ identity, workarea and receiver. They do not isolate tools/files/credentials.
 
 ## Delivery and steering
 
-A durable common journal precedes native publication.
+The adapter saves each input in its journal before sending it to Pi.
 Receipt requires exact custom correlation plus the persisted user entry on the
 active native branch. A successful command response alone is insufficient.
 Proven bytes are flushed before unread advancement.

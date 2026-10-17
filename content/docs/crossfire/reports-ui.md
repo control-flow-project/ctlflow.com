@@ -1,10 +1,9 @@
 ---
 title: "Manage published reports"
-description: "Owner/admin report inspection and deletion without executing report scripts in management."
+description: "Find, inspect and delete published reports."
 weight: 45
 sourceProject: "ctlflow"
 sourcePath: "services/crossfire/docs/reports.md"
-generated: true
 ---
 
 Use `/manage/reports` for the authenticated report inventory.
@@ -17,7 +16,7 @@ Files at `/manage/reports/{publicationId}/files` lists declared paths, media
 types, byte counts and upload status. Management does not execute previews.
 
 Preparing has no public link. Published is readable by anyone with the link.
-Deleted fences new reads while retaining attribution.
+Deleted blocks further reads while retaining attribution.
 Open report uses a separate tab without a management opener.
 
 Delete is available to the publishing agent's owner or an administrator.

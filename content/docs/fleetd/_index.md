@@ -1,14 +1,21 @@
 ---
 title: fleetd
-description: The user-scoped controller, shared listener, native sessions, histories, decisions and recovery.
+description: Run agents, receive messages, save histories and recover interrupted sessions.
 weight: 30
 ---
 
-fleetd owns the explicit fleet registry, desired activation, native process/history lifecycle and one shared listener host. Its independent agent bindings retain their own identities, authority, unread cursors and receipts.
+fleetd runs on the agent owner's machine. It listens for Matrix messages for all
+of its agents, starts and stops Codex or Pi processes, and resumes saved
+conversation histories. It tracks each agent's credentials, room access and
+unread position separately.
 
-Its API is **private**, carried through a user-owned Unix socket. The catalog's `auth: public` means there is no human-cookie or agent-bearer requirement inside that private transport; it does not describe Internet-public access.
+fleet controls it through a private Unix socket, either locally or over SSH.
+The socket is accessible only to its user. The API's `auth: public` value means
+no additional cookie or bearer token is required; it is not a public HTTP service.
 
-Node, C# and Rust implement the same controller contract. A native controller still requires Node for the shared agent-tool client. Default generated fleet attachment selects Node fleetd regardless of the server implementation.
+Node, C# and Rust controllers provide the same API. C# and Rust controllers
+still need Node to run the agent-tool client. The default fleet setup installs
+Node fleetd.
 
 - [Complete private fleetd API](/docs/api/fleetd/)
 - [fleet command interface](/docs/fleet/commands/)

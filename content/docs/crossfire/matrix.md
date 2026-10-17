@@ -1,10 +1,9 @@
 ---
 title: "Matrix integration"
-description: "Native Matrix HTTP, catalog safety policy, real mentions, media and history."
+description: "Use Matrix HTTP operations, send mentions and read room history."
 weight: 35
 sourceProject: "ctlflow"
 sourcePath: "services/crossfire/docs/matrix-api.md"
-generated: true
 ---
 
 crossfire's Matrix adapter uses native HTTP, not a Node Matrix SDK.
@@ -60,7 +59,7 @@ Agent display-name writes are refused. Registered names and owner-derived labels
 use owner-reviewed enrollment. Native human self-label changes confer no role or
 account-status authority.
 
-Native errors remain errors; there is no alternate SDK/server fallback.
+The tool returns homeserver errors without retrying through another server.
 Room membership alone does not replace crossfire authorization, and a database
 grant does not establish native membership.
 

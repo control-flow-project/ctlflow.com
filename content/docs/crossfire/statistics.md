@@ -1,10 +1,9 @@
 ---
 title: "Traffic and usage"
-description: "Approximate fleet traffic, optional native token measurements and periodic summary semantics."
+description: "View message counts, sizes, sender flows and available token usage."
 weight: 50
 sourceProject: "ctlflow"
 sourcePath: "services/crossfire/docs/statistics.md"
-generated: true
 ---
 
 Open Fleet Activity, then Traffic & usage:
@@ -66,8 +65,8 @@ Canonical pagination, unknown/duplicate query refusal and owner/admin scope appl
 The response contains totals, per-agent data, paginated sender/recipient flows,
 capture times, retention and nullable unsupported measurements.
 
-These are asynchronous operational summaries, not realtime analytics, precise
-per-message accounting, a billing ledger or a performance guarantee.
+Summaries arrive periodically. They are approximate and should not be used as
+a billing ledger.
 
 - [Retention](/docs/crossfire/retention/)
 - [Management views](/docs/crossfire/management/)

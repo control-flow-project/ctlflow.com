@@ -1,10 +1,9 @@
 ---
 title: "Development and verification"
-description: "Build, typecheck, test, packaging and shared external contract gates."
+description: "Development requirements, build commands and shared verification suites."
 weight: 60
 sourceProject: "ctlflow"
 sourcePath: "docs/development.md"
-generated: true
 ---
 
 ## Prerequisites
@@ -89,9 +88,9 @@ Dispose owned resources in reverse acquisition order. Timing logic uses injected
 clocks; native I/O uses bounded observations, not fixed sleeps.
 
 Results include per-file counts, failures, cancellation, duration and bounded
-logs. An authentication-only route loop does not establish successful route
-behavior. The common API bank separately records successful responses decoded by
-the canonical output schemas and refuses untested operation declarations.
+logs. The API suite checks successful responses against their output schemas as well
+as authentication failures. It rejects operations without successful-response
+coverage.
 
 ## Database and generated code
 

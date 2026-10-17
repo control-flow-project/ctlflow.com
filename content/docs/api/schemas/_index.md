@@ -1,11 +1,13 @@
 ---
-title: Exact contract definitions
-description: The parser modules and transitive definitions that own fields, unions, refinements, constants and custom validation.
+title: Validation definitions
+description: Types, constants and validation functions used by the HTTP operations.
 weight: 60
 ---
 
-Operation pages expand structured fields and link here for exact definitions. Custom functions are retained rather than silently converted into incomplete JSON Schema.
+Operation pages link to these definitions for types, limits and custom checks.
+The TypeScript is reproduced from the recorded source revision.
 
 `check.object` rejects unknown fields. `check.optional` permits an omitted property; `check.nullable` permits explicit JSON null. They are different contracts. Imported constants retain their actual bounds. Function branches and predicates are required validation, not examples.
 
-These reference snippets are not a public language SDK. JavaScript/TypeScript, C# and Rust callers use the same HTTP wire contract.
+These snippets document server validation. Clients do not need to import them;
+JavaScript, TypeScript, C# and Rust programs can call the HTTP API directly.

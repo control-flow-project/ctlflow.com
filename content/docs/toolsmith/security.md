@@ -1,16 +1,15 @@
 ---
 title: "Security boundaries"
-description: "URL, path, budgets, archive and local model safety boundaries."
+description: "Filesystem checks, HTTPS restrictions, local model validation and isolation limits."
 weight: 80
 sourceProject: "toolsmith"
 sourcePath: "docs/security.md"
-generated: true
 ---
 
 Toolsmith reduces ordinary acquisition/storage mistakes. It is not a sandbox for
 arbitrary executable code or full-access processes under the same OS identity.
-No skills, agent instruction text, generative model calls or fleet permissions are hosted here.
-Caller/source rights remain with the consumer and operator.
+The application and operator decide source permissions and which data may be
+shared. Toolsmith does not supply fleet permissions or model instructions.
 
 ## Filesystem
 
@@ -68,8 +67,7 @@ machine paths and credentials, but consumers must decide which retained content
 can be shared. Store metadata and source-limit state are private local records.
 
 Base installation has no runtime dependencies. HTTP's optional dependency is pinned;
-dependency audit is part of release verification. Browser automation and
-process-based PDF/OCR remain excluded, not represented by fake substitutes.
+dependency audit is part of release verification. Browser automation, PDF extraction and OCR are not implemented.
 
 ## Optional semantic inference
 

@@ -1,10 +1,9 @@
 ---
 title: "Library architecture"
-description: "Independent module owners, extension boundaries and consumer-owned domain meaning."
+description: "Library modules, optional archive composition and persistent state."
 weight: 100
 sourceProject: "toolsmith"
 sourcePath: "docs/architecture.md"
-generated: true
 ---
 
 ```text
@@ -25,7 +24,7 @@ a generic storage backend, or another parsing/network/index implementation.
 No service transport, daemon, job queue, plugin framework, helper process or
 worker thread exists. Toolsmith has no fleet/runtime/domain dependency.
 
-## Current source ownership
+## Source layout
 
 ```text
 src/toolsmith/
@@ -52,10 +51,6 @@ src/toolsmith/
 └── cli/                    Thin calls to the same libraries
 ```
 
-This describes the implemented paths. The [full proposed layout](source:toolsmith:docs/proposed-layout.md)
-moves them into explicit capability namespaces once approved; it creates no aliases,
-parallel implementations or runtime placeholders.
-
 No browser/PDF/OCR substitute exists. No application source approvals, financial
 schemas/calculations, summary model or agent instructions are copied here.
 
@@ -73,8 +68,7 @@ before ranking and output limits; no Python candidate tuple or resupplied articl
 body is required. The packaged vec1 extension owns one native flat-vector index
 in the same database. Exact cosine comparison runs in native code; no Python
 scan, second vector copy, remote service or approximate fallback exists. Missing/stale coverage is explicit. BM25 statistics
-are database-wide; candidates are not statistical corpus isolation. GAAP therefore
-keeps its room-specific databases. Literal passages and indexed lexical/semantic
+are database-wide; candidates are not statistical corpus isolation. Use separate databases when tenants must not share ranking statistics. Literal passages and indexed lexical/semantic
 queries have deliberately different semantics, never fallback behavior.
 
 Bulk readiness reads metadata only. Full source/chunk/vector audits are separate,
@@ -108,7 +102,7 @@ and syscalls rather than treating fixture encoders as native certification.
 └── tmp/.stage-<uuid>.tmp    Invocation-owned staging
 ```
 
-Neither consumer must create the last root. No private/global default is chosen
+Applications that do not use the archive do not create the last root. No private/global default is chosen
 on import or installation. Cooperating kernel locks/private modes prevent ordinary
 mistakes; labels and digests do not isolate arbitrary same-user processes.
 
@@ -132,8 +126,7 @@ and disclosed, within remaining admission limits.
 
 Archive schema v3 uses the generic native vector index, current-text view and
 change counter. Explicit migration preserves verified v1/v2 source stores and
-converts their derivatives into this schema. It uses the generic lexical
-engine. An explicit offline v1/v2-to-v3 migration verifies originals, copies into a new
-destination, rebuilds only derivatives and verifies before publication. The source
+converts their derivatives into this schema. The migration verifies originals, copies into a new destination, rebuilds only
+derivatives and verifies before publication. The source
 remains unchanged as the rollback copy. Ordinary reads accept only the current
 schema: no dual runtime reader, automatic migration, reset or hidden fallback.

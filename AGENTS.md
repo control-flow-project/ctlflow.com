@@ -13,8 +13,19 @@ products. Node, C# and Rust
 are implementations beneath those owners. Toolsmith is a separate optional
 related project, not a constituent or required fleet dependency.
 
+The homepage explains what users can do and how the components connect. Put
+framework, database and migration details in their technical guides, not hero
+taglines. Use complete explanations instead of dot-separated claims or slogans.
+Keep guides edited here; generate only API operations, validators and catalogs.
+Do not overwrite guide prose from product-internal specifications during sync.
+Describe agents generally; their roles are not restricted to software development.
+Name supported runtimes accurately and preserve exact package/API identifiers and
+verbatim generated contract excerpts. The default theme is white/light; the
+optional dark theme uses green. Render all code examples through the shared Hugo
+code-block partial with an explicit language; use `text` only for plain text.
+
 `npm run docs:sync -- --ctlflow /absolute/source --toolsmith /absolute/source`
-updates checked-in reference material from explicitly selected source revisions.
+updates generated API references and guide source revisions from selected sources.
 `npm run docs:check` verifies that generated content matches those sources.
 Ordinary site builds require only this repository and the pinned Hugo binary.
 

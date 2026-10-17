@@ -1,10 +1,9 @@
 ---
 title: "Fleet configuration"
-description: "Runtime roster, role definitions, native overrides, workareas, skills and room plans."
+description: "Define agent roles, runtime settings, workareas, wake senders and room access."
 weight: 20
 sourceProject: "ctlflow"
 sourcePath: "services/fleet/docs/configuration.md"
-generated: true
 ---
 
 A fleet directory contains a roster, role definitions and private instance state.
@@ -115,7 +114,7 @@ An explicit true bypass selects danger-full-access/never; conflicting explicit
 settings fail. Max is not an alias for xhigh or ultra.
 Default-mode structured questions require the native
 `features.default_mode_request_user_input` capability.
-Unknown or unavailable options fail rather than silently clamp.
+Unsupported options are rejected rather than adjusted silently.
 
 Pi owns provider/model/thinking_level and rejects Codex permission fields.
 Its exact available model and level are checked natively.
@@ -132,7 +131,7 @@ Everyone requires an empty list.
 
 The only role admission capability is `room.agent.invite`, absent by default.
 It grants no room membership, enrollment approval or process control.
-It is materialized through ordinary generation-bound room permissions.
+It becomes a permission on each new room grant, tied to that grant's generation.
 
 Owner approval reviews the exact roster and defaults. Existing approved resume
 uses saved authority without overwriting management-edited wake/room rules.

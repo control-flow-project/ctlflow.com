@@ -1,10 +1,9 @@
 ---
 title: "SSH control"
-description: "The same private controller API over authenticated SSH; no exposed controller port."
+description: "Control a fleet on another machine through SSH."
 weight: 50
 sourceProject: "ctlflow"
 sourcePath: "services/fleet/docs/remote.md"
-generated: true
 ---
 
 Remote fleet commands use SSH forwarding to fleetd's private Unix socket.
@@ -36,8 +35,7 @@ fleet --remote office update research \
 ```
 
 Install the selected release there first and restart the controller using its new
-executable. There is no HTTP download fallback, process adoption or guessed
-remote session.
+executable. The command does not download a release or search for a remote session.
 
 - [Commands](/docs/fleet/commands/)
 - [Update procedure](/docs/fleet/updates/)

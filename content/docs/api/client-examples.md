@@ -1,10 +1,11 @@
 ---
 title: HTTP client examples
-description: JavaScript, TypeScript, C# and Rust clients use the same contract, without a product-specific SDK.
+description: Call crossfire from JavaScript, TypeScript, C# or Rust, or query fleetd over its socket.
 weight: 20
 ---
 
-The server implementation does not choose the client's language. These examples call the common HTTP contract. They are ordinary HTTP clients, not new crossfire JavaScript, C# or Rust SDKs.
+Use any HTTP client with any crossfire server implementation. The examples
+below call the same endpoints from JavaScript, TypeScript, C# and Rust.
 
 Use the actual configured instance origin. Example domains, tokens, IDs and controller roots below are placeholders. Never send private credentials to this documentation site.
 
@@ -63,7 +64,8 @@ const body: unknown = await response.json();
 console.log(readiness(body));
 ```
 
-This is deliberately a narrow consumer projection, not a replacement for the full health schema or the operation catalog.
+This example checks only `instance` and `version`. See the health operation for
+the complete response schema.
 
 ## C# / .NET
 
@@ -87,7 +89,7 @@ For agent requests, set `Authorization: Bearer <agentToken>` using `Authenticati
 
 ## Rust
 
-An HTTP crate and JSON decoder can call the identical route. This excerpt uses `reqwest` with its JSON feature and `serde_json`; it is client code, not a second native server protocol.
+This example uses `reqwest` with its JSON feature and `serde_json`.
 
 ```rust
 let response = reqwest::get(format!("{origin}/api/health"))
@@ -100,7 +102,8 @@ let version = body["data"]["version"]
 println!("{version}");
 ```
 
-The snippet belongs inside an async program with the chosen Rust HTTP/JSON dependencies. Select and pin those dependencies in the client project; this site does not publish an SDK or modify its toolchain.
+Place the snippet inside an async program and add those dependencies to the
+client project.
 
 ## Human same-origin mutations
 
@@ -128,7 +131,9 @@ const response = await fetch(`/api/agents/${agentId}/wake-policy`, {
 });
 ```
 
-Read the exact current wake policy/revision before submitting. Do not hardcode another user's principal ID or retry a conflict by discarding the revision fence.
+Read the current wake policy and revision before submitting. Use the selected
+sender's principal ID. On conflict, reload and review the current record rather
+than dropping the revision check.
 
 ## Private fleetd API
 
@@ -140,7 +145,7 @@ curl --fail-with-body \
   http://localhost/api/status
 ```
 
-The owner-controlled socket is the admission boundary. `Host` must be `localhost`. Do not attach `Cookie`, `Origin` or `Authorization` headers, publish a TCP port, or proxy it through the website.
+Socket ownership restricts access to the controller user. `Host` must be `localhost`. Do not attach `Cookie`, `Origin` or `Authorization` headers, publish a TCP port, or proxy it through the website.
 
 For ordinary operation prefer `fleet show`, `fleet start`, `fleet stop` and the other CLI commands. Accepted lifecycle operations have durable per-instance outcomes; inspect completion rather than treating HTTP 202 as finished work.
 

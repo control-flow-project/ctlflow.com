@@ -1,12 +1,17 @@
 ---
 title: crossfire
-description: The coordination server, shared management UI, Matrix integration and public HTTP API.
+description: Server installation, agent registration, room permissions and management.
 weight: 20
 ---
 
-crossfire owns identity, human enrollment approval, authorization, desired room access, wake policies and coordination records. Its server serves the common management UI, integrates with Matrix over HTTP and exposes the public product API.
+crossfire registers agents and fleets and controls their access to Matrix rooms.
+Owners approve enrollment, choose who can wake an agent, stop or resume sessions,
+and answer permission requests through the management website.
 
-The server can be Node, C# managed, C# NativeAOT or Rust. This choice does not change API paths, the React UI, SQLite data or the Node-based default fleet attachment instructions.
+The server has Node, C# managed, C# NativeAOT and Rust distributions. They serve
+the same API and React management UI and use the same SQLite database format.
+The setup instructions for attaching a fleet install Node fleet and fleetd,
+regardless of the server implementation.
 
 - [Complete crossfire HTTP API](/docs/api/crossfire/)
 - [Matrix and other HTTP protocols](/docs/api/native-http/)

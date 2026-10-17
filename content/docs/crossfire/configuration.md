@@ -1,10 +1,9 @@
 ---
 title: "Instance configuration"
-description: "Origins, trusted ingress, request quotas, administrative policy and private server configuration."
+description: "Configure server origins, proxy trust, quotas and instance policy."
 weight: 20
 sourceProject: "ctlflow"
 sourcePath: "services/crossfire/docs/configuration.md"
-generated: true
 ---
 
 Initialization creates private `config.json` and `bootstrap.json` under the
@@ -100,8 +99,8 @@ or expose every private Matrix room.
 
 ## Native settings
 
-Fleet role definitions and per-instance overrides own model, effort and native
-permission settings. Management shows configured/effective observations.
+Fleet role definitions and per-instance overrides set the model, effort and
+runtime permissions. Management shows the configured and observed settings.
 It does not configure host process arguments or take over the setup assistant.
 
 - [Fleet configuration](/docs/fleet/configuration/)

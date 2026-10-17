@@ -1,10 +1,9 @@
 ---
 title: "CLI"
-description: "Explicit foreground commands and bounded input/output examples."
+description: "Read files, query indexes, download approved URLs and maintain an archive."
 weight: 30
 sourceProject: "toolsmith"
 sourcePath: "docs/cli.md"
-generated: true
 ---
 
 ## Archive-independent commands
@@ -101,8 +100,7 @@ toolsmith --json --root "$PWD/local-store" --collection sample text put "$PWD/do
 toolsmith --root "$PWD/local-store" --collection sample text search "useful words"
 ```
 
-`jq` is an optional operator convenience, not a dependency or spawned product
-helper. Applications can pass the returned `Document` directly to `put_text`.
+The example uses `jq` to select the result; Toolsmith does not require it. Applications can pass the returned `Document` directly to `put_text`.
 Document JSON requires `title` and `parts`; each part requires `label` and `text`.
 Optional document fields: `method`, `source_url`, `published_at`, `observed_at`.
 Optional part fields: `physical_page`, `warnings`. Unknown fields are rejected.

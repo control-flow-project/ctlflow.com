@@ -1,15 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 425" role="img" aria-labelledby="execution-title execution-description">
-<title id="execution-title">Deployment and execution boundaries</title><desc id="execution-description">Humans use Element and the management UI. crossfire owns server authorization, its SQLite database and Matrix integration. On the user's host, fleet talks to fleetd over a private Unix socket or SSH. fleetd talks to Matrix/crossfire by HTTP and owns Codex or Pi processes and private histories.</desc>
-<rect class="box" x="20" y="15" width="230" height="62" rx="8"/><text x="135" y="41" text-anchor="middle">Human browser</text><text class="subtext" x="135" y="61" text-anchor="middle">Element + management UI</text>
+<title id="execution-title">Server and controller connections</title><desc id="execution-description">Humans use Element and the management UI. crossfire owns server authorization, its SQLite database and Matrix integration. On the user's host, fleet talks to fleetd over a private Unix socket or SSH. fleetd talks to Matrix/crossfire by HTTP and owns Codex or Pi processes and private histories.</desc>
+<rect class="box" x="20" y="15" width="230" height="62" rx="8"/><text x="135" y="41" text-anchor="middle">Human browser</text><text class="subtext" x="135" y="61" text-anchor="middle">Element and management</text>
 <path class="connector" d="M250 46H350M480 91V133M350 55H315V165H250"/><text class="subtext" x="294" y="35" text-anchor="middle">HTTPS</text>
-<rect class="box primary-box" x="350" y="15" width="260" height="76" rx="8"/><text x="480" y="43" text-anchor="middle">crossfire server</text><text class="subtext" x="480" y="66" text-anchor="middle">authority / grants / coordination</text>
-<rect class="box" x="350" y="133" width="260" height="62" rx="8"/><text x="480" y="159" text-anchor="middle">Matrix homeserver</text><text class="subtext" x="480" y="179" text-anchor="middle">native HTTP events / rooms / media</text>
-<rect class="box" x="20" y="133" width="230" height="62" rx="8"/><text x="135" y="159" text-anchor="middle">Management SQLite</text><text class="subtext" x="135" y="179" text-anchor="middle">Knex migration container owns schema</text>
-<rect class="box" x="20" y="236" width="780" height="170" rx="10"/><text class="subtext" x="39" y="260">USER-OWNED CONTROLLER HOST</text>
-<path class="connector" d="M480 195V283M610 55H785V270H422V283"/><text class="subtext" x="695" y="220" text-anchor="middle">HTTP: controller API</text>
-<rect class="box" x="40" y="283" width="180" height="75" rx="7"/><text x="130" y="311" text-anchor="middle">fleet CLI</text><text class="subtext" x="130" y="336" text-anchor="middle">local / SSH transport</text>
+<rect class="box primary-box" x="350" y="15" width="260" height="76" rx="8"/><text x="480" y="43" text-anchor="middle">crossfire server</text><text class="subtext" x="480" y="66" text-anchor="middle">Accounts and room permissions</text>
+<rect class="box" x="350" y="133" width="260" height="62" rx="8"/><text x="480" y="159" text-anchor="middle">Matrix homeserver</text><text class="subtext" x="480" y="179" text-anchor="middle">Rooms, events and media over HTTP</text>
+<rect class="box" x="20" y="133" width="230" height="62" rx="8"/><text x="135" y="159" text-anchor="middle">Management SQLite</text><text class="subtext" x="135" y="179" text-anchor="middle">Schema created by Knex migrations</text>
+<rect class="box" x="20" y="236" width="780" height="170" rx="10"/><text class="subtext" x="39" y="260">AGENT OWNER’S MACHINE</text>
+<path class="connector" d="M480 195V283M610 55H785V270H422V283"/><text class="subtext" x="695" y="220" text-anchor="middle">HTTPS: crossfire API</text>
+<rect class="box" x="40" y="283" width="180" height="75" rx="7"/><text x="130" y="311" text-anchor="middle">fleet CLI</text><text class="subtext" x="130" y="336" text-anchor="middle">Local or SSH commands</text>
 <path class="connector" d="M220 320H315M530 320H600"/><text class="subtext" x="267" y="306" text-anchor="middle">private socket</text>
-<rect class="box primary-box" x="315" y="283" width="215" height="75" rx="7"/><text x="422" y="311" text-anchor="middle">fleetd</text><text class="subtext" x="422" y="336" text-anchor="middle">shared listener + native lifecycle</text>
-<rect class="box" x="600" y="283" width="180" height="75" rx="7"/><text x="690" y="311" text-anchor="middle">Codex / Pi</text><text class="subtext" x="690" y="336" text-anchor="middle">exact native histories</text>
-<text class="subtext" x="422" y="386" text-anchor="middle">Private credentials, cursors and journals stay under their owning boundaries.</text>
+<rect class="box primary-box" x="315" y="283" width="215" height="75" rx="7"/><text x="422" y="311" text-anchor="middle">fleetd</text><text class="subtext" x="422" y="336" text-anchor="middle">Listens and runs agents</text>
+<rect class="box" x="600" y="283" width="180" height="75" rx="7"/><text x="690" y="311" text-anchor="middle">Codex / Pi</text><text class="subtext" x="690" y="336" text-anchor="middle">Saved conversations</text>
+<text class="subtext" x="422" y="386" text-anchor="middle">The controller stores private credentials, histories and message state.</text>
 </svg>

@@ -1,16 +1,16 @@
 ---
 title: "Semantic retrieval"
-description: "Optional offline embeddings, native SQLite exact search and caller-owned corpus scopes."
+description: "Prepare a local MiniLM model, index text in SQLite and search by similarity."
 weight: 50
 sourceProject: "toolsmith"
 sourcePath: "docs/semantic.md"
-generated: true
 ---
 
-Library and foreground CLI only. No server, encoder process, background indexing,
-model API, automatic download, GPU path or hybrid/lexical fallback. Base installs
-do not import or require the optional encoder dependencies. English is a caller
-declaration, not language detection or multilingual certification.
+Semantic search represents text as vectors and ranks results by similarity to a
+query vector. Toolsmith runs the encoder locally and searches vectors in SQLite.
+The supplied model supports English. Calls run synchronously; there is no server
+or background indexing. Install the optional encoder dependencies and prepare
+the model files before using it.
 
 ## Explicit offline model preparation
 
@@ -125,14 +125,12 @@ in C and returns bounded ranked hits. Python validates the query and returned
 vectors; it does not unpack and compare every vector in the collection.
 
 This is **exact flat search**, not ANN. It still compares eligible vectors using
-native CPU instructions. It does not silently approximate, truncate the eligible
-corpus, switch to lexical search or use a second backend. Equal-distance ordering
+native CPU instructions. Search compares all eligible vectors; work grows with corpus size. Equal-distance ordering
 is unspecified. A returned hit is navigation, not proof that its source is true or
 that an embedding correctly represents its meaning.
 
-There is no 10,000-entry or 100,000-scanned-chunk ceiling. A million eligible
-entries can be searched in one request; only output is bounded to 1..100 entries,
-default twenty. The native top-k working set accounts for multiple chunks per
+The requested corpus has no entry-count ceiling. A million eligible entries can
+be searched in one request. Output is limited to 1..100 entries, default twenty. The native top-k working set accounts for multiple chunks per
 entry so one long entry cannot consume all requested result positions.
 Missing/stale entries are excluded before ranking and reported separately.
 

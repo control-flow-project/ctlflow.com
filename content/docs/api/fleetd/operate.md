@@ -12,24 +12,24 @@ generated: true
 
 ## Request lifecycle operation
 
-> Private controller API. This route is carried over the owning user's Unix socket, locally or through SSH. The catalog's `auth: public` does not make it an Internet-public endpoint; filesystem/socket ownership supplies the transport admission boundary.
+> Private controller API. Call this route through the user's Unix socket, locally or over SSH. It is not exposed on the server's public origin.
 
-| Contract fact | Value |
+| Property | Value |
 | --- | --- |
-| Product owner | `fleetd` |
+| Service | `fleetd` |
 | Operation | `operate` |
 | Method | `POST` |
 | Path | `/api/operations` |
-| Catalog audience | `public` |
+| Authentication | `public` |
 | Success status | `202` |
-| Response data | Single value; not a collection operation |
+| Response data | Unpaginated value |
 | Request format | `json` |
-| Request byte ceiling | 1048576 bytes (product HTTP default; not the model-inline limit) |
-| Declared permissions | No permission codes declared; domain/credential/transport checks still apply |
+| Maximum request body | 1048576 bytes (service default) |
+| Permission codes | None declared |
 
-Permission lists describe operation-level admission alternatives, not a bearer-token scope string, automatic access to every object, or permission to act as another principal. Current owner, instance, room, revision and generation checks remain authoritative.
+Listed permission codes are alternatives, not token scopes. The service also checks access to the requested records and rejects stale revisions or controller generations.
 
-HTTP 202 records accepted intent. It does not establish native application, process completion or completion of model work.
+HTTP 202 means the request was accepted for processing. Check the operation's status to find out whether it completed.
 
 - [Authentication, envelopes and pagination](/docs/api/http/)
 - [Language-neutral client examples](/docs/api/client-examples/)
@@ -38,7 +38,7 @@ HTTP 202 records accepted intent. It does not establish native application, proc
 
 empty object; unknown fields rejected
 
-### Exact validator
+### Validation
 
 ```typescript
 check.empty
@@ -50,13 +50,13 @@ Referenced definitions:
 
 ## Query parameters
 
-custom parser [`none`](/docs/api/schemas/crossfire-contracts-schema-query/#none); exact branches, defaults and rejection rules below
+custom validation: [`none`](/docs/api/schemas/crossfire-contracts-schema-query/#none); see function below
 
-Query values arrive as URL text, not JSON values. The exact parser below owns decoding, defaults, duplicate rejection, filters and any cross-field rules. The shared pagination contract applies only when the parser invokes it.
+Query parameters are URL text. The validation function below specifies their format, defaults and combinations. Pagination applies only to operations that use it.
 
-### Custom constraints
+### Additional checks
 
-These predicates/branches are part of the wire contract, not optional documentation annotations. A field table is not a replacement for these checks.
+The following checks apply in addition to the field limits.
 
 Constraint on `value`:
 
@@ -67,7 +67,7 @@ export function none(input: unknown) {
 }
 ```
 
-### Exact validator
+### Validation
 
 ```typescript
 none
@@ -92,9 +92,9 @@ object; fields below; unknown fields rejected; constraint: Only an explicit soft
 | `expectedRevision` | exact JSON integer; 0…9007199254740991 |
 | `releaseDirectory` | string; 1–4096 UTF-16 units; well-formed Unicode; no C0/DEL controls; constraint: Release directory must be an absolute normalized path ([`releaseDirectory`](/docs/api/schemas/fleetd-contracts-api/#releaseDirectory)); optional property |
 
-### Custom constraints
+### Additional checks
 
-These predicates/branches are part of the wire contract, not optional documentation annotations. A field table is not a replacement for these checks.
+The following checks apply in addition to the field limits.
 
 Constraint on `object`:
 
@@ -109,7 +109,7 @@ value => value.startsWith('/') && !value.includes('\\')
     && value.split('/').slice(1).every(segment => segment && segment !== '.' && segment !== '..')
 ```
 
-### Exact validator
+### Validation
 
 ```typescript
 operationInput
@@ -133,7 +133,7 @@ object; fields below; unknown fields rejected; constraint: Only an explicit soft
 | `action` | `enroll` or `start` or `stop` or `reset` or `update` |
 | `expectedRevision` | exact JSON integer; 0…9007199254740991 |
 | `releaseDirectory` | string; 1–4096 UTF-16 units; well-formed Unicode; no C0/DEL controls; constraint: Release directory must be an absolute normalized path ([`releaseDirectory`](/docs/api/schemas/fleetd-contracts-api/#releaseDirectory)); optional property |
-| `receiptPending` | custom parser; exact branches and rejection rules below; optional property |
+| `receiptPending` | custom validation; see function below; optional property |
 | `status` | `accepted` or `running` or `awaiting-approval` or `succeeded` or `failed` |
 | `createdAt` | exact JSON integer; 0…9007199254740991 |
 | `completedAt` | exact JSON integer; 0…9007199254740991; JSON null permitted |
@@ -145,9 +145,9 @@ object; fields below; unknown fields rejected; constraint: Only an explicit soft
 | `errors[].code` | string; 1–100 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `errors[].message` | string; 1–4096 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 
-### Custom constraints
+### Additional checks
 
-These predicates/branches are part of the wire contract, not optional documentation annotations. A field table is not a replacement for these checks.
+The following checks apply in addition to the field limits.
 
 Constraint on `object`:
 
@@ -168,7 +168,7 @@ Constraint on `receiptPending`:
 input => input === true ? success(true) : failure('invalid', 'Only unacknowledged controller requests are pinned')
 ```
 
-### Exact validator
+### Validation
 
 ```typescript
 operationView
@@ -180,7 +180,7 @@ Referenced definitions:
 
 ## Response envelope
 
-The response-data validator above applies to `data`, not to the entire HTTP response. All successful JSON operations use the shared envelope; failures use `error` instead of `data`.
+A successful JSON response contains `data` and `meta`. Replace the `data` placeholder below with the response fields described above. Errors contain `error` instead of `data`.
 
 ```json
 {
@@ -190,5 +190,3 @@ The response-data validator above applies to `data`, not to the entire HTTP resp
   }
 }
 ```
-
-The placeholder is illustrative notation, not a valid response-data value. See the exact fields and validators above.

@@ -1,6 +1,6 @@
 ---
-title: HTTP contract
-description: Authentication, CSRF, envelopes, errors, revision fences, pagination and byte limits.
+title: HTTP requests and responses
+description: Authentication, response envelopes, errors, pagination, concurrency and request limits.
 weight: 10
 ---
 
@@ -53,7 +53,10 @@ The operation's output schema applies to `data`. Application IDs and request IDs
 | `native` | 502 |
 | `unavailable` | 503 |
 
-An accepted 202 is intent, not completed Matrix enforcement or model work. A native receipt proves the matching native input, not that the task finished. A recorded decision is not confirmed native transmission until its receipt is recorded.
+HTTP 202 means the operation was accepted for processing. Inspect its status for
+completion. Message delivery confirmation means the input reached the runtime,
+not that the agent finished its task. Owner answers are recorded before they
+are sent to the runtime.
 
 ## Request and response bounds
 
@@ -68,7 +71,7 @@ An accepted 202 is intent, not completed Matrix enforcement or model work. A nat
 
 The model-inline limit includes provenance, directory and instructions. Large input becomes complete private files with a compact manifest; it is not truncated. That policy is independent of HTTP body limits, native patches, approval reviews, report uploads and terminal output.
 
-GET operations have no client JSON body: use their declared query parameters. A default parsed-body byte ceiling does not create a body requirement for a read operation.
+GET operations have no client JSON body: use their declared query parameters. The request-size default does not require a body on a GET request.
 
 ## Pagination and queries
 
@@ -84,15 +87,16 @@ For paginated collections, `page` and `pageSize` are canonical positive ASCII de
 }
 ```
 
-`totalPages` is at least one, including an empty collection. Beyond-last pages may be empty. Authorization/scope/filter/count/stable ordering occur before pagination and hydration. A list-valued output is not automatically a paginated collection: consult the operation's `collection` fact.
+`totalPages` is at least one, including an empty collection. Beyond-last pages may be empty. The server checks access, filters, counts and sorts before selecting a page and
+loading its related records. A list-valued output is not automatically a paginated collection: consult the operation's `collection` fact.
 
-Directory/fleet/wake-rule/publication search uses bound SQLite LIKE patterns. ASCII case is insensitive; non-ASCII case remains exact. `%` and `_` retain SQLite wildcard behavior. No client-side lowercasing changes authority or matching.
+Directory/fleet/wake-rule/publication search uses bound SQLite LIKE patterns. ASCII case is insensitive; non-ASCII case remains exact. `%` and `_` retain SQLite wildcard behavior. Do not lowercase query text in client code; pass the intended search unchanged.
 
 ## Concurrency and retries
 
 Use the original expected revision, applicable admission generation and idempotency key for the exact input. Conflicting key reuse fails. A lost response is not permission to create a new identity, silently overwrite state, advance a cursor or repeat a native effect under a different ID.
 
-On revision conflict retain the user's draft and explicitly reload/reconcile; do not auto-apply it to a new record. Opening an endpoint with GET never approves, starts, acknowledges or mutates state.
+On revision conflict retain the user's draft and explicitly reload/reconcile; do not auto-apply it to a new record. GET requests do not approve, start, acknowledge or change state.
 
 ## Rate limits and proxy attribution
 

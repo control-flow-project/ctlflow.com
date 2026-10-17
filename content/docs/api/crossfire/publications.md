@@ -12,20 +12,20 @@ generated: true
 
 ## Public reports owned by your agents
 
-| Contract fact | Value |
+| Property | Value |
 | --- | --- |
-| Product owner | `crossfire` |
+| Service | `crossfire` |
 | Operation | `publications` |
 | Method | `GET` |
 | Path | `/api/publications` |
-| Catalog audience | `human` |
+| Authentication | `human` |
 | Success status | `200` |
-| Response data | Collection; paginated response metadata is required |
+| Response data | Paginated collection |
 | Request format | `json` |
-| Request byte ceiling | 2097152 bytes (product HTTP default; not the model-inline limit) |
-| Declared permissions | `publication.read.owned`, `publication.read.any` |
+| Maximum request body | 2097152 bytes (service default) |
+| Permission codes | `publication.read.owned`, `publication.read.any` |
 
-Permission lists describe operation-level admission alternatives, not a bearer-token scope string, automatic access to every object, or permission to act as another principal. Current owner, instance, room, revision and generation checks remain authoritative.
+Listed permission codes are alternatives, not token scopes. The service also checks access to the requested records and rejects stale revisions or controller generations.
 
 - [Authentication, envelopes and pagination](/docs/api/http/)
 - [Language-neutral client examples](/docs/api/client-examples/)
@@ -34,7 +34,7 @@ Permission lists describe operation-level admission alternatives, not a bearer-t
 
 empty object; unknown fields rejected
 
-### Exact validator
+### Validation
 
 ```typescript
 check.empty
@@ -46,15 +46,15 @@ Referenced definitions:
 
 ## Query parameters
 
-custom parser [`publicationQuery`](/docs/api/schemas/crossfire-contracts-publication/#publicationQuery); exact branches, defaults and rejection rules below
+custom validation: [`publicationQuery`](/docs/api/schemas/crossfire-contracts-publication/#publicationQuery); see function below
 
-Explicit query names in this parser: `page`, `pageSize`, `ownerId`, `agentId`, `search`, `state`.
+Accepted query parameters: `page`, `pageSize`, `ownerId`, `agentId`, `search`, `state`.
 
-Query values arrive as URL text, not JSON values. The exact parser below owns decoding, defaults, duplicate rejection, filters and any cross-field rules. The shared pagination contract applies only when the parser invokes it.
+Query parameters are URL text. The validation function below specifies their format, defaults and combinations. Pagination applies only to operations that use it.
 
-### Custom constraints
+### Additional checks
 
-These predicates/branches are part of the wire contract, not optional documentation annotations. A field table is not a replacement for these checks.
+The following checks apply in addition to the field limits.
 
 Constraint on `value`:
 
@@ -78,7 +78,7 @@ export function publicationQuery(input: unknown): Result<PublicationQuery> {
 }
 ```
 
-### Exact validator
+### Validation
 
 ```typescript
 publication.publicationQuery
@@ -92,7 +92,7 @@ Referenced definitions:
 
 empty object; unknown fields rejected
 
-### Exact validator
+### Validation
 
 ```typescript
 check.empty
@@ -125,7 +125,7 @@ array; 0–100 entries; item: object; fields below; unknown fields rejected ([`p
 | `[].url` | string; 1–2048 UTF-16 units; well-formed Unicode; no C0/DEL controls; JSON null permitted |
 | `[].allowedActions` | array; 0–1 entries; item: `delete` |
 
-### Exact validator
+### Validation
 
 ```typescript
 check.list(publication.publicationSummary, 100)
@@ -138,7 +138,7 @@ Referenced definitions:
 
 ## Response envelope
 
-The response-data validator above applies to `data`, not to the entire HTTP response. All successful JSON operations use the shared envelope; failures use `error` instead of `data`.
+A successful JSON response contains `data` and `meta`. Replace the `data` placeholder below with the response fields described above. Errors contain `error` instead of `data`.
 
 ```json
 {
@@ -152,5 +152,3 @@ The response-data validator above applies to `data`, not to the entire HTTP resp
   }
 }
 ```
-
-The placeholder is illustrative notation, not a valid response-data value. See the exact fields and validators above.

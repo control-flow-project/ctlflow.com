@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { guideSources, catalogSources, frontmatter, pageUrl } from "./docs/sources.mjs";
+import { guideReferences, catalogSources, frontmatter } from "./docs/sources.mjs";
 import { createModel, extractOperations, schemaId } from "./docs/model.mjs";
 import { apiIndex, operationPage, schemaPage, slug } from "./docs/api-pages.mjs";
 import { createSnapshot, sha256 } from "./docs/snapshot.mjs";
@@ -29,27 +29,7 @@ for (const [project, root] of Object.entries(roots)) {
   const revision = snapshots[project].revision;
   sources[project] = { repository: `https://github.com/control-flow-project/${project}`, revision, version: project === "ctlflow" ? JSON.parse(read(project, "package.json")).version : /^version = "([^"]+)"/mu.exec(read(project, "pyproject.toml"))[1] };
 }
-const guideMap = new Map(guideSources.map(([project, source, output]) => [`${project}:${source}`, pageUrl(output)]));
-function rewrite(project, source, text) {
-  const parts = text.replace(/^---\n[\s\S]*?\n---\n/u, "").split(/(^```[^\n]*\n[\s\S]*?^```\s*$)/gmu);
-  return parts.map((part, index) => {
-    if (index % 2) return part;
-    const prose = source === "docs/specification.md" ? part.replaceAll("/<publicKey>/index.html", "`/<publicKey>/index.html`").replaceAll("database/<database>/<backend>/{migrations,seeds}", "`database/<database>/<backend>/{migrations,seeds}`") : part;
-    return prose.replace(/\[([^\]]+)\]\(([^\s)]+)\)/gu, (match, label, destination) => {
-      if (/^(?:https?:|mailto:|#)/u.test(destination)) return match;
-      const [relative, anchor] = destination.split("#", 2);
-      const resolved = path.posix.normalize(path.posix.join(path.posix.dirname(source), relative));
-      const target = guideMap.get(`${project}:${resolved}`);
-      if (target) return `[${label}](${target}${anchor ? `#${anchor}` : ""})`;
-      if (resolved.startsWith(".analysis/") || resolved.startsWith("../")) return label;
-      return `[${label}](source:${project}:${resolved}${anchor ? `#${anchor}` : ""})`;
-    });
-  }).join("").replace(/^# [^\n]+\n/u, "").trim();
-}
-for (const [project, source, output, title, description, weight] of guideSources) {
-  const content = rewrite(project, source, read(project, source));
-  outputs.set(`content/${output}`, `${frontmatter({ title, description, weight, sourceProject: project, sourcePath: source, generated: true })}${content}\n`);
-}
+for (const [project, source] of guideReferences) read(project, source);
 const model = createModel(roots.ctlflow, snapshots.ctlflow);
 for (const filename of ["rest/envelope.ts", "rest/limits.ts", "matrix-directory.ts"]) model.closure(model.load(path.join(roots.ctlflow, "services/crossfire/node/packages/contracts/src", filename)));
 const inventories = {};
@@ -83,18 +63,17 @@ for (const filename of [
   "services/crossfire/database/management/sqlite/contract.json",
   "global.json", "rust-toolchain.toml",
 ]) read("ctlflow", filename);
-const matrixLines = [frontmatter({ title: "Matrix operation catalog", description: `All ${matrix.operations.length} native catalog entries, including explicit denied/unsupported families and parameters.`, weight: 50, sourceProject: "ctlflow", sourcePath: matrixPath, generated: true }),
-  `The catalog is derived from Matrix ${matrix.version}. Its input fingerprint is \`${matrix.sourceSha256}\`. It uses native HTTP, not a Node Matrix SDK. A catalog entry is not proof that the selected homeserver supports it.`, "", "Access classifications are client safeguards, not server authorization. Only entries admitted by the agent dispatcher may be used by an agent. Operator/account/unsupported entries remain explicitly restricted. Current crossfire grants, real native membership, powers and endpoint-specific checks still apply.", "", "- [Matrix integration and directed mentions](/docs/crossfire/matrix/)", "- [Native non-REST protocols](/docs/api/native-http/)", ""];
+const matrixLines = [frontmatter({ title: "Matrix operation catalog", description: `${matrix.operations.length} Matrix HTTP operations with parameters and agent access classifications.`, weight: 50, sourceProject: "ctlflow", sourcePath: matrixPath, generated: true }),
+  `This catalog is generated from Matrix ${matrix.version}. The input SHA-256 is \`${matrix.sourceSha256}\`. crossfire calls these endpoints over HTTP. Availability depends on the homeserver.`, "", "Only operations allowed by the agent dispatcher can be used by an agent. Each call also requires crossfire permission and Matrix membership and powers. The catalog includes restricted and unsupported operations so their status is visible.", "", "JSON body and response fields are defined in the [Matrix Client-Server specification](https://spec.matrix.org/v1.12/client-server-api/). These endpoints return Matrix responses, not crossfire REST envelopes.", "", "- [Matrix integration and directed mentions](/docs/crossfire/matrix/)", "- [Other HTTP routes](/docs/api/native-http/)", ""];
 for (const operation of matrix.operations) {
   matrixLines.push(`## ${operation.command}`, "", `\`${operation.method} ${operation.path}\``, "", `Native operation: \`${operation.id}\`. Access: **${operation.access}**. Body: **${operation.body}**. Response: **${operation.response}**.`, "");
   if (operation.parameters.length) { matrixLines.push("| Parameter | Location | Required | Type |", "| --- | --- | --- | --- |"); for (const parameter of operation.parameters) matrixLines.push(`| \`${parameter.name}\` | ${parameter.location} | ${parameter.required ? "yes" : "no"} | ${parameter.type} |`); matrixLines.push(""); }
-  matrixLines.push("Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.", "");
 }
 outputs.set("content/docs/api/matrix-catalog.md", `${matrixLines.join("\n").trimEnd()}\n`);
 outputs.set("data/sources.json", `${JSON.stringify(sources, null, 2)}\n`);
 outputs.set("data/operations.json", `${JSON.stringify(inventories, null, 2)}\n`);
 const inputs = Object.entries(snapshots).flatMap(([project, snapshot]) => [...snapshot.consumed].map(([filename, hash]) => [`${project}:${filename}`, hash]));
-const manifest = { sources, inputs: Object.fromEntries(inputs.sort()), generator: Object.fromEntries(generatorPaths.map(relative => [relative, sha256(fs.readFileSync(path.join(directory, relative)))])), outputs: Object.fromEntries([...outputs].sort().map(([filename, text]) => [filename, sha256(text)])), counts: { crossfire: inventories.crossfire.length, fleetd: inventories.fleetd.length, matrix: matrix.operations.length, schemaModules: model.modules.size, guides: guideSources.length } };
+const manifest = { sources, inputs: Object.fromEntries(inputs.sort()), generator: Object.fromEntries(generatorPaths.map(relative => [relative, sha256(fs.readFileSync(path.join(directory, relative)))])), outputs: Object.fromEntries([...outputs].sort().map(([filename, text]) => [filename, sha256(text)])), counts: { crossfire: inventories.crossfire.length, fleetd: inventories.fleetd.length, matrix: matrix.operations.length, schemaModules: model.modules.size, guides: guideReferences.length } };
 outputs.set("data/reference-manifest.json", `${JSON.stringify(manifest, null, 2)}\n`);
 const changed = reconcileOutputs(directory, outputs, check);
 console.log(JSON.stringify({ mode: check ? "check" : "sync", changed: changed.length, ...manifest.counts }));

@@ -1,10 +1,9 @@
 ---
 title: "Controller operations"
-description: "Shared listener ownership, desired intent, wake, stop, restart and recovery."
+description: "Start the controller, manage sleeping agents and recover after a restart."
 weight: 10
 sourceProject: "ctlflow"
 sourcePath: "services/fleetd/docs/operations.md"
-generated: true
 ---
 
 Start through fleet or the installed daemon:
@@ -14,11 +13,11 @@ fleet daemon start --name workstation --root /absolute/private/controller
 fleetd --name workstation --root /absolute/private/controller
 ```
 
-One private root owns one descriptor, explicit registry and Unix socket.
+The controller root contains its descriptor, registry and Unix socket.
 No public controller port or boot service is installed.
 Closing the CLI/SSH connection does not cancel accepted operations.
 
-## Ownership and API
+## Private API and locks
 
 Local and SSH clients use the same private HTTP resources:
 status/setup, fleet registration, instance configuration, readiness,
@@ -26,7 +25,7 @@ delivery/messages, contexts/attachment and idempotent operations.
 Unknown routes, methods, fields and duplicated queries are rejected.
 Pagination is canonical positive decimal, page up to 100000, size up to 100.
 
-Private SQLite exclusive locks own controller, fleet and receiver lifetimes.
+Exclusive SQLite locks prevent concurrent controllers, fleet writers and receivers.
 They survive process suspension and release on exit. Do not delete lock inodes
 or substitute an expiring PID lease. Directories must be private, owned and
 canonical, with no symlink traversal.
@@ -80,7 +79,8 @@ Explicit Stop cancels recovery. Unconfirmed cleanup blocks replacement.
 
 Controller lease loss closes local delivery immediately when detected; request
 deadlines bound undetected loss. Old reporting failures cannot cancel a new run.
-Native-close evidence is tied to its exact current authenticated tuple.
+A stop result records the agent, process, controller generation and credential
+that performed it.
 
 crossfire owns durable incident notification to the member's private crossfire DM.
 Intentional Stop, ordinary idle and decision waits are not crashes.

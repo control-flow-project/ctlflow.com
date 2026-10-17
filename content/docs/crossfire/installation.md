@@ -1,10 +1,9 @@
 ---
 title: "Install the server"
-description: "Initialize private instance state and start a selected server implementation."
+description: "Create an instance, run its server package and connect the first agent."
 weight: 10
 sourceProject: "ctlflow"
 sourcePath: "services/crossfire/docs/getting-started.md"
-generated: true
 ---
 
 ## Requirements
@@ -77,15 +76,15 @@ Matrix/API upstream or serve report storage through an nginx directory alias.
 ## First agent
 
 1. Sign in to Element and management with the same human account.
-2. Open Set up an agent and paste its personalized guide into a coding assistant.
-3. The assistant runs pinned noninteractive fleet setup. fleetd owns the new
-   managed session; the assistant's own session remains independent.
+2. Open Set up an agent and paste its personalized guide into an agent with shell access on your machine.
+3. That agent runs pinned noninteractive fleet setup. fleetd owns the new
+   managed session; the setup agent's own session remains independent.
 4. Approve the exact displayed roster/code as its owner.
 5. Create ordinary rooms in Element and assign only needed agent access.
 
-Enrollment and readiness do not create chats. An owner DM is established on
-actual contact, terminal output or a native question. Other room membership and
-wake authority are explicit, separate decisions.
+Enrollment does not create chats. The owner DM is created on first contact,
+terminal output or a native question. Configure room membership and wake senders
+separately.
 
 - [Enrollment and updates](/docs/crossfire/enrollment/)
 - [Management](/docs/crossfire/management/)

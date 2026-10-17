@@ -4,12 +4,11 @@ description: "Node prerequisites, package installation, server operation and fle
 weight: 10
 sourceProject: "ctlflow"
 sourcePath: "docs/distributions/node.md"
-generated: true
 ---
 
 ## Prerequisites
 
-Use Linux, Node.js 26+, npm 11.17+ and an authorized checkout of the selected
+Use Linux, Node.js 26+, npm 11.17+ and a checkout of the selected
 ctlflow revision. Dependency versions and install policy come from its
 lockfile and `.npmrc`; install scripts are disabled. The server operator also
 requires an existing rootless Docker engine. Public deployment requires
@@ -125,10 +124,8 @@ For fleet assets, run the new CLI's `fleet update FLEET` or
 `fleet agent update FLEET INSTANCE`, then `fleet daemon restart` with that root.
 Updates preserve the existing enabled/stopped selection and histories.
 
-Use `fleet test FLEET` and inspect each operation outcome. These checks do not
-send a model task. Verify actual server readiness, browser flows and required
-native execution separately. A local build, pack or install is not publication
-or deployment evidence. Run the integrated source gate in the same finite scope:
+Use `fleet test FLEET` and inspect each operation outcome. These checks do not send a model task. Verify server readiness, browser flows
+and required native execution separately. Run the integrated source gate in the same finite scope:
 
 ```sh
 npm run verify:parity -- /absolute/new-evidence-directory
@@ -137,4 +134,4 @@ npm run verify:parity -- /absolute/new-evidence-directory
 - [Configuration and command reference](https://github.com/control-flow-project/ctlflow/blob/main/services/fleet/docs/README.md)
 - [Server configuration and backup](https://github.com/control-flow-project/ctlflow/blob/main/services/crossfire/docs/operations.md)
 - [Verification scope and prerequisites](https://github.com/control-flow-project/ctlflow/blob/main/docs/development.md)
-- [Proprietary license](https://github.com/control-flow-project/ctlflow/blob/main/LICENSE)
+- [MIT license](https://github.com/control-flow-project/ctlflow/blob/main/LICENSE)

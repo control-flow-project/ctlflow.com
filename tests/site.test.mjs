@@ -6,9 +6,43 @@ import { fileURLToPath } from "node:url";
 import { siteOrigin } from "../scripts/build-options.mjs";
 import { netlifyHeaders } from "../scripts/serve.mjs";
 import { slug } from "../scripts/docs/api-pages.mjs";
+import { guideReferences } from "../scripts/docs/sources.mjs";
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const read = relative => fs.readFileSync(path.join(root, relative), "utf8");
+
+test("authored pages describe agents without restricting them to software work", () => {
+  const pages = fs.readdirSync(path.join(root, "content"), { recursive: true }).filter(filename => filename.endsWith(".md")).map(filename => `content/${filename}`);
+  const templates = fs.readdirSync(path.join(root, "layouts"), { recursive: true }).filter(filename => filename.endsWith(".html")).map(filename => `layouts/${filename}`);
+  for (const filename of [...pages, ...templates, "hugo.toml"]) {
+    const source = read(filename);
+    if (/^generated: true$/mu.test(source)) continue;
+    const prose = source.replace(/^```[^\n]*\n[\s\S]*?^```[\t ]*$/gmu, "").replace(/`[^`\n]+`/gu, "").replace(/\s+/gu, " ");
+    assert.equal(/\bcoding[\s-]+(?:agents?|assistants?|harness(?:es)?|sessions?|conversations?)\b/iu.test(prose), false, `${filename}: general agent terminology`);
+  }
+  const introduction = read("content/docs/_index.md");
+  assert.equal(introduction.includes("researchers, writers and reviewers"), true);
+  assert.equal(introduction.includes("runtime adapters for Codex and Earendil Pi"), true);
+  assert.equal(read("content/docs/fleet/pi.md").includes("@earendil-works/pi-coding-agent@1.0.0"), true);
+});
+
+test("all fenced examples declare a language or explicitly declare plain text", () => {
+  const pages = fs.readdirSync(path.join(root, "content"), { recursive: true }).filter(filename => filename.endsWith(".md"));
+  let examples = 0;
+  for (const filename of pages) {
+    let inside = false;
+    for (const line of read(`content/${filename}`).split("\n")) {
+      if (!line.startsWith("```")) continue;
+      if (!inside) {
+        assert.match(line, /^```\S/u, `${filename}: explicit example language`);
+        examples += 1;
+      }
+      inside = !inside;
+    }
+    assert.equal(inside, false, `${filename}: closed fences`);
+  }
+  assert.equal(examples > 1200, true);
+});
 
 test("all declared operations have complete reference sections and metadata", () => {
   const catalogs = JSON.parse(read("data/operations.json"));
@@ -64,10 +98,25 @@ test("Netlify headers keep site scripts/assets local and only hashed assets immu
 test("hierarchy and source URLs preserve constituents and Toolsmith optionality", () => {
   const sources = JSON.parse(read("data/sources.json"));
   assert.equal(sources.ctlflow.repository, "https://github.com/control-flow-project/ctlflow");
-  assert.equal(sources.ctlflow.revision, "cb3ece8ddb850b58499d12befd79b7ebca166b17");
+  assert.equal(sources.ctlflow.revision, "52bf027974521695c3b058afcc0b5191bd42587b");
   for (const product of ["crossfire", "fleetd", "fleet"]) assert.equal(read(`content/docs/${product}/_index.md`).includes(`title: ${product}`), true);
-  const optional = read("content/docs/toolsmith/_index.md");
+  const optional = read("content/docs/toolsmith/_index.md").replace(/\s+/gu, " ");
   assert.equal(optional.includes("separate project"), true);
   assert.equal(optional.includes("omit it completely"), true);
   assert.equal(read("AGENTS.md").includes("parent monorepo; crossfire, fleetd and fleet"), true);
+});
+
+test("guides are edited independently of generated API contracts", () => {
+  const manifest = JSON.parse(read("data/reference-manifest.json"));
+  assert.equal(guideReferences.length, 45);
+  assert.equal(manifest.counts.guides, guideReferences.length);
+  for (const [project, source, output] of guideReferences) {
+    const filename = `content/${output}`;
+    const guide = read(filename);
+    assert.equal(/^generated: true$/mu.test(guide), false, `${filename} is authored`);
+    assert.equal(filename in manifest.outputs, false, `${filename} is not a generated output`);
+    assert.equal(`${project}:${source}` in manifest.inputs, true, `${filename} source is recorded`);
+    assert.match(guide, new RegExp(`^sourceProject: ["']?${project}["']?$`, "mu"));
+    assert.equal(guide.includes(`sourcePath: "${source}"`) || guide.includes(`sourcePath: ${source}`), true, `${filename} reference path`);
+  }
 });

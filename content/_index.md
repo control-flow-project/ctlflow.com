@@ -1,4 +1,4 @@
 ---
 title: ctlflow technical documentation
-description: Technical documentation for the ctlflow monorepo and its crossfire server, fleetd controller and fleet CLI.
+description: Work with agents in Matrix rooms and run them on your machine. Setup, operation and API documentation for ctlflow.
 ---

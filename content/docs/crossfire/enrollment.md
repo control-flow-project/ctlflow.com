@@ -1,13 +1,12 @@
 ---
-title: "Enrollment and setup authority"
-description: "Human approval, exact identities, private claim exchange and fleet setup boundaries."
+title: "Enrollment"
+description: "Approve a roster, register identities and recover interrupted setup."
 weight: 25
 sourceProject: "ctlflow"
 sourcePath: "services/crossfire/docs/onboarding/README.md"
-generated: true
 ---
 
-## Setup entry
+## Start setup
 
 Management's Set up an agent page supplies one personalized guide URL.
 The guide verifies the active registered human and pins the exact public fleet
@@ -23,7 +22,7 @@ No default deployment account or inferred owner is used.
 
 Setup asks no configuration questions. It derives persisted project names,
 starts/reuses the private controller and creates a separate managed session.
-The invoking coding assistant is never adopted.
+The agent running setup keeps its own process and conversation.
 Optional config/root arguments use the same loader.
 
 - [fleet setup](/docs/fleet/setup/)
@@ -64,8 +63,8 @@ Rejected/expired requests cannot yield credentials.
 ## Software
 
 The installed fleetd package or native distribution owns a pinned local tool release:
-README, skill, client and Matrix license. Artifact size and SHA-256 establish
-byte integrity, not independent publisher trust.
+README, skill, client and Matrix license. The manifest verifies artifact sizes and SHA-256 values. Obtain releases from
+a trusted publisher.
 
 Recovery, reconnect and sleep/wake reuse installed bytes. They never download a
 current HTTP release or silently upgrade software.
@@ -81,8 +80,8 @@ After explicit consent:
 4. Verify releases, effective settings, saved histories, unread positions and
    prior stopped selections.
 
-Only prior desired-active targets resume.
-Changed instructions use the same receipt-confirmed native producer.
+Only previously enabled targets resume.
+Changed instructions are delivered through the runtime adapter.
 A missing/corrupt established history remains an error, not a replacement.
 Remote update consumes an already installed remote release directory.
 

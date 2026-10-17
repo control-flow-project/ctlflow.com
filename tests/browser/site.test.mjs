@@ -10,7 +10,7 @@ const root = path.dirname(path.dirname(path.dirname(fileURLToPath(import.meta.ur
 const artifacts = path.join(root, ".temp/browser-test");
 let preview;
 let browser;
-const evidence = { tests: [], checkedPages: 0, checkedLinks: 0, consoleErrors: [], viewports: [] };
+const evidence = { tests: [], checkedPages: 0, checkedLinks: 0, codeExamples: {}, palettes: [], consoleErrors: [], viewports: [] };
 
 before(async () => {
   fs.mkdirSync(artifacts, { recursive: true });
@@ -41,6 +41,17 @@ function files(directory) {
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap(entry => entry.isDirectory() ? files(path.join(directory, entry.name)) : [path.join(directory, entry.name)]);
 }
 
+function contrastRatio(foreground, background) {
+  function luminance(hex) {
+    assert.match(hex, /^#[\da-f]{6}$/iu);
+    const channels = hex.slice(1).match(/../gu).map(channel => Number.parseInt(channel, 16) / 255).map(channel => channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4);
+    return channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722;
+  }
+  const first = luminance(foreground);
+  const second = luminance(background);
+  return (Math.max(first, second) + 0.05) / (Math.min(first, second) + 0.05);
+}
+
 test("home loads under Netlify CSP without external resources, errors or missing assets", async context => {
   const { page } = await pageFor(context);
   const errors = [];
@@ -56,9 +67,15 @@ test("home loads under Netlify CSP without external resources, errors or missing
   await page.getByRole("heading", { level: 1 }).waitFor();
   assert.equal(await page.title(), "ctlflow");
   assert.equal(await page.getByRole("link", { name: "ctlflow home" }).count(), 1);
-  assert.equal(await page.locator(".topology-products .topology-product").count(), 3);
-  assert.deepEqual(await page.locator(".topology-product strong").allTextContents(), ["crossfire", "fleetd", "fleet"]);
-  assert.equal(await page.locator(".related-project").textContent().then(text => text.includes("Separate / optional related project")), true);
+  assert.equal(await page.getByRole("heading", { level: 1 }).innerText(), "Agents working\ntogether in\nMatrix rooms.");
+  assert.deepEqual(await page.locator(".message-flow li strong").allTextContents(), ["Matrix room", "crossfire", "fleetd", "Agent"]);
+  assert.deepEqual(await page.locator(".product-card h3").allTextContents(), ["crossfire", "fleetd", "fleet"]);
+  assert.equal(await page.locator(".hero-description").textContent().then(text => text.includes("Agents run on your machine")), true);
+  const toolsmith = await page.locator(".related-project").innerText();
+  assert.equal(toolsmith.includes("Python libraries and command-line tools"), true);
+  assert.equal(toolsmith.includes("HTTP downloads, file handling, text extraction and local search"), true);
+  assert.equal(toolsmith.includes("ctlflow does not require them"), true);
+  assert.equal(/Knex|React|SQLite|wire contract|constituent/u.test(await page.locator(".hero").innerText()), false);
   await page.screenshot({ path: path.join(artifacts, "home-desktop.png"), fullPage: true });
   assert.deepEqual(errors, []);
   assert.deepEqual(failures, []);
@@ -67,7 +84,7 @@ test("home loads under Netlify CSP without external resources, errors or missing
   evidence.tests.push("home-csp-local-assets");
 });
 
-test("every generated HTML link and exact anchor resolves", async context => {
+test("every generated HTML link, exact anchor and code example renders correctly", async context => {
   const { page } = await pageFor(context);
   await page.goto(preview.origin);
   const publicRoot = path.join(root, "public");
@@ -78,12 +95,19 @@ test("every generated HTML link and exact anchor resolves", async context => {
   const result = await page.evaluate(records => {
     const pages = new Map();
     const diagnostics = [];
+    const codeExamples = {};
     let links = 0;
     const parser = new DOMParser();
     for (const record of records) {
       const document = parser.parseFromString(record.html, "text/html");
       const ids = [...document.querySelectorAll("[id]")].map(element => element.id);
       if (new Set(ids).size !== ids.length) diagnostics.push(`${record.url}: duplicate IDs`);
+      for (const code of document.querySelectorAll("pre code")) {
+        const language = code.getAttribute("data-lang");
+        if (!language || !code.classList.contains(`language-${language}`) || !code.closest(".highlight") || !code.closest("pre.chroma")) diagnostics.push(`${record.url}: code missing shared syntax renderer`);
+        if (code.closest("[style]") || code.querySelector("[style]")) diagnostics.push(`${record.url}: inline code styles violate CSP`);
+        codeExamples[language] = (codeExamples[language] ?? 0) + 1;
+      }
       pages.set(record.url, { ids: new Set(ids), links: [...document.querySelectorAll("a[href]")].map(element => element.getAttribute("href")) });
     }
     for (const [source, page] of pages) for (const href of page.links) {
@@ -94,12 +118,14 @@ test("every generated HTML link and exact anchor resolves", async context => {
       if (!destination) diagnostics.push(`${source} -> missing ${url.pathname}`);
       else if (url.hash && !destination.ids.has(decodeURIComponent(url.hash.slice(1)))) diagnostics.push(`${source} -> missing anchor ${url.pathname}${url.hash}`);
     }
-    return { diagnostics, pages: pages.size, links };
+    return { diagnostics, pages: pages.size, links, codeExamples };
   }, records);
   assert.equal(result.diagnostics.length, 0, result.diagnostics.slice(0, 35).join("\n"));
   assert.equal(result.pages > 200, true);
   evidence.checkedPages = result.pages;
   evidence.checkedLinks = result.links;
+  evidence.codeExamples = result.codeExamples;
+  assert.equal(Object.values(result.codeExamples).reduce((total, count) => total + count, 0) > 1200, true);
   evidence.tests.push("all-html-links-and-case-exact-anchors");
 });
 
@@ -130,7 +156,6 @@ test("search is URL-addressable, escapes input and supports the keyboard shortcu
 test("theme persists across navigation and code language tabs work by keyboard", async context => {
   const { page } = await pageFor(context);
   await page.goto(preview.origin);
-  await page.getByRole("button", { name: "Switch to light theme" }).click();
   assert.equal(await page.locator("html").getAttribute("data-theme"), "light");
   await page.getByRole("tab", { name: "C#", exact: true }).focus();
   await page.keyboard.press("ArrowRight");
@@ -141,9 +166,100 @@ test("theme persists across navigation and code language tabs work by keyboard",
   assert.equal(await page.locator("html").getAttribute("data-theme"), "light");
   await page.screenshot({ path: path.join(artifacts, "architecture-light.png"), fullPage: true });
   await page.getByRole("button", { name: "Switch to dark theme" }).click();
+  await page.goto(`${preview.origin}/docs/fleet/setup/`);
+  assert.equal(await page.locator("html").getAttribute("data-theme"), "dark");
   await page.reload();
   assert.equal(await page.locator("html").getAttribute("data-theme"), "dark");
+  await page.getByRole("button", { name: "Switch to light theme" }).click();
+  await page.reload();
+  assert.equal(await page.locator("html").getAttribute("data-theme"), "light");
   evidence.tests.push("persistent-light-dark-and-keyboard-code-tabs");
+});
+
+test("light is the default regardless of system theme or unavailable stored preferences", async context => {
+  const { page, browserContext } = await pageFor(context, { colorScheme: "dark" });
+  await page.goto(preview.origin);
+  assert.equal(await page.locator("html").getAttribute("data-theme"), "light");
+  assert.equal(await page.locator("body").evaluate(element => getComputedStyle(element).backgroundColor), "rgb(255, 255, 255)");
+  await page.evaluate(() => localStorage.setItem("ctlflow-theme", "invalid"));
+  await page.reload();
+  assert.equal(await page.locator("html").getAttribute("data-theme"), "light");
+  await browserContext.addInitScript(() => Object.defineProperty(window, "localStorage", { get() { throw new DOMException("Storage unavailable", "SecurityError"); } }));
+  await page.reload();
+  assert.equal(await page.locator("html").getAttribute("data-theme"), "light");
+  await page.getByRole("button", { name: "Switch to dark theme" }).click();
+  assert.equal(await page.locator("html").getAttribute("data-theme"), "dark");
+  evidence.tests.push("explicit-light-default-storage-unavailable");
+});
+
+test("both palettes keep body and syntax colors readable, with larger small text", async context => {
+  const { page } = await pageFor(context);
+  await page.goto(preview.origin);
+  for (const theme of ["light", "dark"]) {
+    if (theme === "dark") await page.getByRole("button", { name: "Switch to dark theme" }).click();
+    const palette = await page.evaluate(() => {
+      const styles = getComputedStyle(document.documentElement);
+      const names = ["bg", "raised", "panel", "text", "secondary", "muted", "accent", "code", "syntax-string", "syntax-number", "syntax-function", "syntax-type"];
+      return Object.fromEntries(names.map(name => [name, styles.getPropertyValue(`--${name}`).trim()]));
+    });
+    assert.equal(await page.locator('meta[name="theme-color"]').getAttribute("content"), palette.bg);
+    for (const background of ["bg", "raised", "panel", "code"]) {
+      for (const foreground of ["text", "secondary", "muted", "accent"]) {
+        assert.equal(contrastRatio(palette[foreground], palette[background]) >= 4.5, true, `${theme} ${foreground}/${background} contrast`);
+      }
+    }
+    for (const foreground of ["syntax-string", "syntax-number", "syntax-function", "syntax-type"]) {
+      assert.equal(contrastRatio(palette[foreground], palette.code) >= 4.5, true, `${theme} ${foreground}/code contrast`);
+    }
+    assert.equal(contrastRatio(palette.bg, palette.accent) >= 4.5, true, `${theme} primary button contrast`);
+    const accent = palette.accent.slice(1).match(/../gu).map(channel => Number.parseInt(channel, 16));
+    assert.equal(accent[1] > accent[0] && accent[1] > accent[2], true, `${theme} green accent`);
+    for (const [selector, size] of [[".primary-nav a", 15], [".product-card p", 15], [".hero-description", 18], [".hero-terminal pre", 13], [".terminal-caption", 13]]) {
+      assert.equal(await page.locator(selector).first().evaluate(element => getComputedStyle(element).fontSize), `${size}px`, `${selector} text size`);
+    }
+    await page.screenshot({ path: path.join(artifacts, `home-${theme}.png`), fullPage: true });
+    evidence.palettes.push({ theme, colors: palette });
+  }
+  await page.goto(`${preview.origin}/docs/fleet/configuration/`);
+  for (const [selector, size] of [[".prose", 16], [".prose pre", 13], [".nav-item", 14]]) {
+    assert.equal(await page.locator(selector).first().evaluate(element => getComputedStyle(element).fontSize), `${size}px`, `${selector} documentation text size`);
+  }
+  await page.emulateMedia({ media: "print" });
+  assert.equal(await page.locator("body").evaluate(element => getComputedStyle(element).backgroundColor), "rgb(255, 255, 255)");
+  const printColors = await page.locator("html").evaluate(element => {
+    const styles = getComputedStyle(element);
+    return { code: styles.getPropertyValue("--code").trim(), string: styles.getPropertyValue("--syntax-string").trim() };
+  });
+  assert.equal(contrastRatio(printColors.string, printColors.code) >= 4.5, true, "printed syntax contrast from dark mode");
+  evidence.tests.push("green-palettes-contrast-readable-type-print");
+});
+
+test("homepage examples use syntax colors and copy their original source in both themes", async context => {
+  const { page, browserContext } = await pageFor(context);
+  await browserContext.grantPermissions(["clipboard-read", "clipboard-write"], { origin: preview.origin });
+  await page.goto(preview.origin);
+  for (const theme of ["light", "dark"]) {
+    if (theme === "dark") await page.getByRole("button", { name: "Switch to dark theme" }).click();
+    for (const [label, panel, language, extension] of [["JavaScript", "js", "javascript", "js"], ["C#", "cs", "csharp", "cs"], ["Rust", "rs", "rust", "rs"]]) {
+      await page.getByRole("tab", { name: label, exact: true }).click();
+      const code = page.locator(`#panel-${panel} pre.chroma code.language-${language}`);
+      assert.equal(await code.isVisible(), true);
+      const expected = fs.readFileSync(path.join(root, `assets/examples/http-client.${extension}`), "utf8").trimEnd();
+      assert.equal((await code.textContent()).trimEnd(), expected);
+      const colors = await code.locator("span").evaluateAll(elements => [...new Set(elements.map(element => getComputedStyle(element).color))]);
+      assert.equal(colors.length >= 3, true, `${label} ${theme} syntax colors`);
+      const block = page.locator(`#panel-${panel} .code-container`);
+      await block.hover();
+      const firstLine = await code.locator(".line").first().boundingBox();
+      const copyButton = await block.getByRole("button", { name: "Copy code to clipboard", exact: true }).boundingBox();
+      assert.equal(copyButton.y + copyButton.height <= firstLine.y, true, `${label} copy control does not cover code`);
+      await block.getByRole("button", { name: "Copy code to clipboard", exact: true }).click();
+      await block.getByRole("button", { name: "Code copied to clipboard" }).waitFor();
+      assert.equal((await page.evaluate(() => navigator.clipboard.readText())).trimEnd(), expected);
+      await page.reload();
+    }
+  }
+  evidence.tests.push("home-three-languages-highlight-copy-both-themes");
 });
 
 test("code copying preserves actual code text", async context => {
@@ -152,6 +268,9 @@ test("code copying preserves actual code text", async context => {
   await page.goto(`${preview.origin}/docs/fleet/configuration/`);
   const block = page.locator(".code-container").first();
   await block.hover();
+  const firstLine = await block.locator("code .line").first().boundingBox();
+  const copyButton = await block.getByRole("button", { name: "Copy code to clipboard" }).boundingBox();
+  assert.equal(copyButton.y + copyButton.height <= firstLine.y, true, "documentation copy control does not cover code");
   await block.getByRole("button", { name: "Copy code to clipboard" }).click();
   await block.getByRole("button", { name: "Code copied to clipboard" }).waitFor();
   const actual = await page.evaluate(() => navigator.clipboard.readText());
@@ -173,6 +292,13 @@ test("mobile navigation and long API tables do not cause page-level overflow", a
     evidence.viewports.push(width);
   }
   await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(preview.origin);
+  await page.screenshot({ path: path.join(artifacts, "home-mobile-light.png") });
+  await page.getByRole("button", { name: "Switch to dark theme" }).click();
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth <= 1), true, "mobile dark theme page width");
+  await page.screenshot({ path: path.join(artifacts, "home-mobile-dark.png") });
+  await page.locator(".hero-terminal").screenshot({ path: path.join(artifacts, "code-mobile-dark.png") });
+  await page.getByRole("button", { name: "Switch to light theme" }).click();
   await page.goto(`${preview.origin}/docs/api/crossfire/create-publication/`);
   const navigation = page.locator("#docs-navigation");
   assert.equal(await navigation.getAttribute("open"), null);
@@ -180,6 +306,8 @@ test("mobile navigation and long API tables do not cause page-level overflow", a
   assert.equal(await navigation.getAttribute("open"), "");
   await navigation.locator(".nav-item", { hasText: /^Fleet configuration$/u }).click();
   await page.waitForURL("**/docs/fleet/configuration/");
+  assert.equal(await page.locator(".prose").evaluate(element => getComputedStyle(element).fontSize), "15px");
+  assert.equal(await page.locator(".prose pre").first().evaluate(element => getComputedStyle(element).fontSize), "12px");
   await page.screenshot({ path: path.join(artifacts, "fleet-mobile.png"), fullPage: true });
   evidence.tests.push("320-390-768-1440-responsive-and-mobile-navigation");
 });
@@ -187,8 +315,10 @@ test("mobile navigation and long API tables do not cause page-level overflow", a
 test("navigation and documents remain readable with JavaScript disabled; missing paths return404", async context => {
   const { page } = await pageFor(context, { javaScriptEnabled: false });
   await page.goto(`${preview.origin}/docs/ctlflow/architecture/`);
+  assert.equal(await page.locator("body").evaluate(element => getComputedStyle(element).backgroundColor), "rgb(255, 255, 255)");
   assert.equal(await page.locator("#docs-navigation").getAttribute("open"), "");
-  assert.equal(await page.locator(".prose").innerText().then(text => text.includes("Dependency direction")), true);
+  assert.equal(await page.locator("h2#source-organization").isVisible(), true);
+  assert.equal(await page.locator(".prose").innerText().then(text => text.includes("Domain modules do not import concrete adapters.")), true);
   await page.getByRole("link", { name: "Set up a fleet", exact: true }).click();
   await page.waitForURL("**/docs/fleet/setup/");
   const missing = await page.goto(`${preview.origin}/not-a-document/`);

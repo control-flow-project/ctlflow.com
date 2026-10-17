@@ -68,6 +68,18 @@ test("edited removed output is protected instead of deleted", context => {
   assert.equal(fs.readFileSync(path.join(directory, "content/docs/api/crossfire/edited.md"), "utf8"), "Shared edits");
 });
 
+test("synchronization leaves authored guide changes untouched", context => {
+  const directory = temporary(context);
+  const filename = "content/docs/fleet/setup.md";
+  const authored = "---\ntitle: Set up a fleet\n---\nReviewed guide text\n";
+  write(directory, filename, authored);
+  write(directory, "data/reference-manifest.json", JSON.stringify({ outputs: {} }));
+  const outputs = new Map([["content/docs/api/fleetd/status.md", "---\ngenerated: true\n---\nCurrent API\n"]]);
+  reconcileOutputs(directory, outputs, false);
+  assert.equal(fs.readFileSync(path.join(directory, filename), "utf8"), authored);
+  assert.deepEqual(generatedExtras(directory, new Set(outputs.keys())), []);
+});
+
 test("unrecorded generated extras, missing files and changed bytes fail checks", context => {
   const directory = temporary(context);
   write(directory, "content/docs/api/fleetd/unrecorded.md", "Not in manifest");

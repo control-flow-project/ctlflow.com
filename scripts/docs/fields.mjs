@@ -55,7 +55,7 @@ export function describe(model, expression, module, visited = new Set()) {
     if (name === "nullable") return `${describe(model, args[0], module, visited)}; JSON null permitted`;
     if (name === "list") return `array; ${bound(2, 0)}–${bound(1, 100)} entries; item: ${describe(model, args[0], module, visited)}`;
     if (name === "object") return "object; fields below; unknown fields rejected";
-    if (name === "refine") return `${describe(model, args[0], module, visited)}; constraint: ${String(values[2] ?? "exact predicate below")}`;
+    if (name === "refine") return `${describe(model, args[0], module, visited)}; constraint: ${String(values[2] ?? "see additional checks below")}`;
   }
   const binding = model.bindingFor(current, module);
   if (binding) {
@@ -63,13 +63,13 @@ export function describe(model, expression, module, visited = new Set()) {
     const link = definitionLink(model, current, module);
     if (visited.has(key)) return `recursive reference ${link}`;
     const next = new Set(visited).add(key);
-    if (ts.isFunctionDeclaration(binding.expression) || ts.isArrowFunction(unwrap(binding.expression))) return `custom parser ${link}; exact branches, defaults and rejection rules below`;
+    if (ts.isFunctionDeclaration(binding.expression) || ts.isArrowFunction(unwrap(binding.expression))) return `custom validation: ${link}; see function below`;
     return `${describe(model, binding.expression, binding.module, next)} (${link})`;
   }
-  if (ts.isArrowFunction(current) || ts.isFunctionExpression(current)) return "custom parser; exact branches and rejection rules below";
+  if (ts.isArrowFunction(current) || ts.isFunctionExpression(current)) return "custom validation; see function below";
   const resolved = model.resolve(current, module);
   if (resolved.expression !== current) return describe(model, resolved.expression, resolved.module, visited);
-  return `exact validator ${inline(sourceText(current, module).replaceAll("|", "\\|").replaceAll("\n", " "))}`;
+  return `validator ${inline(sourceText(current, module).replaceAll("|", "\\|").replaceAll("\n", " "))}`;
 }
 
 export function fieldRows(model, expression, module) {
