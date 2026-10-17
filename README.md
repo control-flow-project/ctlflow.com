@@ -1,9 +1,9 @@
 # ctlflow.com
 
-Hugo technical documentation for the ctlflow monorepo and its crossfire server,
-fleetd controller and fleet CLI. Node, C# and Rust are documented under those
-components. Toolsmith provides optional Python functions and commands for files,
-downloads, archives and search.
+Hugo technical documentation for running agent fleets with ctlflow's crossfire
+server, fleetd controller and fleet CLI. Node, C# and Rust are documented under
+those components. Toolsmith provides optional Python functions and commands for
+files, downloads, archives and search.
 
 The site contains edited Markdown guides, generated API references, architecture
 diagrams and browser-based search. Layouts and assets are maintained here. It
@@ -12,6 +12,7 @@ uses no external fonts, analytics or remote diagram rendering.
 - [Local verification record](docs/verification/20261017-site.md)
 - [Theme, typography and code-example verification](docs/verification/20261017-theme-typography.md)
 - [fleet-street integration and homepage verification](docs/verification/20261017-fleet-street.md)
+- [Agent fleet terminology verification](docs/verification/20261017-agent-fleet-wording.md)
 
 ## Requirements
 

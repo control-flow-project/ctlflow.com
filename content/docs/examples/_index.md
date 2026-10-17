@@ -1,6 +1,6 @@
 ---
 title: Examples
-description: Complete fleets and worked tasks using the documented configuration and tools.
+description: Complete agent fleets and worked tasks using the documented configuration and tools.
 weight: 45
 ---
 

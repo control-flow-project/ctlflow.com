@@ -1,11 +1,11 @@
 ---
-title: "fleet-street: a theatre fleet"
+title: "fleet-street: an agent fleet for theatre"
 linkTitle: fleet-street
 description: Set up ten Codex agents, route a fictional theatre brief, review the calculation and prepare a static report.
 weight: 10
 ---
 
-fleet-street is an MIT-licensed example fleet for London theatre work. Its
+fleet-street is an MIT-licensed example agent fleet for London theatre work. Its
 {{< fleet-street-link path="README.md" label="repository" >}} contains a roster,
 ten role definitions, shared skills, fictional inputs and local Python tools.
 It runs through the ordinary crossfire server and fleetd controller, not a

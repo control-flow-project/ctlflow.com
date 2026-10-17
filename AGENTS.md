@@ -19,6 +19,8 @@ taglines. Use complete explanations instead of dot-separated claims or slogans.
 Keep guides edited here; generate only API operations, validators and catalogs.
 Do not overwrite guide prose from product-internal specifications during sync.
 Describe agents generally; their roles are not restricted to software development.
+Use "agent fleet" in the homepage hero, key introductions and setup entry points.
+Use "fleet" as shorthand elsewhere; keep product names and API identifiers exact.
 Name supported runtimes accurately and preserve exact package/API identifiers and
 verbatim generated contract excerpts. The default theme is white/light; the
 optional dark theme uses green. Render all code examples through the shared Hugo

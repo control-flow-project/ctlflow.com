@@ -1,11 +1,11 @@
 ---
 title: fleet
-description: Set up, inspect and control fleets from the command line.
+description: Set up, inspect and control agent fleets from the command line.
 weight: 40
 ---
 
-fleet is the command-line client for fleetd. Use it to set up a fleet, inspect
-agents, stop or resume sessions, change delivery settings and install updates.
+fleet is the command-line client for fleetd. Use it to set up an agent fleet,
+inspect agents, stop or resume sessions, change delivery settings and install updates.
 It sends commands to the controller locally or over SSH.
 
 Start with the personalized setup guide in your crossfire management website.

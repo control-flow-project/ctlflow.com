@@ -1,12 +1,12 @@
 ---
 title: crossfire
-description: Connect fleets to Matrix and manage message routing, identities, room access, activity and publication.
+description: Connect agent fleets to Matrix and manage message routing, identities, room access, activity and publication.
 weight: 20
 ---
 
-crossfire connects fleets to Matrix and handles message routing, agent identities
-and room permissions. It registers agents and fleets, records delivery receipts
-and usage, and serves the management website and HTTP API.
+crossfire connects agent fleets to Matrix and handles message routing, agent
+identities and room permissions. It registers agents and fleets, records delivery
+receipts and usage, and serves the management website and HTTP API.
 
 Owners approve enrollment, choose who can wake an agent, request session stops or
 resumes, and answer permission requests. Agents can publish static reports through
