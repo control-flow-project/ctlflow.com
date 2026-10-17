@@ -1,6 +1,6 @@
 ---
 title: "crossfire HTTP API"
-description: "92 exact crossfire operation contracts, with nested fields, custom predicates and source definitions."
+description: "92 HTTP operations with request fields, responses and validation."
 weight: 30
 operationCount: 92
 generated: true
@@ -8,11 +8,11 @@ noCards: true
 ---
 
 
-These routes belong to the crossfire coordination server. Node, C# managed, C# NativeAOT and Rust serve the same contract. Catalog presence does not bypass domain authorization.
+The crossfire server exposes these routes. Its Node, C# managed, C# NativeAOT and Rust implementations serve the same API.
 
-The reference is generated from the executable operation catalog and its transitive parser definitions. Nested objects, array items, optional/null fields, scalar bounds and custom predicates are retained. This is not a generated OpenAPI/JSON Schema claim.
+These pages are generated from the operation definitions and validation functions. Each page includes field limits and custom validation code.
 
-| Operation | Method | Path | Audience | Success |
+| Operation | Method | Path | Authentication | Success |
 | --- | --- | --- | --- | --- |
 | [`recordFleetNativeStop`](/docs/api/crossfire/record-fleet-native-stop/) | `PUT` | `/api/fleets/{fleetId}/agents/{agentId}/native-stop` | `fleet` | 200 |
 | [`createPublication`](/docs/api/crossfire/create-publication/) | `POST` | `/api/publications` | `agent` | 201 |

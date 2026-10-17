@@ -12,20 +12,20 @@ generated: true
 
 ## Report this listener
 
-| Contract fact | Value |
+| Property | Value |
 | --- | --- |
-| Product owner | `crossfire` |
+| Service | `crossfire` |
 | Operation | `reportListener` |
 | Method | `PUT` |
 | Path | `/api/agents/{agentId}/listener-runs/{runId}` |
-| Catalog audience | `agent` |
+| Authentication | `agent` |
 | Success status | `200` |
-| Response data | Single value; not a collection operation |
+| Response data | Unpaginated value |
 | Request format | `json` |
-| Request byte ceiling | 2097152 bytes (product HTTP default; not the model-inline limit) |
-| Declared permissions | `listener.report.self` |
+| Maximum request body | 2097152 bytes (service default) |
+| Permission codes | `listener.report.self` |
 
-Permission lists describe operation-level admission alternatives, not a bearer-token scope string, automatic access to every object, or permission to act as another principal. Current owner, instance, room, revision and generation checks remain authoritative.
+Listed permission codes are alternatives, not token scopes. The service also checks access to the requested records and rejects stale revisions or controller generations.
 
 - [Authentication, envelopes and pagination](/docs/api/http/)
 - [Language-neutral client examples](/docs/api/client-examples/)
@@ -39,7 +39,7 @@ object; fields below; unknown fields rejected
 | `agentId` | lowercase opaque UUID |
 | `runId` | lowercase opaque UUID |
 
-### Exact validator
+### Validation
 
 ```typescript
 check.object({ agentId: check.identifier, runId: check.identifier })
@@ -52,13 +52,13 @@ Referenced definitions:
 
 ## Query parameters
 
-custom parser [`none`](/docs/api/schemas/crossfire-contracts-schema-query/#none); exact branches, defaults and rejection rules below
+custom validation: [`none`](/docs/api/schemas/crossfire-contracts-schema-query/#none); see function below
 
-Query values arrive as URL text, not JSON values. The exact parser below owns decoding, defaults, duplicate rejection, filters and any cross-field rules. The shared pagination contract applies only when the parser invokes it.
+Query parameters are URL text. The validation function below specifies their format, defaults and combinations. Pagination applies only to operations that use it.
 
-### Custom constraints
+### Additional checks
 
-These predicates/branches are part of the wire contract, not optional documentation annotations. A field table is not a replacement for these checks.
+The following checks apply in addition to the field limits.
 
 Constraint on `value`:
 
@@ -69,7 +69,7 @@ export function none(input: unknown) {
 }
 ```
 
-### Exact validator
+### Validation
 
 ```typescript
 query.none
@@ -118,9 +118,9 @@ object; fields below; unknown fields rejected ([`heartbeat`](/docs/api/schemas/c
 | `statistics.usage[].tokens.reasoningOutput` | exact JSON integer; 0…9007199254740991 ([`count`](/docs/api/schemas/crossfire-contracts-statistics/#count)); JSON null permitted |
 | `statistics.usage[].tokens.total` | exact JSON integer; 0…9007199254740991 ([`count`](/docs/api/schemas/crossfire-contracts-statistics/#count)) |
 
-### Custom constraints
+### Additional checks
 
-These predicates/branches are part of the wire contract, not optional documentation annotations. A field table is not a replacement for these checks.
+The following checks apply in addition to the field limits.
 
 Constraint on `statistics`:
 
@@ -136,7 +136,7 @@ value => value.cachedInput <= value.input && (value.cacheWriteInput ?? 0) <= val
     && (value.reasoningOutput ?? 0) <= value.output
 ```
 
-### Exact validator
+### Validation
 
 ```typescript
 req.heartbeat
@@ -156,7 +156,7 @@ object; fields below; unknown fields rejected ([`report`](/docs/api/schemas/cros
 | `currentRelease` | string; 1–200 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `statisticsAccepted` | boolean |
 
-### Exact validator
+### Validation
 
 ```typescript
 res.report
@@ -168,7 +168,7 @@ Referenced definitions:
 
 ## Response envelope
 
-The response-data validator above applies to `data`, not to the entire HTTP response. All successful JSON operations use the shared envelope; failures use `error` instead of `data`.
+A successful JSON response contains `data` and `meta`. Replace the `data` placeholder below with the response fields described above. Errors contain `error` instead of `data`.
 
 ```json
 {
@@ -178,5 +178,3 @@ The response-data validator above applies to `data`, not to the entire HTTP resp
   }
 }
 ```
-
-The placeholder is illustrative notation, not a valid response-data value. See the exact fields and validators above.

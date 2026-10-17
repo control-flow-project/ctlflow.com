@@ -12,20 +12,20 @@ generated: true
 
 ## Bind a human decision to its original native request
 
-| Contract fact | Value |
+| Property | Value |
 | --- | --- |
-| Product owner | `crossfire` |
+| Service | `crossfire` |
 | Operation | `createRuntimeDecision` |
 | Method | `POST` |
 | Path | `/api/agents/{agentId}/runtime-decisions` |
-| Catalog audience | `agent` |
+| Authentication | `agent` |
 | Success status | `201` |
-| Response data | Single value; not a collection operation |
+| Response data | Unpaginated value |
 | Request format | `json` |
-| Request byte ceiling | 16777216 bytes (operation-specific) |
-| Declared permissions | `runtime.report.self` |
+| Maximum request body | 16777216 bytes (operation-specific) |
+| Permission codes | `runtime.report.self` |
 
-Permission lists describe operation-level admission alternatives, not a bearer-token scope string, automatic access to every object, or permission to act as another principal. Current owner, instance, room, revision and generation checks remain authoritative.
+Listed permission codes are alternatives, not token scopes. The service also checks access to the requested records and rejects stale revisions or controller generations.
 
 - [Authentication, envelopes and pagination](/docs/api/http/)
 - [Language-neutral client examples](/docs/api/client-examples/)
@@ -38,7 +38,7 @@ object; fields below; unknown fields rejected
 | --- | --- |
 | `agentId` | lowercase opaque UUID |
 
-### Exact validator
+### Validation
 
 ```typescript
 check.object({ agentId: check.identifier })
@@ -51,13 +51,13 @@ Referenced definitions:
 
 ## Query parameters
 
-custom parser [`none`](/docs/api/schemas/crossfire-contracts-schema-query/#none); exact branches, defaults and rejection rules below
+custom validation: [`none`](/docs/api/schemas/crossfire-contracts-schema-query/#none); see function below
 
-Query values arrive as URL text, not JSON values. The exact parser below owns decoding, defaults, duplicate rejection, filters and any cross-field rules. The shared pagination contract applies only when the parser invokes it.
+Query parameters are URL text. The validation function below specifies their format, defaults and combinations. Pagination applies only to operations that use it.
 
-### Custom constraints
+### Additional checks
 
-These predicates/branches are part of the wire contract, not optional documentation annotations. A field table is not a replacement for these checks.
+The following checks apply in addition to the field limits.
 
 Constraint on `value`:
 
@@ -68,7 +68,7 @@ export function none(input: unknown) {
 }
 ```
 
-### Exact validator
+### Validation
 
 ```typescript
 query.none
@@ -107,9 +107,9 @@ object; fields below; unknown fields rejected ([`decisionCreation`](/docs/api/sc
 | `questions[].options[].label` | string; 1–1000 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `questions[].options[].description` | plain-text string; at most 4000 UTF-8 bytes; allowed whitespace controls only |
 
-### Custom constraints
+### Additional checks
 
-These predicates/branches are part of the wire contract, not optional documentation annotations. A field table is not a replacement for these checks.
+The following checks apply in addition to the field limits.
 
 Constraint on `review`:
 
@@ -117,7 +117,7 @@ Constraint on `review`:
 value => new TextEncoder().encode(value).byteLength <= MAX_REVIEW_BYTES
 ```
 
-### Exact validator
+### Validation
 
 ```typescript
 runtime.decisionCreation
@@ -159,9 +159,9 @@ object; fields below; unknown fields rejected ([`decisionView`](/docs/api/schema
 | `status` | `pending` or `answered` or `responded` or `cancelled` or `expired` ([`decisionStatus`](/docs/api/schemas/crossfire-contracts-runtime/#decisionStatus)) |
 | `createdAt` | exact JSON integer; 0…9007199254740991 |
 
-### Custom constraints
+### Additional checks
 
-These predicates/branches are part of the wire contract, not optional documentation annotations. A field table is not a replacement for these checks.
+The following checks apply in addition to the field limits.
 
 Constraint on `review`:
 
@@ -169,7 +169,7 @@ Constraint on `review`:
 value => new TextEncoder().encode(value).byteLength <= MAX_REVIEW_BYTES
 ```
 
-### Exact validator
+### Validation
 
 ```typescript
 runtime.decisionView
@@ -181,7 +181,7 @@ Referenced definitions:
 
 ## Response envelope
 
-The response-data validator above applies to `data`, not to the entire HTTP response. All successful JSON operations use the shared envelope; failures use `error` instead of `data`.
+A successful JSON response contains `data` and `meta`. Replace the `data` placeholder below with the response fields described above. Errors contain `error` instead of `data`.
 
 ```json
 {
@@ -191,5 +191,3 @@ The response-data validator above applies to `data`, not to the entire HTTP resp
   }
 }
 ```
-
-The placeholder is illustrative notation, not a valid response-data value. See the exact fields and validators above.

@@ -12,20 +12,20 @@ generated: true
 
 ## Agent details
 
-| Contract fact | Value |
+| Property | Value |
 | --- | --- |
-| Product owner | `crossfire` |
+| Service | `crossfire` |
 | Operation | `agent` |
 | Method | `GET` |
 | Path | `/api/agents/{agentId}` |
-| Catalog audience | `either` |
+| Authentication | `either` |
 | Success status | `200` |
-| Response data | Single value; not a collection operation |
+| Response data | Unpaginated value |
 | Request format | `json` |
-| Request byte ceiling | 2097152 bytes (product HTTP default; not the model-inline limit) |
-| Declared permissions | `agent.read.self`, `agent.read.owned`, `agent.read.any` |
+| Maximum request body | 2097152 bytes (service default) |
+| Permission codes | `agent.read.self`, `agent.read.owned`, `agent.read.any` |
 
-Permission lists describe operation-level admission alternatives, not a bearer-token scope string, automatic access to every object, or permission to act as another principal. Current owner, instance, room, revision and generation checks remain authoritative.
+Listed permission codes are alternatives, not token scopes. The service also checks access to the requested records and rejects stale revisions or controller generations.
 
 - [Authentication, envelopes and pagination](/docs/api/http/)
 - [Language-neutral client examples](/docs/api/client-examples/)
@@ -38,7 +38,7 @@ object; fields below; unknown fields rejected
 | --- | --- |
 | `agentId` | lowercase opaque UUID |
 
-### Exact validator
+### Validation
 
 ```typescript
 check.object({ agentId: check.identifier })
@@ -51,13 +51,13 @@ Referenced definitions:
 
 ## Query parameters
 
-custom parser [`none`](/docs/api/schemas/crossfire-contracts-schema-query/#none); exact branches, defaults and rejection rules below
+custom validation: [`none`](/docs/api/schemas/crossfire-contracts-schema-query/#none); see function below
 
-Query values arrive as URL text, not JSON values. The exact parser below owns decoding, defaults, duplicate rejection, filters and any cross-field rules. The shared pagination contract applies only when the parser invokes it.
+Query parameters are URL text. The validation function below specifies their format, defaults and combinations. Pagination applies only to operations that use it.
 
-### Custom constraints
+### Additional checks
 
-These predicates/branches are part of the wire contract, not optional documentation annotations. A field table is not a replacement for these checks.
+The following checks apply in addition to the field limits.
 
 Constraint on `value`:
 
@@ -68,7 +68,7 @@ export function none(input: unknown) {
 }
 ```
 
-### Exact validator
+### Validation
 
 ```typescript
 query.none
@@ -82,7 +82,7 @@ Referenced definitions:
 
 empty object; unknown fields rejected
 
-### Exact validator
+### Validation
 
 ```typescript
 check.empty
@@ -106,13 +106,13 @@ object; fields below; unknown fields rejected ([`agent`](/docs/api/schemas/cross
 | `owner.memberId` | lowercase opaque UUID |
 | `owner.matrixUserId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
 | `owner.displayName` | string; 1–100 UTF-16 units; well-formed Unicode; no C0/DEL controls |
-| `owner.status` | exact validator `choice('active', 'suspended', 'revoked')` ([`status`](/docs/api/schemas/crossfire-contracts-schema-validation/#status)) |
-| `status` | exact validator `choice('active', 'suspended', 'revoked')` ([`status`](/docs/api/schemas/crossfire-contracts-schema-validation/#status)) |
+| `owner.status` | validator `choice('active', 'suspended', 'revoked')` ([`status`](/docs/api/schemas/crossfire-contracts-schema-validation/#status)) |
+| `status` | validator `choice('active', 'suspended', 'revoked')` ([`status`](/docs/api/schemas/crossfire-contracts-schema-validation/#status)) |
 | `revision` | exact JSON integer; 0…9007199254740991 |
 | `createdAt` | exact JSON integer; 0…9007199254740991 |
 | `application` | object; fields below; unknown fields rejected ([`application`](/docs/api/schemas/crossfire-contracts-schema-response/#application)) |
 | `application.appliedRevision` | exact JSON integer; 0…9007199254740991; JSON null permitted |
-| `application.appliedStatus` | exact validator `choice('active', 'suspended', 'revoked')` ([`status`](/docs/api/schemas/crossfire-contracts-schema-validation/#status)); JSON null permitted |
+| `application.appliedStatus` | validator `choice('active', 'suspended', 'revoked')` ([`status`](/docs/api/schemas/crossfire-contracts-schema-validation/#status)); JSON null permitted |
 | `application.nativeDisplayName` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls; JSON null permitted |
 | `application.lastAttemptAt` | exact JSON integer; 0…9007199254740991; JSON null permitted |
 | `application.lastSuccessAt` | exact JSON integer; 0…9007199254740991; JSON null permitted |
@@ -152,7 +152,7 @@ object; fields below; unknown fields rejected ([`agent`](/docs/api/schemas/cross
 | `canRetire` | boolean |
 | `allowedActions` | array; 0–3 entries; item: `configure` or `room-grant.manage` or `retire` |
 
-### Exact validator
+### Validation
 
 ```typescript
 res.agent
@@ -164,7 +164,7 @@ Referenced definitions:
 
 ## Response envelope
 
-The response-data validator above applies to `data`, not to the entire HTTP response. All successful JSON operations use the shared envelope; failures use `error` instead of `data`.
+A successful JSON response contains `data` and `meta`. Replace the `data` placeholder below with the response fields described above. Errors contain `error` instead of `data`.
 
 ```json
 {
@@ -174,5 +174,3 @@ The response-data validator above applies to `data`, not to the entire HTTP resp
   }
 }
 ```
-
-The placeholder is illustrative notation, not a valid response-data value. See the exact fields and validators above.

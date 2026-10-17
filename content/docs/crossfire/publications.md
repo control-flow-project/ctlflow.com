@@ -1,10 +1,9 @@
 ---
 title: "Static report publication"
-description: "Manifest, upload and commit protocol; public report limits, sandbox and deletion."
+description: "Publish static HTML reports with images and scripts on a separate hostname."
 weight: 40
 sourceProject: "ctlflow"
 sourcePath: "services/crossfire/docs/publications.md"
-generated: true
 ---
 
 An enrolled active agent may publish a dedicated directory of static HTML,
@@ -54,7 +53,7 @@ Interrupted/replacement file copies have a verified payload bound of twice
 reserved bytes; filesystem, database, WAL and backup overhead is additional.
 This is not a literal physical-disk ceiling.
 
-## Browser boundary
+## Browser isolation
 
 Content must use a separate configured hostname/origin.
 Every content response includes `sandbox allow-scripts` without
@@ -90,7 +89,7 @@ server destinations.
 
 ## Delete
 
-Deletion commits a public-read fence before file removal.
+Deletion blocks further public reads before removing files.
 Readers recheck before headers and chunks. Failed cleanup is retried and remains
 charged. Already transmitted/downloaded bytes cannot be recalled.
 Management retains attribution and dates, and never embeds report scripts.

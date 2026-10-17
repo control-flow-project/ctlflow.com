@@ -1,10 +1,9 @@
 ---
 title: "Set up a fleet"
-description: "Personalized setup instructions for a separate managed fleet, including one-agent fleets."
+description: "Set up one or more agents using the guide from your management website."
 weight: 10
 sourceProject: "ctlflow"
 sourcePath: "services/fleet/docs/getting-started.md"
-generated: true
 ---
 
 ## From management
@@ -21,7 +20,7 @@ Use the actual personalized URL, not this example.
 Setup validates the exact owner, origin and installed release. It creates/reuses
 a private controller and a project-derived one-agent fleet, displays the exact
 approval code/URL, waits for owner approval in ordinary code, then checks readiness.
-No configuration questions or dummy model prompts are issued.
+Setup asks no configuration questions and makes no model call.
 
 The coding assistant's own process, history and permissions remain independent.
 fleetd creates a separate managed session. Existing approved identity/history
@@ -61,7 +60,8 @@ Role definitions, skills and workareas follow the normal fleet loader.
 4. Configure wake senders independently of room membership.
 5. Send an actual authorized task through the room, DM or explicit fleet message.
 
-Enrollment creates no chats. Owner DMs are lazy and protected.
+Enrollment creates no chats. A protected owner DM is created on first contact,
+terminal output or a question.
 Closing the CLI does not stop the controller.
 
 - [Configuration](/docs/fleet/configuration/)

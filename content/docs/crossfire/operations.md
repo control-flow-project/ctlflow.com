@@ -1,10 +1,9 @@
 ---
 title: "Server operations"
-description: "Backup, forward migration, upgrade, persistent data and diagnosis."
+description: "Upgrade an instance, preserve its data and diagnose unavailable agents."
 weight: 70
 sourceProject: "ctlflow"
 sourcePath: "services/crossfire/docs/operations.md"
-generated: true
 ---
 
 ## Deploy or upgrade
@@ -25,9 +24,9 @@ generated: true
    installed assets, restart that controller and inspect its actual bindings.
 8. Verify affected user flows in a real browser.
 
-No phase silently falls back to another runtime or an old schema.
-A successful image build or migration does not establish browser or fleet health.
-Website deployment, npm publication and starting fleets are separate actions.
+The operator stops if a phase fails. After migration, check the browser and fleet
+separately. Updating the website, publishing npm packages and starting agents
+are separate operations.
 
 ## Operator ownership
 
@@ -89,9 +88,8 @@ Unexpected failure is contained to the affected instance where possible.
 Uncertain native input remains durable until receipt recovery or the documented
 restart-context path settles it. Cancellation does not undo external actions.
 
-Never discard a journal, change schema metadata, erase histories or relax
-authorization to make a status green. Retain the original error and resolve
-its owner.
+Do not discard journals, alter schema metadata, erase histories or relax
+permissions to clear an error. Preserve the original failure for diagnosis.
 
 - [Runtime and decisions](/docs/fleetd/runtime/)
 - [Fleet session controls](/docs/fleet/sessions/)

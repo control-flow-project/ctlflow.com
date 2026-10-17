@@ -1,16 +1,15 @@
 ---
-title: "Implementation boundaries"
-description: "Node, C# and Rust ownership, dependencies and explicit verification limits."
+title: "Node, C# and Rust"
+description: "Implementation differences, dependencies and supported platforms."
 weight: 20
 sourceProject: "ctlflow"
 sourcePath: "docs/architecture/native-implementations.md"
-generated: true
 ---
 
 The repository has Node, C# and Rust implementations of crossfire, fleetd and fleet.
 C# targets .NET 11 and produces managed and NativeAOT distributions from the same
-source. Rust uses native Cargo distributions. An executable matrix must identify
-the exact distributions tested.
+source. Rust distributions are built with Cargo. Shared tests run against
+explicitly selected distributions.
 
 ## Source layout
 
@@ -39,7 +38,8 @@ services/
 scripts/
 ```
 
-The tree lists owners, not mandatory empty directories.
+The web application, database migrations and contract tests are shared.
+Language-specific code is inside each product's implementation directory.
 
 | Concern | Shared contract | Implementation difference |
 | --- | --- | --- |
@@ -112,11 +112,9 @@ The SDK is pinned to `11.0.100-rc.1.26425.128`; EF/SQLite packages are pinned
 to `11.0.0-rc.1.26425.128`. Managed initial deployment is permitted.
 There is no automatic managed fallback inside a NativeAOT executable.
 
-NativeAOT publication emits IL diagnostics from EF/BCL reflection and generic
-paths. They remain visible. Prior server publication emitted 1,007 diagnostics;
-that count is a run observation, not a count of independent defects or a fixed
-budget. Supported fixed queries use generated model/query metadata and run in
-actual AOT tests with dynamic code and reflection JSON disabled.
+NativeAOT builds emit trimming and dynamic-code diagnostics from EF and BCL
+reflection paths. Supported fixed queries use generated model and query metadata.
+Tests execute the AOT binaries with dynamic code and reflection-based JSON disabled.
 
 | Family | Relevant dependency surface |
 | --- | --- |
@@ -139,11 +137,7 @@ owner, with its upstream notices retained; they are not runtime query fallbacks.
 - [Shared contract execution](source:ctlflow:docs/verification/shared-contracts.md)
 - [Development gates](/docs/ctlflow/development/)
 
-The earlier merged baseline's nine green phases did not cover abandoned operator
-takeover or every successful API/UI workflow. CF-001 through CF-005 record that
-review and the added checks. Route authentication, successful mutation,
-authorization, recovery, packaging and browser behavior are separate evidence.
-
-Tests identify actual Linux x64, Codex, Pi, Conduit and inert-provider versions.
-They do not establish paid-model quality, macOS/Windows behavior, arbitrary tool
-process supervision, sustained-load capacity or a zero-failure guarantee.
+Verification records identify the tested Linux x64 host and Codex, Pi and Conduit
+versions. Inert-provider tests exercise integration, not paid-model quality.
+macOS, Windows, sustained load and arbitrary tool-process containment are not
+covered by those results.

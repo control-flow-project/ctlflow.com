@@ -1,31 +1,54 @@
 ---
-title: Toolsmith · optional
-linkTitle: Toolsmith · optional
-description: A separate generic Python library/CLI project. Not a ctlflow constituent, service or required fleet dependency.
+title: Toolsmith
+description: Optional Python libraries and commands for HTTP downloads, files, text readers and local search.
 weight: 60
 ---
 
-Toolsmith supplies **optional generic libraries and CLI tools**. It is a separate project, not a constituent of the ctlflow monorepo. It runs no service, daemon, HTTP server or persistent worker. A fleet may use it or omit it completely.
+Toolsmith provides Python functions and command-line tools for HTTP downloads,
+file handling, text reading, journals and search. A fleet can use them with its
+own files and SQLite databases. Your application supplies source permissions,
+summaries, interpretation and domain-specific workflows.
 
-The caller owns domain policy, summaries, model interpretation, publication and fleet-specific workflows. Toolsmith does not encode financial/legal semantics or infer a deterministic interpretation of malformed HTML tables.
+It is a separate project from ctlflow and is not required to run a fleet. It
+runs no server or background worker; a fleet may use it or omit it completely.
 
-## Capability boundaries
+For example, an agent can download an approved article, extract its text, and
+add that text to an index in the fleet's own SQLite database. Lexical search
+finds words and phrases. Semantic search uses a local model to convert text into
+numeric vectors and compare them for similarity. It does not generate answers.
 
-| Capability | Interface | Consumer responsibility |
+## Capabilities
+
+| Task | What Toolsmith does | Interface |
 | --- | --- | --- |
-| Bounded acquisition | Python library / CLI | Authorized sources, policy and budgets |
-| Generic files and archives | Python library / CLI | Bundle meaning and recipient access |
-| Text readers | Python library / CLI | Interpretation of HTML, PDF and document structure |
-| Lexical indexing | SQLite library / CLI | Current text and authorized corpus scope |
-| Semantic retrieval | Optional native SQLite library / CLI | Explicit offline model assets, summaries/text and scope |
-| Optional local archive | Python library / CLI | Identity, ingest decisions and domain references |
-| Backup and integrity | Foreground operations | Backup location, restore policy and deployment procedure |
+| Download a URL | Fetch approved HTTPS sources with DNS, redirect and quota checks | Python / CLI |
+| Handle files | Hash, copy and inventory files; pack or extract selected ZIP entries | Python / CLI |
+| Track request allowances | Reserve and settle shared request and byte budgets | Python / CLI |
+| Keep a JSON journal | Append and verify caller-defined records | Python |
+| Read text | Decode UTF-8, JSON, static HTML, RSS, Atom and CSV | Python / CLI |
+| Find words | Search literal passages or an SQLite FTS5 index | Python / CLI |
+| Find similar passages | Encode English text locally and query vectors in SQLite | Python / CLI; optional model dependencies |
+| Keep a text archive | Retain versions of text and files with references to source passages | Python / CLI; optional archive |
+| Maintain an archive | Back up, restore, audit and rebuild its indexes | Python / CLI; optional archive |
 
-Base installation has no third-party runtime dependencies. HTTP and semantic capabilities use explicit optional extras. Semantic retrieval uses exact native complete-corpus comparison, not an approximate-nearest-neighbor claim or a 10,000-entry prefix scan.
+HTML readers preserve table markup for a model or caller to interpret. They do
+not infer a table's meaning. Toolsmith does not run a browser, extract PDFs or
+perform OCR.
+
+The base installation has no third-party runtime dependencies. HTTP and semantic
+search have optional dependencies. Semantic search compares the query vector
+with every vector in the requested corpus using a native SQLite extension.
+
+The optional archive stores immutable imports. A citation identifies the retained
+version, text part and character range. Physical page numbers are supplied by
+the caller; they are not inferred by the archive. Applications with their own
+stores can use the file and search libraries without adopting this archive.
 
 ## Use from any controller implementation
 
-A Node, C# or Rust fleet can choose to invoke a Toolsmith CLI command as an ordinary tool. Python callers can import the library directly. This does not create a shared process, require Python in crossfire, or change any ctlflow runtime interface.
+A fleet can invoke Toolsmith commands regardless of which controller
+implementation it uses. Python programs can import the library directly.
+Installing it for a fleet does not add Python to the crossfire server.
 
 - [Installation and optional extras](/docs/toolsmith/installation/)
 - [Python API](/docs/toolsmith/library/)

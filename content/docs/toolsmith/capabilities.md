@@ -1,10 +1,9 @@
 ---
 title: "Capability reference"
-description: "Generic acquisition, file, reader, archive, indexing and operations capabilities."
+description: "Available functions, their inputs, outputs and resource limits."
 weight: 40
 sourceProject: "toolsmith"
 sourcePath: "docs/tools.md"
-generated: true
 ---
 
 All capabilities are optional. Public operations return typed `Success(value)`
@@ -54,8 +53,8 @@ consumer exclusions and exact capacities.
 Databases/indexes have no Toolsmith byte ceiling. The 128 MiB bound applies to
 individual retained/exported artifacts, not database/index files. Backup/restore
 stream databases under the aggregate 20 GiB budget. See [all limits and reasons](/docs/toolsmith/limits/).
-Neither GAAP nor Bad Bets is required to adopt this archive or its backup schema.
-Generic ZIP and file/tree functions do not impose an agreement/document bundle.
+Applications with their own stores can use the file, archive and index functions
+without adopting Toolsmith's text archive.
 
 ## Policies
 
@@ -68,8 +67,8 @@ The optional archive's `SourcePolicy` composes retention and those same generic
 network/budget ports. Its format-one JSON requires `group`, reviewed `hosts`
 and `retention` (`text_only` or `original`). Defaults remain a 1 MiB response,
 5 requests, 3 redirects, 30-second deadline, 60-second window, 10 window requests,
-8 MiB window bytes and zero minimum interval. This is an archive recipe, not a
-second HTTP implementation or required consumer policy.
+8 MiB window bytes and zero minimum interval. These defaults apply to archive acquisition; raw HTTP callers supply their own
+policies.
 
 All cooperating transports selecting an upstream allowance share its state root,
 group/task period and budget definition. Policy changes never silently reset

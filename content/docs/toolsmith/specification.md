@@ -1,193 +1,135 @@
 ---
-title: "Toolsmith contract"
-description: "Generic optional libraries and CLI commands; no hosted service or daemon."
+title: Toolsmith behavior
+description: Library and CLI behavior, persistence, search and supported operations.
 weight: 90
-sourceProject: "toolsmith"
-sourcePath: "docs/specification.md"
-generated: true
+sourceProject: toolsmith
+sourcePath: docs/specification.md
 ---
 
-Toolsmith provides optional generic library functions and a thin CLI. It owns
-no fleet behavior, skills, application services, servers, daemons or background
-work. Importing or installing it starts nothing. Commands perform bounded work
-and return. Product code cannot spawn processes, listen on sockets or start
-threads. Outbound approved HTTP/DNS requests are explicit acquisition effects.
+Toolsmith provides Python functions and commands for files, readers, HTTP
+downloads, journals and search. It also offers an optional local text archive.
+Each command completes its work and returns. Importing or installing the package
+does not start a process or select a storage root.
 
-The library and CLI use one implementation, typed expected results and validated
-boundaries. No compatibility aliases, local/remote alternatives, speculative
-adapters, placeholders or automatic fallback are allowed. Runtime dependencies
-are absent from the base package. Selected HTTP and semantic capabilities require
-their optional dependencies. No global config, storage root or credential is
-selected implicitly.
+The CLI calls the same library functions. Public operations validate input and
+return typed success or failure values. Applications supply their own source
+permissions, summaries, agent instructions and domain-specific logic.
 
-## Capabilities
+## Available operations
 
-The 2026-10-13 consumer-coverage extension also requires archive-independent
-parsing types, streaming regular-file hash/copy, bounded CSV-format reading,
-article/access-screen and feed-date fidelity, caller-owned lexical indexes,
-cheap bulk semantic index state, independent approved HTTP responses and shared
-group/task acquisition budgets. Every addition needs a concrete consumer call,
-an ownership decision and executable verification in the capability mapping.
-Do not copy application schemas, summaries, permissions or financial logic.
-Adopting projects replace their applicable generic implementation completely;
-other fleets remain free not to install Toolsmith. Directory reorganization is
-proposed only after this coverage work; no import aliases are retained.
+- Read UTF-8, JSON, static HTML, RSS, Atom and CSV.
+- Read, hash and copy regular files; inventory trees; create or extract selected ZIP members.
+- Download approved public HTTPS URLs with explicit request and byte budgets.
+- Append and verify generic JSON journals.
+- Add lexical and semantic indexes to caller-owned SQLite databases.
+- Optionally retain immutable text and file versions with citations.
+- Back up, restore, inspect, rebuild or migrate the optional archive.
 
-- Bounded UTF-8 text, meaningful HTML and RSS/Atom reading.
-- Explicit safe regular-file reads and private artifact storage/export.
-- Immutable local text/file versions and exact citations, with lexical FTS5 search.
-- Approved HTTPS acquisition, bounded DNS/TLS/body/redirect handling and persistent
-  local request pacing, quotas and cooldowns shared by cooperating callers.
-- Recorded operation outcomes and explicit interrupted HTTP resumption.
-- Consistent backup/verified restore, integrity checks, index rebuilding and
-  preview-bound cleanup of inactive tool-owned staging files.
-- MIT-licensed installable package, command contracts and operational documentation.
-- Optional offline English MiniLM embeddings, complete token-aware source chunks,
-  exact cosine retrieval and transaction-safe SQLite derivatives. The generic
-  library accepts a caller-owned connection; store/CLI operations compose the
-  same functions over retained text with exact version/part/span citations.
+Browser automation, PDF extraction, OCR, generative summaries and public hosting
+are not implemented. HTML table markup is retained for interpretation rather
+than converted into inferred rows and columns. CSV and JSON readers parse their
+declared formats.
 
-Browser automation and process-based PDF/OCR conflict with the no-helper-process
-rule and are not implemented. Do not substitute HTML parsing for a browser or
-UTF-8 reading for PDF/OCR. Hybrid retrieval remains excluded: lexical and semantic
-queries are explicit, never substituted or blended. No domain connectors, source
-catalogs, financial calculators, taxonomy, generative model calls, agent
-instructions or public hosting belong here.
+## Installation and platforms
 
-## Licensing and distribution
+The package is MIT-licensed. Its base installation has no third-party runtime
+dependencies. HTTP and semantic encoding use optional extras. Model weights are
+not redistributed or downloaded automatically.
 
-Toolsmith's first-party source, documentation and built artifacts are public and
-MIT-licensed under LICENSE, copyright Jeswin P Kumar. Distribution metadata declares
-the SPDX expression `MIT` and includes the license in wheel and sdist. Third-party
-dependencies/model assets retain their own licenses; weights are not redistributed.
-Consumer projects and retained source data are not relicensed by Toolsmith.
-Local stores, credentials, .analysis and verification fixtures remain excluded
-from published source and artifacts. Registry publication is a separate release
-action, not an effect of building, installing or importing this package.
+Python 3.13+ is required. Secure persistence requires Linux filesystem primitives
+and SQLite with FTS5. Readers that operate on supplied bytes do not require a
+store or network access.
 
-## Local state
+- [Installation](/docs/toolsmith/installation/)
+- [Module reference](/docs/toolsmith/library/)
+- [Commands](/docs/toolsmith/cli/)
 
-Each explicit private root holds one collection, one `toolsmith.sqlite3`, immutable
-`objects/`, and tool-owned staging in `tmp/`. Cooperating callers share that root;
-there is no copy per agent. Public calls supply the exact collection identity and
-check it before access. A different collection fails. SQLite FTS ranking therefore
-does not include another collection. Collection labels are accident prevention,
-not isolation from arbitrary full-access processes under the same OS account.
+## Persistent data
 
-Persistent source-limit state lives in a separately explicit private network-state
-directory, shared by every cooperating caller using the same upstream quota. One
-bounded `budget.json` holds group/task charges, reservations, pacing and cooldowns.
-It uses validated files and kernel locks, not another database or process. Boot,
-wall and monotonic observations preserve elapsed quota periods and reject clock
-rollback. Changing a policy cannot silently clear charges. Explicit quiesced
-forward quota import accepts reviewed generic counters, not consumer-specific
-legacy formats, and preserves their period and unknown charged usage.
-There is no guarantee over callers selecting other state roots or bypassing tools.
+Applications can use readers, files, HTTP and search with their own databases.
+Index initialization creates derivative tables, not application records or a
+new application schema version. Corrections invalidate indexes in the same
+transaction as the source change.
 
-Linux, Python 3.13+ and SQLite FTS5 are required for secure local persistence.
-Text/HTML/feed readers do not require a store, optional network software or Linux
-storage primitives. Missing requirements fail explicitly; no weakened fallback.
+The optional archive has one collection per private root, a SQLite database,
+immutable objects and temporary staging files. It retains source versions and
+operation results. Its collection label prevents accidental cross-selection,
+but does not isolate hostile processes using the same OS account.
 
-## Validation and safety
+Network quotas live in an explicitly selected shared directory. Cooperating
+callers using the same upstream allowance share that state. Reservations are
+recorded before requests; unknown usage remains charged. Clock rollback, reboot
+and policy changes do not reset an allowance.
 
-Validate types, identifiers, byte/record/structure limits, encoding, URL components,
-scope and file ownership at public boundaries. Regular-file input never follows
-symlinks or opens special files. Local private storage uses pinned directory
-descriptors, no-follow opens, private modes and cooperating-caller kernel locks.
-No tool interprets source text as instructions or executes stored content.
+Journals have explicit roots, caller-defined event schemas and caller-managed
+retention. Nothing expires automatically unless an operation documents that
+behavior.
 
-Network access is HTTPS port 443 only, with exact reviewed DNS hosts. Reject URL
-credentials, secret-like query keys, fragments and control characters. Resolve with
-a finite lifetime, reject any non-public result and connect to a validated pinned
-address while validating TLS against the original hostname. Recheck every redirect.
-Ignore proxy environment configuration. Never forward cookies or credentials.
+## File and network checks
 
-Bound compressed and expanded data, requests, redirects and total I/O deadline.
-Upstream Retry-After and policy spacing return explicit deferral; no unconditional
-sleep, automatic retry loop or model-credit accounting. Valid upstream delays are
-never shortened. An unrepresentable delay blocks requests until operator review;
-quota-window rollover cannot clear that block. Persist reservations before
-network I/O; interrupted unknown usage is conservatively charged. Policy identity
-and recorded requests cannot be silently changed to bypass limits.
+File operations reject symlinks, special files and unsafe parent paths. Private
+state requires owned directories, private modes and single-link files. Atomic
+writes and fsync protect normal crash recovery. Locks coordinate cooperating
+callers; they do not sandbox arbitrary same-user code.
 
-Atomic metadata writes reference already durable immutable objects. A crash can
-leave an unreferenced immutable object, never a committed reference to unwritten
-content. Effect identities bind exact validated requests; mismatches fail. Recorded
-status never starts work. Explicit HTTP resume reconciles completed results and
-retries uncertain GETs with that uncertainty disclosed, within remaining limits.
+HTTP permits approved DNS hosts over HTTPS port 443. It rejects credentials,
+secret-like query keys, fragments and control characters. DNS answers must all
+be public unicast addresses. The connection uses a validated numeric address,
+while TLS verifies the original hostname. Every redirect repeats these checks.
 
-## Output and operations
+Requests do not inherit proxy settings or forward cookies or authorization.
+Wire bytes, expanded bytes, redirects and total time have explicit limits.
+`Retry-After`, spacing and quota exhaustion return deferrals rather than sleeping
+or automatically retrying.
 
-Semantic inference uses the pinned all-MiniLM-L6-v2 revision, CPU float32 ONNX,
-384 dimensions, attention-mask mean pooling and L2 normalization. Its immutable
-profile includes the backend, assets and complete-offset chunking contract.
-The runtime executes sequentially with one calling thread, no worker thread pool.
-Optional dependencies load only on explicit model loading. Operator-supplied
-assets are pinned by length and SHA-256, read through no-follow descriptors and
-passed as verified bytes, never an executable path. No inference network, global
-model cache, credentials or automatic installation/download.
-Queries exceeding 256 tokens fail; document chunks cover every character with
-32-token overlap, checking the actual token ceiling without silent truncation.
+An interrupted GET may have reached the publisher. Explicit resume states that
+it may repeat the request and retains the original allowance and policy.
 
-Generic derivatives retain only references, source digest/length, profile, indexed
-time and bounded vector/span records, not a second source archive. Consumers own
-canonical text, authorization, summaries and source corrections. They invalidate
-derivatives in the same transaction as a correction and publish with an expected
-previous digest after encoding outside transactions. Search accepts an explicit database-resident authorized table/view and reports
-missing/stale coverage without any corpus-count or scanned-chunk cutoff, never other
-collections or silent lexical fallback. Text imports invalidate old derivatives
-without deleting citable originals. Semantic clear deletes only derivatives.
-Integrity and verified backups include vector profiles, finite unit vectors,
-complete spans and canonical source bindings; no inference is required.
+- [Security checks and limitations](/docs/toolsmith/security/)
+- [HTTP recovery](/docs/toolsmith/operations/#status-and-explicit-http-resume)
 
-Return completed/partial/failed outcomes, warnings, exact versions and bounded
-references. Publication, supplied observation and recording times remain distinct;
-unknown source dates stay unknown. Output excludes incidental machine paths and
-credentials. Export destinations are explicit and cannot overwrite existing files.
+## Search
 
-Backup is consistent under the selected store lock. Restore verifies the complete
-backup before creating a new destination; it never overwrites production. Reject
-unsupported schemas. The current optional archive schema is version three: its lexical derivatives
-and native vector index use the same caller-owned implementations, not other
-archive engines. Explicit v1/v2 migration verifies the reviewed source schema,
-canonical provenance and objects, copies to a new destination, converts vector
-derivatives without inference, creates the current-text view/change counter and
-verifies the result.
-The original remains unchanged as the preserved rollback copy. There is no
-ordinary older-schema reader, automatic migration or reset. Neither adopting
-consumer is required to use this archive or its migration.
+Lexical search uses SQLite FTS5. Literal passage search preserves punctuation and
+is a different operation.
 
-Cleanup requires a preview describing exact eligible inactive staging files and
-their identities, then verifies the plan before deletion. Unknown files, symlinks,
-changed files, active work, credentials and retained objects are never cleanup
-targets. Integrity checks are explicit operations, not repeated whole-archive work
-on ordinary agent reads.
+Semantic search uses a pinned English MiniLM model locally. It creates
+384-dimensional float32 vectors with mask-mean pooling and L2 normalization.
+Queries must fit 256 model tokens; longer sources are split into complete chunks
+with 32-token overlap.
 
-## Search capacity and resource budgets
+The packaged vec1 extension compares eligible vectors in native SQLite code.
+It uses exact flat search, not approximate nearest neighbors. Search covers the
+entire authorized relation and returns bounded results. Work therefore grows with
+the eligible vector corpus.
 
-SQLite owns vector comparison through the packaged public-domain vec1 0.8 extension,
-compiled with worker threads disabled. The current configuration is an exact flat
-index, not approximate nearest-neighbor pruning. Vectors are stored once inside
-the native index; application references/spans remain normalized metadata. An
-integer chunk-key filter is pushed into native selection before top-k. Each
-indexed reference contributes its best chunk; returned records remain bounded.
-No Python distance loop, candidate/chunk scan ceiling or hidden fallback exists.
-Whole-index audits are separate from ordinary search and status.
+Applications supply a table or view containing authorized references and current
+text digests. Filtering happens before ranking and result limits. Missing or stale
+index entries are reported. Semantic similarity locates text; it does not establish
+that a source is true.
 
-The database has no Toolsmith byte ceiling. Backup/restore have an explicit
-20 GiB aggregate budget and no object-count ceiling; databases are streamed, not
-loaded wholesale into memory. Individual retained artifacts remain at most
-128 MiB. HTML/PDF/image table meaning and geometry are interpreted by the
-consumer LLM; no deterministic HTML table extraction API remains. CSV is format
-parsing only. See limits.md for remaining bounds and their reasons.
+Encoding happens outside the source transaction. Publication rechecks source text
+and the previous digest. Index changes participate in the caller's SQLite
+transaction. Clearing an index removes derivatives, not original text.
 
-## Verification
+- [Semantic model and index API](/docs/toolsmith/semantic/)
+- [Limits](/docs/toolsmith/limits/)
 
-Verify strict types, formatting/lint, isolated tests, negative security controls,
-installed CLI/library parity, optional-dependency absence and wheel/sdist contents.
-Run these checks locally; GitHub Actions CI/CD workflows are not part of Toolsmith.
-Architecture checks reject process spawning, servers, threads, skills and domain
-coupling. Tests use controlled clocks and fake transport boundaries; no local test
-server or indefinite sleep. Actual approved network acceptance is separate from
-fixtures. Build/test tooling runs in an aggregate-memory/swap/task-bounded group.
-No runtime or production deployment is authorized by package installation.
+## Archive maintenance
+
+Backup takes a consistent SQLite snapshot and copies referenced objects to a new
+private destination. Restore verifies the complete backup before publishing a
+new store. Neither operation overwrites an existing destination.
+
+Archive schema v3 is the current format. Explicit migration verifies supported
+v1/v2 stores and copies them forward, retaining the source. Ordinary reads do
+not migrate databases.
+
+Integrity checks and index rebuilds are explicit maintenance. They do not repair
+lost originals or change supplied provenance. Cleanup requires a preview and
+rechecks every selected inactive staging file before deletion.
+
+Databases and indexes have no Toolsmith byte ceiling. Backup and restore have a
+20 GiB aggregate limit; individual retained files have a 128 MiB limit.
+
+- [Maintenance procedures](/docs/toolsmith/operations/)

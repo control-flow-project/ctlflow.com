@@ -1,13 +1,12 @@
 ---
 title: "Stop, resume and reset"
-description: "Exact histories, saved active selections, account refresh and intentional fresh-history confirmation."
+description: "Stop or resume agents, refresh provider login and start a new history."
 weight: 40
 sourceProject: "ctlflow"
 sourcePath: "services/fleet/docs/sessions.md"
-generated: true
 ---
 
-## Separate controls
+## Session controls
 
 | Control | Effect |
 | --- | --- |
@@ -31,8 +30,8 @@ configured native parameters. Current provider authentication is recopied on
 activation. Unread positions and pending receipts are retained.
 
 When unfinished-work evidence exists, the adapter first settles older input.
-It then inserts one receipt-backed restart instruction to reread AGENTS.md,
-inspect prior effects and continue unfinished authorized work.
+It then sends a restart reminder to reread AGENTS.md, inspect prior effects and
+continue unfinished authorized work.
 Idle/sleeping contexts receive no dummy task.
 
 The native process does not resurrect an old operating-system command or active

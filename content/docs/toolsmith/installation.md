@@ -1,10 +1,9 @@
 ---
 title: "Installation"
-description: "Optional Python library/CLI installation, extras and native vector packaging."
+description: "Build and install Toolsmith, then select HTTP or semantic search dependencies."
 weight: 10
 sourceProject: "toolsmith"
 sourcePath: "docs/installation.md"
-generated: true
 ---
 
 Toolsmith 0.3.0 has public MIT-licensed source and wheel/sdist artifacts. Metadata
@@ -20,7 +19,7 @@ uv build --no-sources
 
 Python 3.13+ is required. Persistence/safe file reads require Linux, no-follow
 descriptor primitives and SQLite 3.44+ built with FTS5 and extension loading. Pure byte readers have no
-store/network requirement. Unsupported platforms fail without a weakened path.
+store/network requirement. Unsupported filesystem primitives cause an error.
 
 ```sh
 python3 -m venv .venv
@@ -46,9 +45,8 @@ labels as an isolation boundary. Different actual trust domains need host-owned
 access controls and separately authorized roots.
 
 Source builds require an existing C compiler and compile the vendored public-domain
-SQLite vec1 source and headers. No compiler, source download or helper process is
-used at runtime. Wheels are platform-specific but Python-ABI-independent. Linux
-x86-64 is verified here; no untested platform certification is implied.
+SQLite vec1 source and headers. The compiler is needed only at build time. Wheels are platform-specific but
+Python-ABI-independent. Linux x86-64 is the verified platform.
 Each build owns and disposes its temporary compiler directory. The completed
 library replaces the generated source artifact atomically; failed builds leave
 the previous artifact untouched and never truncate a library already loaded by

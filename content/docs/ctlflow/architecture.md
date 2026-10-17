@@ -1,46 +1,62 @@
 ---
-title: Architecture and ownership
-description: Component, process, transport and storage boundaries for ctlflow and its three products.
+title: Architecture
+description: How the server, controller, command-line client and Matrix homeserver connect.
 weight: 10
 ---
 
-## Products, not implementation modes
+## Components
 
 {{< diagram "products" >}}
 
-The monorepo groups three products. Each product has Node, C# and Rust source owners. C# managed and NativeAOT are build modes of the same source, not competing APIs or automatic fallbacks.
+The ctlflow repository contains three products. Each has Node, C# and Rust
+implementations. C# supports managed and NativeAOT builds.
 
-| Product | Runs where | Owns | Does not own |
-| --- | --- | --- | --- |
-| crossfire | Server host | Identity, enrollment, authorization, desired room access, coordination records, static report publication, management UI | Agent processes or provider credentials on a user's controller host |
-| fleetd | User's controller host | Fleet registry, shared listener, native runtime processes, exact histories, input receipts and recovery | Human approval, another owner's fleet or server database migrations |
-| fleet | Local client or SSH client | Command presentation and calls to fleetd's private API | A second listener, separate process orchestration or another history format |
+| Component | Location | Responsibility |
+| --- | --- | --- |
+| crossfire | Server | Agent registration, enrollment approval, room permissions, wake rules, session requests, report publication and the management UI |
+| fleetd | Agent owner's machine | Matrix listener, Codex or Pi processes, saved histories, message delivery and recovery |
+| fleet | Local or remote client | Setup and commands sent to fleetd over a Unix socket or SSH |
 
-The shared React UI and SQLite schema belong to crossfire's service boundary. They are reused by each crossfire implementation. Shared external contract tests assert the same observable behavior against selected executables.
+All crossfire implementations serve the same React UI and HTTP API. They open
+the same SQLite database format. Switching implementations does not require a
+data export or a different client.
 
-## Runtime topology
+## Connections
 
 {{< diagram "execution" >}}
 
-1. Humans use Element/Matrix for room conversations and crossfire management for human actions.
-2. crossfire manages authority and desired state, and performs native Matrix operations over HTTP. It does not require a Node Matrix SDK.
-3. fleetd authenticates an exclusive fleet controller lease, then hosts the listener with separate agent credentials, cursors, permissions and journals.
-4. A runtime adapter owns native Codex or Pi sessions, instructions, observations, interruption and receipt evidence.
-5. fleet calls the same private fleetd API locally over a Unix socket or through authenticated SSH. There is no public controller port.
+People use Element for conversations and the management UI for agent settings.
+crossfire integrates with the Matrix homeserver over HTTP.
 
-When engines sleep, fleetd remains the listener process. There is no listener process per agent. The controller does not adopt the coding harness that ran setup.
+fleetd connects to crossfire using a fleet credential and listens for messages
+with separate credentials and unread positions for each agent. It runs Codex or
+Earendil Pi through runtime adapters. The adapters handle engine-specific
+commands, histories, interruptions and permission requests.
 
-## Dependency direction
+fleet sends commands to fleetd's private Unix socket. SSH transports those same
+requests when the controller is on another machine. No public controller port
+is needed.
 
-Domain modules depend on pure values and ports. Composition roots select concrete repositories, Matrix, filesystem, runtime and calendar adapters. Domain code does not import HTTP transports, SQLite drivers, UI or native adapter implementations.
+When agents sleep, fleetd keeps listening. There is no listener process per
+agent. Setup starts new managed sessions rather than taking over the coding
+assistant that ran the setup command.
 
-Node query ownership uses Tinqer, C# uses EF Core and Rust uses Diesel. Knex alone creates/migrates SQL schemas. Runtime adapters validate an existing database; startup cannot select an ORM migration path.
+## Source organization
 
-## Optional related tools
+Domain modules contain rules and interfaces. Adapters implement HTTP, Matrix,
+filesystem, storage, scheduling and native runtime operations. The applications
+assemble those adapters. Domain modules do not import concrete adapters.
 
-Toolsmith is outside this ownership tree. Consumer code may call its generic Python libraries or foreground CLI commands, then supply its own domain meaning and model interpretation. It is not an agent runtime, server, shared listener, mandatory fleet dependency or hosted service.
+Node uses Tinqer for application queries, C# uses EF Core and Rust uses Diesel.
+Knex migrations create and upgrade the SQLite schema before the application
+starts. Applications validate the database but do not migrate it.
 
-- [Source layout and semantic package map](/docs/ctlflow/source-layout/)
-- [Architecture contract](/docs/ctlflow/specification/)
-- [Implementation boundaries](/docs/ctlflow/implementations/)
-- [Toolsmith](/docs/toolsmith/)
+- [Source layout](/docs/ctlflow/source-layout/)
+- [System behavior](/docs/ctlflow/specification/)
+- [Implementation requirements](/docs/ctlflow/implementations/)
+- [Database migrations](/docs/ctlflow/database/)
+
+## Optional tools
+
+Toolsmith is a separate Python library and command-line toolkit. Fleet code can
+use it for downloads, files, archives and search. ctlflow does not require it.

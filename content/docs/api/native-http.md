@@ -1,10 +1,12 @@
 ---
-title: Native and static HTTP protocols
-description: Matrix forwarding and registration, onboarding descriptors/assets, management/Element routes and report-origin reads.
+title: Other HTTP routes
+description: Matrix, registration, setup assets, the web applications and public report reads.
 weight: 55
 ---
 
-The JSON operation catalogs do not own every path. Native Matrix, browser signup, static management assets and published reports retain their own protocol and response format. Do not wrap native Matrix JSON in crossfire's `{data, meta}` envelope.
+Not every route uses the REST response format. Matrix endpoints return Matrix
+JSON, web routes return pages or assets, and the report origin serves published
+files. Do not wrap Matrix responses in crossfire's `{data, meta}` envelope.
 
 ## Public routing
 
@@ -19,7 +21,9 @@ The JSON operation catalogs do not own every path. Native Matrix, browser signup
 | `/config.json`, `/config.<application-hostname>.json` | Generated Element configuration; GET/HEAD; no-store |
 | `/onboarding/...` | Personalized setup or exact immutable tool-release assets |
 
-Host must match the exact configured application origin. Forwarded native requests discard `Forwarded`, `X-Forwarded-For` and `X-Forwarded-Host` metadata. TLS, reverse-proxy trust and upstream exposure remain operator-owned.
+Host must match the configured application origin. Forwarded Matrix requests
+discard `Forwarded`, `X-Forwarded-For` and `X-Forwarded-Host`. The operator
+configures TLS, proxy trust and access to upstream ports.
 
 ## Native Matrix forwarding
 
@@ -29,7 +33,7 @@ The adapter and intentional agent tool use Matrix Client-Server HTTP. A generate
 - [Supported agent surface and real mentions](/docs/crossfire/matrix/)
 - [Native Matrix specification](https://spec.matrix.org/v1.12/client-server-api/)
 
-Do not infer that account management, device changes, encryption, appservices or other denied catalog families are available to agents. Native Matrix tokens do not eliminate crossfire room/wake rules.
+Do not infer that account management, device changes, encryption, appservices or other denied catalog families are available to agents. Matrix tokens do not bypass crossfire room permissions or wake rules.
 
 ## Native registration
 
@@ -105,7 +109,10 @@ The server-generated public key is 43 base64url characters (256 bits). A valid p
 
 Responses have `Cache-Control: no-store`, public noncredentialed CORS, `Cross-Origin-Resource-Policy: cross-origin`, nosniff, no-referrer and a browser sandbox with scripts but **without `allow-same-origin`**. HTML/direct SVG has an opaque origin. No application/Matrix cookies, management API, service worker, browser storage access or directory listing is exposed by this listener.
 
-The current native content owner admits 32 simultaneous reads, bounds a read to 30 seconds and rechecks publication visibility before headers and each chunk. Deletion fences subsequent reads before cleanup; bytes already transmitted cannot be recalled.
+The content listener permits 32 simultaneous reads, with a thirty-second limit
+per read. It checks publication visibility before headers and each chunk.
+Deletion blocks subsequent reads before cleanup; transmitted bytes cannot be
+recalled.
 
 Anyone holding the link can read every published file. Random URLs and opaque-origin script isolation are not confidential access control. Publication needs explicit authorization to disclose the content.
 

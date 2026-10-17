@@ -1,10 +1,9 @@
 ---
 title: "Archive operations"
-description: "Explicit migrations, streamed backup, restore and integrity checks."
+description: "Back up, restore, inspect and migrate the optional text archive."
 weight: 70
 sourceProject: "toolsmith"
 sourcePath: "docs/operations.md"
-generated: true
 ---
 
 Maintenance is explicit library/CLI work. Nothing runs on a timer or behind an
@@ -125,7 +124,7 @@ before atomic publication. The source remains unchanged as the rollback copy.
 Unknown schema shapes, destination collisions or verification failures abort;
 there is no dual runtime reader, in-place reset or automatic migration.
 
-Generic application index adoption has its own consumer-owned forward migration;
-this archive command cannot convert Bad Bets news or GAAP case schemas. Shared
+Applications using only the index libraries need their own schema migration;
+the archive command does not convert application-specific databases. Shared
 quota adoption uses reviewed quiesced counters with `import_budget`, preserving
 periods, charges and cooldowns rather than copying old-format runtime handlers.

@@ -12,22 +12,22 @@ generated: true
 
 ## Retire a stopped instance registration while preserving private history
 
-> Private controller API. This route is carried over the owning user's Unix socket, locally or through SSH. The catalog's `auth: public` does not make it an Internet-public endpoint; filesystem/socket ownership supplies the transport admission boundary.
+> Private controller API. Call this route through the user's Unix socket, locally or over SSH. It is not exposed on the server's public origin.
 
-| Contract fact | Value |
+| Property | Value |
 | --- | --- |
-| Product owner | `fleetd` |
+| Service | `fleetd` |
 | Operation | `removeAgent` |
 | Method | `DELETE` |
 | Path | `/api/fleets/{fleetId}/agents/{instanceKey}` |
-| Catalog audience | `public` |
+| Authentication | `public` |
 | Success status | `200` |
-| Response data | Single value; not a collection operation |
+| Response data | Unpaginated value |
 | Request format | `json` |
-| Request byte ceiling | 1048576 bytes (product HTTP default; not the model-inline limit) |
-| Declared permissions | No permission codes declared; domain/credential/transport checks still apply |
+| Maximum request body | 1048576 bytes (service default) |
+| Permission codes | None declared |
 
-Permission lists describe operation-level admission alternatives, not a bearer-token scope string, automatic access to every object, or permission to act as another principal. Current owner, instance, room, revision and generation checks remain authoritative.
+Listed permission codes are alternatives, not token scopes. The service also checks access to the requested records and rejects stale revisions or controller generations.
 
 - [Authentication, envelopes and pagination](/docs/api/http/)
 - [Language-neutral client examples](/docs/api/client-examples/)
@@ -41,7 +41,7 @@ object; fields below; unknown fields rejected ([`agentParams`](/docs/api/schemas
 | `fleetId` | lowercase opaque UUID |
 | `instanceKey` | lowercase name; pattern `[a-z][a-z0-9-]{0,39}` |
 
-### Exact validator
+### Validation
 
 ```typescript
 agentParams
@@ -53,13 +53,13 @@ Referenced definitions:
 
 ## Query parameters
 
-custom parser [`none`](/docs/api/schemas/crossfire-contracts-schema-query/#none); exact branches, defaults and rejection rules below
+custom validation: [`none`](/docs/api/schemas/crossfire-contracts-schema-query/#none); see function below
 
-Query values arrive as URL text, not JSON values. The exact parser below owns decoding, defaults, duplicate rejection, filters and any cross-field rules. The shared pagination contract applies only when the parser invokes it.
+Query parameters are URL text. The validation function below specifies their format, defaults and combinations. Pagination applies only to operations that use it.
 
-### Custom constraints
+### Additional checks
 
-These predicates/branches are part of the wire contract, not optional documentation annotations. A field table is not a replacement for these checks.
+The following checks apply in addition to the field limits.
 
 Constraint on `value`:
 
@@ -70,7 +70,7 @@ export function none(input: unknown) {
 }
 ```
 
-### Exact validator
+### Validation
 
 ```typescript
 none
@@ -88,7 +88,7 @@ object; fields below; unknown fields rejected
 | --- | --- |
 | `expectedRevision` | exact JSON integer; 0…9007199254740991 |
 
-### Exact validator
+### Validation
 
 ```typescript
 check.object({ expectedRevision: check.integer() })
@@ -112,7 +112,7 @@ object; fields below; unknown fields rejected ([`fleetView`](/docs/api/schemas/f
 | `revision` | exact JSON integer; 0…9007199254740991 |
 | `controller` | object; fields below; unknown fields rejected ([`controller`](/docs/api/schemas/crossfire-contracts-schema-controller/#controller)) |
 | `controller.name` | string; 1–100 UTF-16 units; well-formed Unicode; no C0/DEL controls |
-| `controller.metadata` | custom parser [`metadata`](/docs/api/schemas/crossfire-contracts-schema-controller/#metadata); exact branches, defaults and rejection rules below; optional property |
+| `controller.metadata` | custom validation: [`metadata`](/docs/api/schemas/crossfire-contracts-schema-controller/#metadata); see function below; optional property |
 | `resumeInstanceKeys` | array; 0–100 entries; item: lowercase name; pattern `[a-z][a-z0-9-]{0,39}`; JSON null permitted |
 | `phase` | `stopped` or `starting` or `awaiting-approval` or `running` or `sleeping` or `waking` or `stopping` or `failed` ([`phase`](/docs/api/schemas/fleetd-contracts-api/#phase)) |
 | `instances` | array; 0–100 entries; item: object; fields below; unknown fields rejected ([`instanceView`](/docs/api/schemas/fleetd-contracts-api/#instanceView)) |
@@ -122,7 +122,7 @@ object; fields below; unknown fields rejected ([`fleetView`](/docs/api/schemas/f
 | `instances[].instance.definition` | lowercase name; pattern `[a-z][a-z0-9-]{0,39}` |
 | `instances[].instance.workarea` | string; 1–1024 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `instances[].instance.workspace` | string; 1–4096 UTF-16 units; well-formed Unicode; no C0/DEL controls; optional property |
-| `instances[].instance.runtimeOptions` | custom parser [`runtimeOptions`](/docs/api/schemas/fleetd-contracts-configuration/#runtimeOptions); exact branches, defaults and rejection rules below; optional property |
+| `instances[].instance.runtimeOptions` | custom validation: [`runtimeOptions`](/docs/api/schemas/fleetd-contracts-configuration/#runtimeOptions); see function below; optional property |
 | `instances[].instance.listenerOptions` | object; fields below; unknown fields rejected; optional property |
 | `instances[].instance.listenerOptions.historyMode` | `shared` or `per-room`; optional property |
 | `instances[].phase` | `stopped` or `starting` or `awaiting-approval` or `running` or `sleeping` or `waking` or `stopping` or `failed` ([`phase`](/docs/api/schemas/fleetd-contracts-api/#phase)) |
@@ -140,9 +140,9 @@ object; fields below; unknown fields rejected ([`fleetView`](/docs/api/schemas/f
 | `connection.revision` | exact JSON integer; 0…9007199254740991; JSON null permitted |
 | `connection.error` | string; 1–4096 UTF-16 units; well-formed Unicode; no C0/DEL controls; JSON null permitted |
 
-### Custom constraints
+### Additional checks
 
-These predicates/branches are part of the wire contract, not optional documentation annotations. A field table is not a replacement for these checks.
+The following checks apply in addition to the field limits.
 
 Constraint on `controller.metadata`:
 
@@ -166,7 +166,7 @@ Constraint on `instances[].instance.runtimeOptions`:
 (input: unknown): Result<Record<string, unknown>> => input && typeof input === 'object' && !Array.isArray(input) ? success(input as Record<string, unknown>) : failure('invalid', 'Expected runtime options')
 ```
 
-### Exact validator
+### Validation
 
 ```typescript
 fleetView
@@ -178,7 +178,7 @@ Referenced definitions:
 
 ## Response envelope
 
-The response-data validator above applies to `data`, not to the entire HTTP response. All successful JSON operations use the shared envelope; failures use `error` instead of `data`.
+A successful JSON response contains `data` and `meta`. Replace the `data` placeholder below with the response fields described above. Errors contain `error` instead of `data`.
 
 ```json
 {
@@ -188,5 +188,3 @@ The response-data validator above applies to `data`, not to the entire HTTP resp
   }
 }
 ```
-
-The placeholder is illustrative notation, not a valid response-data value. See the exact fields and validators above.

@@ -1,14 +1,19 @@
 ---
 title: fleet
-description: CLI setup and local/SSH calls to the controller's existing private API.
+description: Set up, inspect and control fleets from the command line.
 weight: 40
 ---
 
-fleet is the CLI for fleetd. It performs noninteractive setup and presents explicit registry, lifecycle, session, delivery and update operations. Local and SSH control use the same private controller API; there is no second orchestration implementation.
+fleet is the command-line client for fleetd. Use it to set up a fleet, inspect
+agents, stop or resume sessions, change delivery settings and install updates.
+It sends commands to the controller locally or over SSH.
 
-Use the personalized setup guide from the actual crossfire management instance. It installs a pinned Node `@ctlflow/fleet` package and its Node fleetd dependency, checks prerequisites and waits for explicit human enrollment approval.
+Start with the personalized setup guide in your crossfire management website.
+It installs a specific release of `@ctlflow/fleet` and its fleetd dependency,
+checks prerequisites and waits for the owner to approve enrollment.
 
-All operational agents use fleetd, even solo users. The coding assistant performing setup remains a separate process and conversation. Setup does not adopt it.
+Even a single agent uses fleetd. The coding assistant running setup remains
+separate from the agents it creates.
 
 - [Node, C# and Rust installation choices](/docs/ctlflow/distributions/)
 - [Private controller API](/docs/api/fleetd/)

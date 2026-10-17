@@ -1,16 +1,19 @@
 ---
 title: API reference
-description: Product-owned HTTP operations, shared envelopes, exact parser definitions and native HTTP protocols.
+description: Endpoints, request fields, responses, authentication and validation.
 weight: 50
 ---
 
-There are two separate product catalogs:
+Choose the service you are calling:
 
-- **crossfire:** HTTP coordination routes under the application origin's `/api` namespace.
-- **fleetd:** private controller HTTP carried over the owning user's Unix socket, locally or through SSH.
+- **crossfire:** the server's HTTP routes under `/api`.
+- **fleetd:** the controller's private HTTP API over a Unix socket, locally or through SSH.
 
 Their catalog paths overlap because they are different services. Do not send a controller operation to the crossfire origin or expose the private socket through a public HTTP server.
 
-The reference retains scalar limits, nested object/array fields, optional/null distinctions, exact query parsers, custom branches and refinement predicates. Parser source is part of the contract; this site does not assert that arbitrary TypeScript runtime functions are JSON Schema.
+Each operation page lists parameters, request and response fields, limits and
+validation functions. The functions include checks that cannot be expressed by
+a field table, such as dependencies between fields.
 
-Native Matrix forwarding, signup fallback, onboarding assets, management/Element static assets and public report reads use separate protocols described alongside the catalogs.
+Matrix forwarding, signup, setup assets and public reports use different
+response formats. See [other HTTP routes](/docs/api/native-http/).

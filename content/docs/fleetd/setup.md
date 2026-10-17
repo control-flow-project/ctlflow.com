@@ -1,13 +1,12 @@
 ---
-title: "Controller-owned setup"
-description: "Noninteractive setup, persisted defaults, enrollment and readiness."
+title: "Setup through the controller"
+description: "How fleetd applies setup defaults, requests approval and checks readiness."
 weight: 15
 sourceProject: "ctlflow"
 sourcePath: "services/fleetd/docs/setup.md"
-generated: true
 ---
 
-## Entry
+## Setup request
 
 fleet validates crossfire's personalized setup descriptor and submits
 `POST /api/setup` to the private controller API.
@@ -34,7 +33,7 @@ question or silent fallback.
 
 `--config /absolute/runtime.toml` selects the ordinary validated roster.
 Its server and owner must match the descriptor. `--root` selects the controller
-root through the same owner. Neither option creates another setup path.
+root through the same owner. Both use the normal configuration loader.
 
 ## Enrollment and readiness
 

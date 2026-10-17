@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import { siteOrigin } from "../scripts/build-options.mjs";
 import { netlifyHeaders } from "../scripts/serve.mjs";
 import { slug } from "../scripts/docs/api-pages.mjs";
+import { guideReferences } from "../scripts/docs/sources.mjs";
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const read = relative => fs.readFileSync(path.join(root, relative), "utf8");
@@ -64,10 +65,25 @@ test("Netlify headers keep site scripts/assets local and only hashed assets immu
 test("hierarchy and source URLs preserve constituents and Toolsmith optionality", () => {
   const sources = JSON.parse(read("data/sources.json"));
   assert.equal(sources.ctlflow.repository, "https://github.com/control-flow-project/ctlflow");
-  assert.equal(sources.ctlflow.revision, "cb3ece8ddb850b58499d12befd79b7ebca166b17");
+  assert.equal(sources.ctlflow.revision, "52bf027974521695c3b058afcc0b5191bd42587b");
   for (const product of ["crossfire", "fleetd", "fleet"]) assert.equal(read(`content/docs/${product}/_index.md`).includes(`title: ${product}`), true);
-  const optional = read("content/docs/toolsmith/_index.md");
+  const optional = read("content/docs/toolsmith/_index.md").replace(/\s+/gu, " ");
   assert.equal(optional.includes("separate project"), true);
   assert.equal(optional.includes("omit it completely"), true);
   assert.equal(read("AGENTS.md").includes("parent monorepo; crossfire, fleetd and fleet"), true);
+});
+
+test("guides are edited independently of generated API contracts", () => {
+  const manifest = JSON.parse(read("data/reference-manifest.json"));
+  assert.equal(guideReferences.length, 45);
+  assert.equal(manifest.counts.guides, guideReferences.length);
+  for (const [project, source, output] of guideReferences) {
+    const filename = `content/${output}`;
+    const guide = read(filename);
+    assert.equal(/^generated: true$/mu.test(guide), false, `${filename} is authored`);
+    assert.equal(filename in manifest.outputs, false, `${filename} is not a generated output`);
+    assert.equal(`${project}:${source}` in manifest.inputs, true, `${filename} source is recorded`);
+    assert.match(guide, new RegExp(`^sourceProject: ["']?${project}["']?$`, "mu"));
+    assert.equal(guide.includes(`sourcePath: "${source}"`) || guide.includes(`sourcePath: ${source}`), true, `${filename} reference path`);
+  }
 });

@@ -1,10 +1,9 @@
 ---
 title: "C# managed"
-description: "Self-contained .NET 11 apphosts, build-time SDK requirements and installed runtime dependencies."
+description: "Build and install self-contained .NET 11 executables."
 weight: 20
 sourceProject: "ctlflow"
 sourcePath: "docs/distributions/csharp-managed.md"
-generated: true
 ---
 
 ## Prerequisites
@@ -20,8 +19,8 @@ host libraries used by the `linux-x64` .NET runtime. Fleet agents also require
 Node for the shared tool client, the selected Codex or verified Pi 1.0.0
 executable and an authorized native provider login. Remote commands require SSH.
 
-The server operator requires rootless Docker and an explicit source checkout to
-build its managed runtime and shared Knex migration images. Public deployment
+The server operator requires rootless Docker and a completed container package.
+Building the managed runtime and Knex images requires a source checkout. Public deployment
 requires operator-owned DNS, HTTPS and separate application/content hostnames.
 The full verification bank additionally requires Rust, Chrome and native test
 assets. No command here installs a host service or native agent runtime.
@@ -140,4 +139,4 @@ reflection or plugin compatibility.
 - [Shared product configuration and commands](https://github.com/control-flow-project/ctlflow/blob/main/services/fleet/docs/README.md)
 - [Server configuration and backup](https://github.com/control-flow-project/ctlflow/blob/main/services/crossfire/docs/operations.md)
 - [Dependency and verification limits](https://github.com/control-flow-project/ctlflow/blob/main/docs/architecture/native-implementations.md)
-- [Proprietary license](https://github.com/control-flow-project/ctlflow/blob/main/LICENSE)
+- [MIT license](https://github.com/control-flow-project/ctlflow/blob/main/LICENSE)

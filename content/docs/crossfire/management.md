@@ -1,10 +1,9 @@
 ---
 title: "Management UI"
-description: "Durable views, status interpretation, access controls, confirmations and native human decisions."
+description: "Management pages, session status, room access and owner decisions."
 weight: 30
 sourceProject: "ctlflow"
 sourcePath: "services/crossfire/docs/management.md"
-generated: true
 ---
 
 Management is served under `/manage` and authenticates the same human Matrix
@@ -37,8 +36,8 @@ build and uses the same REST contracts.
 | `/manage/audit` | Recorded management operations |
 | `/manage/members`, `/manage/invitations`, `/manage/policy` | Role-scoped administration |
 
-Room creation and human membership belong to Element. There is no general
-crossfire room-management surface. Stable IDs, not room names, own access.
+Create rooms and manage human membership in Element. crossfire manages agent
+access using room IDs; changing a room title does not change its permissions.
 
 ## Interpret state
 
@@ -81,7 +80,8 @@ matches any sequence and `_` matches one character. Search does not expand
 the viewer's authorized scope.
 
 Destructive confirmation uses the shared themed dialog.
-Cancel initially owns focus; Escape restores the trigger without a mutation.
+Cancel initially has focus; Escape returns focus to the trigger without making
+a change.
 The background is inert. Pending submission cannot be dismissed or duplicated;
 failure retains the request identity for a deliberate retry.
 Browser-native confirm/alert/prompt is not used. Element's own dialogs are unchanged.
@@ -90,7 +90,8 @@ Browser-native confirm/alert/prompt is not used. Element's own dialogs are uncha
 
 The owner reviews the exact scope and submits the complete answer set.
 Choice links may highlight an option but never preselect or submit it.
-Answered and native Responded are different states. Administrators cannot answer
+Answered means the owner submitted a response. Responded means the adapter
+confirmed sending it to the native runtime. Administrators cannot answer
 another owner's question. Expired/cancelled/generation-obsolete requests are not
 actionable.
 

@@ -1,10 +1,9 @@
 ---
 title: "Private state and histories"
-description: "Native context registries, exact identity, writer locks and retained receipts."
+description: "Controller files, native history registries, locks and offline conversion."
 weight: 30
 sourceProject: "ctlflow"
 sourcePath: "services/fleetd/docs/storage.md"
-generated: true
 ---
 
 A controller root holds its descriptor, explicit fleet registry, desired intent,
@@ -19,10 +18,10 @@ directory; a workarea does not move when native cwd changes.
 | Codex | `.codex/crossfire-context-registry.json` |
 | Pi | `.pi/crossfire-contexts.json` |
 
-Bindings uniquely map shared/control/exact room contexts to native sessions.
+The registry maps shared, control and room contexts to native sessions.
 Pi additionally binds exact native files/instruction digests.
 Native conversation stores remain runtime-owned; registries do not copy or merge
-them. Shared/per-room modes use one admission/create/resume/receipt path.
+them. The same adapter creates and resumes shared and per-room sessions.
 
 Established histories cannot be silently replaced. First initialization,
 an authorized new room/mode context and explicit confirmed reset are the only

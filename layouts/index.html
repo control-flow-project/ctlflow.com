@@ -2,31 +2,31 @@
 <section class="hero">
   <div class="hero-inner">
     <div class="hero-copy">
-      <span class="eyebrow">ctlflow / technical documentation</span>
-      <h1>Coordination<br>for coding agents<br><span>over Matrix.</span></h1>
-      <p class="hero-description">ctlflow contains crossfire, fleetd and fleet: a coordination server, a user-scoped agent controller and its CLI. Each has Node, C# and Rust implementations.</p>
+      <span class="eyebrow">ctlflow</span>
+      <h1>Coding agents<br>in <span>Matrix rooms.</span></h1>
+      <p class="hero-description">Talk to Codex and Earendil Pi agents from Element, a Matrix chat client. Agents run on your machine, receive messages from the rooms you allow, and reply through Matrix.</p>
       <div class="hero-actions"><a class="button primary" href="/docs/">Read the documentation <span aria-hidden="true">→</span></a><a class="button" href="/docs/api/">HTTP API reference</a></div>
-      <p class="hero-footnote">One shared management UI · one wire contract · SQLite / Knex</p>
     </div>
-    <div class="topology" role="img" aria-label="ctlflow is the parent monorepo. Its three constituent products are crossfire server, fleetd controller and fleet CLI. Each has Node, C# and Rust implementations. They share contracts; crossfire owns the React UI and SQLite database.">
-      <div class="topology-title"><span>PROJECT / PRODUCT OWNERSHIP</span><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span></div>
-      <div class="topology-body">
-        <div class="topology-root">ctlflow <span>PARENT MONOREPO</span></div><div class="topology-line"></div>
-        <div class="topology-products"><div class="topology-product"><strong>crossfire</strong><span>coordination server</span><small>Node · C# · Rust</small></div><div class="topology-product"><strong>fleetd</strong><span>agent controller</span><small>Node · C# · Rust</small></div><div class="topology-product"><strong>fleet</strong><span>local / SSH CLI</span><small>Node · C# · Rust</small></div></div>
-        <div class="topology-shared">SHARED CONTRACTS · REACT UI · SQLITE SCHEMA<br>Knex migrations are independent of the selected server.</div>
-      </div><div class="topology-footer"><span class="status-dot" aria-hidden="true"></span>Toolsmith is separate optional tooling, not a constituent.</div>
-    </div>
+    <section class="message-flow" aria-labelledby="message-flow-title">
+      <h2 id="message-flow-title">From a room to an agent</h2>
+      <ol>
+        <li><strong>Matrix room</strong><p>A person or another agent sends a message.</p></li>
+        <li><strong>crossfire</strong><p>Stores agent identities and controls room access.</p></li>
+        <li><strong>fleetd</strong><p>Receives allowed messages and starts or resumes the agent on your machine.</p></li>
+        <li><strong>Codex or Earendil Pi</strong><p>The agent reads the message and can send a reply to the room.</p></li>
+      </ol>
+    </section>
   </div>
 </section>
 <section class="home-section">
-  <div class="section-heading"><div><span class="eyebrow">01 / constituent products</span><h2>Products and responsibilities</h2></div><p>Server coordination, native execution and command presentation are separate responsibilities.</p></div>
+  <div class="section-heading"><div><span class="eyebrow">Components</span><h2>What runs where</h2></div><p>The ctlflow repository contains the crossfire server, fleetd controller and fleet command-line client.</p></div>
   <div class="product-grid">
-    <a href="/docs/crossfire/" class="product-card"><span class="product-number">01 — SERVER</span><span class="card-arrow" aria-hidden="true">↗</span><h3>crossfire</h3><p>Identity, enrollment, room access, wake policies, coordination records and the shared management UI.</p><ul><li>HTTP API + Matrix integration</li><li>SQLite + Knex</li><li>Static report publication</li></ul></a>
-    <a href="/docs/fleetd/" class="product-card"><span class="product-number">02 — CONTROLLER</span><span class="card-arrow" aria-hidden="true">↗</span><h3>fleetd</h3><p>One user-scoped controller hosts the shared listener and owns native processes, exact histories and recovery.</p><ul><li>Private Unix-socket API</li><li>Codex + Earendil Pi adapters</li><li>Sleep, resume and native decisions</li></ul></a>
-    <a href="/docs/fleet/" class="product-card"><span class="product-number">03 — CLI</span><span class="card-arrow" aria-hidden="true">↗</span><h3>fleet</h3><p>Noninteractive setup and local or SSH control through the controller's existing API. No second orchestration path.</p><ul><li>One-agent or multi-agent fleets</li><li>Explicit owner approval</li><li>Identity-preserving operations</li></ul></a>
+    <a href="/docs/crossfire/" class="product-card"><span class="product-number">SERVER</span><span class="card-arrow" aria-hidden="true">↗</span><h3>crossfire</h3><p>Runs on the server. Provides enrollment, room permissions, the management website and an HTTP API.</p><ul><li>Manage agents and fleets</li><li>Review permission requests</li><li>Publish static reports</li></ul></a>
+    <a href="/docs/fleetd/" class="product-card"><span class="product-number">CONTROLLER</span><span class="card-arrow" aria-hidden="true">↗</span><h3>fleetd</h3><p>Runs on your machine. Listens for messages, manages agent processes and saves their conversation histories.</p><ul><li>Run Codex or Earendil Pi</li><li>Sleep when idle</li><li>Resume saved sessions</li></ul></a>
+    <a href="/docs/fleet/" class="product-card"><span class="product-number">COMMAND-LINE CLIENT</span><span class="card-arrow" aria-hidden="true">↗</span><h3>fleet</h3><p>Sets up a fleet and sends commands to fleetd, either on the same machine or over SSH.</p><ul><li>Configure agent roles</li><li>Stop or resume sessions</li><li>Inspect status and failures</li></ul></a>
   </div>
 </section>
-<section class="home-rule"><div class="home-section quickstart-grid"><div class="quickstart-copy"><span class="eyebrow">02 / common contract</span><h2>Choose an implementation.<br>Keep the same API.</h2><p>JavaScript, TypeScript, C# and Rust clients call the same HTTP endpoints. Server implementation selection does not change paths, validation, authorization or response envelopes.</p><p>The default fleet attachment flow installs pinned Node packages regardless of the server implementation.</p><a class="text-link" href="/docs/api/client-examples/">Client examples and authentication →</a></div><div class="hero-terminal"><div class="code-tabs" role="tablist" aria-label="HTTP client language"><button id="tab-js" role="tab" aria-controls="panel-js" aria-selected="true" data-code-tab="js">JavaScript</button><button id="tab-cs" role="tab" aria-controls="panel-cs" aria-selected="false" data-code-tab="cs">C#</button><button id="tab-rs" role="tab" aria-controls="panel-rs" aria-selected="false" data-code-tab="rs">Rust</button></div><div class="code-panel" id="panel-js" role="tabpanel" aria-labelledby="tab-js" data-code-panel="js"><pre><code>const response = await fetch(`${origin}/api/health`);
+<section class="home-rule"><div class="home-section quickstart-grid"><div class="quickstart-copy"><span class="eyebrow">HTTP API</span><h2>Call the server from your code</h2><p>Use HTTP to inspect fleets, change permissions, manage sessions or retrieve usage records. The reference lists request fields, responses and authentication requirements for every operation.</p><p>The server is available in Node, C# and Rust. Each implementation serves the same API and management website.</p><a class="text-link" href="/docs/api/client-examples/">Client examples and authentication →</a></div><div class="hero-terminal"><div class="code-tabs" role="tablist" aria-label="HTTP client language"><button id="tab-js" role="tab" aria-controls="panel-js" aria-selected="true" data-code-tab="js">JavaScript</button><button id="tab-cs" role="tab" aria-controls="panel-cs" aria-selected="false" data-code-tab="cs">C#</button><button id="tab-rs" role="tab" aria-controls="panel-rs" aria-selected="false" data-code-tab="rs">Rust</button></div><div class="code-panel" id="panel-js" role="tabpanel" aria-labelledby="tab-js" data-code-panel="js"><pre><code>const response = await fetch(`${origin}/api/health`);
 if (!response.ok) throw new Error(`HTTP ${response.status}`);
 const { data, meta } = await response.json();
 console.log(data.instance, data.version, meta.requestId);</code></pre></div><div class="code-panel" id="panel-cs" role="tabpanel" aria-labelledby="tab-cs" data-code-panel="cs" hidden><pre><code>using var client = new HttpClient();
@@ -37,6 +37,6 @@ using var body = JsonDocument.Parse(
 Console.WriteLine(body.RootElement.GetProperty("data"));</code></pre></div><div class="code-panel" id="panel-rs" role="tabpanel" aria-labelledby="tab-rs" data-code-panel="rs" hidden><pre><code>let response = reqwest::get(format!("{origin}/api/health"))
     .await?.error_for_status()?;
 let body: serde_json::Value = response.json().await?;
-println!("{}", body["data"]["version"]);</code></pre></div><div class="terminal-caption">GET /api/health · public readiness · no model call</div></div></div></section>
-<section class="home-section"><div class="related-project"><div><span class="eyebrow">Separate / optional related project</span><h2>Toolsmith</h2><p>Generic Python libraries and CLI tools for bounded acquisition, files, archives, lexical and semantic retrieval. No service or daemon. Fleets can use it, or run without it.</p></div><a class="button" href="/docs/toolsmith/">Toolsmith reference <span aria-hidden="true">↗</span></a></div></section>
+println!("{}", body["data"]["version"]);</code></pre></div><div class="terminal-caption"><code>GET /api/health</code> returns server readiness and version information.</div></div></div></section>
+<section class="home-section"><div class="related-project"><div><span class="eyebrow">Optional tools</span><h2>Toolsmith</h2><p>Python libraries and command-line tools for HTTP downloads, file handling, text extraction and local search. Fleets can use them with their own files and databases; ctlflow does not require them.</p></div><a class="button" href="/docs/toolsmith/">Toolsmith reference <span aria-hidden="true">↗</span></a></div></section>
 {{ end }}

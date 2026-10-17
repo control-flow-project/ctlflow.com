@@ -1,16 +1,16 @@
 ---
 title: "fleetd/node/packages/contracts/src/setup.ts"
 linkTitle: "setup"
-description: "Exact executable parser definitions and their imported contracts. Custom code is retained; no omitted checks are implied by field summaries."
+description: "Validation functions, types and constants from the recorded source revision."
 sourceProject: "ctlflow"
 sourcePath: "services/fleetd/node/packages/contracts/src/setup.ts"
 generated: true
 ---
 
 
-## How to read this page
+## Definitions
 
-These are the actual contract definitions at the documented source revision. They are reference text, not a distributed JavaScript SDK. All server implementations must enforce the same observable contract. `check.object` rejects unknown fields; custom functions and refinements remain part of validation.
+These TypeScript definitions document server validation. `check.object` rejects unknown fields. Custom functions and refinements specify additional checks.
 
 ### Imported definitions
 

@@ -1,6 +1,6 @@
 ---
 title: "fleetd private API"
-description: "19 exact fleetd operation contracts, with nested fields, custom predicates and source definitions."
+description: "19 HTTP operations with request fields, responses and validation."
 weight: 40
 operationCount: 19
 generated: true
@@ -8,11 +8,11 @@ noCards: true
 ---
 
 
-This is a **private Unix-socket API**, not an Internet-exposed service. fleet uses it locally or over authenticated SSH. Catalog `auth: public` means no separate human/agent cookie or bearer requirement inside that private transport boundary.
+fleet calls this **private Unix-socket API** locally or over SSH. Socket ownership restricts access. `auth: public` means no additional session cookie or bearer token is required.
 
-The reference is generated from the executable operation catalog and its transitive parser definitions. Nested objects, array items, optional/null fields, scalar bounds and custom predicates are retained. This is not a generated OpenAPI/JSON Schema claim.
+These pages are generated from the operation definitions and validation functions. Each page includes field limits and custom validation code.
 
-| Operation | Method | Path | Audience | Success |
+| Operation | Method | Path | Authentication | Success |
 | --- | --- | --- | --- | --- |
 | [`setup`](/docs/api/fleetd/setup/) | `POST` | `/api/setup` | `public` | 200 |
 | [`status`](/docs/api/fleetd/status/) | `GET` | `/api/status` | `public` | 200 |

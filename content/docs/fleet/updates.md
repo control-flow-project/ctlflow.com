@@ -1,10 +1,9 @@
 ---
 title: "Updates and diagnosis"
-description: "Explicit package update, selected histories, controller restart and status diagnosis."
+description: "Update software, restart after a power failure and diagnose common errors."
 weight: 55
 sourceProject: "ctlflow"
 sourcePath: "services/fleet/docs/operations.md"
-generated: true
 ---
 
 ## Inspect before acting
@@ -31,8 +30,8 @@ Sleeping can be ready without a running native engine.
    unread positions and intended activation.
 
 Only previously desired-active targets resume. Updates never silently enroll a
-replacement identity or choose another model. A changed skill uses the same
-native instruction receipt owner. No HTTP software fallback is used.
+replacement identity or choose another model. Changed skill instructions are sent through the runtime adapter. Recovery does
+not download software.
 
 ## Power failure
 

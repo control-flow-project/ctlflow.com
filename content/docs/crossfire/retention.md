@@ -1,10 +1,9 @@
 ---
 title: "Logging and retention"
-description: "Seven-day default retention, pinned live evidence and bounded cleanup."
+description: "Configure log retention and understand which records are preserved."
 weight: 60
 sourceProject: "ctlflow"
 sourcePath: "services/crossfire/docs/logging.md"
-generated: true
 ---
 
 crossfire and fleetd accept private `loggingRetentionDays`.
@@ -37,11 +36,11 @@ cannot be selected by whichever remote instance connected first.
 
 Cleanup starts at startup, runs hourly while idle and drains backlogs in
 500-record family batches with five-second retries.
-Exact cutoff equality is retained.
+Records exactly at the cutoff are retained.
 Child-before-parent database deletion is transactional.
 Protected current records cannot starve later eligible history.
 
-## Not logs
+## Data excluded from log retention
 
 Do not rotate chats/media, static reports, native histories, credentials,
 configuration, current authority, desired/resume selections, prepared input or
@@ -63,10 +62,9 @@ Pruning streams boundary-day records and replaces only an unchanged source.
 Links, hardlinks, unowned/public files and malformed records are retained with
 an error for inspection. Files are 0600; directories 0700.
 
-The supported old `daemon.log` converts once. Its untimestamped chunks use the
-explicit file-modification-time upper bound, never invented entry timestamps.
-The old `operations.json` converts once to UUID operation files.
-Current runtime does not retain dual readers or a count-only history cap.
+Upgrades convert `daemon.log` and `operations.json` to the current formats once.
+Untimestamped log chunks use the file modification time as an upper bound.
+Current readers accept only the converted formats.
 
 ## Errors and delayed receipts
 

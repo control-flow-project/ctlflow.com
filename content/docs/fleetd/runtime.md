@@ -1,17 +1,16 @@
 ---
 title: "Native runtime adapters"
-description: "Native settings, interruption, receipt uncertainty, output, human decisions and terminal attachment."
+description: "How adapters run Codex and Pi, confirm delivery and handle owner questions."
 weight: 20
 sourceProject: "ctlflow"
 sourcePath: "services/crossfire/docs/runtime.md"
-generated: true
 ---
 
 fleetd owns native processes through runtime adapters. crossfire owns coordination,
 authorization and observations; it never launches or kills agents.
 
-Codex and Earendil Pi are implemented. Claude is rejected at configuration
-boundaries. There is no terminal-scraping control channel or backend fallback.
+The adapters support Codex and Earendil Pi. Claude configuration is rejected.
+Adapters use runtime protocols rather than reading terminal text for control.
 
 ## Settings and histories
 
@@ -31,15 +30,15 @@ authorized host source. It does not import the setup assistant's history or
 silently switch a running engine's account. Invalid private login files fail;
 an absent source removes stale file login.
 
-Instructions are receipt-confirmed native developer/custom entries with zero
-model turns. Unchanged instructions do not append duplicates. Changed AGENTS.md,
+Instructions are inserted as native developer or custom entries without making
+a model call. Unchanged instructions do not append duplicates. Changed AGENTS.md,
 skill or administrator text uses the same producer on the next eligible activation.
 
 ## Message delivery and interruption
 
 The listener filters native Matrix events using current account, room, wake and
-controller authority. Input contains verified instance/owner, exact event origin,
-sender directory, room/event IDs and native time. Missing metadata is unknown.
+controller authority. Input identifies the receiving agent and owner, sender, room, event and timestamp.
+Missing metadata is marked unknown.
 
 Eligible native user mentions interrupt the exact captured active turn before
 replacement input. Humans and agents have the same accepted-source rule.
@@ -53,16 +52,16 @@ input. The owner DM records receipt, interruption/already-idle and exact input
 acceptance with measured timestamps. A delivered input receipt is not completed
 model work. Cancellation does not roll back prior tool effects.
 
-## Native input uncertainty
+## Unconfirmed delivery
 
 The adapter journals exact input identity/text and history boundary before sending.
 Only an exact native receipt advances unread state. RPC success or a client
 correlation ID alone is insufficient. Confirmed input survives restart without
 replay; pending work is resolved before a new reminder/message.
 
-A restarted idle native process has no previous running turn.
-When its old receipt cannot be established, the exact old message is written to
-a private file and referenced by a new correlated restart instruction.
+A restarted process has no old running turn. If delivery of the previous message
+cannot be confirmed from history, that message is saved to a private file. A new
+restart instruction points to it.
 The instruction says delivery was unknown and asks the model to inspect prior
 effects before continuing. It does not claim exactly-once external execution.
 
@@ -114,8 +113,7 @@ observes the exact parent pidfd and terminates its owned native group on exit.
 That mechanism does not contain arbitrary subprocesses that escape the group.
 A full host restart, where old processes are gone, is a different case.
 No implementation scans process names, adopts an orphan or copies its history
-to bypass ownership. These are explicit per-target failure boundaries, not a
-claim that parent-death control is architecturally impossible.
+to bypass ownership. These protections differ by implementation.
 
 ## Native terminal access
 

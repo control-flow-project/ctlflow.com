@@ -12,22 +12,22 @@ generated: true
 
 ## Stream exactly one declared static file
 
-| Contract fact | Value |
+| Property | Value |
 | --- | --- |
-| Product owner | `crossfire` |
+| Service | `crossfire` |
 | Operation | `uploadPublicationFile` |
 | Method | `PUT` |
 | Path | `/api/publications/{publicationId}/files/{fileId}` |
-| Catalog audience | `agent` |
+| Authentication | `agent` |
 | Success status | `200` |
-| Response data | Single value; not a collection operation |
+| Response data | Unpaginated value |
 | Request format | `binary` |
-| Request byte ceiling | 8388608 bytes (operation-specific) |
-| Declared permissions | `publication.publish.self` |
+| Maximum request body | 8388608 bytes (operation-specific) |
+| Permission codes | `publication.publish.self` |
 
-Permission lists describe operation-level admission alternatives, not a bearer-token scope string, automatic access to every object, or permission to act as another principal. Current owner, instance, room, revision and generation checks remain authoritative.
+Listed permission codes are alternatives, not token scopes. The service also checks access to the requested records and rejects stale revisions or controller generations.
 
-The request body is raw declared file bytes, not a JSON wrapper or base64 field. The staged manifest owns the exact byte length, SHA-256 and media type; publication is a separate commit operation.
+Send raw declared file bytes. The length, SHA-256 and media type must match the staged manifest. Commit the publication after uploading its files.
 
 - [Authentication, envelopes and pagination](/docs/api/http/)
 - [Language-neutral client examples](/docs/api/client-examples/)
@@ -41,7 +41,7 @@ object; fields below; unknown fields rejected
 | `publicationId` | lowercase opaque UUID |
 | `fileId` | lowercase opaque UUID |
 
-### Exact validator
+### Validation
 
 ```typescript
 check.object({ publicationId: check.identifier, fileId: check.identifier })
@@ -54,13 +54,13 @@ Referenced definitions:
 
 ## Query parameters
 
-custom parser [`none`](/docs/api/schemas/crossfire-contracts-schema-query/#none); exact branches, defaults and rejection rules below
+custom validation: [`none`](/docs/api/schemas/crossfire-contracts-schema-query/#none); see function below
 
-Query values arrive as URL text, not JSON values. The exact parser below owns decoding, defaults, duplicate rejection, filters and any cross-field rules. The shared pagination contract applies only when the parser invokes it.
+Query parameters are URL text. The validation function below specifies their format, defaults and combinations. Pagination applies only to operations that use it.
 
-### Custom constraints
+### Additional checks
 
-These predicates/branches are part of the wire contract, not optional documentation annotations. A field table is not a replacement for these checks.
+The following checks apply in addition to the field limits.
 
 Constraint on `value`:
 
@@ -71,7 +71,7 @@ export function none(input: unknown) {
 }
 ```
 
-### Exact validator
+### Validation
 
 ```typescript
 query.none
@@ -83,11 +83,11 @@ Referenced definitions:
 
 ## Request body
 
-Send raw bytes with `Content-Type: application/octet-stream` and the exact canonical decimal `Content-Length`. The length must match the staged file, remain within the operation limit, and hash to the declared SHA-256. Do not send a JSON object or base64 wrapper.
+Use `Content-Type: application/octet-stream` and a canonical decimal `Content-Length` matching the staged file. The body must remain within the operation limit and match the declared SHA-256. Do not wrap it in JSON or base64.
 
-The named `BinaryInput` validator below describes the server-internal stream adapter result, not a client JSON field schema. Clients never provide `chunks` or an `AsyncIterable` object over HTTP.
+`BinaryInput` below describes the server's representation of the upload stream. `chunks` is not an HTTP request field.
 
-### Server-side transport validator
+### Server-side stream validation
 
 ```typescript
 binaryInput
@@ -103,7 +103,7 @@ object; fields below; unknown fields rejected
 | --- | --- |
 | `uploaded` | boolean |
 
-### Exact validator
+### Validation
 
 ```typescript
 check.object({ uploaded: check.boolean })
@@ -116,7 +116,7 @@ Referenced definitions:
 
 ## Response envelope
 
-The response-data validator above applies to `data`, not to the entire HTTP response. All successful JSON operations use the shared envelope; failures use `error` instead of `data`.
+A successful JSON response contains `data` and `meta`. Replace the `data` placeholder below with the response fields described above. Errors contain `error` instead of `data`.
 
 ```json
 {
@@ -126,5 +126,3 @@ The response-data validator above applies to `data`, not to the entire HTTP resp
   }
 }
 ```
-
-The placeholder is illustrative notation, not a valid response-data value. See the exact fields and validators above.

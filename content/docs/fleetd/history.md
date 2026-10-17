@@ -1,10 +1,9 @@
 ---
 title: "Input and history"
-description: "Opaque unread cursors, complete large-message files, shared/per-room histories and explicit reset."
+description: "Shared and per-room histories, unread cursors, large messages and reset."
 weight: 35
 sourceProject: "ctlflow"
 sourcePath: "services/crossfire/docs/history.md"
-generated: true
 ---
 
 ## Context modes
@@ -47,15 +46,15 @@ compact manifest. Content is not truncated or automatically expanded into model
 context. The agent reads the files it needs.
 
 Files preserve exact room/event/sender/time, byte counts, SHA-256 and continuation
-information. Direct fleet and scheduled input uses the same file owner without
-inventing Matrix events. Pending publications and initial snapshot references
+information. Direct fleet messages and scheduled input use the same file mechanism, without
+being represented as Matrix events. Pending publications and initial snapshot references
 pin their files. Settled artifacts expire after 24 hours; idle cleanup runs hourly.
 
 ## Intentional reads
 
 `agent read` requests authorized unread catch-up globally or for one room.
-The receiver serializes the query against publication and acknowledges only
-after the caller writes output. An unacknowledged query expires after five
+The receiver runs the query in order with message delivery and advances unread
+state only after the caller writes the output. An unacknowledged query expires after five
 minutes without cursor advancement. Changed authority or base positions prevent
 a stale acknowledgment.
 
@@ -74,9 +73,9 @@ Each activation refreshes provider login from the authorized host source.
 A broken established binding is an error, not an implicit fresh conversation.
 
 Unfinished-work checkpoints retain exact context/session IDs. On restart the
-adapter first resolves preceding native publication. It then supplies one
-receipt-backed continuation asking the agent to reread applicable AGENTS.md,
-review completed effects and continue unfinished authorized work.
+adapter first resolves any unconfirmed input. It then sends a reminder asking
+the agent to reread applicable AGENTS.md, review completed effects and continue
+unfinished authorized work.
 Idle contexts receive no synthetic task.
 
 A restarted native process has no old running turn. If earlier input receipt

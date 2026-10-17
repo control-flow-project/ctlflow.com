@@ -12,20 +12,20 @@ generated: true
 
 ## Create a scheduled Wake-up
 
-| Contract fact | Value |
+| Property | Value |
 | --- | --- |
-| Product owner | `crossfire` |
+| Service | `crossfire` |
 | Operation | `createWakeRule` |
 | Method | `POST` |
 | Path | `/api/wake-rules` |
-| Catalog audience | `human` |
+| Authentication | `human` |
 | Success status | `201` |
-| Response data | Single value; not a collection operation |
+| Response data | Unpaginated value |
 | Request format | `json` |
-| Request byte ceiling | 2097152 bytes (product HTTP default; not the model-inline limit) |
-| Declared permissions | `wake-rule.manage.owned` |
+| Maximum request body | 2097152 bytes (service default) |
+| Permission codes | `wake-rule.manage.owned` |
 
-Permission lists describe operation-level admission alternatives, not a bearer-token scope string, automatic access to every object, or permission to act as another principal. Current owner, instance, room, revision and generation checks remain authoritative.
+Listed permission codes are alternatives, not token scopes. The service also checks access to the requested records and rejects stale revisions or controller generations.
 
 - [Authentication, envelopes and pagination](/docs/api/http/)
 - [Language-neutral client examples](/docs/api/client-examples/)
@@ -34,7 +34,7 @@ Permission lists describe operation-level admission alternatives, not a bearer-t
 
 empty object; unknown fields rejected
 
-### Exact validator
+### Validation
 
 ```typescript
 check.empty
@@ -46,13 +46,13 @@ Referenced definitions:
 
 ## Query parameters
 
-custom parser [`none`](/docs/api/schemas/crossfire-contracts-schema-query/#none); exact branches, defaults and rejection rules below
+custom validation: [`none`](/docs/api/schemas/crossfire-contracts-schema-query/#none); see function below
 
-Query values arrive as URL text, not JSON values. The exact parser below owns decoding, defaults, duplicate rejection, filters and any cross-field rules. The shared pagination contract applies only when the parser invokes it.
+Query parameters are URL text. The validation function below specifies their format, defaults and combinations. Pagination applies only to operations that use it.
 
-### Custom constraints
+### Additional checks
 
-These predicates/branches are part of the wire contract, not optional documentation annotations. A field table is not a replacement for these checks.
+The following checks apply in addition to the field limits.
 
 Constraint on `value`:
 
@@ -63,7 +63,7 @@ export function none(input: unknown) {
 }
 ```
 
-### Exact validator
+### Validation
 
 ```typescript
 query.none
@@ -82,7 +82,7 @@ object; fields below; unknown fields rejected ([`wakeRuleCreation`](/docs/api/sc
 | `ruleId` | lowercase opaque UUID |
 | `name` | string; 1–100 UTF-16 units; well-formed Unicode; no C0/DEL controls; constraint: Provide a Wake-up name ([`name`](/docs/api/schemas/crossfire-contracts-wake-up/#name)) |
 | `message` | plain-text string; at most 16384 UTF-8 bytes; allowed whitespace controls only; constraint: Provide a wake-up message ([`message`](/docs/api/schemas/crossfire-contracts-wake-up/#message)) |
-| `schedule` | custom parser [`wakeSchedule`](/docs/api/schemas/crossfire-contracts-wake-up/#wakeSchedule); exact branches, defaults and rejection rules below |
+| `schedule` | custom validation: [`wakeSchedule`](/docs/api/schemas/crossfire-contracts-wake-up/#wakeSchedule); see function below |
 | `schedule.kind (parser branch 1)` | `interval` |
 | `schedule.seconds (parser branch 1)` | exact JSON integer; 1…31536000 |
 | `schedule.kind (parser branch 2)` | `cron` |
@@ -91,9 +91,9 @@ object; fields below; unknown fields rejected ([`wakeRuleCreation`](/docs/api/sc
 | `enabled` | boolean |
 | `agentIds` | array; 0–1000 entries; item: lowercase opaque UUID; constraint: Duplicate attached agents ([`agentIds`](/docs/api/schemas/crossfire-contracts-wake-up/#agentIds)) |
 
-### Custom constraints
+### Additional checks
 
-These predicates/branches are part of the wire contract, not optional documentation annotations. A field table is not a replacement for these checks.
+The following checks apply in addition to the field limits.
 
 Constraint on `message`:
 
@@ -121,7 +121,7 @@ Constraint on `agentIds`:
 ids => new Set(ids).size === ids.length
 ```
 
-### Exact validator
+### Validation
 
 ```typescript
 wake.wakeRuleCreation
@@ -148,7 +148,7 @@ object; fields below; unknown fields rejected ([`wakeRuleDetails`](/docs/api/sch
 | `configuredById` | lowercase opaque UUID |
 | `name` | string; 1–100 UTF-16 units; well-formed Unicode; no C0/DEL controls; constraint: Provide a Wake-up name ([`name`](/docs/api/schemas/crossfire-contracts-wake-up/#name)) |
 | `message` | plain-text string; at most 16384 UTF-8 bytes; allowed whitespace controls only; constraint: Provide a wake-up message ([`message`](/docs/api/schemas/crossfire-contracts-wake-up/#message)) |
-| `schedule` | custom parser [`wakeSchedule`](/docs/api/schemas/crossfire-contracts-wake-up/#wakeSchedule); exact branches, defaults and rejection rules below |
+| `schedule` | custom validation: [`wakeSchedule`](/docs/api/schemas/crossfire-contracts-wake-up/#wakeSchedule); see function below |
 | `schedule.kind (parser branch 1)` | `interval` |
 | `schedule.seconds (parser branch 1)` | exact JSON integer; 1…31536000 |
 | `schedule.kind (parser branch 2)` | `cron` |
@@ -173,9 +173,9 @@ object; fields below; unknown fields rejected ([`wakeRuleDetails`](/docs/api/sch
 | `agents[].nextDueAt` | exact JSON integer; 0…9007199254740991 |
 | `agents[].lastDeliveredAt` | exact JSON integer; 0…9007199254740991; JSON null permitted |
 
-### Custom constraints
+### Additional checks
 
-These predicates/branches are part of the wire contract, not optional documentation annotations. A field table is not a replacement for these checks.
+The following checks apply in addition to the field limits.
 
 Constraint on `message`:
 
@@ -197,7 +197,7 @@ input => {
 }
 ```
 
-### Exact validator
+### Validation
 
 ```typescript
 wake.wakeRuleDetails
@@ -209,7 +209,7 @@ Referenced definitions:
 
 ## Response envelope
 
-The response-data validator above applies to `data`, not to the entire HTTP response. All successful JSON operations use the shared envelope; failures use `error` instead of `data`.
+A successful JSON response contains `data` and `meta`. Replace the `data` placeholder below with the response fields described above. Errors contain `error` instead of `data`.
 
 ```json
 {
@@ -219,5 +219,3 @@ The response-data validator above applies to `data`, not to the entire HTTP resp
   }
 }
 ```
-
-The placeholder is illustrative notation, not a valid response-data value. See the exact fields and validators above.

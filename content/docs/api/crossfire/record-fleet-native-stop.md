@@ -12,20 +12,20 @@ generated: true
 
 ## Record actual native close on the current controller generation after all receipts settle
 
-| Contract fact | Value |
+| Property | Value |
 | --- | --- |
-| Product owner | `crossfire` |
+| Service | `crossfire` |
 | Operation | `recordFleetNativeStop` |
 | Method | `PUT` |
 | Path | `/api/fleets/{fleetId}/agents/{agentId}/native-stop` |
-| Catalog audience | `fleet` |
+| Authentication | `fleet` |
 | Success status | `200` |
-| Response data | Single value; not a collection operation |
+| Response data | Unpaginated value |
 | Request format | `json` |
-| Request byte ceiling | 2097152 bytes (product HTTP default; not the model-inline limit) |
-| Declared permissions | No permission codes declared; domain/credential/transport checks still apply |
+| Maximum request body | 2097152 bytes (service default) |
+| Permission codes | None declared |
 
-Permission lists describe operation-level admission alternatives, not a bearer-token scope string, automatic access to every object, or permission to act as another principal. Current owner, instance, room, revision and generation checks remain authoritative.
+Listed permission codes are alternatives, not token scopes. The service also checks access to the requested records and rejects stale revisions or controller generations.
 
 - [Authentication, envelopes and pagination](/docs/api/http/)
 - [Language-neutral client examples](/docs/api/client-examples/)
@@ -39,7 +39,7 @@ object; fields below; unknown fields rejected
 | `fleetId` | lowercase opaque UUID |
 | `agentId` | lowercase opaque UUID |
 
-### Exact validator
+### Validation
 
 ```typescript
 check.object({ fleetId: check.identifier, agentId: check.identifier })
@@ -52,13 +52,13 @@ Referenced definitions:
 
 ## Query parameters
 
-custom parser [`none`](/docs/api/schemas/crossfire-contracts-schema-query/#none); exact branches, defaults and rejection rules below
+custom validation: [`none`](/docs/api/schemas/crossfire-contracts-schema-query/#none); see function below
 
-Query values arrive as URL text, not JSON values. The exact parser below owns decoding, defaults, duplicate rejection, filters and any cross-field rules. The shared pagination contract applies only when the parser invokes it.
+Query parameters are URL text. The validation function below specifies their format, defaults and combinations. Pagination applies only to operations that use it.
 
-### Custom constraints
+### Additional checks
 
-These predicates/branches are part of the wire contract, not optional documentation annotations. A field table is not a replacement for these checks.
+The following checks apply in addition to the field limits.
 
 Constraint on `value`:
 
@@ -69,7 +69,7 @@ export function none(input: unknown) {
 }
 ```
 
-### Exact validator
+### Validation
 
 ```typescript
 query.none
@@ -89,7 +89,7 @@ object; fields below; unknown fields rejected
 | `runId` | lowercase opaque UUID |
 | `receiptId` | lowercase opaque UUID |
 
-### Exact validator
+### Validation
 
 ```typescript
 check.object({ connectionId: check.identifier, runId: check.identifier, receiptId: check.identifier })
@@ -108,7 +108,7 @@ object; fields below; unknown fields rejected ([`recorded`](/docs/api/schemas/cr
 | --- | --- |
 | `recorded` | boolean |
 
-### Exact validator
+### Validation
 
 ```typescript
 res.recorded
@@ -120,7 +120,7 @@ Referenced definitions:
 
 ## Response envelope
 
-The response-data validator above applies to `data`, not to the entire HTTP response. All successful JSON operations use the shared envelope; failures use `error` instead of `data`.
+A successful JSON response contains `data` and `meta`. Replace the `data` placeholder below with the response fields described above. Errors contain `error` instead of `data`.
 
 ```json
 {
@@ -130,5 +130,3 @@ The response-data validator above applies to `data`, not to the entire HTTP resp
   }
 }
 ```
-
-The placeholder is illustrative notation, not a valid response-data value. See the exact fields and validators above.

@@ -4,7 +4,6 @@ description: "Native Rust distribution layout, requirements, packaging and opera
 weight: 40
 sourceProject: "ctlflow"
 sourcePath: "docs/distributions/rust.md"
-generated: true
 ---
 
 ## Prerequisites
@@ -159,10 +158,10 @@ before tests. Running a storage test directly without that preparation is not
 equivalent. The Rust release gate adds the shared installed/browser assertions,
 actual runtime containers and Knex containers without changing or executing the
 other product implementations. The separate `verify:parity` coordinator covers
-all implementations after their owners resolve outstanding findings. Results name their
-platform/providers; they do not establish paid-model quality or every host/crash.
+all implementations. Results identify the tested platform and providers;
+inert-provider tests do not establish paid-model quality.
 
 - [Shared product configuration and commands](https://github.com/control-flow-project/ctlflow/blob/main/services/fleet/docs/README.md)
 - [Server configuration and backup](https://github.com/control-flow-project/ctlflow/blob/main/services/crossfire/docs/operations.md)
 - [Architecture and verification limits](https://github.com/control-flow-project/ctlflow/blob/main/docs/architecture/native-implementations.md)
-- [Proprietary license](https://github.com/control-flow-project/ctlflow/blob/main/LICENSE)
+- [MIT license](https://github.com/control-flow-project/ctlflow/blob/main/LICENSE)

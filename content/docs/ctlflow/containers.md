@@ -1,10 +1,9 @@
 ---
 title: "Container packages"
-description: "Transferable runtime/migration images, explicit backend selection and ownership-fenced deployment."
+description: "Build, transfer and run server images with their matching migration image."
 weight: 50
 sourceProject: "ctlflow"
 sourcePath: "services/crossfire/docs/container-packages.md"
-generated: true
 ---
 
 crossfire packages a selected server backend and the common Knex migration image.
@@ -14,7 +13,6 @@ Node, C# and Rust operators consume the same format and can run any server backe
 The operator's implementation does not select the server's implementation.
 
 Build targets are Node, C# managed, C# NativeAOT and Rust on Linux amd64.
-The Rust image contains its native server, not a substituted Node process.
 These packages do not provide native macOS/Windows fleetd or ARM64 images.
 C# fleetd currently has Linux-specific process/filesystem adapters.
 Image construction and native calendar verification compile the same pinned IANA
@@ -48,7 +46,8 @@ for publication. A moderate-or-higher production dependency audit blocks image
 construction, in the producer and common Docker build stage. Sites consume those
 reviewed artifacts rather than maintaining private dependency/source overlays.
 Docker may obtain pinned build dependencies/base images.
-Treat these proprietary packages as private release artifacts.
+Keep release artifacts in a trusted distribution location. The source uses the
+MIT license.
 The bundled package-tool.mjs is trusted Node.js 26 build-side tooling for verifying
 and exporting branded derivatives without a source checkout. It is not executed
 by the server or required by the C# operator. Trust its publisher as executable
@@ -114,10 +113,8 @@ cleanup bound and retain failures when absence cannot be established. The shared
 container harness gives operators three minutes to finish stop, detach and cleanup;
 the ordinary process default remains ten seconds. This is not a cleanup waiver.
 
-GAAP and Bad Bets select csharp-nativeaot in their site deployment profiles and
-retain their separate DNS/TLS/nginx, origins, ports, private
-directories and branding. A package is site-independent. This documentation is
-not a record that either site's deployment scripts or running services changed.
+A deployment supplies its own DNS, TLS, reverse proxy, origins, ports, state
+directory and branding. The package format does not depend on the site.
 
 ## Site branding
 
@@ -178,13 +175,11 @@ selection, runs image-owned readiness probes, tests transfer/import and rejects
 corrupt archives/mismatched labels before touching a running instance.
 The ordinary installed-products and historical migration banks remain required.
 
-The root packaging coordinator composes the unchanged Node/C# builder with the
-Rust-owned image producer. Rust reuses the common asset/migration Dockerfile,
+The root packaging command calls the Node/C# builder and Rust image producer. Rust reuses the common asset/migration Dockerfile,
 package exporter and label validation; only its runtime build is target-owned.
 The same container assertion bank covers all selected distributions. Rust's
 separate release gate runs its actual image through this bank; the full matrix
-also crosses all installed operators and backend packages. A passing build is not
-an end-to-end certification; current evidence and unresolved owner findings are
-recorded in the native review.
+also crosses all installed operators and backend packages. Build results and behavioral verification are recorded separately in the native
+review.
 
 - [Rust integration review](source:ctlflow:docs/architecture/rust-review.md)

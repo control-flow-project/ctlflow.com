@@ -1,10 +1,9 @@
 ---
 title: "Wake and room coordination"
-description: "Sender selections, owner approval, invitation provenance and delivery boundaries."
+description: "Choose wake senders and configure agents to invite other agents."
 weight: 25
 sourceProject: "ctlflow"
 sourcePath: "services/fleetd/docs/coordination.md"
-generated: true
 ---
 
 Role `coordination_options` is separate from native `runtime_options`.
@@ -50,8 +49,8 @@ Enrollment reviews exact names, controller, complete policy and current ownershi
 Only the named human owner can approve. Private controller/agent proof cannot
 approve policy. Room membership remains a separate native-authorized decision.
 
-New ordinary room generations materialize approved invitation defaults through
-the canonical room-permission owner. Owner/management DMs never delegate.
+Approved invitation defaults become permissions when a new ordinary room grant
+is created. Owner/management DMs never delegate.
 Current human edits remain authoritative during ordinary resume.
 Use explicit stopped-fleet enrollment when proposing changed defaults.
 

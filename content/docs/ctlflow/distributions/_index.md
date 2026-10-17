@@ -1,10 +1,9 @@
 ---
 title: "Implementations and packaging"
-description: "Explicit Node, managed C#, NativeAOT and Rust build and installation choices."
+description: "Build and install Node, C# managed, C# NativeAOT or Rust products."
 weight: 45
 sourceProject: "ctlflow"
 sourcePath: "docs/distributions/README.md"
-generated: true
 ---
 
 Choose one implementation for each product. All implementations use the same
@@ -24,9 +23,8 @@ C# NativeAOT are two build modes of the same implementation.
 - [Rust installation and packaging](/docs/ctlflow/distributions/rust/)
 
 Each guide covers prerequisites, packaging, server startup, fleet setup, upgrades
-and verification. The Rust publisher copies its selected guide into the
-distribution as `README.md`. The C# publisher remains unchanged and retains its
-existing implementation README. Node npm archives contain their product README and
+and verification. The Rust distribution includes its target guide as `README.md`; C# includes its
+implementation README. Node npm archives contain their product README and
 product guides. No installed guide requires a local source checkout merely to
 resolve its documentation links.
 
@@ -37,9 +35,8 @@ internal packages remain private. No native release-download service is assumed.
 
 Build dependencies and runtime dependencies differ. Native fleet controllers
 still require Node for the shared agent-tool client; selecting a native backend
-does not remove that requirement. The server operator uses an explicit source
-checkout to build its runtime and shared migration images. It does not deploy
-the host distribution executable into a container by copying it.
+does not remove that requirement. Building server images requires a source checkout. Deployment uses a completed
+container package and does not compile source on the host.
 
 - [Shared product configuration](/docs/fleet/configuration/)
 - [Development and all-target verification](/docs/ctlflow/development/)

@@ -1,51 +1,91 @@
 ---
-title: Security boundaries
-description: Identities, wake authority, native permissions, histories, owner observations and public content isolation.
+title: Security
+description: What authentication, room permissions, histories and the report sandbox protect.
 weight: 30
 ---
 
-## Independent boundaries
+## Different controls protect different things
 
-| Boundary | What it controls | What it does not establish |
+| Control | What it checks | What it does not provide |
 | --- | --- | --- |
-| Human/agent/controller authentication | The current acting principal or fleet generation | Access to arbitrary rooms or another owner's decisions |
-| Desired room grant + native membership/powers | Whether an agent can read/reply/invite in that room | Whether a sender may wake it |
-| Wake policy | Which eligible sources can deliver triggering input | Room membership, approval or permission expansion |
-| Native runtime permissions | Runtime-specific filesystem/tool execution policy | Matrix room or owner authorization |
-| Per-room histories | Separate saved native conversation contexts | Filesystem, credential, process or model sandbox isolation |
-| Report sandbox | Separation from main-origin cookies/storage/API | Confidentiality or trustworthiness of a public report |
+| Authentication | Which human, agent or controller is making a request | Access to every room or another owner's decisions |
+| Room grant and Matrix membership | Whether an agent can read, reply or invite in a room | Permission for every sender to wake it |
+| Wake policy | Who can deliver a message that starts or interrupts an agent | New room access or permission to approve tools |
+| Runtime permissions | What the engine can do with files and tools | Matrix authorization |
+| Per-room histories | Separate saved conversations | Separate files, credentials, processes or security sandboxes |
+| Report sandbox | Separation from the application's cookies, storage and API | Confidentiality or trustworthiness of report contents |
 
-## Owners and room-derived output
+## The owner can see terminal output
 
-Nonthinking terminal content is mirrored to the protected owner DM, including commentary derived from a room the owner has not joined. The owner is trusted by this model. Shared history combines information across authorized rooms. Neither behavior is a confidentiality guarantee against the owner or the native process.
+Visible nonthinking terminal output is sent to the protected owner DM. This
+includes commentary based on a room the owner has not joined. The owner is
+trusted to receive it.
 
-Useful room/DM replies require the intentional tool and the exact destination. Last active room and thinking state do not choose an output audience. Agents are instructed not to disclose host paths, usernames, private endpoints, sockets, credentials or process/session details outside the verified owner channel. These are instructions, not an automatic redaction service.
+Shared history combines information from authorized rooms. For example, an agent
+reading two rooms may use facts from both when responding. Per-room history
+reduces conversational mixing, but the agent's tools can still access its files
+and credentials. Neither mode provides confidentiality against the owner or the
+native process.
 
-## Mentions are steering, not authority
+Room replies must use the messaging tool with an explicit destination. The last
+active room and thinking indicator do not choose the audience.
 
-A fresh native `m.mentions.user_ids` mention from an accepted human or agent can interrupt the exact current native turn and submit new attributed input. The listener rechecks current source, membership, grant, wake policy and controller generation. Quoted names, edits, self events, snapshots and control traffic cannot steer execution.
+Agents are instructed not to disclose host paths, OS usernames, private endpoints,
+sockets, credentials or process details outside the verified owner DM. Relative
+paths and authorized attachments can be used instead. This is an instruction,
+not automatic redaction. Review content before publishing it.
 
-Steering never approves a tool request, changes native permission settings, creates room access or authorizes a broader task. Cancellation is not rollback of completed external effects.
+## Mentions interrupt work; they do not grant permission
 
-## Human decisions
+A fresh Matrix `m.mentions.user_ids` mention from an accepted sender can interrupt
+a running agent. The listener checks the sender, receiver, room membership, grant,
+wake policy and controller generation first.
 
-Only the active owner answers a native decision. Another administrator, an agent reply, a GET request, silence or a default option is not consent. The answer binds the exact native request/session/generation. Secret answers are excluded from Matrix, ordinary GET/list data and audit.
+Quoted names, edits, self messages, historical snapshots and control notices do
+not interrupt. Interruption does not approve a tool request, grant room access
+or roll back actions already performed.
 
-Pending, answered, responded, cancelled and expired are distinct. A received answer is not confirmed native transmission, and confirmed transmission is not completed work. Arbitrary terminal prose is not parsed into an invented decision.
+## Owner decisions
 
-## Server, controller and report origins
+Only the active owner can answer an agent's structured permission request or
+question. An administrator cannot answer for another owner. An agent reply,
+ordinary chat message, GET link or silence is not consent.
 
-Human cookies are host-only Secure HttpOnly `__Host-` cookies. Human mutations require the exact application Origin and CSRF secret. Content and `null` origins fail main API admission. The report listener has no auth or management route and runs content with scripts in an opaque origin.
+The submitted answer is tied to the original request and native session.
+Secret answers are excluded from Matrix, audit and ordinary GET/list responses.
+An answer recorded by crossfire is distinct from an answer confirmed sent to
+the runtime, and neither means the task has completed.
 
-The controller API is private to its user-owned socket. It rejects browser origins, cookies and bearer headers. SSH forwards the same API under normal host-key/user authentication; no public controller port is required.
+Arbitrary terminal prose and subprocess prompts are not parsed into decisions.
 
-## Recovery guarantees and limits
+## Browser and controller access
 
-Exact native history and receipt evidence are preserved; missing/corrupt established history cannot silently become a new conversation. Unknown prior native delivery is carried into a new correlated input after restart, with the complete previous input in a private file and an explicit request to review history/effects before continuing.
+Human cookies are host-only, Secure, HttpOnly `__Host-` cookies. Mutations require
+the configured application Origin and CSRF secret. Main APIs reject report and
+`null` origins.
 
-This prevents acknowledging skipped input. It cannot guarantee exactly-once external tool/model effects, survival of arbitrary escaped subprocesses, every power-failure boundary or successful provider execution. Failure and lost contact remain distinct observations.
+Reports use a separate hostname and a browser sandbox with scripts but without
+`allow-same-origin`. They execute at an opaque origin and cannot access the main
+application's cookies or storage. Anyone with a report link can still read it.
 
-- [Complete architecture contract](/docs/ctlflow/specification/)
-- [Native adapters and uncertainty](/docs/fleetd/runtime/)
+fleetd's API is restricted to the user's private Unix socket. It rejects browser
+origins, cookies and bearer headers. SSH uses normal host-key and user
+authentication to transport requests to that socket.
+
+## Recovery limitations
+
+The controller preserves native histories and the records used to confirm message
+delivery. It does not replace missing or corrupt history automatically.
+
+If delivery cannot be established after a restart, a new input points to the
+complete previous message and states that earlier delivery is unknown. The agent
+is asked to inspect history and external effects before continuing.
+
+This cannot guarantee exactly-once tool actions, contain arbitrary escaped
+subprocesses or make an unavailable provider work. Lost contact means execution
+state is unknown, not that the agent is confirmed stopped.
+
+- [Runtime behavior](/docs/fleetd/runtime/)
+- [Delivery and restart cases](/docs/fleetd/delivery/)
 - [HTTP authentication](/docs/api/http/)
-- [Report-origin protocol](/docs/api/native-http/#separate-report-origin)
+- [Report isolation](/docs/crossfire/publications/#browser-isolation)

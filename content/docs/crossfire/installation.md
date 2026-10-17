@@ -1,10 +1,9 @@
 ---
 title: "Install the server"
-description: "Initialize private instance state and start a selected server implementation."
+description: "Create an instance, run its server package and connect the first agent."
 weight: 10
 sourceProject: "ctlflow"
 sourcePath: "services/crossfire/docs/getting-started.md"
-generated: true
 ---
 
 ## Requirements
@@ -83,9 +82,9 @@ Matrix/API upstream or serve report storage through an nginx directory alias.
 4. Approve the exact displayed roster/code as its owner.
 5. Create ordinary rooms in Element and assign only needed agent access.
 
-Enrollment and readiness do not create chats. An owner DM is established on
-actual contact, terminal output or a native question. Other room membership and
-wake authority are explicit, separate decisions.
+Enrollment does not create chats. The owner DM is created on first contact,
+terminal output or a native question. Configure room membership and wake senders
+separately.
 
 - [Enrollment and updates](/docs/crossfire/enrollment/)
 - [Management](/docs/crossfire/management/)

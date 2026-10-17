@@ -2,12 +2,12 @@
 
 Hugo technical documentation for the ctlflow monorepo and its crossfire server,
 fleetd controller and fleet CLI. Node, C# and Rust are documented under those
-product owners. Toolsmith is a separate optional Python library/CLI project.
+components. Toolsmith provides optional Python functions and commands for files,
+downloads, archives and search.
 
-The site contains Markdown product guides, exact HTTP operation references,
-transitive parser definitions, native HTTP protocols, static architecture diagrams
-and a local browser search index. It uses one authored theme with no client-side
-framework, external fonts, analytics or remote diagram rendering.
+The site contains edited Markdown guides, generated API references, architecture
+diagrams and browser-based search. Layouts and assets are maintained here. It
+uses no external fonts, analytics or remote diagram rendering.
 
 - [Local verification record](docs/verification/20261017-site.md)
 
@@ -30,7 +30,7 @@ PATH and verifies its exact version. The build never downloads Hugo.
 
 ## Build and preview
 
-All delegated build/test commands run under finite process-group limits. Example
+Run build and test commands under finite process-group limits. Example
 for Linux (replace the absolute checkout directory with your own):
 
 ```sh
@@ -92,7 +92,7 @@ npm run docs:check -- \
 These commands also require the finite scope. Only the maintainer-facing sync
 step needs sibling repositories; a Netlify/site build uses this repository alone.
 
-- `scripts/docs/sources.mjs` maps product guides to canonical website paths.
+- `scripts/docs/sources.mjs` records source references for edited product guides.
 - `scripts/docs/model.mjs` parses TypeScript syntax without running product code.
 - `scripts/docs/fields.mjs` expands structured fields and retains custom checks.
 - `scripts/docs/api-pages.mjs` renders exact operation and definition references.
@@ -101,20 +101,27 @@ step needs sibling repositories; a Netlify/site build uses this repository alone
 - `data/reference-manifest.json` records source/generator/output hashes and counts.
 - `data/operations.json` records exact method/path/audience/status/limit facts.
 
-Generated pages include a source marker. Do not edit them directly; update their
-source mapping/generator or the actual owning product. Synchronization removes
-superseded generated pages only after proving they still match their prior
-recorded bytes, and rejects unrecorded extras. Authored source is never cleaned
-to hide a conflict.
+Product guides are edited in `content/`. Source synchronization records their
+references but does not replace their prose. Review those guides when updating
+the recorded product revision.
 
-Raw parser source supplements expanded fields. This is not OpenAPI/JSON Schema
-generation, a public language SDK or a claim that every Matrix catalog entry is
-admitted by the agent dispatcher. `fleetd` routes remain private to the user-owned
-Unix socket even though their internal catalog uses `auth: public`.
+API operations, validation definitions and the Matrix catalog are generated.
+Edit their generator or product definition, not the generated Markdown.
+Synchronization removes stale generated pages only if they still match their
+recorded contents. Shared edits and unrecorded outputs require review.
+
+Field tables are supplemented by validation source for custom checks. This is
+not an OpenAPI generator or SDK. Matrix catalog entries include restricted and
+unsupported operations. fleetd routes are private to its Unix socket even when
+their authentication field is `public`.
 
 ## Content and licensing
 
 Use direct technical language, exact prerequisites and explicit limitations.
+Explain a component before discussing its repository or implementation. The
+homepage describes use and message flow; framework and migration details belong
+in technical guides. Avoid slogans, dot-separated claims and internal project
+history in reader-facing prose.
 Do not import domain-fleet instructions, private data, credentials or machine
 details. Product source links follow exact revisions; canonical LICENSE links
 remain authoritative for current terms. Third-party licenses are separate.

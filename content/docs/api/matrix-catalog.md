@@ -1,6 +1,6 @@
 ---
 title: "Matrix operation catalog"
-description: "All 157 native catalog entries, including explicit denied/unsupported families and parameters."
+description: "157 Matrix HTTP operations with parameters and agent access classifications."
 weight: 50
 sourceProject: "ctlflow"
 sourcePath: "services/crossfire/node/packages/adapter-matrix/src/operations.json"
@@ -8,20 +8,20 @@ generated: true
 ---
 
 
-The catalog is derived from Matrix v1.12. Its input fingerprint is `037337015f765c9d96a0561888ea15c870d34ea327dac94bab6884e33a0b30cd`. It uses native HTTP, not a Node Matrix SDK. A catalog entry is not proof that the selected homeserver supports it.
+This catalog is generated from Matrix v1.12. The input SHA-256 is `037337015f765c9d96a0561888ea15c870d34ea327dac94bab6884e33a0b30cd`. crossfire calls these endpoints over HTTP. Availability depends on the homeserver.
 
-Access classifications are client safeguards, not server authorization. Only entries admitted by the agent dispatcher may be used by an agent. Operator/account/unsupported entries remain explicitly restricted. Current crossfire grants, real native membership, powers and endpoint-specific checks still apply.
+Only operations allowed by the agent dispatcher can be used by an agent. Each call also requires crossfire permission and Matrix membership and powers. The catalog includes restricted and unsupported operations so their status is visible.
+
+JSON body and response fields are defined in the [Matrix Client-Server specification](https://spec.matrix.org/v1.12/client-server-api/). These endpoints return Matrix responses, not crossfire REST envelopes.
 
 - [Matrix integration and directed mentions](/docs/crossfire/matrix/)
-- [Native non-REST protocols](/docs/api/native-http/)
+- [Other HTTP routes](/docs/api/native-http/)
 
 ## add3-pid
 
 `POST /_matrix/client/v3/account/3pid/add`
 
 Native operation: `add3PID`. Access: **unsupported**. Body: **required**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## ban
 
@@ -33,23 +33,17 @@ Native operation: `ban`. Access: **operator**. Body: **required**. Response: **j
 | --- | --- | --- | --- |
 | `roomId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## bind3-pid
 
 `POST /_matrix/client/v3/account/3pid/bind`
 
 Native operation: `bind3PID`. Access: **unsupported**. Body: **required**. Response: **json**.
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## change-password
 
 `POST /_matrix/client/v3/account/password`
 
 Native operation: `changePassword`. Access: **account**. Body: **required**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## check-username-availability
 
@@ -61,15 +55,11 @@ Native operation: `checkUsernameAvailability`. Access: **account**. Body: **none
 | --- | --- | --- | --- |
 | `username` | query | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## claim-keys
 
 `POST /_matrix/client/v3/keys/claim`
 
 Native operation: `claimKeys`. Access: **unsupported**. Body: **required**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## create-content
 
@@ -77,23 +67,17 @@ Native JSON body and response schemas are defined by the pinned Matrix Client-Se
 
 Native operation: `createContent`. Access: **agent**. Body: **none**. Response: **json**.
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## create-room
 
 `POST /_matrix/client/v3/createRoom`
 
 Native operation: `createRoom`. Access: **operator**. Body: **required**. Response: **json**.
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## deactivate-account
 
 `POST /_matrix/client/v3/account/deactivate`
 
 Native operation: `deactivateAccount`. Access: **account**. Body: **required**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## define-filter
 
@@ -105,8 +89,6 @@ Native operation: `defineFilter`. Access: **agent**. Body: **required**. Respons
 | --- | --- | --- | --- |
 | `userId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## delete-device
 
 `DELETE /_matrix/client/v3/devices/{deviceId}`
@@ -117,15 +99,11 @@ Native operation: `deleteDevice`. Access: **operator**. Body: **required**. Resp
 | --- | --- | --- | --- |
 | `deviceId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## delete-devices
 
 `POST /_matrix/client/v3/delete_devices`
 
 Native operation: `deleteDevices`. Access: **operator**. Body: **required**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## delete-push-rule
 
@@ -138,8 +116,6 @@ Native operation: `deletePushRule`. Access: **agent**. Body: **none**. Response:
 | `kind` | path | yes | string |
 | `ruleId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## delete-room-alias
 
 `DELETE /_matrix/client/v3/directory/room/{roomAlias}`
@@ -149,8 +125,6 @@ Native operation: `deleteRoomAlias`. Access: **operator**. Body: **none**. Respo
 | Parameter | Location | Required | Type |
 | --- | --- | --- | --- |
 | `roomAlias` | path | yes | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## delete-room-key-by-session-id
 
@@ -164,8 +138,6 @@ Native operation: `deleteRoomKeyBySessionId`. Access: **unsupported**. Body: **n
 | `roomId` | path | yes | string |
 | `sessionId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## delete-room-keys
 
 `DELETE /_matrix/client/v3/room_keys/keys`
@@ -175,8 +147,6 @@ Native operation: `deleteRoomKeys`. Access: **unsupported**. Body: **none**. Res
 | Parameter | Location | Required | Type |
 | --- | --- | --- | --- |
 | `version` | query | yes | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## delete-room-keys-by-room-id
 
@@ -189,8 +159,6 @@ Native operation: `deleteRoomKeysByRoomId`. Access: **unsupported**. Body: **non
 | `version` | query | yes | string |
 | `roomId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## delete-room-keys-version
 
 `DELETE /_matrix/client/v3/room_keys/version/{version}`
@@ -200,8 +168,6 @@ Native operation: `deleteRoomKeysVersion`. Access: **unsupported**. Body: **none
 | Parameter | Location | Required | Type |
 | --- | --- | --- | --- |
 | `version` | path | yes | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## delete-room-tag
 
@@ -215,15 +181,11 @@ Native operation: `deleteRoomTag`. Access: **agent**. Body: **none**. Response: 
 | `roomId` | path | yes | string |
 | `tag` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## delete3pid-from-account
 
 `POST /_matrix/client/v3/account/3pid/delete`
 
 Native operation: `delete3pidFromAccount`. Access: **unsupported**. Body: **required**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## forget-room
 
@@ -235,15 +197,11 @@ Native operation: `forgetRoom`. Access: **agent**. Body: **none**. Response: **j
 | --- | --- | --- | --- |
 | `roomId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## generate-login-token
 
 `POST /_matrix/client/v1/login/get_token`
 
 Native operation: `generateLoginToken`. Access: **account**. Body: **required**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## get-account-data
 
@@ -255,8 +213,6 @@ Native operation: `getAccountData`. Access: **agent**. Body: **none**. Response:
 | --- | --- | --- | --- |
 | `userId` | path | yes | string |
 | `type` | path | yes | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## get-account-data-per-room
 
@@ -270,15 +226,11 @@ Native operation: `getAccountDataPerRoom`. Access: **agent**. Body: **none**. Re
 | `roomId` | path | yes | string |
 | `type` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-account3-pids
 
 `GET /_matrix/client/v3/account/3pid`
 
 Native operation: `getAccount3PIDs`. Access: **unsupported**. Body: **none**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## get-avatar-url
 
@@ -290,15 +242,11 @@ Native operation: `getAvatarUrl`. Access: **agent**. Body: **none**. Response: *
 | --- | --- | --- | --- |
 | `userId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-capabilities
 
 `GET /_matrix/client/v3/capabilities`
 
 Native operation: `getCapabilities`. Access: **agent**. Body: **none**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## get-config
 
@@ -306,15 +254,11 @@ Native JSON body and response schemas are defined by the pinned Matrix Client-Se
 
 Native operation: `getConfig`. Access: **deprecated**. Body: **none**. Response: **json**.
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-config-authed
 
 `GET /_matrix/client/v1/media/config`
 
 Native operation: `getConfigAuthed`. Access: **agent**. Body: **none**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## get-content
 
@@ -330,8 +274,6 @@ Native operation: `getContent`. Access: **deprecated**. Body: **none**. Response
 | `timeout_ms` | query | no | integer |
 | `allow_redirect` | query | no | boolean |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-content-authed
 
 `GET /_matrix/client/v1/media/download/{serverName}/{mediaId}`
@@ -343,8 +285,6 @@ Native operation: `getContentAuthed`. Access: **agent**. Body: **none**. Respons
 | `serverName` | path | yes | string |
 | `mediaId` | path | yes | string |
 | `timeout_ms` | query | no | integer |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## get-content-override-name
 
@@ -361,8 +301,6 @@ Native operation: `getContentOverrideName`. Access: **deprecated**. Body: **none
 | `timeout_ms` | query | no | integer |
 | `allow_redirect` | query | no | boolean |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-content-override-name-authed
 
 `GET /_matrix/client/v1/media/download/{serverName}/{mediaId}/{fileName}`
@@ -375,8 +313,6 @@ Native operation: `getContentOverrideNameAuthed`. Access: **agent**. Body: **non
 | `mediaId` | path | yes | string |
 | `fileName` | path | yes | string |
 | `timeout_ms` | query | no | integer |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## get-content-thumbnail
 
@@ -396,8 +332,6 @@ Native operation: `getContentThumbnail`. Access: **deprecated**. Body: **none**.
 | `allow_redirect` | query | no | boolean |
 | `animated` | query | no | boolean |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-content-thumbnail-authed
 
 `GET /_matrix/client/v1/media/thumbnail/{serverName}/{mediaId}`
@@ -414,8 +348,6 @@ Native operation: `getContentThumbnailAuthed`. Access: **agent**. Body: **none**
 | `timeout_ms` | query | no | integer |
 | `animated` | query | no | boolean |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-device
 
 `GET /_matrix/client/v3/devices/{deviceId}`
@@ -426,15 +358,11 @@ Native operation: `getDevice`. Access: **agent**. Body: **none**. Response: **js
 | --- | --- | --- | --- |
 | `deviceId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-devices
 
 `GET /_matrix/client/v3/devices`
 
 Native operation: `getDevices`. Access: **agent**. Body: **none**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## get-display-name
 
@@ -445,8 +373,6 @@ Native operation: `getDisplayName`. Access: **agent**. Body: **none**. Response:
 | Parameter | Location | Required | Type |
 | --- | --- | --- | --- |
 | `userId` | path | yes | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## get-event-by-timestamp
 
@@ -459,8 +385,6 @@ Native operation: `getEventByTimestamp`. Access: **agent**. Body: **none**. Resp
 | `roomId` | path | yes | string |
 | `ts` | query | yes | integer |
 | `dir` | query | yes | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## get-event-context
 
@@ -475,8 +399,6 @@ Native operation: `getEventContext`. Access: **agent**. Body: **none**. Response
 | `limit` | query | no | integer |
 | `filter` | query | no | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-events
 
 `GET /_matrix/client/v3/events`
@@ -487,8 +409,6 @@ Native operation: `getEvents`. Access: **deprecated**. Body: **none**. Response:
 | --- | --- | --- | --- |
 | `from` | query | no | string |
 | `timeout` | query | no | integer |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## get-filter
 
@@ -501,8 +421,6 @@ Native operation: `getFilter`. Access: **agent**. Body: **none**. Response: **js
 | `userId` | path | yes | string |
 | `filterId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-joined-members-by-room
 
 `GET /_matrix/client/v3/rooms/{roomId}/joined_members`
@@ -513,15 +431,11 @@ Native operation: `getJoinedMembersByRoom`. Access: **agent**. Body: **none**. R
 | --- | --- | --- | --- |
 | `roomId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-joined-rooms
 
 `GET /_matrix/client/v3/joined_rooms`
 
 Native operation: `getJoinedRooms`. Access: **agent**. Body: **none**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## get-keys-changes
 
@@ -534,8 +448,6 @@ Native operation: `getKeysChanges`. Access: **unsupported**. Body: **none**. Res
 | `from` | query | yes | string |
 | `to` | query | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-local-aliases
 
 `GET /_matrix/client/v3/rooms/{roomId}/aliases`
@@ -546,15 +458,11 @@ Native operation: `getLocalAliases`. Access: **agent**. Body: **none**. Response
 | --- | --- | --- | --- |
 | `roomId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-login-flows
 
 `GET /_matrix/client/v3/login`
 
 Native operation: `getLoginFlows`. Access: **account**. Body: **none**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## get-members-by-room
 
@@ -569,8 +477,6 @@ Native operation: `getMembersByRoom`. Access: **agent**. Body: **none**. Respons
 | `membership` | query | no | string |
 | `not_membership` | query | no | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-notifications
 
 `GET /_matrix/client/v3/notifications`
@@ -583,8 +489,6 @@ Native operation: `getNotifications`. Access: **agent**. Body: **none**. Respons
 | `limit` | query | no | integer |
 | `only` | query | no | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-one-event
 
 `GET /_matrix/client/v3/events/{eventId}`
@@ -594,8 +498,6 @@ Native operation: `getOneEvent`. Access: **deprecated**. Body: **none**. Respons
 | Parameter | Location | Required | Type |
 | --- | --- | --- | --- |
 | `eventId` | path | yes | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## get-one-room-event
 
@@ -608,8 +510,6 @@ Native operation: `getOneRoomEvent`. Access: **agent**. Body: **none**. Response
 | `roomId` | path | yes | string |
 | `eventId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-presence
 
 `GET /_matrix/client/v3/presence/{userId}/status`
@@ -619,8 +519,6 @@ Native operation: `getPresence`. Access: **agent**. Body: **none**. Response: **
 | Parameter | Location | Required | Type |
 | --- | --- | --- | --- |
 | `userId` | path | yes | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## get-protocol-metadata
 
@@ -632,15 +530,11 @@ Native operation: `getProtocolMetadata`. Access: **unsupported**. Body: **none**
 | --- | --- | --- | --- |
 | `protocol` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-protocols
 
 `GET /_matrix/client/v3/thirdparty/protocols`
 
 Native operation: `getProtocols`. Access: **unsupported**. Body: **none**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## get-public-rooms
 
@@ -654,8 +548,6 @@ Native operation: `getPublicRooms`. Access: **agent**. Body: **none**. Response:
 | `since` | query | no | string |
 | `server` | query | no | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-push-rule
 
 `GET /_matrix/client/v3/pushrules/global/{kind}/{ruleId}`
@@ -666,8 +558,6 @@ Native operation: `getPushRule`. Access: **agent**. Body: **none**. Response: **
 | --- | --- | --- | --- |
 | `kind` | path | yes | string |
 | `ruleId` | path | yes | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## get-push-rule-actions
 
@@ -680,15 +570,11 @@ Native operation: `getPushRuleActions`. Access: **agent**. Body: **none**. Respo
 | `kind` | path | yes | string |
 | `ruleId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-push-rules
 
 `GET /_matrix/client/v3/pushrules/`
 
 Native operation: `getPushRules`. Access: **agent**. Body: **none**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## get-push-rules-global
 
@@ -696,15 +582,11 @@ Native JSON body and response schemas are defined by the pinned Matrix Client-Se
 
 Native operation: `getPushRulesGlobal`. Access: **agent**. Body: **none**. Response: **json**.
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-pushers
 
 `GET /_matrix/client/v3/pushers`
 
 Native operation: `getPushers`. Access: **agent**. Body: **none**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## get-relating-events
 
@@ -722,8 +604,6 @@ Native operation: `getRelatingEvents`. Access: **agent**. Body: **none**. Respon
 | `dir` | query | no | string |
 | `recurse` | query | no | boolean |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-relating-events-with-rel-type
 
 `GET /_matrix/client/v1/rooms/{roomId}/relations/{eventId}/{relType}`
@@ -740,8 +620,6 @@ Native operation: `getRelatingEventsWithRelType`. Access: **agent**. Body: **non
 | `limit` | query | no | integer |
 | `dir` | query | no | string |
 | `recurse` | query | no | boolean |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## get-relating-events-with-rel-type-and-event-type
 
@@ -761,8 +639,6 @@ Native operation: `getRelatingEventsWithRelTypeAndEventType`. Access: **agent**.
 | `dir` | query | no | string |
 | `recurse` | query | no | boolean |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-room-events
 
 `GET /_matrix/client/v3/rooms/{roomId}/messages`
@@ -778,8 +654,6 @@ Native operation: `getRoomEvents`. Access: **agent**. Body: **none**. Response: 
 | `limit` | query | no | integer |
 | `filter` | query | no | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-room-id-by-alias
 
 `GET /_matrix/client/v3/directory/room/{roomAlias}`
@@ -789,8 +663,6 @@ Native operation: `getRoomIdByAlias`. Access: **agent**. Body: **none**. Respons
 | Parameter | Location | Required | Type |
 | --- | --- | --- | --- |
 | `roomAlias` | path | yes | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## get-room-key-by-session-id
 
@@ -804,8 +676,6 @@ Native operation: `getRoomKeyBySessionId`. Access: **unsupported**. Body: **none
 | `roomId` | path | yes | string |
 | `sessionId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-room-keys
 
 `GET /_matrix/client/v3/room_keys/keys`
@@ -815,8 +685,6 @@ Native operation: `getRoomKeys`. Access: **unsupported**. Body: **none**. Respon
 | Parameter | Location | Required | Type |
 | --- | --- | --- | --- |
 | `version` | query | yes | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## get-room-keys-by-room-id
 
@@ -829,8 +697,6 @@ Native operation: `getRoomKeysByRoomId`. Access: **unsupported**. Body: **none**
 | `version` | query | yes | string |
 | `roomId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-room-keys-version
 
 `GET /_matrix/client/v3/room_keys/version/{version}`
@@ -841,15 +707,11 @@ Native operation: `getRoomKeysVersion`. Access: **unsupported**. Body: **none**.
 | --- | --- | --- | --- |
 | `version` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-room-keys-version-current
 
 `GET /_matrix/client/v3/room_keys/version`
 
 Native operation: `getRoomKeysVersionCurrent`. Access: **unsupported**. Body: **none**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## get-room-state
 
@@ -860,8 +722,6 @@ Native operation: `getRoomState`. Access: **agent**. Body: **none**. Response: *
 | Parameter | Location | Required | Type |
 | --- | --- | --- | --- |
 | `roomId` | path | yes | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## get-room-state-with-key
 
@@ -875,8 +735,6 @@ Native operation: `getRoomStateWithKey`. Access: **agent**. Body: **none**. Resp
 | `eventType` | path | yes | string |
 | `stateKey` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-room-tags
 
 `GET /_matrix/client/v3/user/{userId}/rooms/{roomId}/tags`
@@ -888,8 +746,6 @@ Native operation: `getRoomTags`. Access: **agent**. Body: **none**. Response: **
 | `userId` | path | yes | string |
 | `roomId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-room-visibility-on-directory
 
 `GET /_matrix/client/v3/directory/list/room/{roomId}`
@@ -899,8 +755,6 @@ Native operation: `getRoomVisibilityOnDirectory`. Access: **agent**. Body: **non
 | Parameter | Location | Required | Type |
 | --- | --- | --- | --- |
 | `roomId` | path | yes | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## get-space-hierarchy
 
@@ -916,8 +770,6 @@ Native operation: `getSpaceHierarchy`. Access: **agent**. Body: **none**. Respon
 | `max_depth` | query | no | integer |
 | `from` | query | no | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-thread-roots
 
 `GET /_matrix/client/v1/rooms/{roomId}/threads`
@@ -931,23 +783,17 @@ Native operation: `getThreadRoots`. Access: **agent**. Body: **none**. Response:
 | `limit` | query | no | integer |
 | `from` | query | no | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-token-owner
 
 `GET /_matrix/client/v3/account/whoami`
 
 Native operation: `getTokenOwner`. Access: **agent**. Body: **none**. Response: **json**.
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-turn-server
 
 `GET /_matrix/client/v3/voip/turnServer`
 
 Native operation: `getTurnServer`. Access: **unsupported**. Body: **none**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## get-url-preview
 
@@ -960,8 +806,6 @@ Native operation: `getUrlPreview`. Access: **deprecated**. Body: **none**. Respo
 | `url` | query | yes | string |
 | `ts` | query | no | integer |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-url-preview-authed
 
 `GET /_matrix/client/v1/media/preview_url`
@@ -973,8 +817,6 @@ Native operation: `getUrlPreviewAuthed`. Access: **unsupported**. Body: **none**
 | `url` | query | yes | string |
 | `ts` | query | no | integer |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-user-profile
 
 `GET /_matrix/client/v3/profile/{userId}`
@@ -985,15 +827,11 @@ Native operation: `getUserProfile`. Access: **agent**. Body: **none**. Response:
 | --- | --- | --- | --- |
 | `userId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-versions
 
 `GET /_matrix/client/versions`
 
 Native operation: `getVersions`. Access: **agent**. Body: **none**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## get-wellknown
 
@@ -1001,15 +839,11 @@ Native JSON body and response schemas are defined by the pinned Matrix Client-Se
 
 Native operation: `getWellknown`. Access: **agent**. Body: **none**. Response: **json**.
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## get-wellknown-support
 
 `GET /.well-known/matrix/support`
 
 Native operation: `getWellknownSupport`. Access: **agent**. Body: **none**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## get-who-is
 
@@ -1020,8 +854,6 @@ Native operation: `getWhoIs`. Access: **operator**. Body: **none**. Response: **
 | Parameter | Location | Required | Type |
 | --- | --- | --- | --- |
 | `userId` | path | yes | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## initial-sync
 
@@ -1034,8 +866,6 @@ Native operation: `initialSync`. Access: **deprecated**. Body: **none**. Respons
 | `limit` | query | no | integer |
 | `archived` | query | no | boolean |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## invite-by3-pid
 
 `POST /_matrix/client/v3/rooms/{roomId}/invite`
@@ -1046,8 +876,6 @@ Native operation: `inviteBy3PID`. Access: **unsupported**. Body: **required**. R
 | --- | --- | --- | --- |
 | `roomId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## invite-user
 
 `POST /_matrix/client/v3/rooms/{roomId}/invite`
@@ -1057,8 +885,6 @@ Native operation: `inviteUser`. Access: **operator**. Body: **required**. Respon
 | Parameter | Location | Required | Type |
 | --- | --- | --- | --- |
 | `roomId` | path | yes | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## is-push-rule-enabled
 
@@ -1071,8 +897,6 @@ Native operation: `isPushRuleEnabled`. Access: **agent**. Body: **none**. Respon
 | `kind` | path | yes | string |
 | `ruleId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## join-room
 
 `POST /_matrix/client/v3/join/{roomIdOrAlias}`
@@ -1084,8 +908,6 @@ Native operation: `joinRoom`. Access: **agent**. Body: **required**. Response: *
 | `roomIdOrAlias` | path | yes | string |
 | `via` | query | no | array |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## join-room-by-id
 
 `POST /_matrix/client/v3/rooms/{roomId}/join`
@@ -1096,8 +918,6 @@ Native operation: `joinRoomById`. Access: **agent**. Body: **required**. Respons
 | --- | --- | --- | --- |
 | `roomId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## kick
 
 `POST /_matrix/client/v3/rooms/{roomId}/kick`
@@ -1107,8 +927,6 @@ Native operation: `kick`. Access: **operator**. Body: **required**. Response: **
 | Parameter | Location | Required | Type |
 | --- | --- | --- | --- |
 | `roomId` | path | yes | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## knock-room
 
@@ -1121,8 +939,6 @@ Native operation: `knockRoom`. Access: **agent**. Body: **required**. Response: 
 | `roomIdOrAlias` | path | yes | string |
 | `via` | query | no | array |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## leave-room
 
 `POST /_matrix/client/v3/rooms/{roomId}/leave`
@@ -1133,15 +949,11 @@ Native operation: `leaveRoom`. Access: **agent**. Body: **required**. Response: 
 | --- | --- | --- | --- |
 | `roomId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## login
 
 `POST /_matrix/client/v3/login`
 
 Native operation: `login`. Access: **account**. Body: **required**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## logout
 
@@ -1149,15 +961,11 @@ Native JSON body and response schemas are defined by the pinned Matrix Client-Se
 
 Native operation: `logout`. Access: **account**. Body: **none**. Response: **json**.
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## logout-all
 
 `POST /_matrix/client/v3/logout/all`
 
 Native operation: `logout_all`. Access: **account**. Body: **none**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## peek-events
 
@@ -1171,8 +979,6 @@ Native operation: `peekEvents`. Access: **unsupported**. Body: **none**. Respons
 | `timeout` | query | no | integer |
 | `room_id` | query | no | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## ping-appservice
 
 `POST /_matrix/client/v1/appservice/{appserviceId}/ping`
@@ -1183,15 +989,11 @@ Native operation: `pingAppservice`. Access: **unsupported**. Body: **required**.
 | --- | --- | --- | --- |
 | `appserviceId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## post-pusher
 
 `POST /_matrix/client/v3/pushers/set`
 
 Native operation: `postPusher`. Access: **operator**. Body: **required**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## post-receipt
 
@@ -1205,23 +1007,17 @@ Native operation: `postReceipt`. Access: **agent**. Body: **required**. Response
 | `receiptType` | path | yes | string |
 | `eventId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## post-room-keys-version
 
 `POST /_matrix/client/v3/room_keys/version`
 
 Native operation: `postRoomKeysVersion`. Access: **unsupported**. Body: **required**. Response: **json**.
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## post3-pids
 
 `POST /_matrix/client/v3/account/3pid`
 
 Native operation: `post3PIDs`. Access: **deprecated**. Body: **required**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## put-room-key-by-session-id
 
@@ -1235,8 +1031,6 @@ Native operation: `putRoomKeyBySessionId`. Access: **unsupported**. Body: **requ
 | `roomId` | path | yes | string |
 | `sessionId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## put-room-keys
 
 `PUT /_matrix/client/v3/room_keys/keys`
@@ -1246,8 +1040,6 @@ Native operation: `putRoomKeys`. Access: **unsupported**. Body: **required**. Re
 | Parameter | Location | Required | Type |
 | --- | --- | --- | --- |
 | `version` | query | yes | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## put-room-keys-by-room-id
 
@@ -1260,8 +1052,6 @@ Native operation: `putRoomKeysByRoomId`. Access: **unsupported**. Body: **requir
 | `version` | query | yes | string |
 | `roomId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## put-room-keys-version
 
 `PUT /_matrix/client/v3/room_keys/version/{version}`
@@ -1272,15 +1062,11 @@ Native operation: `putRoomKeysVersion`. Access: **unsupported**. Body: **require
 | --- | --- | --- | --- |
 | `version` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## query-keys
 
 `POST /_matrix/client/v3/keys/query`
 
 Native operation: `queryKeys`. Access: **unsupported**. Body: **required**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## query-location-by-alias
 
@@ -1291,8 +1077,6 @@ Native operation: `queryLocationByAlias`. Access: **unsupported**. Body: **none*
 | Parameter | Location | Required | Type |
 | --- | --- | --- | --- |
 | `alias` | query | yes | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## query-location-by-protocol
 
@@ -1305,8 +1089,6 @@ Native operation: `queryLocationByProtocol`. Access: **unsupported**. Body: **no
 | `protocol` | path | yes | string |
 | `searchFields` | query | no | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## query-public-rooms
 
 `POST /_matrix/client/v3/publicRooms`
@@ -1316,8 +1098,6 @@ Native operation: `queryPublicRooms`. Access: **agent**. Body: **required**. Res
 | Parameter | Location | Required | Type |
 | --- | --- | --- | --- |
 | `server` | query | no | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## query-user-by-id
 
@@ -1329,8 +1109,6 @@ Native operation: `queryUserByID`. Access: **unsupported**. Body: **none**. Resp
 | --- | --- | --- | --- |
 | `userid` | query | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## query-user-by-protocol
 
 `GET /_matrix/client/v3/thirdparty/user/{protocol}`
@@ -1341,8 +1119,6 @@ Native operation: `queryUserByProtocol`. Access: **unsupported**. Body: **none**
 | --- | --- | --- | --- |
 | `protocol` | path | yes | string |
 | `fields` | query | no | object |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## redact-event
 
@@ -1356,8 +1132,6 @@ Native operation: `redactEvent`. Access: **agent**. Body: **required**. Response
 | `eventId` | path | yes | string |
 | `txnId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## redirect-to-id-p
 
 `GET /_matrix/client/v3/login/sso/redirect/{idpId}`
@@ -1369,8 +1143,6 @@ Native operation: `redirectToIdP`. Access: **unsupported**. Body: **none**. Resp
 | `idpId` | path | yes | string |
 | `redirectUrl` | query | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## redirect-to-sso
 
 `GET /_matrix/client/v3/login/sso/redirect`
@@ -1381,15 +1153,11 @@ Native operation: `redirectToSSO`. Access: **unsupported**. Body: **none**. Resp
 | --- | --- | --- | --- |
 | `redirectUrl` | query | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## refresh
 
 `POST /_matrix/client/v3/refresh`
 
 Native operation: `refresh`. Access: **account**. Body: **required**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## register
 
@@ -1401,8 +1169,6 @@ Native operation: `register`. Access: **account**. Body: **required**. Response:
 | --- | --- | --- | --- |
 | `kind` | query | no | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## registration-token-validity
 
 `GET /_matrix/client/v1/register/m.login.registration_token/validity`
@@ -1412,8 +1178,6 @@ Native operation: `registrationTokenValidity`. Access: **account**. Body: **none
 | Parameter | Location | Required | Type |
 | --- | --- | --- | --- |
 | `token` | query | yes | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## report-content
 
@@ -1426,8 +1190,6 @@ Native operation: `reportContent`. Access: **agent**. Body: **required**. Respon
 | `roomId` | path | yes | string |
 | `eventId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## request-open-id-token
 
 `POST /_matrix/client/v3/user/{userId}/openid/request_token`
@@ -1438,15 +1200,11 @@ Native operation: `requestOpenIdToken`. Access: **unsupported**. Body: **require
 | --- | --- | --- | --- |
 | `userId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## request-token-to-register-email
 
 `POST /_matrix/client/v3/register/email/requestToken`
 
 Native operation: `requestTokenToRegisterEmail`. Access: **account**. Body: **required**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## request-token-to-register-msisdn
 
@@ -1454,15 +1212,11 @@ Native JSON body and response schemas are defined by the pinned Matrix Client-Se
 
 Native operation: `requestTokenToRegisterMSISDN`. Access: **account**. Body: **required**. Response: **json**.
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## request-token-to-reset-password-email
 
 `POST /_matrix/client/v3/account/password/email/requestToken`
 
 Native operation: `requestTokenToResetPasswordEmail`. Access: **account**. Body: **required**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## request-token-to-reset-password-msisdn
 
@@ -1470,23 +1224,17 @@ Native JSON body and response schemas are defined by the pinned Matrix Client-Se
 
 Native operation: `requestTokenToResetPasswordMSISDN`. Access: **account**. Body: **required**. Response: **json**.
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## request-token-to3-pid-email
 
 `POST /_matrix/client/v3/account/3pid/email/requestToken`
 
 Native operation: `requestTokenTo3PIDEmail`. Access: **unsupported**. Body: **required**. Response: **json**.
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## request-token-to3-pidmsisdn
 
 `POST /_matrix/client/v3/account/3pid/msisdn/requestToken`
 
 Native operation: `requestTokenTo3PIDMSISDN`. Access: **unsupported**. Body: **required**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## room-initial-sync
 
@@ -1498,8 +1246,6 @@ Native operation: `roomInitialSync`. Access: **deprecated**. Body: **none**. Res
 | --- | --- | --- | --- |
 | `roomId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## search
 
 `POST /_matrix/client/v3/search`
@@ -1510,15 +1256,11 @@ Native operation: `search`. Access: **agent**. Body: **required**. Response: **j
 | --- | --- | --- | --- |
 | `next_batch` | query | no | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## search-user-directory
 
 `POST /_matrix/client/v3/user_directory/search`
 
 Native operation: `searchUserDirectory`. Access: **agent**. Body: **required**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## send-message
 
@@ -1532,8 +1274,6 @@ Native operation: `sendMessage`. Access: **agent**. Body: **required**. Response
 | `eventType` | path | yes | string |
 | `txnId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## send-to-device
 
 `PUT /_matrix/client/v3/sendToDevice/{eventType}/{txnId}`
@@ -1545,8 +1285,6 @@ Native operation: `sendToDevice`. Access: **unsupported**. Body: **required**. R
 | `eventType` | path | yes | string |
 | `txnId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## set-account-data
 
 `PUT /_matrix/client/v3/user/{userId}/account_data/{type}`
@@ -1557,8 +1295,6 @@ Native operation: `setAccountData`. Access: **agent**. Body: **required**. Respo
 | --- | --- | --- | --- |
 | `userId` | path | yes | string |
 | `type` | path | yes | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## set-account-data-per-room
 
@@ -1572,8 +1308,6 @@ Native operation: `setAccountDataPerRoom`. Access: **agent**. Body: **required**
 | `roomId` | path | yes | string |
 | `type` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## set-avatar-url
 
 `PUT /_matrix/client/v3/profile/{userId}/avatar_url`
@@ -1583,8 +1317,6 @@ Native operation: `setAvatarUrl`. Access: **agent**. Body: **required**. Respons
 | Parameter | Location | Required | Type |
 | --- | --- | --- | --- |
 | `userId` | path | yes | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## set-display-name
 
@@ -1596,8 +1328,6 @@ Native operation: `setDisplayName`. Access: **operator**. Body: **required**. Re
 | --- | --- | --- | --- |
 | `userId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## set-presence
 
 `PUT /_matrix/client/v3/presence/{userId}/status`
@@ -1607,8 +1337,6 @@ Native operation: `setPresence`. Access: **agent**. Body: **required**. Response
 | Parameter | Location | Required | Type |
 | --- | --- | --- | --- |
 | `userId` | path | yes | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## set-push-rule
 
@@ -1623,8 +1351,6 @@ Native operation: `setPushRule`. Access: **agent**. Body: **required**. Response
 | `before` | query | no | string |
 | `after` | query | no | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## set-push-rule-actions
 
 `PUT /_matrix/client/v3/pushrules/global/{kind}/{ruleId}/actions`
@@ -1635,8 +1361,6 @@ Native operation: `setPushRuleActions`. Access: **agent**. Body: **required**. R
 | --- | --- | --- | --- |
 | `kind` | path | yes | string |
 | `ruleId` | path | yes | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## set-push-rule-enabled
 
@@ -1649,8 +1373,6 @@ Native operation: `setPushRuleEnabled`. Access: **agent**. Body: **required**. R
 | `kind` | path | yes | string |
 | `ruleId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## set-read-marker
 
 `POST /_matrix/client/v3/rooms/{roomId}/read_markers`
@@ -1661,8 +1383,6 @@ Native operation: `setReadMarker`. Access: **agent**. Body: **required**. Respon
 | --- | --- | --- | --- |
 | `roomId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## set-room-alias
 
 `PUT /_matrix/client/v3/directory/room/{roomAlias}`
@@ -1672,8 +1392,6 @@ Native operation: `setRoomAlias`. Access: **operator**. Body: **required**. Resp
 | Parameter | Location | Required | Type |
 | --- | --- | --- | --- |
 | `roomAlias` | path | yes | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## set-room-state-with-key
 
@@ -1687,8 +1405,6 @@ Native operation: `setRoomStateWithKey`. Access: **operator**. Body: **required*
 | `eventType` | path | yes | string |
 | `stateKey` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## set-room-tag
 
 `PUT /_matrix/client/v3/user/{userId}/rooms/{roomId}/tags/{tag}`
@@ -1701,8 +1417,6 @@ Native operation: `setRoomTag`. Access: **agent**. Body: **required**. Response:
 | `roomId` | path | yes | string |
 | `tag` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## set-room-visibility-on-directory
 
 `PUT /_matrix/client/v3/directory/list/room/{roomId}`
@@ -1712,8 +1426,6 @@ Native operation: `setRoomVisibilityOnDirectory`. Access: **operator**. Body: **
 | Parameter | Location | Required | Type |
 | --- | --- | --- | --- |
 | `roomId` | path | yes | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## set-typing
 
@@ -1725,8 +1437,6 @@ Native operation: `setTyping`. Access: **agent**. Body: **required**. Response: 
 | --- | --- | --- | --- |
 | `userId` | path | yes | string |
 | `roomId` | path | yes | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## sync
 
@@ -1742,8 +1452,6 @@ Native operation: `sync`. Access: **agent**. Body: **none**. Response: **json**.
 | `set_presence` | query | no | string |
 | `timeout` | query | no | integer |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## unban
 
 `POST /_matrix/client/v3/rooms/{roomId}/unban`
@@ -1754,15 +1462,11 @@ Native operation: `unban`. Access: **operator**. Body: **required**. Response: *
 | --- | --- | --- | --- |
 | `roomId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## unbind3pid-from-account
 
 `POST /_matrix/client/v3/account/3pid/unbind`
 
 Native operation: `unbind3pidFromAccount`. Access: **unsupported**. Body: **required**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## update-appservice-room-directory-visibility
 
@@ -1775,8 +1479,6 @@ Native operation: `updateAppserviceRoomDirectoryVisibility`. Access: **unsupport
 | `networkId` | path | yes | string |
 | `roomId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## update-device
 
 `PUT /_matrix/client/v3/devices/{deviceId}`
@@ -1786,8 +1488,6 @@ Native operation: `updateDevice`. Access: **agent**. Body: **required**. Respons
 | Parameter | Location | Required | Type |
 | --- | --- | --- | --- |
 | `deviceId` | path | yes | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## upgrade-room
 
@@ -1799,8 +1499,6 @@ Native operation: `upgradeRoom`. Access: **operator**. Body: **required**. Respo
 | --- | --- | --- | --- |
 | `roomId` | path | yes | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## upload-content
 
 `POST /_matrix/media/v3/upload`
@@ -1810,8 +1508,6 @@ Native operation: `uploadContent`. Access: **agent**. Body: **binary**. Response
 | Parameter | Location | Required | Type |
 | --- | --- | --- | --- |
 | `filename` | query | no | string |
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## upload-content-to-mxc
 
@@ -1825,15 +1521,11 @@ Native operation: `uploadContentToMXC`. Access: **agent**. Body: **binary**. Res
 | `mediaId` | path | yes | string |
 | `filename` | query | no | string |
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## upload-cross-signing-keys
 
 `POST /_matrix/client/v3/keys/device_signing/upload`
 
 Native operation: `uploadCrossSigningKeys`. Access: **unsupported**. Body: **required**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
 
 ## upload-cross-signing-signatures
 
@@ -1841,12 +1533,8 @@ Native JSON body and response schemas are defined by the pinned Matrix Client-Se
 
 Native operation: `uploadCrossSigningSignatures`. Access: **unsupported**. Body: **required**. Response: **json**.
 
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.
-
 ## upload-keys
 
 `POST /_matrix/client/v3/keys/upload`
 
 Native operation: `uploadKeys`. Access: **unsupported**. Body: **required**. Response: **json**.
-
-Native JSON body and response schemas are defined by the pinned Matrix Client-Server specification, not by crossfire's REST envelope. Endpoint help and the native specification supply their exact fields.

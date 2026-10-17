@@ -1,10 +1,9 @@
 ---
 title: "CLI commands"
-description: "Local controller selection, fleet/agent commands, lifecycle operations and direct messaging."
+description: "Commands for setup, status, sessions, messaging and software updates."
 weight: 30
 sourceProject: "ctlflow"
 sourcePath: "services/fleet/docs/commands.md"
-generated: true
 ---
 
 ## Controller and transport
@@ -46,8 +45,8 @@ fleet agent remove research analyst-west
 Add registers explicit configuration; it does not discover directories.
 Enroll proposes the stopped roster and policies for owner review without enabling
 execution. Start resumes saved histories. Stop removes desired activation before
-closing listeners/native processes. Remove retires/archive coordination authority
-after exact stop evidence; files and histories remain.
+closing listeners/native processes. Remove retires or archives the agent after a confirmed stop; files and histories
+remain.
 
 Start/stop at either scope accept `--operation-id UUID` for an identical retry
 after uncertain submission. Conflicting reuse fails. Accepted operation does not
@@ -102,8 +101,8 @@ fleet --remote office update research \
   --release-directory /absolute/private/install/node_modules/@ctlflow/fleetd/dist/assets
 ```
 
-Only previously desired-active targets resume; deliberately stopped targets remain
-stopped. No HTTP release-directory fallback exists.
+Only previously enabled targets resume. Deliberately stopped targets remain
+stopped. Remote updates use the installed directory, not an HTTP download.
 
 - [Session semantics](/docs/fleet/sessions/)
 - [Update procedure](/docs/fleet/updates/)

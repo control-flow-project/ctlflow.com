@@ -1,10 +1,9 @@
 ---
 title: "SQLite and Knex"
-description: "One management schema, one migration owner and directly interchangeable databases."
+description: "SQLite schema, Knex migrations and upgrade order for every server implementation."
 weight: 35
 sourceProject: "ctlflow"
 sourcePath: "services/crossfire/database/README.md"
-generated: true
 ---
 
 Knex creates and migrates every owned SQL database, independent of application
@@ -35,14 +34,12 @@ services/crossfire/
           README.md
 ```
 
-This uses Lesser's named-database/backend nesting and Snapped's ESM migration
-style. It is not a byte-for-byte copy of both repositories.
-`@ctlflow/crossfire-data` is private.
+Each database has a named directory, a backend subdirectory and a knexfile.
+`@ctlflow/crossfire-data` is package-private.
 
-Management is the current owned SQL store. Conduit's externally owned RocksDB,
-native histories and controller file state are not converted into artificial
-Knex databases. A new supported database gets its own named directory and
-knexfile; unsupported backends do not get placeholder implementations.
+Management SQLite is the application database. Conduit uses RocksDB, while
+fleetd and the native runtimes keep file-based state. Knex does not manage those
+stores.
 
 ## Current contract
 
@@ -57,7 +54,7 @@ Roles and permissions are versioned reference data, not development demo seeds.
 The applied migration filenames are part of runtime admission.
 Append a forward migration for a new release; do not edit released migration
 bytes. Update the current contract, generated EF/Diesel metadata and affected queries/tests
-together. No EF migration history or second DDL owner exists.
+together. EF and Diesel do not create or migrate tables.
 
 ## Commands
 

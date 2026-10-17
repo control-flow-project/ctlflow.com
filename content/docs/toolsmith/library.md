@@ -1,22 +1,23 @@
 ---
 title: "Library API"
-description: "Generic public Python interfaces for files, acquisition, archives and retrieval."
+description: "Python modules, result handling and examples for archives and caller-owned indexes."
 weight: 20
 sourceProject: "toolsmith"
 sourcePath: "docs/library.md"
-generated: true
 ---
 
-The [capability map](source:toolsmith:docs/capability-mapping.md) records the complete adoption boundary.
-Generic file/tree/ZIP, parsing, literal/indexed search, semantic, journal and public
-HTTP/quota APIs require no Toolsmith source store. The optional archive composes
-those same functions. Use public index ports, not their private table names.
+Toolsmith functions return typed results. File handling, readers, search, journals
+and HTTP downloads can be used with your own data store. The optional text archive
+combines these functions with versioned storage and citations.
 
-Application corrections keep the application's transaction: change canonical text
-and `unwrap` both invalidations **inside** that transaction, so an expected failure
-raises and rolls back the source write. Encode outside it; recheck canonical text
-inside publication's write transaction and pass the exact previous digest. Caller
-schema versions and row factories remain unchanged.
+The tables below list public modules. Use their functions rather than querying
+Toolsmith's private index tables.
+
+When correcting indexed text, update the original text and invalidate both
+indexes in the same application transaction. Use `unwrap` inside the transaction
+so a failed invalidation rolls back the text change. Compute embeddings outside
+the transaction; recheck the text and previous digest before publishing them.
+Toolsmith leaves the caller's schema version and row factory unchanged.
 
 `lexical.find_text` preserves punctuation and caller-owned regions.
 `lexical.search` performs explicit indexed FTS matching over authorized database scopes.
@@ -99,8 +100,7 @@ versions only. Request identities are collection-wide across text, files and HTT
 
 The optional HTTP boundary accepts `Clock`, `Resolver` and `Transport` protocols
 for deterministic integration/tests. The shipping composition uses bounded native
-DNS/TLS/HTTPS. These are injected call boundaries, not alternative product paths
-or runtime plugins. DNS approval and byte/deadline checks remain in acquisition;
+DNS/TLS/HTTPS. These interfaces allow deterministic tests and custom composition. DNS approval and byte/deadline checks remain in acquisition;
 custom callers remain responsible for their own transport's actual network behavior.
 
 Importing the HTTP module does not import its optional DNS dependency. Missing
@@ -133,7 +133,7 @@ isolation. Cheap bulk status does not perform a full integrity audit.
 
 Low-level descriptor/lock and SQLite transaction context managers are composition
 primitives: they raise `ToolsmithError` on expected failures within an enclosing
-public `Result` boundary. They do not supply a second implementation or runtime.
+public `Result` boundary. They do not start a process.
 
 `toolsmith.semantic` exports the optional encoder and generic SQLite API;
 `toolsmith.semantic.store` composes those functions with exact retained citations.

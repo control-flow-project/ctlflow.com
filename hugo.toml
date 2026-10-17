@@ -5,7 +5,7 @@ enableRobotsTXT = true
 disableKinds = ["taxonomy", "term", "RSS"]
 
 [params]
-  description = "Technical documentation for ctlflow: crossfire, fleetd and fleet. Toolsmith is separate optional tooling."
+  description = "Connect coding agents to Matrix rooms and run them on your machine. Setup, operation and API documentation for ctlflow."
   repository = "https://github.com/control-flow-project/ctlflow.com"
 
 [outputs]
