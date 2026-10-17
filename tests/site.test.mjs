@@ -36,6 +36,18 @@ test("key introductions identify agent fleets while product names remain exact",
   for (const product of ["crossfire", "fleetd", "fleet"]) assert.equal(read(`content/docs/${product}/_index.md`).includes(`title: ${product}`), true);
 });
 
+test("example introductions describe the task without incidental licensing or site housekeeping", () => {
+  for (const filename of ["content/docs/examples/_index.md", "content/docs/examples/fleet-street.md"]) {
+    const introduction = read(filename).replace(/^---\n[\s\S]*?\n---\n/u, "").split(/^## /mu)[0];
+    assert.doesNotMatch(introduction, /\bMIT\b|\blicen[cs](?:e|ed|ing)\b|\bsource snapshot\b|\bnot a .*product\b/iu, filename);
+    assert.match(introduction, /(?:task|brief|production)/u, filename);
+  }
+  assert.equal(read("content/docs/examples/fleet-street.md").includes("MIT asset notice"), false);
+  assert.equal(read("content/license.md").includes("ctlflow, Toolsmith and this website use the MIT license."), true);
+  assert.equal(read("content/docs/toolsmith/installation.md").includes("MIT-licensed source"), true);
+  assert.equal(read("layouts/partials/sidebar.html").includes("Source-based documentation"), false);
+});
+
 test("all fenced examples declare a language or explicitly declare plain text", () => {
   const pages = fs.readdirSync(path.join(root, "content"), { recursive: true }).filter(filename => filename.endsWith(".md"));
   let examples = 0;

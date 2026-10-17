@@ -5,7 +5,7 @@
     <header class="article-heading"><span class="eyebrow">{{ .Parent.Title }}</span><h1>{{ .Title }}</h1>{{ with .Description }}<p class="article-description">{{ . }}</p>{{ end }}</header>
     {{ if .Params.sourcePath }}{{ $source := index hugo.Data.sources .Params.sourceProject }}<div class="source-notice"><span class="status-dot" aria-hidden="true"></span><span>{{ if .Params.generated }}Generated from{{ else }}Source reference:{{ end }} <a href="{{ $source.repository }}/blob/{{ $source.revision }}/{{ .Params.sourcePath }}">{{ .Params.sourcePath }}</a> at <code>{{ substr $source.revision 0 8 }}</code></span></div>{{ end }}
     <div class="prose">{{ .Content }}</div>
-    <div class="article-footer"><a href="{{ site.Params.repository }}/blob/main/content/{{ .File.Path }}">View Markdown source <span aria-hidden="true">↗</span></a><a href="/docs/reference-sources/">Source revisions</a></div>
+    <div class="article-footer"><a href="{{ site.Params.repository }}/blob/main/content/{{ .File.Path }}">Page source <span aria-hidden="true">↗</span></a><a href="/docs/reference-sources/">Source revisions</a></div>
     {{ if or .PrevInSection .NextInSection }}<nav class="page-navigation" aria-label="Adjacent pages">{{ with .NextInSection }}<a href="{{ .RelPermalink }}"><span>Previous</span>{{ .Title }}</a>{{ end }}{{ with .PrevInSection }}<a href="{{ .RelPermalink }}"><span>Next</span>{{ .Title }} <span aria-hidden="true">→</span></a>{{ end }}</nav>{{ end }}
   </article>
   {{ if .TableOfContents }}<aside class="page-toc" aria-label="On this page"><div>On this page</div>{{ .TableOfContents }}</aside>{{ end }}
