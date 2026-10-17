@@ -10,6 +10,7 @@ diagrams and browser-based search. Layouts and assets are maintained here. It
 uses no external fonts, analytics or remote diagram rendering.
 
 - [Local verification record](docs/verification/20261017-site.md)
+- [Theme, typography and code-example verification](docs/verification/20261017-theme-typography.md)
 
 ## Requirements
 
@@ -50,6 +51,20 @@ It binds `http://127.0.0.1:4321` only. `PORT` may select another local port.
 The preview applies the checked-in Netlify response headers so browser tests
 exercise the real site's CSP rather than an unrestricted development page.
 It is development tooling, not a service shipped with ctlflow or Toolsmith.
+
+## Presentation and code examples
+
+The site defaults to a white background. Readers can select a green-based dark
+theme; that preference is saved locally and retained across pages. With no
+JavaScript or no saved preference, the site stays light.
+
+Markdown code fences must declare a language, such as `sh`, `typescript` or
+`python`. Use `text` for directory trees and other plain-text material. Missing
+or unsupported languages fail the build rather than being guessed. The shared
+`layouts/partials/code-block.html` renders both Markdown examples and homepage
+examples from `assets/examples/`. Syntax colors come from the shared stylesheet,
+not inline styles or browser-side highlighting. Copy buttons retain literal
+source text.
 
 ## Netlify
 
@@ -122,6 +137,9 @@ Explain a component before discussing its repository or implementation. The
 homepage describes use and message flow; framework and migration details belong
 in technical guides. Avoid slogans, dot-separated claims and internal project
 history in reader-facing prose.
+Describe agents by the work their instructions and tools allow, not as limited
+to software development. Runtime guides name the implemented adapters; exact
+package names and generated contract source remain unchanged.
 Do not import domain-fleet instructions, private data, credentials or machine
 details. Product source links follow exact revisions; canonical LICENSE links
 remain authoritative for current terms. Third-party licenses are separate.

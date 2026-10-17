@@ -1,0 +1,7 @@
+{{- $language := .language -}}
+{{- if not $language -}}
+  {{- errorf "Code examples require an explicit language" -}}
+{{- else if and (ne $language "text") (not (transform.CanHighlight $language)) -}}
+  {{- errorf "Unsupported code example language: %s" $language -}}
+{{- end -}}
+{{- transform.Highlight .code $language (.options | default (dict)) -}}

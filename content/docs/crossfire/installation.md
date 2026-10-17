@@ -76,9 +76,9 @@ Matrix/API upstream or serve report storage through an nginx directory alias.
 ## First agent
 
 1. Sign in to Element and management with the same human account.
-2. Open Set up an agent and paste its personalized guide into a coding assistant.
-3. The assistant runs pinned noninteractive fleet setup. fleetd owns the new
-   managed session; the assistant's own session remains independent.
+2. Open Set up an agent and paste its personalized guide into an agent with shell access on your machine.
+3. That agent runs pinned noninteractive fleet setup. fleetd owns the new
+   managed session; the setup agent's own session remains independent.
 4. Approve the exact displayed roster/code as its owner.
 5. Create ordinary rooms in Element and assign only needed agent access.
 

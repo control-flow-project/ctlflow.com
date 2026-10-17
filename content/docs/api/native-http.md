@@ -77,7 +77,7 @@ Supply exactly one `ownerMatrixId`; encode it as a query value. The server resol
 
 The descriptor contains `schemaVersion: 1`, the exact server origin, `ownerMatrixId`, the package `{name: "@ctlflow/fleet", version: "<exact release>"}` and bounded administrator instructions. The CLI checks exact origin, owner, installed version, duplicate/unknown fields and redirects. Human enrollment approval remains mandatory.
 
-The generated guide installs **Node fleet and Node fleetd**, independent of the selected server implementation. It leaves the setup coding session untouched and starts a separate managed history.
+The generated guide installs **Node fleet and Node fleetd**, independent of the selected server implementation. It leaves the setup session untouched and starts a separate managed history.
 
 - [Setup descriptor definition](/docs/api/schemas/crossfire-contracts-onboarding/#setupDescriptorSchema)
 - [fleet setup](/docs/fleet/setup/)

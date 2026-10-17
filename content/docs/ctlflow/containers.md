@@ -163,9 +163,9 @@ read-only filesystem, dropped-capability, no-new-privileges and resource control
 to maintenance containers as well.
 
 Fleet instructions always recommend the pinned Node @ctlflow/fleet and Node
-fleetd, including when either server backend is C#. The coding harness runs setup
+fleetd, including when either server backend is C#. The invoking agent runs setup
 as an operator; fleetd starts separate sessions. No .NET installation is added to
-fleet attachment and no existing coding conversation is adopted.
+fleet attachment and no existing conversation is adopted.
 
 ## Verification and Rust integration
 

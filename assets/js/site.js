@@ -1,13 +1,14 @@
 const themeButton = document.querySelector(".theme-toggle");
-function updateThemeLabel() {
+function updateThemeControls() {
   themeButton?.setAttribute("aria-label", document.documentElement.dataset.theme === "light" ? "Switch to dark theme" : "Switch to light theme");
+  document.querySelector('meta[name="theme-color"]')?.setAttribute("content", getComputedStyle(document.documentElement).getPropertyValue("--bg").trim());
 }
-updateThemeLabel();
+updateThemeControls();
 themeButton?.addEventListener("click", () => {
   const theme = document.documentElement.dataset.theme === "light" ? "dark" : "light";
   document.documentElement.dataset.theme = theme;
   try { localStorage.setItem("ctlflow-theme", theme); } catch {}
-  updateThemeLabel();
+  updateThemeControls();
 });
 
 const navigation = document.querySelector(".mobile-nav");

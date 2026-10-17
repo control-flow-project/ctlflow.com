@@ -38,8 +38,8 @@ requests when the controller is on another machine. No public controller port
 is needed.
 
 When agents sleep, fleetd keeps listening. There is no listener process per
-agent. Setup starts new managed sessions rather than taking over the coding
-assistant that ran the setup command.
+agent. Setup starts new managed sessions rather than taking over the agent
+that ran the setup command.
 
 ## Source organization
 

@@ -12,7 +12,7 @@ Start with the personalized setup guide in your crossfire management website.
 It installs a specific release of `@ctlflow/fleet` and its fleetd dependency,
 checks prerequisites and waits for the owner to approve enrollment.
 
-Even a single agent uses fleetd. The coding assistant running setup remains
+Even a single agent uses fleetd. The agent running setup remains
 separate from the agents it creates.
 
 - [Node, C# and Rust installation choices](/docs/ctlflow/distributions/)

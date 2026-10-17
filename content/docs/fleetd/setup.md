@@ -10,7 +10,7 @@ sourcePath: "services/fleetd/docs/setup.md"
 
 fleet validates crossfire's personalized setup descriptor and submits
 `POST /api/setup` to the private controller API.
-An existing coding assistant may execute that command, but its process and
+An existing agent may execute that command, but its process and
 conversation are never imported or attached.
 
 The descriptor identifies one active registered human, exact server origin and

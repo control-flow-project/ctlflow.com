@@ -11,6 +11,39 @@ import { guideReferences } from "../scripts/docs/sources.mjs";
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const read = relative => fs.readFileSync(path.join(root, relative), "utf8");
 
+test("authored pages describe agents without restricting them to software work", () => {
+  const pages = fs.readdirSync(path.join(root, "content"), { recursive: true }).filter(filename => filename.endsWith(".md")).map(filename => `content/${filename}`);
+  const templates = fs.readdirSync(path.join(root, "layouts"), { recursive: true }).filter(filename => filename.endsWith(".html")).map(filename => `layouts/${filename}`);
+  for (const filename of [...pages, ...templates, "hugo.toml"]) {
+    const source = read(filename);
+    if (/^generated: true$/mu.test(source)) continue;
+    const prose = source.replace(/^```[^\n]*\n[\s\S]*?^```[\t ]*$/gmu, "").replace(/`[^`\n]+`/gu, "").replace(/\s+/gu, " ");
+    assert.equal(/\bcoding[\s-]+(?:agents?|assistants?|harness(?:es)?|sessions?|conversations?)\b/iu.test(prose), false, `${filename}: general agent terminology`);
+  }
+  const introduction = read("content/docs/_index.md");
+  assert.equal(introduction.includes("researchers, writers and reviewers"), true);
+  assert.equal(introduction.includes("runtime adapters for Codex and Earendil Pi"), true);
+  assert.equal(read("content/docs/fleet/pi.md").includes("@earendil-works/pi-coding-agent@1.0.0"), true);
+});
+
+test("all fenced examples declare a language or explicitly declare plain text", () => {
+  const pages = fs.readdirSync(path.join(root, "content"), { recursive: true }).filter(filename => filename.endsWith(".md"));
+  let examples = 0;
+  for (const filename of pages) {
+    let inside = false;
+    for (const line of read(`content/${filename}`).split("\n")) {
+      if (!line.startsWith("```")) continue;
+      if (!inside) {
+        assert.match(line, /^```\S/u, `${filename}: explicit example language`);
+        examples += 1;
+      }
+      inside = !inside;
+    }
+    assert.equal(inside, false, `${filename}: closed fences`);
+  }
+  assert.equal(examples > 1200, true);
+});
+
 test("all declared operations have complete reference sections and metadata", () => {
   const catalogs = JSON.parse(read("data/operations.json"));
   for (const [product, operations] of Object.entries(catalogs)) {

@@ -8,9 +8,9 @@ sourcePath: "services/fleet/docs/getting-started.md"
 
 ## From management
 
-Open crossfire's Set up an agent page. Paste the personalized guide into a coding
-assistant. The guide pins the public fleet package to the instance's release and
-runs noninteractive setup:
+Open crossfire's Set up an agent page. Paste the personalized guide into an agent
+with shell access on your machine. The guide pins the public fleet package to the
+instance's release and runs noninteractive setup:
 
 ```sh
 fleet setup --descriptor 'https://example.test/onboarding/setup.json?ownerMatrixId=%40member%3Aexample.test'
@@ -22,7 +22,7 @@ a private controller and a project-derived one-agent fleet, displays the exact
 approval code/URL, waits for owner approval in ordinary code, then checks readiness.
 Setup asks no configuration questions and makes no model call.
 
-The coding assistant's own process, history and permissions remain independent.
+The agent running setup keeps its own process, history and permissions.
 fleetd creates a separate managed session. Existing approved identity/history
 is reused on repeated setup; an explicitly stopped binding stays stopped.
 
@@ -38,7 +38,7 @@ its sibling controller, not a different implementation on PATH.
 The host must already have the selected native runtime and provider login.
 Codex is the default. Pi requires an explicit ordinary roster and verified native
 1.0.0. Setup reports missing prerequisites; it does not silently upgrade a runtime,
-copy the current coding conversation or weaken native permissions.
+copy the current conversation or weaken native permissions.
 
 ## Optional configuration
 

@@ -22,7 +22,7 @@ No default deployment account or inferred owner is used.
 
 Setup asks no configuration questions. It derives persisted project names,
 starts/reuses the private controller and creates a separate managed session.
-The invoking coding assistant is never adopted.
+The agent running setup keeps its own process and conversation.
 Optional config/root arguments use the same loader.
 
 - [fleet setup](/docs/fleet/setup/)
