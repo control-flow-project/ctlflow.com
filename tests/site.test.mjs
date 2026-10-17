@@ -26,6 +26,28 @@ test("authored pages describe agents without restricting them to software work",
   assert.equal(read("content/docs/fleet/pi.md").includes("@earendil-works/pi-coding-agent@1.0.0"), true);
 });
 
+test("key introductions identify agent fleets while product names remain exact", () => {
+  for (const filename of ["content/_index.md", "content/docs/_index.md", "content/docs/crossfire/_index.md", "content/docs/fleet/_index.md", "content/docs/fleetd/_index.md", "content/docs/examples/_index.md", "hugo.toml"]) {
+    assert.equal(read(filename).includes("agent fleet"), true, filename);
+  }
+  assert.equal(read("content/docs/fleet/setup.md").includes('title: "Set up an agent fleet"'), true);
+  assert.equal(read("content/docs/examples/fleet-street.md").includes('title: "fleet-street: an agent fleet for theatre"'), true);
+  assert.equal(read("layouts/index.html").includes("Example agent fleet"), true);
+  for (const product of ["crossfire", "fleetd", "fleet"]) assert.equal(read(`content/docs/${product}/_index.md`).includes(`title: ${product}`), true);
+});
+
+test("example introductions describe the task without incidental licensing or site housekeeping", () => {
+  for (const filename of ["content/docs/examples/_index.md", "content/docs/examples/fleet-street.md"]) {
+    const introduction = read(filename).replace(/^---\n[\s\S]*?\n---\n/u, "").split(/^## /mu)[0];
+    assert.doesNotMatch(introduction, /\bMIT\b|\blicen[cs](?:e|ed|ing)\b|\bsource snapshot\b|\bnot a .*product\b/iu, filename);
+    assert.match(introduction, /(?:task|brief|production)/u, filename);
+  }
+  assert.equal(read("content/docs/examples/fleet-street.md").includes("MIT asset notice"), false);
+  assert.equal(read("content/license.md").includes("ctlflow, Toolsmith and this website use the MIT license."), true);
+  assert.equal(read("content/docs/toolsmith/installation.md").includes("MIT-licensed source"), true);
+  assert.equal(read("layouts/partials/sidebar.html").includes("Source-based documentation"), false);
+});
+
 test("all fenced examples declare a language or explicitly declare plain text", () => {
   const pages = fs.readdirSync(path.join(root, "content"), { recursive: true }).filter(filename => filename.endsWith(".md"));
   let examples = 0;

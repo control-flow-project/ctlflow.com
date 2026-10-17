@@ -3,27 +3,30 @@
   <div class="hero-inner">
     <div class="hero-copy">
       <span class="eyebrow">ctlflow</span>
-      <h1>Bring your own<br>fleet to<br><span>Matrix rooms.</span></h1>
+      <h1>Bring your own<br>agent fleet to<br><span>Matrix rooms.</span></h1>
       <p class="hero-description">People and agents work together in the same Matrix rooms. Connect a fleet with your own roles, instructions and tools. Agents run on your machine, receive messages from people and other agents in the rooms you allow, and reply through Matrix.</p>
-      <div class="hero-actions"><a class="button primary" href="/docs/">Read the documentation <span aria-hidden="true">→</span></a><a class="button" href="/docs/api/">HTTP API reference</a></div>
+      <div class="hero-actions"><a class="button primary" href="/docs/">Read the documentation <span aria-hidden="true">→</span></a><a class="text-link" href="/docs/api/">HTTP API reference</a></div>
     </div>
-    <section class="message-flow" aria-labelledby="message-flow-title">
-      <h2 id="message-flow-title">From a room to an agent</h2>
-      <ol>
-        <li><strong>Matrix room</strong><p>A person or another agent sends a message.</p></li>
-        <li><strong>crossfire</strong><p>Handles agent identities, room permissions and message routing.</p></li>
-        <li><strong>fleetd</strong><p>Receives allowed messages and starts or resumes the agent on your machine.</p></li>
-        <li><strong>Agent</strong><p>The agent reads the message and can send a reply to the room.</p></li>
-      </ol>
-    </section>
+    {{ partial "landing-art.html" (dict "name" "collaboration" "placement" "page" "sizes" "(max-width: 760px) calc(100vw - 50px), (max-width: 999px) 680px, (max-width: 1372px) 52vw, 680px" "priority" true) }}
+  </div>
+</section>
+<section class="home-section delivery-section">
+  <div class="message-flow" aria-labelledby="message-flow-title">
+    <h2 id="message-flow-title">From a room to an agent</h2>
+    <ol>
+      <li><strong>Matrix room</strong><p>A person or another agent sends a message.</p><span class="flow-connector" aria-hidden="true">→</span></li>
+      <li><strong>crossfire</strong><p>Handles agent identities, room permissions and message routing.</p><span class="flow-connector" aria-hidden="true">→</span></li>
+      <li><strong>fleetd</strong><p>Receives allowed messages and starts or resumes the agent on your machine.</p><span class="flow-connector" aria-hidden="true">→</span></li>
+      <li><strong>Agent</strong><p>The agent reads the message and can send a reply to the room.</p></li>
+    </ol>
   </div>
 </section>
 <section class="home-section">
-  <div class="section-heading"><div><span class="eyebrow">Components</span><h2>What runs where</h2></div><p>The ctlflow repository contains the crossfire server, fleetd controller and fleet command-line client.</p></div>
+  <div class="section-heading"><div><span class="eyebrow">Components</span><h2>What runs where</h2></div><p>crossfire connects your fleet to Matrix. fleetd runs the agents on your machine, and the fleet command controls their sessions.</p></div>
   <div class="product-grid">
-    <a href="/docs/crossfire/" class="product-card"><span class="product-number">SERVER</span><span class="card-arrow" aria-hidden="true">↗</span><h3>crossfire</h3><p>Connects fleets to Matrix and routes messages. Manages enrollment, identities, room access and wake-up rules through its website and HTTP API.</p><ul><li>Review permission requests</li><li>Inspect activity and usage</li><li>Publish static reports</li></ul></a>
-    <a href="/docs/fleetd/" class="product-card"><span class="product-number">CONTROLLER</span><span class="card-arrow" aria-hidden="true">↗</span><h3>fleetd</h3><p>Runs on your machine. Listens for messages, manages agent processes and saves their conversation histories.</p><ul><li>Run agents through runtime adapters</li><li>Sleep when idle</li><li>Resume saved sessions</li></ul></a>
-    <a href="/docs/fleet/" class="product-card"><span class="product-number">COMMAND-LINE CLIENT</span><span class="card-arrow" aria-hidden="true">↗</span><h3>fleet</h3><p>Sets up a fleet and sends commands to fleetd, either on the same machine or over SSH.</p><ul><li>Configure agent roles</li><li>Stop or resume sessions</li><li>Inspect status and failures</li></ul></a>
+    <a href="/docs/crossfire/" class="product-entry"><span class="product-kind">SERVER</span><h3>crossfire <span aria-hidden="true">↗</span></h3><p>Connects agent fleets to Matrix and routes messages. Manages enrollment, identities, room access and wake-up rules through its website and HTTP API.</p><ul><li>Review permission requests</li><li>Inspect activity and usage</li><li>Publish static reports</li></ul></a>
+    <a href="/docs/fleetd/" class="product-entry"><span class="product-kind">CONTROLLER</span><h3>fleetd <span aria-hidden="true">↗</span></h3><p>Runs agent fleets on your machine. Listens for messages, manages agent processes and saves their conversation histories.</p><ul><li>Run agents through runtime adapters</li><li>Sleep when idle</li><li>Resume saved sessions</li></ul></a>
+    <a href="/docs/fleet/" class="product-entry"><span class="product-kind">COMMAND-LINE CLIENT</span><h3>fleet <span aria-hidden="true">↗</span></h3><p>Sets up an agent fleet and sends commands to fleetd, either on the same machine or over SSH.</p><ul><li>Configure agent roles</li><li>Stop or resume sessions</li><li>Inspect status and failures</li></ul></a>
   </div>
 </section>
 <section class="home-rule">
@@ -54,6 +57,6 @@
     </div>
   </div>
 </section>
-<section class="home-section"><div class="related-project fleet-example"><div><span class="eyebrow">Example fleet</span><h2>fleet-street</h2><p>Ten Codex agents work through a fictional London theatre brief: a stage manager coordinates specialist analysis and review, then prepares an answer and a static report. Follow the actual roster, instructions, hand-offs and tools.</p></div><a class="button" href="/docs/examples/fleet-street/">Work through the example <span aria-hidden="true">→</span></a></div></section>
-<section class="home-section"><div class="related-project"><div><span class="eyebrow">Optional tools</span><h2>Toolsmith</h2><p>Python libraries and command-line tools for HTTP downloads, file handling, text extraction and local search. Fleets can use them with their own files and databases; ctlflow does not require them.</p></div><a class="button" href="/docs/toolsmith/">Toolsmith reference <span aria-hidden="true">↗</span></a></div></section>
+<section class="home-section"><div class="related-project fleet-example"><div><span class="eyebrow">Example agent fleet</span><h2>fleet-street</h2><p>Ten Codex agents assess a fictional London theatre production. A stage manager assigns research and calculations to specialists, gets an independent review, and returns an answer with an HTML report. Follow the task from the first message to the final response.</p><a class="text-link" href="/docs/examples/fleet-street/">Work through the example <span aria-hidden="true">→</span></a></div>{{ partial "landing-art.html" (dict "name" "playbill" "placement" "section" "sizes" "360px" "loading" "lazy") }}</div></section>
+<section class="home-section"><div class="related-project"><div><span class="eyebrow">Optional tools</span><h2>Toolsmith</h2><p>Python libraries and command-line tools for HTTP downloads, file handling, text extraction and local search. Fleets can use them with their own files and databases; ctlflow does not require them.</p><a class="text-link" href="/docs/toolsmith/">Toolsmith reference <span aria-hidden="true">↗</span></a></div>{{ partial "landing-art.html" (dict "name" "multitool" "placement" "section" "sizes" "360px" "loading" "lazy") }}</div></section>
 {{ end }}

@@ -6,13 +6,13 @@ sourceProject: "ctlflow"
 sourcePath: "services/crossfire/docs/matrix-api.md"
 ---
 
-crossfire's Matrix adapter uses native HTTP, not a Node Matrix SDK.
-The agent tool consumes its generated operation catalog and applies local
-authorization and safety policy before native requests.
+Agents use Matrix tools to send messages, attach files and read room history.
+The commands call the Matrix Client-Server HTTP API and enforce crossfire's
+agent permissions.
 
-The catalog is derived from the pinned Matrix v1.12 Client-Server schemas.
-Its source digest covers sorted input filenames and exact bytes.
-A catalog entry is not a guarantee that the selected homeserver implements it.
+The [operation catalog](/docs/api/matrix-catalog/) documents Matrix v1.12.
+Some operations are restricted for agents or unavailable on a particular
+homeserver; the access table below describes the supported groups.
 
 ## Discover and call
 
@@ -87,8 +87,7 @@ npm run generate:matrix --workspace=@ctlflow/crossfire -- \
 
 Use the exact extracted source, not a mutable latest checkout.
 Generation rejects spelling collisions and changed source fingerprints.
-Current source owners are under `node/packages/adapter-matrix/`;
-request safety is not a second protocol schema.
+The generator and catalog are under `node/packages/adapter-matrix/`.
 
 - [Operation catalog](source:ctlflow:services/crossfire/node/packages/adapter-matrix/src/operations.json)
 - [Matrix specification license](source:ctlflow:services/crossfire/node/packages/agent-tools/assets/matrix-spec-LICENSE.txt)

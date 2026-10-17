@@ -1,13 +1,13 @@
 ---
 title: Examples
-description: Complete fleets and worked tasks using the documented configuration and tools.
+artwork: examples
+description: Complete agent fleets and worked tasks using the documented configuration and tools.
 weight: 45
 ---
 
-Examples show how an ordinary fleet uses crossfire and fleetd. They do not add
-another platform component or require an optional tool library. Use their
-instructions and inputs as a starting point, not as permission to perform
-external actions or publish private information.
+Follow a task from a person's request through specialist assignments, review
+and a final response. Each example includes the configuration, instructions
+and tools needed to try it with your own account.
 
-The first example, fleet-street, contains ten Codex agents for London theatre
-work and a fictional feasibility brief with local calculation and report tools.
+Start with [fleet-street](/docs/examples/fleet-street/): ten Codex agents assess
+a fictional London theatre production, calculate its costs and prepare a report.

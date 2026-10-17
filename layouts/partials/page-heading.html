@@ -1,0 +1,5 @@
+<div class="page-heading">
+  <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/docs/">Docs</a>{{ range .Ancestors.Reverse }}{{ if and (not .IsHome) (ne .RelPermalink "/docs/") }}<span aria-hidden="true">/</span><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>{{ end }}{{ end }}<span aria-hidden="true">/</span><span>{{ .LinkTitle }}</span></nav>
+  <header class="article-heading"><span class="eyebrow">{{ if .IsSection }}Documentation{{ else }}{{ .Parent.Title }}{{ end }}</span><h1>{{ .Title }}</h1>{{ with .Description }}<p class="article-description">{{ . }}</p>{{ end }}</header>
+  {{ with .Params.artwork }}{{ partial "landing-art.html" (dict "name" . "placement" "page" "sizes" "(max-width: 450px) calc(100vw - 40px), (max-width: 760px) calc(100vw - 50px), (max-width: 999px) calc(100vw - 70px), (max-width: 1100px) calc(100vw - 329px), (max-width: 1405px) calc(100vw - 355px), 1050px") }}{{ end }}
+</div>

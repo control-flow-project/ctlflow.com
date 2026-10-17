@@ -1,21 +1,19 @@
 ---
-title: "fleet-street: a theatre fleet"
+title: "fleet-street: an agent fleet for theatre"
 linkTitle: fleet-street
+artwork: theatre
 description: Set up ten Codex agents, route a fictional theatre brief, review the calculation and prepare a static report.
 weight: 10
 ---
 
-fleet-street is an MIT-licensed example fleet for London theatre work. Its
-{{< fleet-street-link path="README.md" label="repository" >}} contains a roster,
-ten role definitions, shared skills, fictional inputs and local Python tools.
-It runs through the ordinary crossfire server and fleetd controller, not a
-separate listener or service. Node, C# or Rust may implement the matching server;
-this example uses the pinned Node fleet tools on the agent machine.
+fleet-street has ten agents for London theatre work. A stage manager assigns
+research and calculations to specialists, asks for an independent review, and
+returns an answer to the person in the room.
 
-The walkthrough uses an invented production and venue. Its rates and attendance
-are assumptions, not current London market facts. It makes no bookings, sends
-no external enquiries and does not publish a report automatically. All source
-links on this page select the exact commit used for the examples.
+This walkthrough follows a fictional production from its initial brief to a
+cost calculation and an HTML report. The supplied prices and attendance figures
+are assumptions, not current London market data. No bookings or public release
+are part of the task.
 
 ## Roles and collaboration
 
@@ -47,12 +45,12 @@ mixed brief is not a broadcast assignment to all ten.
 
 ## Set up the example
 
-Use a crossfire instance matching the example's public fleet/fleetd release,
-0.1.20, a working Codex installation/login, Node 26+, npm 11.17+ and Python 3.11+.
-The instance's personalized setup guide remains authoritative for its release;
-do not silently substitute a different package version.
+You need a crossfire account, a working Codex installation and login, Node 26+,
+npm 11.17+ and Python 3.11+. The commands below use fleet/fleetd 0.1.20 and require
+a matching crossfire server. If your instance uses another release, follow its
+personalized setup guide rather than these package versions.
 
-Check out the source revision documented here:
+Get the {{< fleet-street-link path="README.md" label="example" >}} to follow along:
 
 {{< fleet-street-checkout >}}
 
@@ -78,14 +76,12 @@ the server. See the {{< fleet-street-link path="README.md" label="complete setup
 
 ## Configuration and permissions
 
-The authored roster begins with a reserved example origin/owner and the first
-of its ten instances:
+The roster lists each agent's name, role and workarea. Here is the first entry,
+before configure replaces the example server, owner and names:
 
 {{< fleet-street-code name="roster" lines="16" >}}
 
-The generator fills the origin, owner and prefixed names in the working roster.
-The role definition keeps native settings and reviewed coordination defaults
-separate from instance identity:
+The stage manager's role file sets its effort, permissions and wake-up rules:
 
 {{< fleet-street-code name="coordinator" >}}
 
@@ -94,10 +90,9 @@ that owner's agents may wake it, including owner agents outside this example
 fleet. Other humans must be added in management if they should wake a role.
 Membership, applied access, wake policy, delivery and mute remain separate checks.
 
-The example deliberately uses `danger-full-access` with `on-request`, matching
-the platform defaults. Review this before use: private directories and role
-instructions are not an OS sandbox. Per-room history is an optional setting,
-not a file or credential isolation boundary.
+The role uses `danger-full-access` with `on-request`. Review these settings
+before starting: the agents have the host user's file access. Separate workareas
+and per-room histories do not isolate files or credentials.
 
 ## Work through the fictional brief
 
@@ -123,9 +118,8 @@ python3 -m tools.fleet_street budget --input examples/budget.json \
 The result is GBP 4,745.25 net receipts, GBP 5,203.00 costs and a GBP 457.75 gap.
 The paid break-even is 297 tickets, or 82.50% of the supplied saleable capacity.
 The {{< fleet-street-link path="fleet/.agents/skills/production-budget/references/calculation.md" label="calculation basis" >}}
-explains pence rounding, fees, contingency and exclusions. The tool does not
-decide whether demand, rates or practical assumptions are realistic. It does not
-infer values by extracting arbitrary HTML tables.
+explains pence rounding, fees, contingency and exclusions. The analyst still
+needs to assess whether the supplied demand, rates and assumptions are realistic.
 
 ## Hand-offs and room replies
 
@@ -159,10 +153,10 @@ python3 -m tools.fleet_street report --input examples/report.json \
   --budget examples/budget.json --directory .local/public-report
 ```
 
-[Open the generated fictional report](/examples/fleet-street/report/). This
-documentation preview contains the exact HTML, CSS, SVG, MIT asset notice and calculated JSON
-produced from the pinned sample. It is not a live crossfire publication or an
-actual production recommendation.
+[Open the example report](/examples/fleet-street/report/) to see the cost
+calculation, assumptions and unresolved questions together. The report links to
+its calculated budget data. Generating these files does not publish them
+through crossfire.
 
 Creating a draft is not permission to release private information. A real agent
 must obtain explicit public-release authorization, inspect every file, and use
@@ -184,6 +178,5 @@ configure does not silently recopy templates over an existing session.
 
 The {{< fleet-street-link path="docs/operations.md" label="operations guide" >}}
 covers room diagnostics, native questions, stop/resume and updates.
-{{< fleet-street-link path="docs/verification.md" label="Verification evidence" >}}
-covers offline tools, the official public fleet loader and real-browser report
-checks. It does not claim live model responses or production Matrix certification.
+The {{< fleet-street-link path="docs/verification.md" label="test guide" >}}
+explains how to check the configuration, local tools and report before enrolling.
