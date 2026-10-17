@@ -1,89 +1,116 @@
 # Landing artwork
 
-Nine distinct screen-print illustrations are stored as 1536 × 1024 RGBA PNGs
-in `assets/artwork/`. They use forest green, jade, coral, violet and gold. No
+Ten distinct transparent screen-print illustrations are stored in
+`assets/artwork/`. They use forest green, jade, coral, violet and gold. No
 private fleet assets or source material are included.
 
-| Asset | Subject | PNG bytes | 480 px WebP bytes | 800 px WebP bytes | 1200 px WebP bytes |
-| --- | --- | ---: | ---: | ---: | ---: |
-| `collaboration.png` | Human and geometric agent profiles with speech bubbles | 1,588,392 | 28,322 | 60,578 | 102,614 |
-| `ctlflow.png` | Mainframe tape cabinets, operator and linking paper strip | 2,010,129 | 39,156 | 77,316 | 142,150 |
-| `examples.png` | West End theatre exterior, London bus, street lamp and ticket | 2,795,140 | 65,474 | 148,372 | 300,654 |
-| `playbill.png` | Theatre print studio with mask, binoculars, tickets and ink roller | 2,583,554 | 47,900 | 114,436 | 230,914 |
-| `multitool.png` | Folding multi-tool and craftsman's hand | 1,975,023 | 33,646 | 77,268 | 150,668 |
-| `crossfire.png` | Telephone receivers, connected portraits and an operator's hand | 1,971,197 | 44,390 | 91,968 | 166,860 |
-| `fleetd.png` | Conductor's hands and repeated human and agent busts | 1,800,187 | 43,308 | 89,580 | 156,528 |
-| `fleet.png` | Typewriter, blank paper and a hand pressing a key | 1,879,846 | 35,692 | 75,724 | 140,508 |
-| `theatre.png` | West End proscenium, curtains, balconies, theatrical portraits and spotlights | 2,104,354 | 48,492 | 104,332 | 186,472 |
+The three homepage originals remain 1536 × 1024 RGBA PNGs (3:2). The seven
+documentation section illustrations are newly generated 2172 × 724 RGBA PNGs
+(3:1). At a displayed width of 1050 pixels, a section illustration is 350 pixels
+tall rather than 700. The images are composed for the shallow format, not
+squashed or cropped from taller artwork. The intrinsic dimensions reserve the
+correct space before decoding; the existing full content width is unchanged.
+
+| Asset | Subject | Source dimensions | PNG bytes |
+| --- | --- | --- | ---: |
+| `collaboration.png` | Human and geometric agent profiles with speech bubbles | 1536 × 1024 | 1,588,392 |
+| `playbill.png` | Theatre print studio with mask, binoculars, tickets and ink roller | 1536 × 1024 | 2,583,554 |
+| `multitool.png` | Folding multi-tool and craftsman's hand | 1536 × 1024 | 1,975,023 |
+| `ctlflow.png` | Low reel-to-reel consoles linked by a paper strip | 2172 × 724 | 1,105,481 |
+| `crossfire.png` | Three desk telephones linked by looping cords | 2172 × 724 | 1,185,686 |
+| `fleetd.png` | Conductor's hands and five human or geometric portraits | 2172 × 724 | 807,680 |
+| `fleet.png` | Typewriter and a lateral paper ribbon forming speech shapes | 2172 × 724 | 928,016 |
+| `examples.png` | West End theatre frontage, London bus and tickets | 2172 × 724 | 1,405,264 |
+| `api.png` | Blank envelopes, sorting trays and an exchange between two hands | 2172 × 724 | 920,775 |
+| `toolsmith.png` | Unfurled tool roll with scissors, compass, spanner and straightedge | 2172 × 724 | 1,197,170 |
 
 Generation used the built-in image generation tool with
-`transparent_background=true`. The exact original prompts and the collaboration
-refinement prompt are in [`artwork-prompts.json`](artwork-prompts.json).
+`transparent_background=true`. The exact current prompts and the homepage
+collaboration refinement prompt are in
+[`artwork-prompts.json`](artwork-prompts.json). The generator delivered native
+2172 × 724 output for the requested 3:1 compositions; no post-generation image
+editing was needed.
 
-## Placement
+## Placement policy
+
+Every bold sidebar heading links to a top-level documentation section. Each of
+those section landing pages has exactly one panoramic illustration. There are
+no exceptions for API reference or Toolsmith. No other documentation page may
+have ornamental artwork.
 
 | Page | Artwork |
 | --- | --- |
-| Home | Collaboration hero; playbill and multi-tool in the related-project sections |
-| Documentation | None |
-| ctlflow overview | Mainframe |
-| crossfire, fleetd and fleet overviews | The component's named asset |
-| Examples | West End exterior |
-| fleet-street walkthrough | Theatre interior |
-| Toolsmith overview | None |
+| Home | Collaboration hero; separate playbill and multi-tool section ornaments |
+| `/docs/ctlflow/` | Reel-to-reel consoles |
+| `/docs/crossfire/` | Telephone exchange |
+| `/docs/fleetd/` | Conductor and portraits |
+| `/docs/fleet/` | Typewriter |
+| `/docs/examples/` | West End exterior |
+| `/docs/api/` | Envelope exchange |
+| `/docs/toolsmith/` | Craftsman's tools |
+| `/docs/` | None |
+| All child pages, nested sections and operation references | None |
+| Search and legal pages | None |
 
-The home template selects its artwork directly. Six content pages select it
-with `artwork: <name>` in front matter. `data/artwork.json` is the asset registry;
-`layouts/partials/landing-art.html` owns all rendering. Both document layouts use
-`page-heading.html` so single-page and section introductions have the same image
-placement. Technical guides, API references, search and legal pages load no art.
+The fleet-street walkthrough is a child page and has no illustration. Its
+informative diagrams remain part of its content. The homepage theatre preview
+keeps its own distinct artwork.
+
+The home template selects its three images directly. Section pages select
+`artwork: <name>` in front matter. `data/artwork.json` is the asset registry;
+`layouts/partials/landing-art.html` owns image rendering. Both document layouts
+use `page-heading.html`, which rejects a missing illustration on a top-level
+sidebar section or ornamental art assigned to any other document. Tests exercise
+these build failures and compare every rendered page against its actual bold
+sidebar links, not only a manually maintained page list.
 
 ## Build and browser behavior
 
 Hugo resizes each source to 480, 800 and 1200 pixels wide using WebP quality 80.
-The source PNGs are not published. Twenty-seven derivatives are published under
-`/assets/artwork/` with SHA-256 fingerprints for immutable caching. `srcset` and
-`sizes` let the browser select one variant based on display size and pixel density.
+Section variants are 480 × 160, 800 × 267 and 1200 × 400 pixels; the browser
+retains the original 3:1 layout despite integer rounding in the 800-pixel file.
+Homepage variants retain their original 3:2 geometry. Thirty derivatives are
+published under `/assets/artwork/` with SHA-256 fingerprints for immutable
+caching. The source PNGs are not published. `srcset` and `sizes` let the browser
+select one variant based on display width and pixel density. Existing per-file
+budgets remain 80 KiB at 480 pixels, 160 KiB at 800 and 300 KiB at 1200.
 
 Images retain their alpha channel. No background panel, blend mode, color filter,
 remote image loader or additional script is used. The page background shows
 through in both themes. Empty alt text and `aria-hidden` mark the illustrations
-as decorative; all explanations remain in the surrounding text. Page-level
-images reserve their 3:2 layout before decoding. The home hero has high fetch
-priority; the two below-fold home illustrations load lazily and display at
-288 × 288 pixel rounded squares on desktop, to the left of the text and
-top-aligned with each section's introductory label. The artwork fits inside
-without cropping or an opaque background. Responsive `sizes` matches that width.
-Print hides the art. The documentation and Toolsmith indexes have no illustration.
+as decorative; all explanations remain in the surrounding text. Print hides
+ornamental art.
 
-Every call declares `placement: page` or `placement: section`. Below the site's
-1000 px mobile-layout breakpoint, only page-level ornamental illustrations remain
-visible. Section ornaments are hidden through the shared stylesheet; related
-text uses the full available width. Browser checks confirm that hidden lazy
-ornaments are not downloaded during normal browsing. This
-applies to the fleet-street and Toolsmith home previews. Informative images,
-screenshots, code and diagrams are content, not decorations, and stay visible.
+The homepage hero retains high fetch priority. Its two section ornaments remain
+lazy-loaded 288 × 288 pixel rounded squares on desktop, to the left of the text,
+with the existing alignment and spacing. Their artwork fits without cropping or
+an opaque background.
+
+Every call declares `placement: page` or `placement: section`. Below 1000 pixels,
+page-level ornamental illustrations remain visible, while section ornaments
+are hidden without empty columns or image downloads during normal browsing.
+This keeps all seven documentation section illustrations and the homepage hero
+visible on mobile, but hides the homepage's fleet-street and Toolsmith ornaments.
+Informative images, screenshots, code and diagrams are content and stay visible.
 This behavior requires no JavaScript.
 
 Every illustration appears in exactly one place across all rendered HTML pages.
-The home previews do not reuse the art from their linked pages. After Hugo
-renders, `scripts/artwork.mjs` checks all registered source files and all rendered
-placements. Reused keys, identical source bytes under different keys, unknown
-keys and registered-but-unused images fail the production build. Responsive
-sizes are variants of one placement, not separate illustrations.
+Home previews never reuse section art. After Hugo renders, `scripts/artwork.mjs`
+rejects reused keys, identical source bytes under different keys, unknown keys
+and registered-but-unused sources. Responsive sizes are variants of one
+placement, not separate illustrations.
 
 ## Changing artwork
 
 Keep generated originals in this repository and update the registry and prompt
-record together. Do not reference files in a generator's private save directory.
-Use the shared partial rather than adding page-specific image processing or
-theme variants. Select illustrations explicitly; do not add them automatically to
-all pages in a section. Update the landing allowlist tests when an authorized
-placement changes. Never reuse an illustration; generate a distinct one for
-each new placement.
+record together. Do not reference the generator's private save directory. Use
+the shared partial rather than page-specific image processing or theme variants.
+Keep exactly one distinct 3:1 illustration on every bold sidebar section's
+landing page and none on its children. A new sidebar section needs its own art.
+Do not introduce policy exceptions or reuse an existing illustration.
 
-Run `npm run check` under the process-group limits in the README. Review real
-browser screenshots on light/dark backgrounds and mobile/desktop widths. The
-browser tests also decode alpha, check responsive URLs and lazy loading, and
-reject illustrations outside the selected landing pages. Remove recreated
-browser fixtures and build caches after recording concise verification results.
+Run the affected build, artwork tests and real-browser checks under the process
+group limits in the README. Browser checks cover light/dark backgrounds,
+mobile/desktop widths, alpha, responsive URLs, byte budgets, unchanged content
+width, half-height section art and the absence of art from child pages. Remove
+recreated fixtures and caches after retaining concise verification results.

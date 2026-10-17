@@ -247,9 +247,9 @@ test("homepage uses typography instead of panels and keeps message arrows betwee
   evidence.tests.push("paper-home-typography-unboxed-sections-four-step-arrows-six-widths-two-themes");
 });
 
-test("documentation and Toolsmith indexes open with their content, without decorative artwork", async context => {
+test("the documentation index and child walkthrough open without decorative artwork", async context => {
   const { page } = await pageFor(context);
-  for (const [location, title, section, screenshot] of [["/docs/", "Documentation", "first-tasks", "docs-index"], ["/docs/toolsmith/", "Toolsmith", "capabilities", "toolsmith-index"]]) for (const width of [390, 1440]) for (const theme of ["light", "dark"]) {
+  for (const [location, title, section, screenshot] of [["/docs/", "Documentation", "first-tasks", "docs-index"], ["/docs/examples/fleet-street/", "fleet-street: an agent fleet for theatre", "roles-and-collaboration", "fleet-street-walkthrough"]]) for (const width of [390, 1440]) for (const theme of ["light", "dark"]) {
     await page.setViewportSize({ width, height: 1000 });
     const response = await page.goto(`${preview.origin}${location}`);
     assert.equal(response.status(), 200);
@@ -260,7 +260,7 @@ test("documentation and Toolsmith indexes open with their content, without decor
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);
     await page.screenshot({ path: path.join(artifacts, `${screenshot}-${width}-${theme}.png`) });
   }
-  evidence.tests.push("documentation-and-toolsmith-indexes-without-decoration");
+  evidence.tests.push("documentation-index-and-child-walkthrough-without-decoration");
 });
 
 test("every generated HTML link, exact anchor and code example renders correctly", async context => {
@@ -299,14 +299,19 @@ test("every generated HTML link, exact anchor and code example renders correctly
         "/": ["collaboration", "playbill", "multitool"],
         "/docs/ctlflow/": ["ctlflow"],
         "/docs/crossfire/": ["crossfire"], "/docs/fleetd/": ["fleetd"], "/docs/fleet/": ["fleet"],
-        "/docs/examples/": ["examples"], "/docs/examples/fleet-street/": ["theatre"],
+        "/docs/examples/": ["examples"], "/docs/api/": ["api"], "/docs/toolsmith/": ["toolsmith"],
       };
       const illustrations = [...document.querySelectorAll(".landing-art")].map(element => element.dataset.artwork);
       artworkPlacements.push(...illustrations);
       if (JSON.stringify(illustrations) !== JSON.stringify(illustratedPages[record.url] ?? [])) diagnostics.push(`${record.url}: artwork outside selected landings`);
+      if (record.url !== "/") {
+        const sidebarSection = [...document.querySelectorAll(".nav-group h2 a")].some(link => link.getAttribute("href") === record.url);
+        if (illustrations.length !== (sidebarSection ? 1 : 0)) diagnostics.push(`${record.url}: every bold sidebar section needs one illustration, other documents need none`);
+      }
       for (const image of document.querySelectorAll(".landing-art img")) {
         if (image.getAttribute("alt") !== "" || image.closest(".landing-art").getAttribute("aria-hidden") !== "true") diagnostics.push(`${record.url}: decorative illustration semantics`);
-        if (image.getAttribute("width") !== "1536" || image.getAttribute("height") !== "1024") diagnostics.push(`${record.url}: missing image geometry`);
+        const dimensions = record.url === "/" ? ["1536", "1024"] : ["2172", "724"];
+        if (image.getAttribute("width") !== dimensions[0] || image.getAttribute("height") !== dimensions[1]) diagnostics.push(`${record.url}: missing image geometry`);
         const placement = record.url === "/" && image.closest(".related-project") ? "section" : "page";
         if (image.closest(".landing-art").getAttribute("data-artwork-placement") !== placement) diagnostics.push(`${record.url}: incorrect decorative placement`);
         if (image.getAttribute("srcset").split(",").length !== 3 || !image.getAttribute("sizes")) diagnostics.push(`${record.url}: missing responsive variants`);
@@ -344,7 +349,7 @@ test("landing illustrations decode with transparent backgrounds in both themes a
   const landings = {
     "/": "collaboration", "/docs/ctlflow/": "ctlflow",
     "/docs/crossfire/": "crossfire", "/docs/fleetd/": "fleetd", "/docs/fleet/": "fleet",
-    "/docs/examples/": "examples", "/docs/examples/fleet-street/": "theatre",
+    "/docs/examples/": "examples", "/docs/api/": "api", "/docs/toolsmith/": "toolsmith",
   };
   for (const width of [390, 1440]) {
     await page.setViewportSize({ width, height: 1000 });
@@ -359,7 +364,7 @@ test("landing illustrations decode with transparent backgrounds in both themes a
           const image = element.querySelector("img");
           const canvas = document.createElement("canvas");
           canvas.width = 180;
-          canvas.height = 120;
+          canvas.height = Math.round(canvas.width * image.naturalHeight / image.naturalWidth);
           const drawing = canvas.getContext("2d");
           drawing.drawImage(image, 0, 0, canvas.width, canvas.height);
           const pixels = drawing.getImageData(0, 0, canvas.width, canvas.height).data;
@@ -383,7 +388,12 @@ test("landing illustrations decode with transparent backgrounds in both themes a
         assert.equal(result.wrapperBackground, "rgba(0, 0, 0, 0)");
         assert.equal(result.pageBackground, theme === "light" ? "rgb(255, 255, 255)" : "rgb(9, 18, 13)");
         assert.equal(result.width > (width === 390 ? 280 : 500), true, `${location}: large illustration`);
-        assert.equal(Math.abs(result.width / result.height - 1.5) < 0.001, true, "uncropped 3:2 aspect ratio");
+        const ratio = location === "/" ? 1.5 : 3;
+        assert.equal(Math.abs(result.width / result.height - ratio) < 0.001, true, `${location}: uncropped ${ratio}:1 aspect ratio`);
+        if (location !== "/") {
+          assert.equal(result.width, width === 390 ? 350 : 1050, `${location}: preserve the existing full content width`);
+          assert.equal(Math.abs(result.height - result.width / 3) < 0.02, true, `${location}: half the previous illustration height`);
+        }
         assert.equal(result.pageOverflow <= 1, true, `${location}: no page-level overflow`);
         assert.equal(result.loading, "eager");
         const response = await page.request.get(`${preview.origin}${result.source}`);
@@ -393,7 +403,7 @@ test("landing illustrations decode with transparent backgrounds in both themes a
         const bytes = (await response.body()).length;
         assert.equal(bytes < 300 * 1024, true);
         evidence.artwork.push({ location, name, theme, viewport: width, bytes, ...result });
-        if (width === 1440 || ["/", "/docs/examples/fleet-street/"].includes(location)) {
+        if (width === 1440 || ["/", "/docs/examples/"].includes(location)) {
           await page.screenshot({ path: path.join(artifacts, `art-${name}-${width}-${theme}.png`) });
         }
       }
@@ -412,7 +422,7 @@ test("landing illustrations decode with transparent backgrounds in both themes a
   await page.emulateMedia({ media: "print" });
   assert.equal(await page.locator(".landing-art").first().isVisible(), false);
   assert.deepEqual(failures, []);
-  evidence.tests.push("seven-illustrated-landings-two-themes-two-widths-alpha-responsive-local-assets");
+  evidence.tests.push("home-and-all-seven-sidebar-sections-two-themes-two-widths-alpha-responsive-local-assets");
 });
 
 test("search is URL-addressable, escapes input and supports the keyboard shortcut", async context => {
@@ -645,9 +655,11 @@ test("navigation and documents remain readable with JavaScript disabled; missing
   assert.equal(await page.locator("#docs-navigation").getAttribute("open"), "");
   assert.equal(await page.locator("h2#source-organization").isVisible(), true);
   assert.equal(await page.locator(".prose").innerText().then(text => text.includes("Domain modules do not import concrete adapters.")), true);
+  await page.goto(`${preview.origin}/docs/examples/`);
+  await page.locator('.landing-art[data-artwork="examples"] img').evaluate(image => image.decode());
+  assert.equal(await page.locator('.landing-art[data-artwork="examples"] img').evaluate(image => image.naturalWidth > 0), true);
   await page.goto(`${preview.origin}/docs/examples/fleet-street/`);
-  await page.locator('.landing-art[data-artwork="theatre"] img').evaluate(image => image.decode());
-  assert.equal(await page.locator('.landing-art[data-artwork="theatre"] img').evaluate(image => image.naturalWidth > 0), true);
+  assert.equal(await page.locator("main .landing-art").count(), 0);
   await page.getByRole("link", { name: "Set up an agent fleet", exact: true }).click();
   await page.waitForURL("**/docs/fleet/setup/");
   const missing = await page.goto(`${preview.origin}/not-a-document/`);
