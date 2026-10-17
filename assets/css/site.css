@@ -118,7 +118,7 @@ button, input { border-radius: 8px; }
 .hero-terminal .code-panel { padding: 25px; position: relative; }
 .hero-terminal pre { margin: 0; color: var(--secondary); font-size: 13px; line-height: 2; overflow-x: auto; }
 .terminal-caption { border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; padding: 13px 24px; }
-.related-project { display: grid; grid-template-columns: 288px minmax(0, 1fr); gap: 32px; align-items: start; padding-top: 40px; border-top: 1px solid var(--line); }
+.related-project { display: grid; grid-template-columns: 288px minmax(0, 1fr); gap: 48px; align-items: start; padding-top: 40px; border-top: 1px solid var(--line); }
 .related-project .landing-art { aspect-ratio: 1; border-radius: 20px; overflow: hidden; }
 .related-project .landing-art img { height: 100%; object-fit: contain; object-position: left top; }
 .related-project h2 { margin: 8px 0 18px; font-size: 40px; font-weight: 550; letter-spacing: -.04em; }

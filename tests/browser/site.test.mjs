@@ -192,7 +192,7 @@ test("homepage uses typography instead of panels and keeps message arrows betwee
         assert.equal(ornament.height, 288, `${ornament.name}: displayed square height`);
         assert.equal(ornament.radius, "20px");
         assert.equal(ornament.fit, "contain", `${ornament.name}: artwork is not cropped`);
-        assert.equal(Math.abs(ornament.labelLeft - ornament.right - 32) <= 1, true, `${ornament.name}: image is left of the text`);
+        assert.equal(Math.abs(ornament.labelLeft - ornament.right - 48) <= 1, true, `${ornament.name}: image is left of the text with a 48px gap`);
         assert.equal(Math.abs(ornament.top - ornament.labelTop) <= 1, true, `${ornament.name}: top-aligned with the introductory label`);
       }
     }
