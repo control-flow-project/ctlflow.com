@@ -32,9 +32,13 @@ Listed permission codes are alternatives, not token scopes. The service also che
 
 ## Path parameters
 
+Your HTTP client substitutes these values into the placeholders in the URL path.
+
 empty object; unknown fields rejected
 
 ### Validation
+
+This TypeScript is the server's validation code, reproduced from its contract. It describes the accepted format; client applications do not need to run or import it.
 
 ```typescript
 check.empty
@@ -45,6 +49,8 @@ Referenced definitions:
 - [`empty`](/docs/api/schemas/crossfire-contracts-schema-validation/#empty)
 
 ## Query parameters
+
+Your HTTP client supplies these values in the URL query string.
 
 custom validation: [`none`](/docs/api/schemas/crossfire-contracts-schema-query/#none); see function below
 
@@ -65,6 +71,8 @@ export function none(input: unknown) {
 
 ### Validation
 
+This TypeScript is the server's validation code, reproduced from its contract. It describes the accepted format; client applications do not need to run or import it.
+
 ```typescript
 query.none
 ```
@@ -74,6 +82,8 @@ Referenced definitions:
 - [`none`](/docs/api/schemas/crossfire-contracts-schema-query/#none)
 
 ## Request body
+
+Your HTTP client supplies these fields as the JSON request body when the operation takes input. A no-input operation does not require JSON. This is protocol input, not text to send in a Matrix room.
 
 object; fields below; unknown fields rejected ([`preflight`](/docs/api/schemas/crossfire-contracts-schema-request/#preflight))
 
@@ -127,6 +137,8 @@ policy => (policy.wakeMode !== 'everyone' || policy.senders.length === 0)
 
 ### Validation
 
+This TypeScript is the server's validation code, reproduced from its contract. It describes the accepted format; client applications do not need to run or import it.
+
 ```typescript
 req.preflight
 ```
@@ -137,6 +149,8 @@ Referenced definitions:
 
 ## Response data
 
+The service produces these fields inside `data` in its response. They are output for the client to read, not input for the caller to submit.
+
 object; fields below; unknown fields rejected ([`preflight`](/docs/api/schemas/crossfire-contracts-schema-response/#preflight))
 
 | Field path | Representation and constraints |
@@ -145,6 +159,8 @@ object; fields below; unknown fields rejected ([`preflight`](/docs/api/schemas/c
 | `instances` | exact JSON integer; 1…100 |
 
 ### Validation
+
+This TypeScript is the server's validation code, reproduced from its contract. It describes the accepted format; client applications do not need to run or import it.
 
 ```typescript
 res.preflight
@@ -156,7 +172,7 @@ Referenced definitions:
 
 ## Response envelope
 
-A successful JSON response contains `data` and `meta`. Replace the `data` placeholder below with the response fields described above. Errors contain `error` instead of `data`.
+This JSON illustrates a response returned by the service, not a request to send. The service fills `data` with the operation result and `meta` with request metadata. The string below marks where the actual response data appears; it is not an example record. Errors contain `error` instead of `data`.
 
 ```json
 {

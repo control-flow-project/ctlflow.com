@@ -9,6 +9,10 @@ sourcePath: "services/fleetd/docs/coordination.md"
 Role `coordination_options` is separate from native `runtime_options`.
 Instances inherit the role's complete policy; native overrides cannot change it.
 
+The fleet author places this table in the role's `agent.toml`. It is read as
+configuration during enrollment, not delivered as a chat message. Replace the
+example sender with the intended person's actual Matrix ID:
+
 ```toml
 [coordination_options]
 wake_mode = "selected"

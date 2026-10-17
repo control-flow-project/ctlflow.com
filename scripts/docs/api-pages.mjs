@@ -27,7 +27,13 @@ function queryNames(expression) {
 
 function parserSection(model, field, label) {
   const details = fieldRows(model, field.expression, field.module);
-  const lines = [`## ${label}`, "", describe(model, field.expression, field.module), ""];
+  const origins = {
+    "Path parameters": "Your HTTP client substitutes these values into the placeholders in the URL path.",
+    "Query parameters": "Your HTTP client supplies these values in the URL query string.",
+    "Request body": "Your HTTP client supplies these fields as the JSON request body when the operation takes input. A no-input operation does not require JSON. This is protocol input, not text to send in a Matrix room.",
+    "Response data": "The service produces these fields inside `data` in its response. They are output for the client to read, not input for the caller to submit.",
+  };
+  const lines = [`## ${label}`, "", origins[label], "", describe(model, field.expression, field.module), ""];
   if (details.rows.length) {
     lines.push("| Field path | Representation and constraints |", "| --- | --- |");
     for (const row of details.rows) lines.push(`| \`${escaped(row.path)}\` | ${escaped(row.type)} |`);
@@ -43,7 +49,7 @@ function parserSection(model, field, label) {
     lines.push("### Additional checks", "", "The following checks apply in addition to the field limits.", "");
     for (const constraint of details.constraints) lines.push(`Constraint on \`${constraint.prefix}\`:`, "", "```typescript", constraint.text, "```", "");
   }
-  lines.push("### Validation", "", "```typescript", sourceText(field.expression, field.module), "```", "");
+  lines.push("### Validation", "", "This TypeScript is the server's validation code, reproduced from its contract. It describes the accepted format; client applications do not need to run or import it.", "", "```typescript", sourceText(field.expression, field.module), "```", "");
   const links = references(model, field.expression, field.module);
   if (links.length) lines.push("Referenced definitions:", "", ...links.map(link => `- ${link}`), "");
   return lines.join("\n");
@@ -85,7 +91,7 @@ export function operationPage(model, operation, product) {
       lines.push("## Request body", "", "Use `Content-Type: application/octet-stream` and a canonical decimal `Content-Length` matching the staged file. The body must remain within the operation limit and match the declared SHA-256. Do not wrap it in JSON or base64.", "", "`BinaryInput` below describes the server's representation of the upload stream. `chunks` is not an HTTP request field.", "", "### Server-side stream validation", "", "```typescript", sourceText(operation.fields.get(key).expression, operation.module), "```", "", ...references(model, operation.fields.get(key).expression, operation.module).map(link => `- ${link}`), "");
     } else lines.push(parserSection(model, operation.fields.get(key), label));
   }
-  lines.push("## Response envelope", "", "A successful JSON response contains `data` and `meta`. Replace the `data` placeholder below with the response fields described above. Errors contain `error` instead of `data`.", "", "```json", JSON.stringify({ data: "<value matching the response-data validator>", meta: { requestId: "00000000-0000-0000-0000-000000000001", ...(operation.collection ? { page: 1, pageSize: 20, totalItems: 0, totalPages: 1 } : {}) } }, null, 2), "```", "");
+  lines.push("## Response envelope", "", "This JSON illustrates a response returned by the service, not a request to send. The service fills `data` with the operation result and `meta` with request metadata. The string below marks where the actual response data appears; it is not an example record. Errors contain `error` instead of `data`.", "", "```json", JSON.stringify({ data: "<value matching the response-data validator>", meta: { requestId: "00000000-0000-0000-0000-000000000001", ...(operation.collection ? { page: 1, pageSize: 20, totalItems: 0, totalPages: 1 } : {}) } }, null, 2), "```", "");
   return lines.join("\n");
 }
 
@@ -98,7 +104,7 @@ export function apiIndex(operations, product) {
 
 export function schemaPage(model, module) {
   const lines = [frontmatter({ title: module.relative.replace(/^services\//u, ""), linkTitle: path.basename(module.filename, ".ts"), description: "Validation functions, types and constants from the recorded source revision.", sourceProject: "ctlflow", sourcePath: module.relative, generated: true }),
-    "## Definitions", "", "These TypeScript definitions document server validation. `check.object` rejects unknown fields. Custom functions and refinements specify additional checks.", "", "### Imported definitions", ""];
+    "## Definitions", "", "All code blocks below are TypeScript declarations copied from the server. They document validation, not JSON to send or code to paste into a chat. Clients can use any HTTP library without importing these declarations. `check.object` rejects unknown fields. Custom functions and refinements specify additional checks.", "", "### Imported definitions", ""];
   const imports = [...new Set([...module.imports.values()].map(item => item.file))].filter(filename => model.modules.has(filename));
   if (imports.length) for (const filename of imports) { const imported = model.load(filename); lines.push(`- [\`${imported.relative}\`](/docs/api/schemas/${schemaId(imported)}/)`); }
   else lines.push("This module has no local contract dependencies.");

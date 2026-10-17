@@ -56,6 +56,11 @@ hourly. A thirty-day query does not restore records already expired.
 
 ## API
 
+A custom management client requests the same data with the HTTP request below,
+substituting the selected fleet's ID. The server generates the statistics
+response from stored summaries; a person normally uses Fleet Activity instead
+of composing this request:
+
 ```text
 GET /api/fleets/{fleetId}/statistics?hours=24&page=1&pageSize=20
 ```

@@ -32,6 +32,8 @@ Listed permission codes are alternatives, not token scopes. The service also che
 
 ## Path parameters
 
+Your HTTP client substitutes these values into the placeholders in the URL path.
+
 object; fields below; unknown fields rejected
 
 | Field path | Representation and constraints |
@@ -39,6 +41,8 @@ object; fields below; unknown fields rejected
 | `agentId` | lowercase opaque UUID |
 
 ### Validation
+
+This TypeScript is the server's validation code, reproduced from its contract. It describes the accepted format; client applications do not need to run or import it.
 
 ```typescript
 check.object({ agentId: check.identifier })
@@ -50,6 +54,8 @@ Referenced definitions:
 - [`identifier`](/docs/api/schemas/crossfire-contracts-schema-validation/#identifier)
 
 ## Query parameters
+
+Your HTTP client supplies these values in the URL query string.
 
 custom validation: [`wakeAttachmentQuery`](/docs/api/schemas/crossfire-contracts-wake-up/#wakeAttachmentQuery); see function below
 
@@ -74,6 +80,8 @@ export function wakeAttachmentQuery(input: unknown) {
 
 ### Validation
 
+This TypeScript is the server's validation code, reproduced from its contract. It describes the accepted format; client applications do not need to run or import it.
+
 ```typescript
 wake.wakeAttachmentQuery
 ```
@@ -84,9 +92,13 @@ Referenced definitions:
 
 ## Request body
 
+Your HTTP client supplies these fields as the JSON request body when the operation takes input. A no-input operation does not require JSON. This is protocol input, not text to send in a Matrix room.
+
 empty object; unknown fields rejected
 
 ### Validation
+
+This TypeScript is the server's validation code, reproduced from its contract. It describes the accepted format; client applications do not need to run or import it.
 
 ```typescript
 check.empty
@@ -98,6 +110,8 @@ Referenced definitions:
 
 ## Response data
 
+The service produces these fields inside `data` in its response. They are output for the client to read, not input for the caller to submit.
+
 object; fields below; unknown fields rejected ([`wakeMetadata`](/docs/api/schemas/crossfire-contracts-wake-up/#wakeMetadata))
 
 | Field path | Representation and constraints |
@@ -106,6 +120,8 @@ object; fields below; unknown fields rejected ([`wakeMetadata`](/docs/api/schema
 | `nextDueAt` | exact JSON integer; 0…9007199254740991; JSON null permitted |
 
 ### Validation
+
+This TypeScript is the server's validation code, reproduced from its contract. It describes the accepted format; client applications do not need to run or import it.
 
 ```typescript
 wake.wakeMetadata
@@ -117,7 +133,7 @@ Referenced definitions:
 
 ## Response envelope
 
-A successful JSON response contains `data` and `meta`. Replace the `data` placeholder below with the response fields described above. Errors contain `error` instead of `data`.
+This JSON illustrates a response returned by the service, not a request to send. The service fills `data` with the operation result and `meta` with request metadata. The string below marks where the actual response data appears; it is not an example record. Errors contain `error` instead of `data`.
 
 ```json
 {

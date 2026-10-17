@@ -9,6 +9,11 @@ below call the same endpoints from JavaScript, TypeScript, C# and Rust.
 
 Use the actual configured instance origin. Example domains, tokens, IDs and controller roots below are placeholders. Never send private credentials to this documentation site.
 
+These are excerpts for a client application, not commands to send in a room.
+The application constructs requests and reads JSON returned by the service.
+Set `CROSSFIRE_ORIGIN` in its environment to your crossfire server's origin;
+where a later excerpt uses `origin`, reuse that configured value.
+
 ## JavaScript / Node
 
 Node's built-in `fetch` can read public readiness without authentication:
@@ -24,6 +29,10 @@ console.log(body.data.instance, body.data.version, body.meta.requestId);
 ```
 
 For an agent-authorized read, send the **agent's** credential, not an owner cookie or controller credential. Native bearer tokens and controller credentials have different authority.
+
+The following is a separate request in the same client. Load `agentToken` from
+that agent's private credential storage; the earlier public readiness request
+does not return one. Do not print it or ask a person to post it in chat.
 
 ```javascript
 const endpoint = new URL("/api/principals", origin);
@@ -71,6 +80,10 @@ the complete response schema.
 
 `HttpClient` and `System.Text.Json` can consume the same endpoint, including from a native client. These calls do not require the server itself to be C#.
 
+In this excerpt, `origin` is a `Uri` containing your configured server origin.
+The JSON document is read from the server's HTTP response, not from a file the
+person must prepare.
+
 ```csharp
 using System.Net.Http;
 using System.Text.Json;
@@ -89,7 +102,9 @@ For agent requests, set `Authorization: Bearer <agentToken>` using `Authenticati
 
 ## Rust
 
-This example uses `reqwest` with its JSON feature and `serde_json`.
+This example uses `reqwest` with its JSON feature and `serde_json`. Here `origin`
+is a string containing your configured server origin. The server produces the
+JSON parsed into `body`.
 
 ```rust
 let response = reqwest::get(format!("{origin}/api/health"))
@@ -108,6 +123,12 @@ client project.
 ## Human same-origin mutations
 
 Human API calls run on the application's origin with its HttpOnly session cookie. Use the session response's `csrfSecret` for mutations. Browser fetch supplies the origin header; scripts cannot forge it.
+
+The following is code for a custom management page, not a room message. Its
+current selection supplies `agentId` and the sender's `principalId`. Before
+running it, read the agent's current wake policy and keep its `revision` as
+`expectedRevision`. The browser code then constructs the request JSON from that
+selection; the person does not type it manually.
 
 ```javascript
 const sessionResponse = await fetch("/api/sessions/current", {
@@ -137,17 +158,33 @@ than dropping the revision check.
 
 ## Private fleetd API
 
-The local controller endpoint is not the crossfire origin:
+For ordinary operation, use `fleet show`, `fleet start`, `fleet stop` and the
+other CLI commands. fleet reads its private controller credential for you.
+
+For a custom local HTTP client, the controller endpoint is not the crossfire
+origin. The following request assumes `CONTROLLER_ROOT` is its existing private
+state directory and `CONTROLLER_AUTHENTICATION_KEY` has been loaded privately
+from the [shared OS-user configuration](/docs/fleetd/authentication/). fleetd
+creates that configuration on normal startup; the status response does not
+supply a credential:
 
 ```sh
-curl --fail-with-body \
-  --unix-socket "$CONTROLLER_ROOT/fleetd.sock" \
-  http://localhost/api/status
+printf 'Authorization: Bearer %s\n' "$CONTROLLER_AUTHENTICATION_KEY" |
+  curl --fail-with-body --header @- \
+    --unix-socket "$CONTROLLER_ROOT/fleetd.sock" \
+    http://localhost/api/status
 ```
 
-Socket ownership restricts access to the controller user. `Host` must be `localhost`. Do not attach `Cookie`, `Origin` or `Authorization` headers, publish a TCP port, or proxy it through the website.
+The pipe supplies the header through standard input, not a command-line
+argument or terminal output. Do not enable shell tracing around credentials.
 
-For ordinary operation prefer `fleet show`, `fleet start`, `fleet stop` and the other CLI commands. Accepted lifecycle operations have durable per-instance outcomes; inspect completion rather than treating HTTP 202 as finished work.
+Socket ownership restricts access to the controller user. `Host` must be
+`localhost`, and exactly one valid bearer header is required. Do not attach
+`Cookie` or `Origin`, publish a TCP port, or proxy it through the website. Keep
+credentials out of logs, committed scripts and messages.
+
+Accepted lifecycle operations have durable per-instance outcomes; inspect
+completion rather than treating HTTP 202 as finished work.
 
 - [fleet commands](/docs/fleet/commands/)
 - [crossfire authentication and response contract](/docs/api/http/)

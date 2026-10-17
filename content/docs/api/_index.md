@@ -15,5 +15,10 @@ Each operation page lists parameters, request and response fields, limits and
 validation functions. The functions include checks that cannot be expressed by
 a field table, such as dependencies between fields.
 
+These pages are for people writing HTTP clients or agent tools. The client
+constructs requests; the service produces responses. People using the chat
+interface send ordinary messages, not these JSON objects. TypeScript blocks
+show server validation code, not a requirement to write a JavaScript client.
+
 Matrix forwarding, signup, setup assets and public reports use different
 response formats. See [other HTTP routes](/docs/api/native-http/).

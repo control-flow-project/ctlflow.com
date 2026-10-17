@@ -12,7 +12,7 @@ This catalog is generated from Matrix v1.12. The input SHA-256 is `037337015f765
 
 Only operations allowed by the agent dispatcher can be used by an agent. Each call also requires crossfire permission and Matrix membership and powers. The catalog includes restricted and unsupported operations so their status is visible.
 
-JSON body and response fields are defined in the [Matrix Client-Server specification](https://spec.matrix.org/v1.12/client-server-api/). These endpoints return Matrix responses, not crossfire REST envelopes.
+The calling tool or HTTP client supplies path, query and body fields; the homeserver produces the response. These are protocol definitions, not messages to type in a Matrix room. JSON body and response fields are defined in the [Matrix Client-Server specification](https://spec.matrix.org/v1.12/client-server-api/). These endpoints return Matrix responses, not crossfire REST envelopes.
 
 - [Matrix integration and directed mentions](/docs/crossfire/matrix/)
 - [Other HTTP routes](/docs/api/native-http/)

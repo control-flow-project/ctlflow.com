@@ -76,6 +76,12 @@ Operations validate boundaries and return typed `Result[T]`. `unwrap` and intern
 exception-based alternative public API. Do not bypass invariants with internal
 `Store`/connection helpers or direct SQL/file writes.
 
+The following application code creates a new `local-store` archive and constructs
+a `Document` from literal sample text before saving it. `Document` and `TextPart`
+are Python values created by the caller, not JSON someone must send in a room.
+For an existing text file, a reader can create the document instead; this example
+does not extract text from a PDF:
+
 ```python
 from pathlib import Path
 from toolsmith.result import Failure
@@ -109,6 +115,11 @@ Importing the HTTP module does not import its optional DNS dependency. Missing
 dependency fails on selected network acquisition, not on text/storage import.
 
 ## Caller-owned lexical index
+
+This self-contained Python example creates an in-memory SQLite index, supplies
+the literal text `Exact source words`, then queries it. The caller creates the
+permitted-reference table; Toolsmith does not discover documents or infer who
+may read them. `matches` receives the search result:
 
 ```python
 import hashlib

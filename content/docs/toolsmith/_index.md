@@ -1,6 +1,5 @@
 ---
 title: Toolsmith
-artwork: toolsmith
 description: Optional Python libraries and commands for HTTP downloads, files, text readers and local search.
 weight: 60
 ---

@@ -66,6 +66,39 @@ test("all fenced examples declare a language or explicitly declare plain text", 
   assert.equal(examples > 1200, true);
 });
 
+test("every JSON example has preceding prose identifying its producer or role", () => {
+  const pages = fs.readdirSync(path.join(root, "content"), { recursive: true }).filter(filename => filename.endsWith(".md"));
+  let examples = 0;
+  for (const filename of pages) {
+    const source = read(`content/${filename}`);
+    for (const match of source.matchAll(/^```json\n([\s\S]*?)^```[\t ]*$/gmu)) {
+      const introduction = source.slice(0, match.index).split(/\n\s*\n/u).filter(Boolean).at(-1) ?? "";
+      assert.equal(introduction.startsWith("#"), false, `${filename}: JSON needs an introduction, not just a heading`);
+      assert.match(introduction, /\b(?:service|server|agent|operator|fleetd|client|tool|response|configuration|returned)\b/iu, `${filename}: identify the JSON producer or purpose`);
+      assert.doesNotThrow(() => JSON.parse(match[1]), `${filename}: valid JSON example`);
+      examples += 1;
+    }
+  }
+  assert.equal(examples > 100, true);
+});
+
+test("theatre examples distinguish ordinary chat from supplied and agent-written files", () => {
+  const guide = read("content/docs/examples/fleet-street.md");
+  assert.match(guide, /> Could three performances/u);
+  for (const [name, producer] of [["brief", /person does not need to write JSON/u], ["budget", /budget analyst prepares/u], ["report", /writing agent prepares/u]]) {
+    const position = guide.indexOf(`{{< fleet-street-code name="${name}" >}}`);
+    assert.equal(position >= 0, true, `${name}: example is present`);
+    const prefix = guide.slice(0, position);
+    assert.match(prefix, producer, name);
+    assert.equal(prefix.includes(`examples/${name}.json`), true, `${name}: existing input file is named`);
+  }
+  assert.equal(guide.includes("--budget examples/budget.json"), true);
+  assert.equal(guide.includes("--budget .local/budget.json"), false);
+  assert.equal(guide.includes("git clone https://github.com/control-flow-project/fleet-street.git\ncd fleet-street"), true);
+  assert.equal(guide.includes("git fetch origin"), false);
+  assert.equal(fs.existsSync(path.join(root, "layouts/shortcodes/fleet-street-checkout.html")), false);
+});
+
 test("all declared operations have complete reference sections and metadata", () => {
   const catalogs = JSON.parse(read("data/operations.json"));
   for (const [product, operations] of Object.entries(catalogs)) {
@@ -77,6 +110,8 @@ test("all declared operations have complete reference sections and metadata", ()
       for (const field of ["Path parameters", "Query parameters", "Request body", "Response data", "Response envelope"]) assert.equal(page.includes(`## ${field}`), true, `${product}.${operation.name}: ${field}`);
       for (const value of [operation.method, operation.path, operation.auth, String(operation.status)]) assert.equal(page.includes(value), true, `${product}.${operation.name} preserves ${value}`);
       for (const permission of operation.permissions) assert.equal(page.includes(permission), true, `${product}.${operation.name} permission`);
+      assert.equal(page.includes("This JSON illustrates a response returned by the service, not a request to send."), true, `${product}.${operation.name}: server-produced JSON`);
+      assert.equal(page.includes("The service produces these fields inside `data`"), true, `${product}.${operation.name}: response-data origin`);
       if (product === "fleetd") assert.equal(page.includes("Private controller API"), true, `${operation.name} private boundary`);
       if (operation.requestFormat === "binary") assert.equal(page.includes("raw declared file bytes"), true, "binary wire input");
     }
@@ -165,6 +200,10 @@ test("controller guides and every generated operation require the same OS-user c
   const setup = read("content/docs/fleet/setup.md");
   assert.equal(setup.includes("pinned npm"), true);
   assert.equal(setup.includes("does not need .NET or Rust"), true);
+  const client = read("content/docs/api/client-examples.md");
+  assert.equal(client.includes("Authorization: Bearer %s"), true);
+  assert.equal(client.includes("--header @-"), true);
+  assert.equal(client.includes("Do not attach `Cookie`, `Origin` or `Authorization`"), false);
 });
 
 test("Toolsmith guides match the recorded public 0.4 library ownership", () => {

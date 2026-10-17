@@ -30,12 +30,20 @@ including status, require this credential. Missing or invalid credentials return
 
 ## Success and failure
 
+After a client sends an HTTP request, the service returns a JSON response.
+The following is an illustrative success response, not a request body or a
+message to type in a room. The service supplies `data` and the request ID;
+the actual fields inside `data` depend on the operation:
+
 ```json
 {
   "data": { "recorded": true },
   "meta": { "requestId": "00000000-0000-0000-0000-000000000001" }
 }
 ```
+
+If the operation fails, the service returns an error response instead. This
+example shows a request rejected because the record changed:
 
 ```json
 {
@@ -82,6 +90,10 @@ GET operations have no client JSON body: use their declared query parameters. Th
 ## Pagination and queries
 
 For paginated collections, `page` and `pageSize` are canonical positive ASCII decimal text, defaults 1 and 20. Page is at most 100000; page size is at most 100. Leading zeroes, signs, whitespace, fractions, exponent/hex forms and duplicate/unknown query parameters fail.
+
+For example, a client's list request with `?page=1&pageSize=20` can receive the
+empty result below. The service calculates the pagination metadata; the client
+does not send this JSON as a request:
 
 ```json
 {

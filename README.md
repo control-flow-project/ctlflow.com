@@ -16,6 +16,7 @@ uses no external fonts, analytics or remote diagram rendering.
 - [Documentation copy review](docs/verification/20261017-reader-copy-review.md)
 - [Landing artwork and responsive assets](docs/artwork.md)
 - [Landing artwork verification](docs/verification/20261017-landing-art.md)
+- [Example context review](docs/verification/20261017-example-context.md)
 
 ## Requirements
 

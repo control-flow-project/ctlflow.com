@@ -93,6 +93,11 @@ selected bytes without overwriting a destination and returns a path-free receipt
 
 ## Local text example
 
+Start with an existing UTF-8 `source.txt` file. The `read text` command creates
+the structured document; `jq` extracts its result into `document.json`, which
+the next command imports into the local archive. You do not have to write that
+document JSON yourself:
+
 ```sh
 toolsmith --root "$PWD/local-store" --collection sample store init
 toolsmith --json read text "$PWD/source.txt" --title "Source" | jq '.result' > document.json
@@ -110,6 +115,10 @@ Optional part fields: `physical_page`, `warnings`. Unknown fields are rejected.
 Review the source's access/retention rights before creating a policy. A policy
 is local operator permission, not proof of redistribution rights.
 
+The operator writes the following example to `source-policy.json` in the working
+directory, after approving access to `example.com`. This is a configuration file
+read by `http fetch`, not a response from the website or a chat message:
+
 ```json
 {"format":1,"group":"example-source","hosts":["example.com"],"retention":"text_only"}
 ```
@@ -117,6 +126,13 @@ is local operator permission, not proof of redistribution rights.
 ```sh
 toolsmith --json --root "$PWD/local-store" --collection sample http fetch https://example.com/ --policy "$PWD/source-policy.json" --network-state "$PWD/shared-source-limits" --request-id example-home-1 --item example-home
 toolsmith --root "$PWD/local-store" --collection sample operation example-home-1
+```
+
+Those commands start the download and inspect its recorded outcome. If it was
+interrupted and needs an explicit resume, use the following command instead of
+repeating `fetch`. It is a recovery step, not the normal next step after success:
+
+```sh
 toolsmith --root "$PWD/local-store" --collection sample http resume --policy "$PWD/source-policy.json" --network-state "$PWD/shared-source-limits" --request-id example-home-1
 ```
 
@@ -127,6 +143,10 @@ directory with the store's operational state; backups of collection data do not
 reset or replace shared upstream quotas.
 
 ## Maintenance example
+
+These are operator commands for an existing sample archive. The cleanup preview
+produces `cleanup-plan.json`; review that generated file before running the final
+apply command. Do not manufacture or edit a cleanup plan to bypass validation:
 
 ```sh
 toolsmith --root "$PWD/local-store" --collection sample maintenance integrity

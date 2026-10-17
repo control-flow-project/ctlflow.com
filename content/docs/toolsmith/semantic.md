@@ -70,6 +70,12 @@ versions, change row factories or commit an existing transaction. Existing or
 partial index schemas fail. The previous raw-vector schema has an explicit
 `migrate_index` forward conversion; there is no alternate runtime reader.
 
+The following application code creates an in-memory index and an authorization
+table. Its `Source` contains literal sample text, not an article downloaded by
+Toolsmith. The application supplies that text, encodes it with the previously
+prepared model, and puts the search result in `report`. Use the actual prepared
+model directory in place of `/absolute/private-minilm`:
+
 ```python
 import hashlib
 import sqlite3
@@ -172,7 +178,10 @@ implement their own readiness or pending selection.
 
 ## CLI and optional archive
 
-Standalone commands use the same functions:
+Standalone commands use the same functions. These examples assume the
+application has already populated `app.sqlite3` and its `permitted_text` scope,
+and the operator has prepared `MODEL_DIRECTORY` above. The quoted question is
+ordinary search text; the tool encodes it and produces the result:
 
 ```sh
 toolsmith search semantic query "plain English question" --database "$PWD/app.sqlite3" --scope permitted_text --model-directory "$MODEL_DIRECTORY" --limit 20
@@ -183,6 +192,8 @@ toolsmith search semantic check --database "$PWD/app.sqlite3" --scope canonical_
 `canonical_text` additionally exposes a `text` column for the explicit complete
 audit. Queries/status do not need that column. `index --sources FILE --limit N`
 accepts an explicit bounded foreground JSON batch, not the entire required corpus.
+The consuming application creates that batch file from the source records it
+has selected for indexing. A person submits a question as text, not as that batch.
 
 The separately optional archive uses current immutable parts and the same vector
 engine. Status and pending-batch selection run in SQL rather than materializing
@@ -190,10 +201,14 @@ every part. A generation counter detects current-text changes while the question
 is encoded outside the store lock. Search returns exact version/part/page/span
 citations; old versions remain citable but are not current search input.
 
+The next commands operate on an existing `sample` archive, such as the one
+created in the [local text example](/docs/toolsmith/cli/#local-text-example).
+They index text already stored there; they do not create or fetch articles:
+
 ```sh
-toolsmith --root "$PWD/store" --collection sample semantic index --model-directory "$MODEL_DIRECTORY" --limit 10
-toolsmith --root "$PWD/store" --collection sample semantic status
-toolsmith --root "$PWD/store" --collection sample semantic search "plain English question" --model-directory "$MODEL_DIRECTORY" --limit 20
+toolsmith --root "$PWD/local-store" --collection sample semantic index --model-directory "$MODEL_DIRECTORY" --limit 10
+toolsmith --root "$PWD/local-store" --collection sample semantic status
+toolsmith --root "$PWD/local-store" --collection sample semantic search "plain English question" --model-directory "$MODEL_DIRECTORY" --limit 20
 ```
 
 Archive schema v3 includes the native index and current-text counter. Explicit

@@ -6,6 +6,11 @@ sourceProject: "ctlflow"
 sourcePath: "services/fleet/docs/commands.md"
 ---
 
+This is a command reference, not a script to run from top to bottom. The operator
+or setup agent runs the selected command in a terminal. Replace example names
+and paths with existing local records; obtain the setup descriptor URL from
+management rather than writing a descriptor JSON file.
+
 ## Controller and transport
 
 ```sh

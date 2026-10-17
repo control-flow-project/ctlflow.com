@@ -12,6 +12,10 @@ settings. Definitions are trackable; `.fleet/` and workareas are private state.
 
 ## Directory
 
+This example tree combines files supplied by the fleet author with private state
+created by fleetd. Create the roster and role instructions, not the `.fleet/`,
+`.codex/`, `.pi/` or `.crossfire/` contents yourself:
+
 ```text
 research/
   runtime.toml
@@ -35,6 +39,10 @@ Workareas are distinct non-overlapping relative descendants of
 receipts. Optional `workspace` changes native cwd, not state ownership.
 
 ## Roster
+
+The fleet author saves the following configuration as `research/runtime.toml`.
+It declares two instances of one analyst role. The server and owner values are
+placeholders to replace before enrollment:
 
 ```toml
 fleet = "research"
@@ -78,6 +86,10 @@ The adapter validates the same result during inspection, start/resume, recovery
 and reset. Changes apply at a stopped-to-running transition.
 
 ## Role
+
+Save this role definition as `research/agents/analyst/agent.toml`, beside the
+role's `AGENTS.md` instructions. fleetd reads it when validating and starting the
+instances. Select a model actually available to the runtime account:
 
 ```toml
 name = "Research analyst"
@@ -158,6 +170,11 @@ sleep timeout. Large complete input uses private files. Native output/patches
 do not inherit that incoming-message budget.
 
 ## Room plan
+
+An operator can save the following grant plan as `research/rooms.toml`. It is
+configuration for the room-plan operation, not a message sent in Matrix. Replace
+the room ID with an existing authorized room and review the resulting grant
+changes before applying them:
 
 ```toml
 fleet = "research"

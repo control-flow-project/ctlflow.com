@@ -79,6 +79,10 @@ records had been consumed.
 
 ## Generated source
 
+This is a maintainer check for regenerating the catalog from an extracted Matrix
+specification. Run it in the ctlflow source repository; an ordinary fleet setup
+does not need this command or a specification checkout:
+
 ```sh
 npm run generate:matrix --workspace=@ctlflow/crossfire -- \
   --root /absolute/ctlflow \

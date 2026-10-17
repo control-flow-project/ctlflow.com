@@ -9,6 +9,10 @@ sourcePath: "services/fleet/docs/remote.md"
 Remote fleet commands use SSH forwarding to fleetd's private Unix socket.
 The controller has no public HTTP/TCP management port.
 
+The operator runs these commands on the client machine. `office` is the profile
+name created by the first command; replace the SSH account, host and controller
+root with the remote installation's values:
+
 ```sh
 fleet remote add office --ssh operator@office-host --root /absolute/private/controller
 fleet --remote office list

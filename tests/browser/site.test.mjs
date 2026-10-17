@@ -144,12 +144,19 @@ test("homepage uses typography instead of panels and keeps message arrows betwee
             vertical: Math.abs(rotation.a) < 0.01 && Math.abs(rotation.b - 1) < 0.01 } : null };
       });
       const ornaments = [...document.querySelectorAll('.landing-art[data-artwork-placement="section"]')];
+      const components = document.querySelector(".section-heading");
       return { panels, steps, headingSize: Number.parseFloat(getComputedStyle(document.querySelector(".message-flow h2")).fontSize),
         titleSize: Number.parseFloat(getComputedStyle(document.querySelector(".message-flow strong")).fontSize),
         bodySize: Number.parseFloat(getComputedStyle(document.querySelector(".message-flow p")).fontSize),
+        components: { title: rectangle(components.firstElementChild), description: rectangle(components.querySelector("p")), bounds: rectangle(components) },
         overflow: document.documentElement.scrollWidth - document.documentElement.clientWidth,
         pageArtworkVisible: document.querySelector('.hero .landing-art[data-artwork-placement="page"]').getClientRects().length > 0,
-        ornaments: ornaments.map(element => ({ name: element.dataset.artwork, visible: element.getClientRects().length > 0 })),
+        ornaments: ornaments.map(element => ({ name: element.dataset.artwork, visible: element.getClientRects().length > 0,
+          width: element.getBoundingClientRect().width, height: element.getBoundingClientRect().height, sizes: element.querySelector("img").sizes,
+          top: element.getBoundingClientRect().top, right: element.getBoundingClientRect().right,
+          labelTop: element.closest(".related-project").querySelector(".eyebrow").getBoundingClientRect().top,
+          labelLeft: element.closest(".related-project").querySelector(".eyebrow").getBoundingClientRect().left,
+          radius: getComputedStyle(element).borderRadius, fit: getComputedStyle(element.querySelector("img")).objectFit })),
         ornamentDownloads: performance.getEntriesByType("resource").filter(resource => ornaments.some(element => new URL(resource.name).pathname.startsWith(`/assets/artwork/${element.dataset.artwork}-`))).length };
     });
     assert.equal(layout.panels.length, 6);
@@ -160,6 +167,12 @@ test("homepage uses typography instead of panels and keeps message arrows betwee
       assert.deepEqual(panel.sideBorders, ["0px", "0px", "0px"]);
     }
     assert.equal(layout.headingSize > layout.titleSize && layout.titleSize > layout.bodySize, true, "type sizes establish hierarchy");
+    if (width >= 1000) {
+      assert.equal(Math.abs(layout.components.description.left - layout.components.title.right - 96) <= 1, true, "component description follows the heading with a generous gap");
+      assert.equal(layout.components.description.right < layout.components.bounds.right - 48, true, "component description is not pushed to the far right");
+    } else if (width <= 760) {
+      assert.equal(layout.components.description.top > layout.components.title.bottom, true, "component description remains below the heading on phones");
+    }
     assert.equal(layout.steps.length, 4);
     assert.equal(layout.steps[3].connector, null);
     for (const [index, step] of layout.steps.slice(0, 3).entries()) {
@@ -180,6 +193,17 @@ test("homepage uses typography instead of panels and keeps message arrows betwee
     assert.equal(layout.pageArtworkVisible, true, "page-level decoration remains visible");
     assert.deepEqual(layout.ornaments.map(ornament => ornament.name), ["playbill", "multitool"]);
     assert.equal(layout.ornaments.every(ornament => ornament.visible === (width >= 1000)), true, "section ornaments are desktop-only");
+    for (const ornament of layout.ornaments) {
+      assert.equal(ornament.sizes, "288px");
+      if (width >= 1000) {
+        assert.equal(ornament.width, 288, `${ornament.name}: displayed square width`);
+        assert.equal(ornament.height, 288, `${ornament.name}: displayed square height`);
+        assert.equal(ornament.radius, "20px");
+        assert.equal(ornament.fit, "contain", `${ornament.name}: artwork is not cropped`);
+        assert.equal(Math.abs(ornament.labelLeft - ornament.right - 48) <= 1, true, `${ornament.name}: image is left of the text with a 48px gap`);
+        assert.equal(Math.abs(ornament.top - ornament.labelTop) <= 1, true, `${ornament.name}: top-aligned with the introductory label`);
+      }
+    }
     if (width < 1000) assert.equal(layout.ornamentDownloads, 0, "hidden section ornaments are not downloaded");
     evidence.paperLayout.push({ viewport: width, theme, ...layout });
     if ([390, 1440].includes(width)) {
@@ -223,6 +247,22 @@ test("homepage uses typography instead of panels and keeps message arrows betwee
   evidence.tests.push("paper-home-typography-unboxed-sections-four-step-arrows-six-widths-two-themes");
 });
 
+test("documentation and Toolsmith indexes open with their content, without decorative artwork", async context => {
+  const { page } = await pageFor(context);
+  for (const [location, title, section, screenshot] of [["/docs/", "Documentation", "first-tasks", "docs-index"], ["/docs/toolsmith/", "Toolsmith", "capabilities", "toolsmith-index"]]) for (const width of [390, 1440]) for (const theme of ["light", "dark"]) {
+    await page.setViewportSize({ width, height: 1000 });
+    const response = await page.goto(`${preview.origin}${location}`);
+    assert.equal(response.status(), 200);
+    if (await page.locator("html").getAttribute("data-theme") !== theme) await page.locator(".theme-toggle").click();
+    assert.equal(await page.getByRole("heading", { level: 1, name: title, exact: true }).isVisible(), true);
+    assert.equal(await page.locator("main .landing-art, main .hero").count(), 0);
+    assert.equal(await page.locator(`h2#${section}`).isVisible(), true);
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);
+    await page.screenshot({ path: path.join(artifacts, `${screenshot}-${width}-${theme}.png`) });
+  }
+  evidence.tests.push("documentation-and-toolsmith-indexes-without-decoration");
+});
+
 test("every generated HTML link, exact anchor and code example renders correctly", async context => {
   const { page } = await pageFor(context);
   await page.goto(preview.origin);
@@ -248,13 +288,18 @@ test("every generated HTML link, exact anchor and code example renders correctly
         const language = code.getAttribute("data-lang");
         if (!language || !code.classList.contains(`language-${language}`) || !code.closest(".highlight") || !code.closest("pre.chroma")) diagnostics.push(`${record.url}: code missing shared syntax renderer`);
         if (code.closest("[style]") || code.querySelector("[style]")) diagnostics.push(`${record.url}: inline code styles violate CSP`);
+        if (language === "json") {
+          const introduction = code.closest(".highlight")?.previousElementSibling;
+          if (introduction?.tagName !== "P" || !/\b(?:service|server|agent|operator|fleetd|client|tool|response|configuration|returned)\b/iu.test(introduction.textContent)) diagnostics.push(`${record.url}: JSON example has no producer or purpose introduction`);
+          try { JSON.parse(code.textContent); } catch { diagnostics.push(`${record.url}: invalid JSON example`); }
+        }
         codeExamples[language] = (codeExamples[language] ?? 0) + 1;
       }
       const illustratedPages = {
         "/": ["collaboration", "playbill", "multitool"],
-        "/docs/": ["documentation"], "/docs/ctlflow/": ["ctlflow"],
+        "/docs/ctlflow/": ["ctlflow"],
         "/docs/crossfire/": ["crossfire"], "/docs/fleetd/": ["fleetd"], "/docs/fleet/": ["fleet"],
-        "/docs/examples/": ["examples"], "/docs/examples/fleet-street/": ["theatre"], "/docs/toolsmith/": ["toolsmith"],
+        "/docs/examples/": ["examples"], "/docs/examples/fleet-street/": ["theatre"],
       };
       const illustrations = [...document.querySelectorAll(".landing-art")].map(element => element.dataset.artwork);
       artworkPlacements.push(...illustrations);
@@ -297,9 +342,9 @@ test("landing illustrations decode with transparent backgrounds in both themes a
   page.on("pageerror", error => failures.push(error.message));
   page.on("requestfailed", request => failures.push(request.url()));
   const landings = {
-    "/": "collaboration", "/docs/": "documentation", "/docs/ctlflow/": "ctlflow",
+    "/": "collaboration", "/docs/ctlflow/": "ctlflow",
     "/docs/crossfire/": "crossfire", "/docs/fleetd/": "fleetd", "/docs/fleet/": "fleet",
-    "/docs/examples/": "examples", "/docs/examples/fleet-street/": "theatre", "/docs/toolsmith/": "toolsmith",
+    "/docs/examples/": "examples", "/docs/examples/fleet-street/": "theatre",
   };
   for (const width of [390, 1440]) {
     await page.setViewportSize({ width, height: 1000 });
@@ -367,7 +412,7 @@ test("landing illustrations decode with transparent backgrounds in both themes a
   await page.emulateMedia({ media: "print" });
   assert.equal(await page.locator(".landing-art").first().isVisible(), false);
   assert.deepEqual(failures, []);
-  evidence.tests.push("nine-illustrated-landings-two-themes-two-widths-alpha-responsive-local-assets");
+  evidence.tests.push("seven-illustrated-landings-two-themes-two-widths-alpha-responsive-local-assets");
 });
 
 test("search is URL-addressable, escapes input and supports the keyboard shortcut", async context => {
@@ -403,7 +448,13 @@ test("fleet-street has a complete source-linked walkthrough and a working genera
   assert.equal(await page.getByRole("heading", { level: 1 }).innerText(), "fleet-street: an agent fleet for theatre");
   assert.equal(await page.locator(".prose table tbody tr").count(), 10);
   assert.equal(await page.locator(`.prose a[href^="${metadata.repository}/blob/${metadata.revision}/"]`).count() >= 15, true);
-  assert.equal(await page.locator("code.language-sh").first().textContent().then(text => text.includes(`git switch --detach ${metadata.revision}`)), true);
+  assert.equal((await page.locator("code.language-sh").first().textContent()).trim(), "git clone https://github.com/control-flow-project/fleet-street.git\ncd fleet-street");
+  assert.equal(await page.locator(".prose").innerText().then(text => text.includes("person does not need to write JSON")), true);
+  assert.equal(await page.locator(".prose code.language-json").count(), 3);
+  for (const [index, filename] of ["brief", "budget", "report"].entries()) {
+    const introduction = await page.locator(".prose code.language-json").nth(index).evaluate(element => element.closest(".highlight").previousElementSibling.textContent);
+    assert.equal(introduction.includes(`examples/${filename}.json`), true, `${filename}: file introduced before the JSON`);
+  }
   assert.equal(await page.locator("code.language-toml").count(), 2);
   await page.screenshot({ path: path.join(artifacts, "fleet-street-desktop.png"), fullPage: true });
   await page.locator(".diagram-frame").screenshot({ path: path.join(artifacts, "fleet-street-diagram.png") });

@@ -6,7 +6,9 @@ sourceProject: "ctlflow"
 sourcePath: "services/fleetd/docs/operations.md"
 ---
 
-Start through fleet or the installed daemon:
+The operator can start the controller through fleet or run the installed daemon
+directly. Choose one of these alternatives, with the same private controller
+root; do not start both against that root:
 
 ```sh
 fleet daemon start --name workstation --root /absolute/private/controller

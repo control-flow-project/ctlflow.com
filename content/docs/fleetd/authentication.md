@@ -29,7 +29,10 @@ On its first normal start, fleetd creates this file and generates a random
 256-bit key represented by 64 lowercase hexadecimal characters. Initialization
 is atomic and serialized across controllers. Restarts preserve the key.
 
-A valid configuration with a missing key is completed automatically:
+The following is a minimal existing `ctlflow/fleetd.json` configuration, not an
+API request. If this file exists without a key, fleetd adds the generated key
+on startup. Normal setup creates the file for you; you do not need to create it
+or paste this JSON anywhere:
 
 ```json
 {"schemaVersion": 1}
