@@ -67,14 +67,21 @@ test("home loads under Netlify CSP without external resources, errors or missing
   await page.getByRole("heading", { level: 1 }).waitFor();
   assert.equal(await page.title(), "ctlflow");
   assert.equal(await page.getByRole("link", { name: "ctlflow home" }).count(), 1);
-  assert.equal(await page.getByRole("heading", { level: 1 }).innerText(), "Agents working\ntogether in\nMatrix rooms.");
+  assert.equal(await page.getByRole("heading", { level: 1 }).innerText(), "Bring your own\nfleet to\nMatrix rooms.");
   assert.deepEqual(await page.locator(".message-flow li strong").allTextContents(), ["Matrix room", "crossfire", "fleetd", "Agent"]);
   assert.deepEqual(await page.locator(".product-card h3").allTextContents(), ["crossfire", "fleetd", "fleet"]);
-  assert.equal(await page.locator(".hero-description").textContent().then(text => text.includes("Agents run on your machine")), true);
-  const toolsmith = await page.locator(".related-project").innerText();
+  const introduction = await page.locator(".hero-description").innerText();
+  assert.equal(introduction.includes("People and agents work together in the same Matrix rooms."), true);
+  assert.equal(introduction.includes("your own roles, instructions and tools"), true);
+  assert.equal(introduction.includes("Agents run on your machine"), true);
+  assert.equal(await page.locator(".message-flow li").filter({ has: page.locator("strong", { hasText: /^crossfire$/u }) }).innerText().then(text => text.includes("message routing")), true);
+  const serverDescription = await page.locator(".product-card").filter({ has: page.getByRole("heading", { name: "crossfire", exact: true }) }).innerText();
+  for (const responsibility of ["routes messages", "enrollment", "identities", "room access", "wake-up rules", "permission requests", "activity and usage", "static reports"]) assert.equal(serverDescription.includes(responsibility), true, responsibility);
+  const toolsmith = await page.locator(".related-project").filter({ has: page.getByRole("heading", { name: "Toolsmith", exact: true }) }).innerText();
   assert.equal(toolsmith.includes("Python libraries and command-line tools"), true);
   assert.equal(toolsmith.includes("HTTP downloads, file handling, text extraction and local search"), true);
   assert.equal(toolsmith.includes("ctlflow does not require them"), true);
+  assert.equal(await page.locator(".fleet-example").innerText().then(text => text.includes("Ten Codex agents")), true);
   assert.equal(/Knex|React|SQLite|wire contract|constituent/u.test(await page.locator(".hero").innerText()), false);
   await page.screenshot({ path: path.join(artifacts, "home-desktop.png"), fullPage: true });
   assert.deepEqual(errors, []);
@@ -88,12 +95,14 @@ test("every generated HTML link, exact anchor and code example renders correctly
   const { page } = await pageFor(context);
   await page.goto(preview.origin);
   const publicRoot = path.join(root, "public");
-  const records = files(publicRoot).filter(filename => filename.endsWith(".html")).map(filename => {
+  const publicFiles = files(publicRoot);
+  const records = publicFiles.filter(filename => filename.endsWith(".html")).map(filename => {
     const relative = path.relative(publicRoot, filename).replaceAll(path.sep, "/");
     return { url: `/${relative.replace(/index\.html$/u, "")}`, html: fs.readFileSync(filename, "utf8") };
   });
-  const result = await page.evaluate(records => {
+  const result = await page.evaluate(({ records, assets }) => {
     const pages = new Map();
+    const assetPaths = new Set(assets);
     const diagnostics = [];
     const codeExamples = {};
     let links = 0;
@@ -115,11 +124,11 @@ test("every generated HTML link, exact anchor and code example renders correctly
       if (url.origin !== "https://ctlflow.com") continue;
       links += 1;
       const destination = pages.get(url.pathname);
-      if (!destination) diagnostics.push(`${source} -> missing ${url.pathname}`);
+      if (!destination && (!assetPaths.has(url.pathname) || url.hash)) diagnostics.push(`${source} -> missing ${url.pathname}${url.hash}`);
       else if (url.hash && !destination.ids.has(decodeURIComponent(url.hash.slice(1)))) diagnostics.push(`${source} -> missing anchor ${url.pathname}${url.hash}`);
     }
     return { diagnostics, pages: pages.size, links, codeExamples };
-  }, records);
+  }, { records, assets: publicFiles.filter(filename => !filename.endsWith(".html")).map(filename => "/" + path.relative(publicRoot, filename).replaceAll(path.sep, "/")) });
   assert.equal(result.diagnostics.length, 0, result.diagnostics.slice(0, 35).join("\n"));
   assert.equal(result.pages > 200, true);
   evidence.checkedPages = result.pages;
@@ -151,6 +160,35 @@ test("search is URL-addressable, escapes input and supports the keyboard shortcu
   await page.getByRole("button", { name: "Search", exact: true }).click();
   assert.equal((await page.locator("#search-status").innerText()).includes("Enter a word"), true);
   evidence.tests.push("search-query-url-reload-keyboard-escaping");
+});
+
+test("fleet-street has a complete source-linked walkthrough and a working generated report", async context => {
+  const { page } = await pageFor(context);
+  const metadata = JSON.parse(fs.readFileSync(path.join(root, "data/fleetstreet.json"), "utf8"));
+  await page.goto(preview.origin);
+  await page.getByRole("link", { name: "Work through the example" }).click();
+  await page.waitForURL("**/docs/examples/fleet-street/");
+  assert.equal(await page.getByRole("heading", { level: 1 }).innerText(), "fleet-street: a theatre fleet");
+  assert.equal(await page.locator(".prose table tbody tr").count(), 10);
+  assert.equal(await page.locator(`.prose a[href^="${metadata.repository}/blob/${metadata.revision}/"]`).count() >= 15, true);
+  assert.equal(await page.locator("code.language-sh").first().textContent().then(text => text.includes(`git switch --detach ${metadata.revision}`)), true);
+  assert.equal(await page.locator("code.language-toml").count(), 2);
+  await page.screenshot({ path: path.join(artifacts, "fleet-street-desktop.png"), fullPage: true });
+  await page.locator(".diagram-frame").screenshot({ path: path.join(artifacts, "fleet-street-diagram.png") });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(`${preview.origin}/docs/examples/fleet-street/`);
+  await page.screenshot({ path: path.join(artifacts, "fleet-street-mobile-light.png") });
+  await page.getByRole("button", { name: "Switch to dark theme" }).click();
+  await page.screenshot({ path: path.join(artifacts, "fleet-street-mobile-dark.png") });
+  await page.getByRole("link", { name: "Open the generated fictional report" }).click();
+  await page.waitForURL("**/examples/fleet-street/report/");
+  assert.equal(await page.getByRole("heading", { level: 1 }).innerText(), "The River Bell");
+  assert.deepEqual(await page.locator(".total strong").allTextContents(), ["GBP 4,745.25", "GBP 5,203.00", "GBP -457.75"]);
+  await page.getByRole("link", { name: "Calculated budget JSON" }).click();
+  const result = await page.request.get(page.url());
+  assert.equal(result.status(), 200);
+  assert.equal((await result.json()).break_even_paid_tickets, 297);
+  evidence.tests.push("fleet-street-ten-roles-pinned-source-and-report");
 });
 
 test("theme persists across navigation and code language tabs work by keyboard", async context => {
@@ -280,7 +318,7 @@ test("code copying preserves actual code text", async context => {
 
 test("mobile navigation and long API tables do not cause page-level overflow", async context => {
   const { page } = await pageFor(context);
-  const paths = ["/", "/docs/ctlflow/architecture/", "/docs/api/crossfire/create-publication/", "/docs/api/fleetd/attachment/", "/docs/api/schemas/crossfire-contracts-schema-response/"];
+  const paths = ["/", "/docs/ctlflow/architecture/", "/docs/api/crossfire/create-publication/", "/docs/api/fleetd/attachment/", "/docs/api/schemas/crossfire-contracts-schema-response/", "/docs/examples/fleet-street/", "/examples/fleet-street/report/"];
   for (const width of [320, 390, 768, 1440]) {
     await page.setViewportSize({ width, height: 950 });
     for (const location of paths) {

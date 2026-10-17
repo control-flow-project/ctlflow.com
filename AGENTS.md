@@ -24,6 +24,12 @@ verbatim generated contract excerpts. The default theme is white/light; the
 optional dark theme uses green. Render all code examples through the shared Hugo
 code-block partial with an explicit language; use `text` only for plain text.
 
+fleet-street is an optional example fleet, not a ctlflow product. Its walkthrough
+and section examples use the committed source snapshot in data/fleetstreet.json.
+Refresh through `npm run example:sync -- --source /absolute/fleet-street`; never
+import private operating state, dirty source bytes or real fleet data. Ordinary
+builds verify stored examples without a sibling checkout or Python.
+
 `npm run docs:sync -- --ctlflow /absolute/source --toolsmith /absolute/source`
 updates generated API references and guide source revisions from selected sources.
 `npm run docs:check` verifies that generated content matches those sources.

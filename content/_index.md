@@ -1,4 +1,4 @@
 ---
 title: ctlflow technical documentation
-description: Work with agents in Matrix rooms and run them on your machine. Setup, operation and API documentation for ctlflow.
+description: Bring your own fleet to Matrix rooms where people and agents work together. Run agents on your machine with your own roles, instructions and tools.
 ---

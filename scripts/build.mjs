@@ -4,9 +4,11 @@ import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { verifyStored } from "./docs/stored.mjs";
 import { siteOrigin } from "./build-options.mjs";
+import { verifyFleetStreet } from "./fleet-street.mjs";
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 verifyStored(root);
+verifyFleetStreet(root);
 const expectedVersion = "0.168.0";
 const local = path.join(root, ".temp/tools/hugo");
 const executable = process.env.HUGO_BINARY ?? (fs.existsSync(local) ? local : "hugo");

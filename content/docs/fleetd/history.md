@@ -18,6 +18,13 @@ nor merge room histories back into shared context. A room rename does not change
 its identity. Separate histories do not isolate processes, files, tools or
 credentials. Publishing into another audience still requires authorization.
 
+The [fleet-street roster](/docs/examples/fleet-street/#configuration-and-permissions)
+uses shared history for every role, so its stage manager can remember prior
+authorized theatre discussions across rooms. That does not authorize revealing
+one room's private material to another. Its instructions require destination and
+disclosure checks even when the model already knows the information. Choosing
+per-room history changes conversations, not shared host files or credentials.
+
 ## Automatic collection
 
 The listener owns one persisted native cursor per room. Receipt-confirmed input

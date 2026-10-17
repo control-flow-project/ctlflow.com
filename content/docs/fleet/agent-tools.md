@@ -73,6 +73,18 @@ updates that should not interrupt.
 Owner DM notices distinguish arrival, interruption and confirmed delivery.
 The task response still belongs in the originating room.
 
+The [fleet-street hand-off](/docs/examples/fleet-street/#hand-offs-and-room-replies)
+passes an exact room, recipient Matrix ID, transaction ID and Markdown file to
+the installed client. Its executable example is:
+
+{{< fleet-street-code name="send" >}}
+
+The stage manager uses this for a deliberate specialist assignment, not each
+progress update. The
+{{< fleet-street-link path="examples/handoff.md" label="message example" >}}
+shows the task, allowed inputs and stopping point; replace its origin note with
+real delivered attribution before sending.
+
 The owner's separate `!!` command stops and pauses delivery until later owner
 text. In a shared room it must explicitly mention the agent.
 

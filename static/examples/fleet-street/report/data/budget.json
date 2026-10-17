@@ -1,0 +1,65 @@
+{
+  "currency": "GBP",
+  "performances": 3,
+  "saleable_seats": 120,
+  "available_tickets": 360,
+  "expected_paid_tickets": "270.00",
+  "occupancy": "0.75",
+  "ticket_price": "18.50",
+  "fee_rate": "0.05",
+  "contingency_rate": "0.10",
+  "gross_receipts": "4995.00",
+  "ticket_fees": "249.75",
+  "net_receipts": "4745.25",
+  "costs": [
+    {
+      "label": "Fictional venue hire",
+      "quantity": 2,
+      "unit_cost": "850.00",
+      "total": "1700.00"
+    },
+    {
+      "label": "Fictional performer days",
+      "quantity": 15,
+      "unit_cost": "120.00",
+      "total": "1800.00"
+    },
+    {
+      "label": "Fictional technician days",
+      "quantity": 3,
+      "unit_cost": "160.00",
+      "total": "480.00"
+    },
+    {
+      "label": "Illustrative access provision allowance",
+      "quantity": 1,
+      "unit_cost": "300.00",
+      "total": "300.00"
+    },
+    {
+      "label": "Illustrative publicity allowance",
+      "quantity": 1,
+      "unit_cost": "250.00",
+      "total": "250.00"
+    },
+    {
+      "label": "Illustrative permission fee",
+      "quantity": 1,
+      "unit_cost": "200.00",
+      "total": "200.00"
+    }
+  ],
+  "base_costs": "4730.00",
+  "contingency": "473.00",
+  "total_costs": "5203.00",
+  "balance": "-457.75",
+  "break_even_possible": true,
+  "break_even_paid_tickets": 297,
+  "break_even_occupancy_percent": "82.50",
+  "exclusions": [
+    "Tax/VAT",
+    "Payroll and cash-flow timing",
+    "Grants and non-ticket income",
+    "Variable royalties and mixed ticket prices"
+  ]
+}

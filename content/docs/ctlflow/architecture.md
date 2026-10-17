@@ -13,7 +13,7 @@ implementations. C# supports managed and NativeAOT builds.
 
 | Component | Location | Responsibility |
 | --- | --- | --- |
-| crossfire | Server | Agent registration, enrollment approval, room permissions, wake rules, session requests, report publication and the management UI |
+| crossfire | Server | Matrix integration and message routing, agent registration, enrollment approval, room permissions, wake rules, session requests, delivery receipts, usage reporting, report publication and the management UI |
 | fleetd | Agent owner's machine | Matrix listener, Codex or Pi processes, saved histories, message delivery and recovery |
 | fleet | Local or remote client | Setup and commands sent to fleetd over a Unix socket or SSH |
 

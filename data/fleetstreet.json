@@ -1,0 +1,81 @@
+{
+  "repository": "https://github.com/control-flow-project/fleet-street",
+  "revision": "a2821d64f62a2c1d477b0810849de96541672452",
+  "version": "0.1.0",
+  "fleetRelease": "0.1.20",
+  "agentCount": 10,
+  "snippets": {
+    "roster": {
+      "path": "fleet/runtime.toml",
+      "language": "toml",
+      "asset": "examples/fleet-street/roster.toml"
+    },
+    "coordinator": {
+      "path": "fleet/agents/stage-manager/agent.toml",
+      "language": "toml",
+      "asset": "examples/fleet-street/coordinator.toml"
+    },
+    "brief": {
+      "path": "examples/brief.json",
+      "language": "json",
+      "asset": "examples/fleet-street/brief.json"
+    },
+    "budget": {
+      "path": "examples/budget.json",
+      "language": "json",
+      "asset": "examples/fleet-street/budget.json"
+    },
+    "report": {
+      "path": "examples/report.json",
+      "language": "json",
+      "asset": "examples/fleet-street/report.json"
+    },
+    "handoff": {
+      "path": "examples/handoff.md",
+      "language": "markdown",
+      "asset": "examples/fleet-street/handoff.md"
+    },
+    "send": {
+      "path": "examples/send-handoff.sh",
+      "language": "sh",
+      "asset": "examples/fleet-street/send.sh"
+    }
+  },
+  "generator": "ea6f1d798879da508d6dae1bdaf7912525db0a0c71d78057f3b453b2af06a943",
+  "inputs": {
+    "fleet/runtime.toml": "0a4b8d96874ae24aad8a52556de65a6c393d0c8a3b3a6722f66792cdd4c9053c",
+    "fleet/agents/stage-manager/agent.toml": "d95397eef9fbd9d3b224c625df6f5a44095612e330d0a02060049782e1b64786",
+    "examples/brief.json": "1e3d5afa491712557f8ebdde5df082660b922789f5c19ad4a309aec3208c0348",
+    "examples/budget.json": "5f57ba39dd5e9bea1fb3bb1b818e6f48a34077b4d7b98dcbfb330e69709ac315",
+    "examples/report.json": "1566aa633e78725dfa4a3199f30eef0e81043f1b21608bf383f04310ff8e251e",
+    "examples/handoff.md": "f5117218b4ae8cdd8d0864d201cddfae21c1cd720ace08e9c968674b11c960b1",
+    "examples/send-handoff.sh": "6a64d536e3ef17fd06832c196c6efc57ee819bc2eb4eca621ce30fe399774277",
+    "tools/__init__.py": "fdad00327daf3f7df03b117407bd29402693941b8d5d335b2acec1f6411e4371",
+    "tools/fleet_street/__init__.py": "745ed20982ebbb1547ba3b34437716573a901a46d22256f1468fa061eb0585fa",
+    "tools/fleet_street/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "tools/fleet_street/cli.py": "62f9a8514f78cbc354e06d5c572ad7d0e2d0edbdc0132088253793f8324685f7",
+    "tools/fleet_street/configuration.py": "2f29c2402e910a19ca62c987b4d75a2f4c6aba3bc2a2885ed7466bc503cc4ba1",
+    "tools/fleet_street/budget.py": "57c0a71348586f91816d0f9864c8e5200edb81f07c8a9160431925792a168b48",
+    "tools/fleet_street/files.py": "6546eacf7c18481ddc593f3321bc57dfa0c1404e0a152a516e0b5a15d54f0a1f",
+    "tools/fleet_street/validation.py": "e36b7db56b69e62cddff18b26620793a21dfc14cad568e0df714d263ff73a73f",
+    "tools/fleet_street/report.py": "d7d9608bcc0ed89b621841ef7597eee82b2e3939305d8f82497adbff0da9e627",
+    "tools/fleet_street/assets/report.css": "bf23b0c9415a789917b68d823f0ff7986a56fbed28fe3343b9c7de5c34e98804",
+    "tools/fleet_street/assets/proscenium.svg": "69cbb0ecd8a4e96caf7032a52c919a6258c76bbc653636b6de5ad6eb5a92b80b",
+    "tools/fleet_street/assets/LICENSE.txt": "0427caf38db38327cdffd1b815970de83a0d5f283c8984a8327443a9f31fac24",
+    "package.json": "0f8a433742e938db82a5ebd024e782c45b4f8b358c581b766769d41e1e463212"
+  },
+  "outputs": {
+    "assets/examples/fleet-street/roster.toml": "0a4b8d96874ae24aad8a52556de65a6c393d0c8a3b3a6722f66792cdd4c9053c",
+    "assets/examples/fleet-street/coordinator.toml": "d95397eef9fbd9d3b224c625df6f5a44095612e330d0a02060049782e1b64786",
+    "assets/examples/fleet-street/brief.json": "1e3d5afa491712557f8ebdde5df082660b922789f5c19ad4a309aec3208c0348",
+    "assets/examples/fleet-street/budget.json": "5f57ba39dd5e9bea1fb3bb1b818e6f48a34077b4d7b98dcbfb330e69709ac315",
+    "assets/examples/fleet-street/report.json": "1566aa633e78725dfa4a3199f30eef0e81043f1b21608bf383f04310ff8e251e",
+    "assets/examples/fleet-street/handoff.md": "f5117218b4ae8cdd8d0864d201cddfae21c1cd720ace08e9c968674b11c960b1",
+    "assets/examples/fleet-street/send.sh": "6a64d536e3ef17fd06832c196c6efc57ee819bc2eb4eca621ce30fe399774277",
+    "static/examples/fleet-street/report/index.html": "b75d4b8cf544c8d882f0fb45e2be5402edea40201e457d188d6f59e2c0e15e4e",
+    "static/examples/fleet-street/report/assets/report.css": "bf23b0c9415a789917b68d823f0ff7986a56fbed28fe3343b9c7de5c34e98804",
+    "static/examples/fleet-street/report/assets/proscenium.svg": "69cbb0ecd8a4e96caf7032a52c919a6258c76bbc653636b6de5ad6eb5a92b80b",
+    "static/examples/fleet-street/report/assets/LICENSE.txt": "0427caf38db38327cdffd1b815970de83a0d5f283c8984a8327443a9f31fac24",
+    "static/examples/fleet-street/report/data/budget.json": "13f99986918b53eac65f3c4416a6bcb09e250fef7003115aea8bb8543c018815"
+  }
+}

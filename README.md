@@ -11,6 +11,7 @@ uses no external fonts, analytics or remote diagram rendering.
 
 - [Local verification record](docs/verification/20261017-site.md)
 - [Theme, typography and code-example verification](docs/verification/20261017-theme-typography.md)
+- [fleet-street integration and homepage verification](docs/verification/20261017-fleet-street.md)
 
 ## Requirements
 
@@ -129,6 +130,31 @@ Field tables are supplemented by validation source for custom checks. This is
 not an OpenAPI generator or SDK. Matrix catalog entries include restricted and
 unsupported operations. fleetd routes are private to its Unix socket even when
 their authentication field is `public`.
+
+## fleet-street examples
+
+The site includes a ten-agent theatre walkthrough and examples in the setup,
+configuration, messaging, history, session and publication guides. The sample is
+an ordinary optional fleet, not another ctlflow product. All source links use
+the exact commit recorded in `data/fleetstreet.json`.
+
+Refresh those examples from an explicit fleet-street checkout:
+
+```sh
+npm run example:sync -- --source /absolute/fleet-street
+npm run example:sync -- --source /absolute/fleet-street --check
+```
+
+Run source maintenance under the same finite scope. It requires Python 3.11+
+because it executes the committed sample's offline report tool in a disposable
+snapshot. It reads exact committed Git bytes, not working-tree edits. It records
+seven code examples and the five generated report files, their source inputs,
+revision and output hashes. Edited snapshot output is protected from overwrite.
+
+Normal site builds need no sample checkout, Python, model, Matrix account or
+network access. They verify the checked-in example inventory before rendering.
+The public report preview contains only fictional inputs and local static assets;
+it is not a crossfire publication. Review all outputs before changing its inputs.
 
 ## Content and licensing
 
