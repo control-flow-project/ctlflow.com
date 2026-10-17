@@ -27,6 +27,13 @@ still fail. Integrity checks verify retained version/provenance identities, obje
 and lexical postings explicitly. They do not authenticate a backup against a
 malicious same-user author who can rewrite its manifest and all data.
 
+Directory-state readers and writers lock the same pinned directory rather than
+an inode that an atomic replacement can supersede. A read-only quota audit
+creates no lock files and does not rewrite or roll over stored state. Generic
+mutable output replacement does not add an implicit lock: its caller owns
+coordination. No-replace publication uses one atomic rename, not a transient
+hard-link alias.
+
 Exports never overwrite destinations. Restore rejects unknown backup files,
 symlinks, malformed manifests, wrong scopes/schemas, hashes and database/index
 inconsistency before creating a destination. Explicit cleanup only selects old
@@ -52,6 +59,12 @@ configuration, credentials or unknown files.
 The browser-style User-Agent addresses publishers that distinguish command-line
 defaults. It is not a browser, authorization bypass or guarantee a publisher will
 accept a request. Permission denials do not trigger another acquisition path.
+
+An application may keep reviewed JSON configuration with the shared quota state.
+Configuration changes and allowance changes commit together under one lock.
+Reservations must present the inspected configuration digest; stale approval
+cannot authorize a request. Pending reservations block allowance changes, charged
+groups cannot disappear, and an approved change cannot shorten the charged period.
 
 URLs may themselves contain secrets not detectable from key names (for example
 signed path components). Operators must review allowed URLs and retention rights;

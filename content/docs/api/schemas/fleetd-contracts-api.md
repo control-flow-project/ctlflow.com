@@ -217,7 +217,7 @@ Related definitions:
 ## common {#common}
 
 ```typescript
-common = { auth: 'public' as const, permissions: [], status: 200 as const, collection: false }
+common = { auth: 'controller' as const, permissions: [], status: 200 as const, collection: false }
 ```
 
 ## params {#params}

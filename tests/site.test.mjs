@@ -120,7 +120,9 @@ test("Netlify headers keep site scripts/assets local and only hashed assets immu
 test("hierarchy and source URLs preserve constituents and Toolsmith optionality", () => {
   const sources = JSON.parse(read("data/sources.json"));
   assert.equal(sources.ctlflow.repository, "https://github.com/control-flow-project/ctlflow");
-  assert.equal(sources.ctlflow.revision, "52bf027974521695c3b058afcc0b5191bd42587b");
+  assert.equal(sources.ctlflow.revision, "243553f70c8b573ff4f7b6e89fe12f4b42ade2d4");
+  assert.equal(sources.toolsmith.revision, "5984e888a6cd24a9963de546c504e49480af5ee2");
+  assert.equal(sources.toolsmith.version, "0.4.0");
   for (const product of ["crossfire", "fleetd", "fleet"]) assert.equal(read(`content/docs/${product}/_index.md`).includes(`title: ${product}`), true);
   const optional = read("content/docs/toolsmith/_index.md").replace(/\s+/gu, " ");
   assert.equal(optional.includes("separate project"), true);
@@ -130,7 +132,7 @@ test("hierarchy and source URLs preserve constituents and Toolsmith optionality"
 
 test("guides are edited independently of generated API contracts", () => {
   const manifest = JSON.parse(read("data/reference-manifest.json"));
-  assert.equal(guideReferences.length, 45);
+  assert.equal(guideReferences.length, 46);
   assert.equal(manifest.counts.guides, guideReferences.length);
   for (const [project, source, output] of guideReferences) {
     const filename = `content/${output}`;
@@ -141,4 +143,39 @@ test("guides are edited independently of generated API contracts", () => {
     assert.match(guide, new RegExp(`^sourceProject: ["']?${project}["']?$`, "mu"));
     assert.equal(guide.includes(`sourcePath: "${source}"`) || guide.includes(`sourcePath: ${source}`), true, `${filename} reference path`);
   }
+});
+
+test("controller guides and every generated operation require the same OS-user credential", () => {
+  const catalogs = JSON.parse(read("data/operations.json"));
+  assert.equal(catalogs.fleetd.length, 19);
+  for (const operation of catalogs.fleetd) {
+    assert.equal(operation.auth, "controller", operation.name);
+    const page = read(`content/docs/api/fleetd/${slug(operation.name)}.md`);
+    assert.equal(page.includes("Authorization: Bearer <authenticationKey>"), true, operation.name);
+    assert.equal(page.includes("/docs/fleetd/authentication/"), true, operation.name);
+    assert.equal(page.includes("Missing or incorrect credentials return 401"), true, operation.name);
+    assert.equal(page.includes("auth: public"), false, operation.name);
+  }
+  const guide = read("content/docs/fleetd/authentication.md");
+  for (const required of ["$XDG_CONFIG_HOME/ctlflow/fleetd.json", "$HOME/.config/ctlflow/fleetd.json",
+    "$HOME/Library/Application Support/ctlflow/fleetd.json", "0700/0600", "4096",
+    "256-bit", "full controller authority", "remote", "no compatibility path"])
+    assert.equal(guide.includes(required), true, required);
+  assert.deepEqual(JSON.parse(/```json\n([\s\S]*?)\n```/u.exec(guide)[1]), { schemaVersion: 1 });
+  const setup = read("content/docs/fleet/setup.md");
+  assert.equal(setup.includes("pinned npm"), true);
+  assert.equal(setup.includes("does not need .NET or Rust"), true);
+});
+
+test("Toolsmith guides match the recorded public 0.4 library ownership", () => {
+  const installation = read("content/docs/toolsmith/installation.md");
+  assert.equal(installation.includes("ctlflow_toolsmith-0.4.0"), true);
+  assert.equal(installation.includes("0.3.0"), false);
+  const library = read("content/docs/toolsmith/library.md");
+  const rows = library.split("\n");
+  assert.equal(rows.find(line => line.startsWith("| `toolsmith.files` |")).includes("`replace_bytes`"), true);
+  assert.equal(rows.find(line => line.startsWith("| `toolsmith.filesystem` |")).includes("replace_bytes"), false);
+  for (const symbol of ["toolsmith.paths", "toolsmith.acquisition.configuration", "indexed_scope", "matching_scope", "prepare_connection", "HtmlInspection"])
+    assert.equal(library.includes(symbol), true, symbol);
+  assert.equal(read("content/docs/toolsmith/security.md").includes("stale approval"), true);
 });

@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { before, after, test } from "node:test";
 import { fileURLToPath } from "node:url";
@@ -10,24 +11,33 @@ const root = path.dirname(path.dirname(path.dirname(fileURLToPath(import.meta.ur
 const artifacts = path.join(root, ".temp/browser-test");
 let preview;
 let browser;
+let runtimeRoot;
 const evidence = { tests: [], checkedPages: 0, checkedLinks: 0, codeExamples: {}, palettes: [], consoleErrors: [], viewports: [], artwork: [], paperLayout: [], paperIndexes: [] };
 
 before(async () => {
   fs.mkdirSync(artifacts, { recursive: true });
-  process.env.TMPDIR = path.join(root, ".temp");
-  fs.mkdirSync(process.env.TMPDIR, { recursive: true });
   preview = await startServer(0);
   try {
+    runtimeRoot = fs.mkdtempSync(path.join(os.tmpdir(), "ctlflow-web-"));
     browser = await chromium.launch({ executablePath: process.env.BROWSER_EXECUTABLE ?? "/usr/bin/google-chrome", headless: true,
       args: ["--no-sandbox", "--disable-dev-shm-usage", "--disable-breakpad", "--disable-crash-reporter"],
-      env: { ...process.env, XDG_CACHE_HOME: path.join(artifacts, "cache"), XDG_CONFIG_HOME: path.join(artifacts, "config") } });
-  } catch (error) { await preview.close(); preview = undefined; throw error; }
+      env: { ...process.env, TMPDIR: runtimeRoot, XDG_CACHE_HOME: path.join(artifacts, "cache"), XDG_CONFIG_HOME: path.join(artifacts, "config") } });
+  } catch (error) {
+    try { if (runtimeRoot) fs.rmSync(runtimeRoot, { recursive: true, force: true }); }
+    finally { await preview.close(); preview = undefined; }
+    throw error;
+  }
 });
 
 after(async () => {
-  if (browser) await browser.close();
-  if (preview) await preview.close();
-  fs.writeFileSync(path.join(artifacts, "evidence.json"), `${JSON.stringify(evidence, null, 2)}\n`);
+  try { if (browser) await browser.close(); }
+  finally {
+    try { if (runtimeRoot) fs.rmSync(runtimeRoot, { recursive: true, force: true }); }
+    finally {
+      if (preview) await preview.close();
+      fs.writeFileSync(path.join(artifacts, "evidence.json"), `${JSON.stringify(evidence, null, 2)}\n`);
+    }
+  }
 });
 
 async function pageFor(context, options = {}) {
@@ -36,6 +46,23 @@ async function pageFor(context, options = {}) {
   context.after(() => browserContext.close());
   return { page, browserContext };
 }
+
+test("controller authentication paths and required API credentials render on small screens", async context => {
+  const { page } = await pageFor(context, { viewport: { width: 390, height: 844 } });
+  const response = await page.goto(preview.origin + "/docs/fleetd/authentication/");
+  assert.equal(response.status(), 200);
+  await page.getByRole("heading", { level: 1, name: "Controller authentication", exact: true }).waitFor();
+  const guide = await page.locator("main").innerText();
+  for (const expected of ["$XDG_CONFIG_HOME/ctlflow/fleetd.json", "$HOME/Library/Application Support/ctlflow/fleetd.json", "401", "403"])
+    assert.equal(guide.includes(expected), true, expected);
+  assert.equal(await page.getByRole("link", { name: "Private API reference", exact: true }).count(), 1);
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);
+  await page.goto(preview.origin + "/docs/api/fleetd/status/");
+  const operation = await page.locator("main").innerText();
+  assert.equal(operation.includes("Authorization: Bearer <authenticationKey>"), true);
+  assert.equal(operation.includes("controller"), true);
+  evidence.tests.push("controller-authentication-and-status");
+});
 
 function files(directory) {
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap(entry => entry.isDirectory() ? files(path.join(directory, entry.name)) : [path.join(directory, entry.name)]);

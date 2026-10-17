@@ -1041,7 +1041,7 @@
       "name": "setup",
       "method": "POST",
       "path": "/api/setup",
-      "auth": "public",
+      "auth": "controller",
       "status": 200,
       "collection": false,
       "permissions": []
@@ -1050,7 +1050,7 @@
       "name": "status",
       "method": "GET",
       "path": "/api/status",
-      "auth": "public",
+      "auth": "controller",
       "status": 200,
       "collection": false,
       "permissions": []
@@ -1059,7 +1059,7 @@
       "name": "fleets",
       "method": "GET",
       "path": "/api/fleets",
-      "auth": "public",
+      "auth": "controller",
       "status": 200,
       "collection": true,
       "permissions": []
@@ -1068,7 +1068,7 @@
       "name": "addFleet",
       "method": "POST",
       "path": "/api/fleets",
-      "auth": "public",
+      "auth": "controller",
       "status": 201,
       "collection": false,
       "permissions": []
@@ -1077,7 +1077,7 @@
       "name": "fleet",
       "method": "GET",
       "path": "/api/fleets/{fleetId}",
-      "auth": "public",
+      "auth": "controller",
       "status": 200,
       "collection": false,
       "permissions": []
@@ -1086,7 +1086,7 @@
       "name": "readiness",
       "method": "GET",
       "path": "/api/fleets/{fleetId}/readiness",
-      "auth": "public",
+      "auth": "controller",
       "status": 200,
       "collection": false,
       "permissions": []
@@ -1095,7 +1095,7 @@
       "name": "changeFleet",
       "method": "PATCH",
       "path": "/api/fleets/{fleetId}",
-      "auth": "public",
+      "auth": "controller",
       "status": 200,
       "collection": false,
       "permissions": []
@@ -1104,7 +1104,7 @@
       "name": "removeFleet",
       "method": "DELETE",
       "path": "/api/fleets/{fleetId}",
-      "auth": "public",
+      "auth": "controller",
       "status": 200,
       "collection": false,
       "permissions": []
@@ -1113,7 +1113,7 @@
       "name": "changeFleetDelivery",
       "method": "PUT",
       "path": "/api/fleets/{fleetId}/delivery",
-      "auth": "public",
+      "auth": "controller",
       "status": 200,
       "collection": false,
       "permissions": []
@@ -1122,7 +1122,7 @@
       "name": "createFleetMessage",
       "method": "POST",
       "path": "/api/fleets/{fleetId}/messages",
-      "auth": "public",
+      "auth": "controller",
       "status": 201,
       "collection": false,
       "permissions": []
@@ -1131,7 +1131,7 @@
       "name": "agents",
       "method": "GET",
       "path": "/api/fleets/{fleetId}/agents",
-      "auth": "public",
+      "auth": "controller",
       "status": 200,
       "collection": true,
       "permissions": []
@@ -1140,7 +1140,7 @@
       "name": "addAgent",
       "method": "POST",
       "path": "/api/fleets/{fleetId}/agents",
-      "auth": "public",
+      "auth": "controller",
       "status": 201,
       "collection": false,
       "permissions": []
@@ -1149,7 +1149,7 @@
       "name": "agent",
       "method": "GET",
       "path": "/api/fleets/{fleetId}/agents/{instanceKey}",
-      "auth": "public",
+      "auth": "controller",
       "status": 200,
       "collection": false,
       "permissions": []
@@ -1158,7 +1158,7 @@
       "name": "contexts",
       "method": "GET",
       "path": "/api/fleets/{fleetId}/agents/{instanceKey}/contexts",
-      "auth": "public",
+      "auth": "controller",
       "status": 200,
       "collection": false,
       "permissions": []
@@ -1167,7 +1167,7 @@
       "name": "attachment",
       "method": "GET",
       "path": "/api/fleets/{fleetId}/agents/{instanceKey}/attachment",
-      "auth": "public",
+      "auth": "controller",
       "status": 200,
       "collection": false,
       "permissions": []
@@ -1176,7 +1176,7 @@
       "name": "changeAgent",
       "method": "PATCH",
       "path": "/api/fleets/{fleetId}/agents/{instanceKey}",
-      "auth": "public",
+      "auth": "controller",
       "status": 200,
       "collection": false,
       "permissions": []
@@ -1185,7 +1185,7 @@
       "name": "removeAgent",
       "method": "DELETE",
       "path": "/api/fleets/{fleetId}/agents/{instanceKey}",
-      "auth": "public",
+      "auth": "controller",
       "status": 200,
       "collection": false,
       "permissions": []
@@ -1194,7 +1194,7 @@
       "name": "operate",
       "method": "POST",
       "path": "/api/operations",
-      "auth": "public",
+      "auth": "controller",
       "status": 202,
       "collection": false,
       "permissions": []
@@ -1203,7 +1203,7 @@
       "name": "operation",
       "method": "GET",
       "path": "/api/operations/{operationId}",
-      "auth": "public",
+      "auth": "controller",
       "status": 200,
       "collection": false,
       "permissions": []

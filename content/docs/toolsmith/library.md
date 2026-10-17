@@ -36,16 +36,18 @@ HTTP client for a Toolsmith service, skill installation or fleet integration.
 | Module | Public operations |
 | --- | --- |
 | `toolsmith.result` | `Success`, `Failure`, `Result` |
-| `toolsmith.files` | `read_bytes`, `write_new_bytes`, `hash_file`, `copy_file`, `file_stamp`, `FileDigest`, `FileStamp` |
-| `toolsmith.filesystem` | `replace_bytes`, `inventory`, `sync_directory_tree`, `publish_directory`, `FileEntry` |
+| `toolsmith.files` | `read_bytes`, `write_new_bytes`, `replace_bytes`, `hash_file`, `copy_file`, `file_stamp`, `FileDigest`, `FileStamp`; explicit private descriptors and locks |
+| `toolsmith.paths` | `relative_components`, `relative_parent`, `relative_file`; descriptor-pinned relative paths |
+| `toolsmith.filesystem` | `inventory`, `sync_directory_tree`, `publish_directory`, `FileEntry` |
 | `toolsmith.archives` | `pack_files`, `unpack_files`, `read_archive_member`, `MemberSource`, `MemberDigest`, `ArchiveReport` |
-| `toolsmith.readers` | `Document`, `TextPart`, `read_text`, `read_json`, `read_html`, `read_feed`, `Feed`, `FeedEntry`, `decode_table`, `iter_table_rows`, `project_table` |
+| `toolsmith.readers` | `Document`, `TextPart`, `read_text`, `normalize_text`, `read_json`, `read_html`, `inspect_html`, `HtmlInspection`, `read_feed`, `Feed`, `FeedEntry`, `decode_table`, `iter_table_rows`, `project_table` |
 | `toolsmith.readers.content` | `validate_content`; PDF signature only, not extraction |
-| `toolsmith.lexical` | `Source`, `Scope`, `initialize_index`, `inspect_index`, `index_source`, `invalidate_source`, `search`, `check_index`, `compile_query`, `Region`, `find_text` |
-| `toolsmith.semantic` | `load_model`, `inspect_model`, `Source`, `Scope`, `prepare_embedding`, `encode_query`, `initialize_index`, `inspect_index`, `inspect_coverage`, `pending_references`, `publish_embedding`, `invalidate_embedding`, `relocate_embedding`, `clear_index`, `search_embeddings`, `check_index`, `indexed_digest`, `migrate_index` |
+| `toolsmith.lexical` | `Source`, `Scope`, `initialize_index`, `inspect_index`, `indexed_scope`, `matching_scope`, `index_source`, `invalidate_source`, `search`, `check_index`, `compile_query`, `Region`, `find_text` |
+| `toolsmith.semantic` | `load_model`, `inspect_model`, `Source`, `Scope`, `prepare_connection`, `prepare_embedding`, `encode_query`, `initialize_index`, `inspect_index`, `inspect_coverage`, `indexed_scope`, `pending_references`, `publish_embedding`, `invalidate_embedding`, `relocate_embedding`, `clear_index`, `search_embeddings`, `check_index`, `indexed_digest`, `migrate_index` |
 | `toolsmith.acquisition.client` | `HttpPolicy`, `FetchResponse`, `fetch_http` without an archive |
 | `toolsmith.acquisition.config` | `read_http_policy`, `read_budget_policy` |
 | `toolsmith.acquisition.budgets` | `BudgetPolicy`, `Reservation`, `BudgetStatus`, `inspect_budget`, `reserve_budget`, `settle_budget` |
+| `toolsmith.acquisition.configuration` | `Configuration`, `inspect_configuration`, `configure_budget`, `check_budget` |
 | `toolsmith.acquisition.budget_import` | `BudgetSnapshot`, `GroupUsage`, `Usage`, `import_budget` for reviewed quiesced counters |
 | `toolsmith.journal` | `Record`, `read_journal`, `append_record` |
 
@@ -134,6 +136,17 @@ isolation. Cheap bulk status does not perform a full integrity audit.
 Low-level descriptor/lock and SQLite transaction context managers are composition
 primitives: they raise `ToolsmithError` on expected failures within an enclosing
 public `Result` boundary. They do not start a process.
+
+`lexical.matching_scope` returns matching references and digests as a database
+relation. Both index modules expose `indexed_scope` for complete derivatives.
+Intersect those relations with the application's current authorized sources
+before counts, ordering and pagination. Index readiness is not permission, and
+these calls do not copy source bodies into a bounded Python candidate list.
+
+`semantic.prepare_connection` loads the packaged extension without creating an
+index, changing the row factory or committing the caller's transaction. Coverage
+reports include indexed chunks and vector bytes. Feed results retain their RSS/
+Atom format and original links separately from canonical article URLs.
 
 `toolsmith.semantic` exports the optional encoder and generic SQLite API;
 `toolsmith.semantic.store` composes those functions with exact retained citations.
