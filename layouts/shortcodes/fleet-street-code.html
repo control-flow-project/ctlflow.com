@@ -1,0 +1,9 @@
+{{- $name := .Get "name" -}}
+{{- $example := index hugo.Data.fleetstreet.snippets $name -}}
+{{- if not $example -}}{{- errorf "Unknown fleet-street example: %s" $name -}}{{- end -}}
+{{- $content := (resources.Get $example.asset).Content -}}
+{{- with .Get "lines" -}}
+  {{- $content = delimit (first (int .) (split $content "\n")) "\n" -}}
+{{- end -}}
+{{- partial "code-block.html" (dict "code" $content "language" $example.language) -}}
+<p class="support">{{ partial "fleet-street-source.html" (dict "path" $example.path "label" $example.path) }} at <code>{{ substr hugo.Data.fleetstreet.revision 0 8 }}</code>.</p>

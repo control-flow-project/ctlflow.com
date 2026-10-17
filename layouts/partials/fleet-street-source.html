@@ -1,0 +1,3 @@
+{{- $source := hugo.Data.fleetstreet -}}
+{{- if not (and .path .label) -}}{{- errorf "fleet-street links require a source path and label" -}}{{- end -}}
+<a href="{{ $source.repository }}/blob/{{ $source.revision }}/{{ .path }}">{{ .label }}</a>

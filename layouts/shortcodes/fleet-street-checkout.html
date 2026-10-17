@@ -1,0 +1,2 @@
+{{- $code := printf "git clone https://github.com/control-flow-project/fleet-street.git\ncd fleet-street\ngit fetch origin %s\ngit switch --detach %s\n" hugo.Data.fleetstreet.revision hugo.Data.fleetstreet.revision -}}
+{{- partial "code-block.html" (dict "code" $code "language" "sh") -}}

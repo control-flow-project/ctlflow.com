@@ -42,6 +42,14 @@ Mentions do not wait for ordinary work permits. If the history is idle or asleep
 the message starts a new turn without pretending an old turn is running.
 A thinking indicator or visible Matrix message alone does not prove native delivery.
 
+In [fleet-street](/docs/examples/fleet-street/#hand-offs-and-room-replies), a
+stage-manager assignment uses `--mention-user` for the actual budget analyst's
+Matrix ID. If the source and room are allowed, the listener interrupts rather
+than waiting for the ordinary message window. A later numerical progress update
+can be an ordinary message without steering the analyst again. The executable
+{{< fleet-street-link path="examples/send-handoff.sh" label="hand-off command" >}}
+keeps these actions explicit; a printed role name is not a mention.
+
 ## Delivery confirmation
 
 Before sending input, the runtime adapter saves its identity, text and position

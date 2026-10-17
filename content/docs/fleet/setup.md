@@ -52,6 +52,21 @@ The configuration must match the descriptor's server and owner.
 Unknown fields, duplicate names and unavailable model/effort combinations fail.
 Role definitions, skills and workareas follow the normal fleet loader.
 
+For a complete example, [fleet-street](/docs/examples/fleet-street/#set-up-the-example)
+generates a private ten-agent theatre fleet from public templates:
+
+```sh
+python3 -m tools.fleet_street configure \
+  --server https://chat.example.org \
+  --owner '@alice:chat.example.org' --prefix alice-fs
+./node_modules/.bin/fleet setup --config "$(pwd)/.local/fleet/runtime.toml"
+```
+
+Run these in that repository after installing its matching pinned tools. The
+values shown are placeholders. The generator does not approve or start a fleet;
+native setup requests the human's roster approval. See its
+{{< fleet-street-link path="README.md" label="setup and prerequisites" >}}.
+
 ## After approval
 
 1. Inspect `fleet list`, `fleet show FLEET` and `fleet agent list FLEET`.

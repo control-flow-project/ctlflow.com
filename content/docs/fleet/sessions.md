@@ -38,6 +38,18 @@ The native process does not resurrect an old operating-system command or active
 turn. Uncertain earlier delivery is explicitly supplied as restart context, not
 reported as a receipt from the previous process.
 
+For example, the theatre fleet can stop and resume only its budget analyst:
+
+```sh
+./node_modules/.bin/fleet agent stop fleet-street budget-analyst
+./node_modules/.bin/fleet agent start fleet-street budget-analyst
+```
+
+Those commands reuse the saved context; they do not start over. Its
+{{< fleet-street-link path="docs/operations.md" label="operations guide" >}}
+explains preserving `.local/fleet/`, editing stopped working instructions and
+distinguishing idle sleep from an explicit stop.
+
 ## Fresh history
 
 Management requires explicit confirmation. CLI requires:

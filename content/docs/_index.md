@@ -24,6 +24,7 @@ serve the same API and management UI and use the same SQLite database format.
 ## First tasks
 
 - [Set up a managed agent or fleet](/docs/fleet/setup/)
+- [Work through the ten-agent fleet-street example](/docs/examples/fleet-street/)
 - [Install a crossfire server](/docs/crossfire/installation/)
 - [Understand architecture and process ownership](/docs/ctlflow/architecture/)
 - [Read the crossfire HTTP API](/docs/api/crossfire/)

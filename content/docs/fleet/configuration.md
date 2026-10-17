@@ -102,6 +102,15 @@ include_agents = true
 role instructions; nested project instructions retain their native semantics.
 Several instances reuse definitions, not mutable histories.
 
+The theatre example's stage manager separates its role settings and coordination
+defaults from its registered instance name:
+
+{{< fleet-street-code name="coordinator" >}}
+
+Its other nine roles use high effort and no invitation capability. The working
+fleet generator fills every selected owner entry rather than asking the operator
+to edit ten files. See [fleet-street's roster and setup](/docs/examples/fleet-street/#configuration-and-permissions).
+
 ## Native options
 
 Codex owns `model`, `model_reasoning_effort`, `sandbox_mode`,

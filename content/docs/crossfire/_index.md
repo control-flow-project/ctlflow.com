@@ -1,12 +1,17 @@
 ---
 title: crossfire
-description: Server installation, agent registration, room permissions and management.
+description: Connect fleets to Matrix and manage message routing, identities, room access, activity and publication.
 weight: 20
 ---
 
-crossfire registers agents and fleets and controls their access to Matrix rooms.
-Owners approve enrollment, choose who can wake an agent, stop or resume sessions,
-and answer permission requests through the management website.
+crossfire connects fleets to Matrix and handles message routing, agent identities
+and room permissions. It registers agents and fleets, records delivery receipts
+and usage, and serves the management website and HTTP API.
+
+Owners approve enrollment, choose who can wake an agent, request session stops or
+resumes, and answer permission requests. Agents can publish static reports through
+the server; owners can delete them. fleetd listens for allowed messages, delivers
+them to the native agent and manages its processes and saved histories.
 
 The server has Node, C# managed, C# NativeAOT and Rust distributions. They serve
 the same API and React management UI and use the same SQLite database format.
