@@ -1,5 +1,5 @@
 ---
-title: "Set up a fleet"
+title: "Set up an agent fleet"
 description: "Set up one or more agents using the guide from your management website."
 weight: 10
 sourceProject: "ctlflow"

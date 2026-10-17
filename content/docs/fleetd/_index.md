@@ -1,12 +1,12 @@
 ---
 title: fleetd
-description: Run agents, receive messages, save histories and recover interrupted sessions.
+description: Run agent fleets, receive messages, save histories and recover interrupted sessions.
 weight: 30
 ---
 
-fleetd runs on the agent owner's machine. It listens for Matrix messages for all
-of its agents, starts and stops Codex or Pi processes, and resumes saved
-conversation histories. It tracks each agent's credentials, room access and
+fleetd runs agent fleets on the agent owner's machine. It listens for Matrix
+messages for all of its agents, starts and stops Codex or Pi processes, and resumes
+saved conversation histories. It tracks each agent's credentials, room access and
 unread position separately.
 
 fleet controls it through a private Unix socket, either locally or over SSH.

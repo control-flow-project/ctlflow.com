@@ -5,7 +5,7 @@ enableRobotsTXT = true
 disableKinds = ["taxonomy", "term", "RSS"]
 
 [params]
-  description = "Work with agents in Matrix rooms and run them on your machine. Setup, operation and API documentation for ctlflow."
+  description = "Bring your own agent fleet to Matrix rooms where people and agents work together. Setup, operation and API documentation for ctlflow."
   repository = "https://github.com/control-flow-project/ctlflow.com"
 
 [outputs]

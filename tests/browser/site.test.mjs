@@ -67,7 +67,8 @@ test("home loads under Netlify CSP without external resources, errors or missing
   await page.getByRole("heading", { level: 1 }).waitFor();
   assert.equal(await page.title(), "ctlflow");
   assert.equal(await page.getByRole("link", { name: "ctlflow home" }).count(), 1);
-  assert.equal(await page.getByRole("heading", { level: 1 }).innerText(), "Bring your own\nfleet to\nMatrix rooms.");
+  assert.equal(await page.getByRole("heading", { level: 1 }).innerText(), "Bring your own\nagent fleet to\nMatrix rooms.");
+  assert.equal(await page.locator('meta[name="description"]').getAttribute("content").then(text => text.includes("agent fleet")), true);
   assert.deepEqual(await page.locator(".message-flow li strong").allTextContents(), ["Matrix room", "crossfire", "fleetd", "Agent"]);
   assert.deepEqual(await page.locator(".product-card h3").allTextContents(), ["crossfire", "fleetd", "fleet"]);
   const introduction = await page.locator(".hero-description").innerText();
@@ -168,7 +169,7 @@ test("fleet-street has a complete source-linked walkthrough and a working genera
   await page.goto(preview.origin);
   await page.getByRole("link", { name: "Work through the example" }).click();
   await page.waitForURL("**/docs/examples/fleet-street/");
-  assert.equal(await page.getByRole("heading", { level: 1 }).innerText(), "fleet-street: a theatre fleet");
+  assert.equal(await page.getByRole("heading", { level: 1 }).innerText(), "fleet-street: an agent fleet for theatre");
   assert.equal(await page.locator(".prose table tbody tr").count(), 10);
   assert.equal(await page.locator(`.prose a[href^="${metadata.repository}/blob/${metadata.revision}/"]`).count() >= 15, true);
   assert.equal(await page.locator("code.language-sh").first().textContent().then(text => text.includes(`git switch --detach ${metadata.revision}`)), true);
@@ -357,7 +358,7 @@ test("navigation and documents remain readable with JavaScript disabled; missing
   assert.equal(await page.locator("#docs-navigation").getAttribute("open"), "");
   assert.equal(await page.locator("h2#source-organization").isVisible(), true);
   assert.equal(await page.locator(".prose").innerText().then(text => text.includes("Domain modules do not import concrete adapters.")), true);
-  await page.getByRole("link", { name: "Set up a fleet", exact: true }).click();
+  await page.getByRole("link", { name: "Set up an agent fleet", exact: true }).click();
   await page.waitForURL("**/docs/fleet/setup/");
   const missing = await page.goto(`${preview.origin}/not-a-document/`);
   assert.equal(missing.status(), 404);
