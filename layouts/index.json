@@ -1,0 +1,3 @@
+{{ $records := slice }}
+{{ range site.RegularPages }}{{ if not .Params.excludeSearch }}{{ $records = $records | append (dict "title" .Title "url" .RelPermalink "section" .Parent.Title "description" (.Description | default "") "text" .Plain) }}{{ end }}{{ end }}
+{{ $records | jsonify }}

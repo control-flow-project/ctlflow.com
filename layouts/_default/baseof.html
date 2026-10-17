@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="{{ site.Language.Locale }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ if not .IsHome }}{{ .Title }} · {{ end }}ctlflow</title>
+  <meta name="description" content="{{ .Description | default site.Params.description }}">
+  <meta name="theme-color" content="#0b0912">
+  <meta property="og:title" content="{{ .Title }} · ctlflow">
+  <meta property="og:description" content="{{ .Description | default site.Params.description }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ .Permalink }}">
+  <link rel="canonical" href="{{ .Permalink }}">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  {{ $theme := resources.Get "js/theme.js" | resources.Copy "assets/theme.js" | minify | fingerprint "sha384" }}
+  <script src="{{ $theme.RelPermalink }}" integrity="{{ $theme.Data.Integrity }}"></script>
+  {{ $style := resources.Get "css/site.css" | resources.Copy "assets/site.css" | minify | fingerprint "sha384" }}
+  <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}">
+  {{ $script := resources.Get "js/site.js" | resources.Copy "assets/site.js" | minify | fingerprint "sha384" }}
+  <script defer src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}"></script>
+</head>
+<body class="{{ if .IsHome }}home-page{{ else }}docs-page{{ end }}">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  {{ partial "header.html" . }}
+  {{ if .IsHome }}
+  <main id="main-content">{{ block "main" . }}{{ end }}</main>
+  {{ else }}
+  <div class="docs-shell">
+    {{ partial "sidebar.html" . }}
+    <main id="main-content" class="docs-main">{{ block "main" . }}{{ end }}</main>
+  </div>
+  {{ end }}
+  {{ partial "footer.html" . }}
+</body>
+</html>

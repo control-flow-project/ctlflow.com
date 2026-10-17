@@ -1,0 +1,5 @@
+<dl class="source-records">
+{{ range $project, $source := hugo.Data.sources }}<dt>{{ $project }}</dt><dd>Version <code>{{ $source.version }}</code> · commit <a href="{{ $source.repository }}/tree/{{ $source.revision }}"><code>{{ $source.revision }}</code></a></dd>{{ end }}
+</dl>
+{{ $counts := index hugo.Data "reference-manifest" }}
+<p>{{ $counts.counts.crossfire }} crossfire operations · {{ $counts.counts.fleetd }} private fleetd operations · {{ $counts.counts.matrix }} Matrix catalog entries · {{ $counts.counts.schemaModules }} transitive contract modules · {{ $counts.counts.guides }} source guides.</p>

@@ -147,3 +147,9 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+.analysis/
+public/
+resources/
+.hugo_build.lock
+.DS_Store

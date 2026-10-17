@@ -1,0 +1,7 @@
+{{ $destination := .Destination }}
+{{ if hasPrefix $destination "source:" }}
+  {{ $parts := split (strings.TrimPrefix "source:" $destination) ":" }}
+  {{ $source := index hugo.Data.sources (index $parts 0) }}
+  {{ $destination = printf "%s/blob/%s/%s" $source.repository $source.revision (index $parts 1) }}
+{{ end }}
+<a href="{{ $destination | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}>{{ .Text }}</a>

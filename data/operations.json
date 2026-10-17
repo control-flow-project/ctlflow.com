@@ -1,0 +1,1212 @@
+{
+  "crossfire": [
+    {
+      "name": "recordFleetNativeStop",
+      "method": "PUT",
+      "path": "/api/fleets/{fleetId}/agents/{agentId}/native-stop",
+      "auth": "fleet",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "createPublication",
+      "method": "POST",
+      "path": "/api/publications",
+      "auth": "agent",
+      "status": 201,
+      "collection": false,
+      "permissions": [
+        "publication.publish.self"
+      ]
+    },
+    {
+      "name": "publications",
+      "method": "GET",
+      "path": "/api/publications",
+      "auth": "human",
+      "status": 200,
+      "collection": true,
+      "permissions": [
+        "publication.read.owned",
+        "publication.read.any"
+      ]
+    },
+    {
+      "name": "publication",
+      "method": "GET",
+      "path": "/api/publications/{publicationId}",
+      "auth": "either",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "publication.publish.self",
+        "publication.read.owned",
+        "publication.read.any"
+      ]
+    },
+    {
+      "name": "uploadPublicationFile",
+      "method": "PUT",
+      "path": "/api/publications/{publicationId}/files/{fileId}",
+      "auth": "agent",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "publication.publish.self"
+      ],
+      "requestFormat": "binary",
+      "requestBytes": 8388608
+    },
+    {
+      "name": "commitPublication",
+      "method": "PUT",
+      "path": "/api/publications/{publicationId}/commit",
+      "auth": "agent",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "publication.publish.self"
+      ]
+    },
+    {
+      "name": "deletePublication",
+      "method": "DELETE",
+      "path": "/api/publications/{publicationId}",
+      "auth": "human",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "publication.delete.owned",
+        "publication.delete.any"
+      ]
+    },
+    {
+      "name": "fleetRuntimeOperations",
+      "method": "GET",
+      "path": "/api/fleets/{fleetId}/session-operations",
+      "auth": "either",
+      "status": 200,
+      "collection": true,
+      "permissions": [
+        "agent.read.owned",
+        "agent.read.any"
+      ]
+    },
+    {
+      "name": "requestFleetRuntime",
+      "method": "POST",
+      "path": "/api/fleets/{fleetId}/session-operations",
+      "auth": "human",
+      "status": 202,
+      "collection": false,
+      "permissions": [
+        "agent.configure.owned",
+        "agent.configure.any"
+      ]
+    },
+    {
+      "name": "claimFleetRuntime",
+      "method": "PUT",
+      "path": "/api/fleets/{fleetId}/session-operations/{operationId}/claim",
+      "auth": "fleet",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "receiptFleetRuntime",
+      "method": "PUT",
+      "path": "/api/fleets/{fleetId}/session-operations/{operationId}/receipt",
+      "auth": "fleet",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "runtimeObservations",
+      "method": "GET",
+      "path": "/api/agents/{agentId}/runtime-observations",
+      "auth": "either",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "agent.read.self",
+        "agent.read.owned",
+        "agent.read.any"
+      ]
+    },
+    {
+      "name": "reportRuntime",
+      "method": "PUT",
+      "path": "/api/agents/{agentId}/listener-runs/{runId}/runtime",
+      "auth": "agent",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "runtime.report.self"
+      ]
+    },
+    {
+      "name": "runtimeDecisions",
+      "method": "GET",
+      "path": "/api/agents/{agentId}/runtime-decisions",
+      "auth": "either",
+      "status": 200,
+      "collection": true,
+      "permissions": [
+        "agent.read.self",
+        "agent.read.owned",
+        "agent.read.any"
+      ]
+    },
+    {
+      "name": "createRuntimeDecision",
+      "method": "POST",
+      "path": "/api/agents/{agentId}/runtime-decisions",
+      "auth": "agent",
+      "status": 201,
+      "collection": false,
+      "permissions": [
+        "runtime.report.self"
+      ],
+      "requestBytes": 16777216
+    },
+    {
+      "name": "runtimeDecision",
+      "method": "GET",
+      "path": "/api/agents/{agentId}/runtime-decisions/{decisionId}",
+      "auth": "either",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "agent.read.self",
+        "agent.read.owned",
+        "agent.read.any"
+      ]
+    },
+    {
+      "name": "answerRuntimeDecision",
+      "method": "POST",
+      "path": "/api/agents/{agentId}/runtime-decisions/{decisionId}/answer",
+      "auth": "human",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "runtime.decision.answer.owned"
+      ]
+    },
+    {
+      "name": "pollRuntimeDecision",
+      "method": "GET",
+      "path": "/api/agents/{agentId}/runtime-decisions/{decisionId}/answer",
+      "auth": "agent",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "runtime.report.self"
+      ]
+    },
+    {
+      "name": "receiptRuntimeDecision",
+      "method": "PUT",
+      "path": "/api/agents/{agentId}/runtime-decisions/{decisionId}/receipt",
+      "auth": "agent",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "runtime.report.self"
+      ]
+    },
+    {
+      "name": "reportFleetFailure",
+      "method": "POST",
+      "path": "/api/fleets/{fleetId}/runtime-incidents",
+      "auth": "fleet",
+      "status": 201,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "wakeRules",
+      "method": "GET",
+      "path": "/api/wake-rules",
+      "auth": "human",
+      "status": 200,
+      "collection": true,
+      "permissions": [
+        "wake-rule.read.owned",
+        "wake-rule.read.any"
+      ]
+    },
+    {
+      "name": "createWakeRule",
+      "method": "POST",
+      "path": "/api/wake-rules",
+      "auth": "human",
+      "status": 201,
+      "collection": false,
+      "permissions": [
+        "wake-rule.manage.owned"
+      ]
+    },
+    {
+      "name": "wakeRule",
+      "method": "GET",
+      "path": "/api/wake-rules/{ruleId}",
+      "auth": "human",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "wake-rule.read.owned",
+        "wake-rule.read.any"
+      ]
+    },
+    {
+      "name": "changeWakeRule",
+      "method": "PUT",
+      "path": "/api/wake-rules/{ruleId}",
+      "auth": "human",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "wake-rule.manage.owned",
+        "wake-rule.manage.any"
+      ]
+    },
+    {
+      "name": "deleteWakeRule",
+      "method": "DELETE",
+      "path": "/api/wake-rules/{ruleId}",
+      "auth": "human",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "wake-rule.manage.owned",
+        "wake-rule.manage.any"
+      ]
+    },
+    {
+      "name": "wakeMetadata",
+      "method": "GET",
+      "path": "/api/agents/{agentId}/wake-deliveries",
+      "auth": "agent",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "wake-delivery.receive.self"
+      ]
+    },
+    {
+      "name": "claimWake",
+      "method": "POST",
+      "path": "/api/agents/{agentId}/wake-deliveries",
+      "auth": "agent",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "wake-delivery.receive.self"
+      ]
+    },
+    {
+      "name": "validateWake",
+      "method": "GET",
+      "path": "/api/agents/{agentId}/wake-deliveries/{deliveryId}",
+      "auth": "agent",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "wake-delivery.receive.self"
+      ]
+    },
+    {
+      "name": "acknowledgeWake",
+      "method": "PUT",
+      "path": "/api/agents/{agentId}/wake-deliveries/{deliveryId}/receipt",
+      "auth": "agent",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "wake-delivery.receive.self"
+      ]
+    },
+    {
+      "name": "createSession",
+      "method": "POST",
+      "path": "/api/sessions",
+      "auth": "public",
+      "status": 201,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "currentSession",
+      "method": "GET",
+      "path": "/api/sessions/current",
+      "auth": "human",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "endSession",
+      "method": "DELETE",
+      "path": "/api/sessions/current",
+      "auth": "human",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "principals",
+      "method": "GET",
+      "path": "/api/principals",
+      "auth": "either",
+      "status": 200,
+      "collection": true,
+      "permissions": [
+        "principal.read"
+      ]
+    },
+    {
+      "name": "resolvePrincipals",
+      "method": "POST",
+      "path": "/api/principal-resolutions",
+      "auth": "either",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "principal.read"
+      ]
+    },
+    {
+      "name": "roles",
+      "method": "GET",
+      "path": "/api/roles",
+      "auth": "either",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "principal.read"
+      ]
+    },
+    {
+      "name": "permissions",
+      "method": "GET",
+      "path": "/api/permissions",
+      "auth": "either",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "principal.read"
+      ]
+    },
+    {
+      "name": "members",
+      "method": "GET",
+      "path": "/api/members",
+      "auth": "human",
+      "status": 200,
+      "collection": true,
+      "permissions": [
+        "member.manage"
+      ]
+    },
+    {
+      "name": "member",
+      "method": "GET",
+      "path": "/api/members/{memberId}",
+      "auth": "human",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "member.manage"
+      ]
+    },
+    {
+      "name": "changeMember",
+      "method": "PATCH",
+      "path": "/api/members/{memberId}",
+      "auth": "human",
+      "status": 202,
+      "collection": false,
+      "permissions": [
+        "member.manage"
+      ]
+    },
+    {
+      "name": "memberRole",
+      "method": "PUT",
+      "path": "/api/members/{memberId}/role",
+      "auth": "human",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "member.manage"
+      ]
+    },
+    {
+      "name": "createInvitation",
+      "method": "POST",
+      "path": "/api/member-invitations",
+      "auth": "human",
+      "status": 201,
+      "collection": false,
+      "permissions": [
+        "member.invite"
+      ]
+    },
+    {
+      "name": "invitations",
+      "method": "GET",
+      "path": "/api/member-invitations",
+      "auth": "human",
+      "status": 200,
+      "collection": true,
+      "permissions": [
+        "member.invite"
+      ]
+    },
+    {
+      "name": "invitation",
+      "method": "GET",
+      "path": "/api/member-invitations/{invitationId}",
+      "auth": "human",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "member.invite"
+      ]
+    },
+    {
+      "name": "revokeInvitation",
+      "method": "DELETE",
+      "path": "/api/member-invitations/{invitationId}",
+      "auth": "human",
+      "status": 202,
+      "collection": false,
+      "permissions": [
+        "member.invite"
+      ]
+    },
+    {
+      "name": "claimInvitation",
+      "method": "POST",
+      "path": "/api/member-invitations/{invitationId}/claim",
+      "auth": "public",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "registrationPolicy",
+      "method": "GET",
+      "path": "/api/registration-policy",
+      "auth": "public",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "preflight",
+      "method": "POST",
+      "path": "/api/enrollments/preflight",
+      "auth": "public",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "introduceEnrollment",
+      "method": "POST",
+      "path": "/api/enrollments",
+      "auth": "public",
+      "status": 201,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "enrollments",
+      "method": "GET",
+      "path": "/api/enrollments",
+      "auth": "human",
+      "status": 200,
+      "collection": true,
+      "permissions": [
+        "enrollment.read.owned",
+        "enrollment.read.any"
+      ]
+    },
+    {
+      "name": "enrollment",
+      "method": "GET",
+      "path": "/api/enrollments/{enrollmentId}",
+      "auth": "human",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "enrollment.read.owned",
+        "enrollment.read.any"
+      ]
+    },
+    {
+      "name": "decideEnrollment",
+      "method": "POST",
+      "path": "/api/enrollments/{enrollmentId}/decision",
+      "auth": "human",
+      "status": 202,
+      "collection": false,
+      "permissions": [
+        "enrollment.approve.owned",
+        "enrollment.reject.owned",
+        "enrollment.reject.any"
+      ]
+    },
+    {
+      "name": "exchangeEnrollment",
+      "method": "POST",
+      "path": "/api/enrollments/{enrollmentId}/exchange",
+      "auth": "public",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "fleets",
+      "method": "GET",
+      "path": "/api/fleets",
+      "auth": "human",
+      "status": 200,
+      "collection": true,
+      "permissions": [
+        "agent.read.owned",
+        "agent.read.any"
+      ]
+    },
+    {
+      "name": "fleet",
+      "method": "GET",
+      "path": "/api/fleets/{fleetId}",
+      "auth": "fleet",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "agent.read.owned",
+        "agent.read.any"
+      ]
+    },
+    {
+      "name": "changeFleet",
+      "method": "PATCH",
+      "path": "/api/fleets/{fleetId}",
+      "auth": "fleet",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "agent.configure.owned",
+        "agent.configure.any"
+      ]
+    },
+    {
+      "name": "archiveFleet",
+      "method": "POST",
+      "path": "/api/fleets/{fleetId}/archive",
+      "auth": "fleet",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "agent.configure.owned",
+        "agent.configure.any"
+      ]
+    },
+    {
+      "name": "fleetMap",
+      "method": "GET",
+      "path": "/api/fleets/{fleetId}/map",
+      "auth": "human",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "agent.read.owned",
+        "agent.read.any"
+      ]
+    },
+    {
+      "name": "fleetStatistics",
+      "method": "GET",
+      "path": "/api/fleets/{fleetId}/statistics",
+      "auth": "human",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "agent.read.owned",
+        "agent.read.any"
+      ]
+    },
+    {
+      "name": "fleetAgents",
+      "method": "GET",
+      "path": "/api/fleets/{fleetId}/agents",
+      "auth": "fleet",
+      "status": 200,
+      "collection": true,
+      "permissions": [
+        "agent.read.owned",
+        "agent.read.any"
+      ]
+    },
+    {
+      "name": "changeFleetDelivery",
+      "method": "PUT",
+      "path": "/api/fleets/{fleetId}/delivery",
+      "auth": "fleet",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "agent.configure.owned",
+        "agent.configure.any"
+      ]
+    },
+    {
+      "name": "reportFleetConnection",
+      "method": "PUT",
+      "path": "/api/fleets/{fleetId}/controller-connections/{connectionId}",
+      "auth": "fleet",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "fleetControl",
+      "method": "GET",
+      "path": "/api/fleets/{fleetId}/control",
+      "auth": "fleet",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "fleetMessages",
+      "method": "GET",
+      "path": "/api/fleets/{fleetId}/messages",
+      "auth": "fleet",
+      "status": 200,
+      "collection": true,
+      "permissions": [
+        "agent.read.owned",
+        "agent.read.any"
+      ]
+    },
+    {
+      "name": "createFleetMessage",
+      "method": "POST",
+      "path": "/api/fleets/{fleetId}/messages",
+      "auth": "fleet",
+      "status": 201,
+      "collection": false,
+      "permissions": [
+        "agent.configure.owned",
+        "agent.configure.any"
+      ]
+    },
+    {
+      "name": "acknowledgeFleetMessage",
+      "method": "PUT",
+      "path": "/api/fleets/{fleetId}/messages/{messageId}/deliveries/{agentId}",
+      "auth": "fleet",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "removeFleetAgent",
+      "method": "DELETE",
+      "path": "/api/fleets/{fleetId}/agents/{agentId}",
+      "auth": "fleet",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "agent.configure.owned",
+        "agent.configure.any"
+      ]
+    },
+    {
+      "name": "agents",
+      "method": "GET",
+      "path": "/api/agents",
+      "auth": "human",
+      "status": 200,
+      "collection": true,
+      "permissions": [
+        "agent.read.owned",
+        "agent.read.any"
+      ]
+    },
+    {
+      "name": "agent",
+      "method": "GET",
+      "path": "/api/agents/{agentId}",
+      "auth": "either",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "agent.read.self",
+        "agent.read.owned",
+        "agent.read.any"
+      ]
+    },
+    {
+      "name": "changeAgent",
+      "method": "PATCH",
+      "path": "/api/agents/{agentId}",
+      "auth": "human",
+      "status": 202,
+      "collection": false,
+      "permissions": [
+        "agent.configure.owned",
+        "agent.configure.any"
+      ]
+    },
+    {
+      "name": "wakePolicy",
+      "method": "GET",
+      "path": "/api/agents/{agentId}/wake-policy",
+      "auth": "either",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "agent.read.self",
+        "agent.read.owned",
+        "agent.read.any"
+      ]
+    },
+    {
+      "name": "changeWakePolicy",
+      "method": "PUT",
+      "path": "/api/agents/{agentId}/wake-policy",
+      "auth": "human",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "agent.configure.owned",
+        "agent.configure.any"
+      ]
+    },
+    {
+      "name": "deliveryPolicy",
+      "method": "GET",
+      "path": "/api/agents/{agentId}/delivery-policy",
+      "auth": "agent",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "agent.read.self"
+      ]
+    },
+    {
+      "name": "rooms",
+      "method": "GET",
+      "path": "/api/rooms",
+      "auth": "human",
+      "status": 200,
+      "collection": true,
+      "permissions": [
+        "room.manage.native"
+      ]
+    },
+    {
+      "name": "room",
+      "method": "GET",
+      "path": "/api/rooms/{roomId}",
+      "auth": "human",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "room.manage.native"
+      ]
+    },
+    {
+      "name": "grants",
+      "method": "GET",
+      "path": "/api/agents/{agentId}/room-grants",
+      "auth": "either",
+      "status": 200,
+      "collection": true,
+      "permissions": [
+        "agent.read.self",
+        "agent.read.owned",
+        "agent.read.any"
+      ]
+    },
+    {
+      "name": "grant",
+      "method": "GET",
+      "path": "/api/agents/{agentId}/room-grants/{roomId}",
+      "auth": "either",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "agent.read.self",
+        "agent.read.owned",
+        "agent.read.any",
+        "room.agent.invite"
+      ]
+    },
+    {
+      "name": "setGrant",
+      "method": "PUT",
+      "path": "/api/agents/{agentId}/room-grants/{roomId}",
+      "auth": "either",
+      "status": 202,
+      "collection": false,
+      "permissions": [
+        "agent.room-grant.manage.owned",
+        "agent.room-grant.manage.any",
+        "room.agent.invite"
+      ]
+    },
+    {
+      "name": "removeGrant",
+      "method": "DELETE",
+      "path": "/api/agents/{agentId}/room-grants/{roomId}",
+      "auth": "either",
+      "status": 202,
+      "collection": false,
+      "permissions": [
+        "agent.room-grant.manage.owned",
+        "agent.room-grant.manage.any",
+        "room.agent.invite"
+      ]
+    },
+    {
+      "name": "grantPermissions",
+      "method": "GET",
+      "path": "/api/agents/{agentId}/room-grants/{roomId}/permissions",
+      "auth": "human",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "agent.read.owned",
+        "agent.read.any"
+      ]
+    },
+    {
+      "name": "acceptRoomInvitation",
+      "method": "POST",
+      "path": "/api/agents/{agentId}/room-invitation-acceptances",
+      "auth": "agent",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "room-invitation.accept.self"
+      ]
+    },
+    {
+      "name": "ownerConversation",
+      "method": "POST",
+      "path": "/api/agents/{agentId}/owner-conversation",
+      "auth": "agent",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "owner-conversation.ensure.self"
+      ]
+    },
+    {
+      "name": "setGrantPermissions",
+      "method": "PUT",
+      "path": "/api/agents/{agentId}/room-grants/{roomId}/permissions",
+      "auth": "human",
+      "status": 202,
+      "collection": false,
+      "permissions": [
+        "agent.room-grant.manage.owned",
+        "agent.room-grant.manage.any"
+      ]
+    },
+    {
+      "name": "previewGrants",
+      "method": "POST",
+      "path": "/api/room-grant-previews",
+      "auth": "human",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "agent.room-grant.manage.owned",
+        "agent.room-grant.manage.any"
+      ]
+    },
+    {
+      "name": "applyGrants",
+      "method": "POST",
+      "path": "/api/room-grant-changes",
+      "auth": "human",
+      "status": 202,
+      "collection": false,
+      "permissions": [
+        "agent.room-grant.manage.owned",
+        "agent.room-grant.manage.any"
+      ]
+    },
+    {
+      "name": "listenerRuns",
+      "method": "GET",
+      "path": "/api/agents/{agentId}/listener-runs",
+      "auth": "either",
+      "status": 200,
+      "collection": true,
+      "permissions": [
+        "agent.read.self",
+        "agent.read.owned",
+        "agent.read.any"
+      ]
+    },
+    {
+      "name": "reportListener",
+      "method": "PUT",
+      "path": "/api/agents/{agentId}/listener-runs/{runId}",
+      "auth": "agent",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "listener.report.self"
+      ]
+    },
+    {
+      "name": "wakeNotice",
+      "method": "PUT",
+      "path": "/api/agents/{agentId}/wake-notices/{eventId}",
+      "auth": "agent",
+      "status": 202,
+      "collection": false,
+      "permissions": [
+        "wake-notice.publish.self"
+      ]
+    },
+    {
+      "name": "policy",
+      "method": "GET",
+      "path": "/api/instance-policy",
+      "auth": "human",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "principal.read"
+      ]
+    },
+    {
+      "name": "changePolicy",
+      "method": "PATCH",
+      "path": "/api/instance-policy",
+      "auth": "human",
+      "status": 200,
+      "collection": false,
+      "permissions": [
+        "policy.manage"
+      ]
+    },
+    {
+      "name": "audit",
+      "method": "GET",
+      "path": "/api/audit-events",
+      "auth": "human",
+      "status": 200,
+      "collection": true,
+      "permissions": [
+        "audit.read.owned",
+        "audit.read.any"
+      ]
+    },
+    {
+      "name": "release",
+      "method": "GET",
+      "path": "/api/releases/current",
+      "auth": "public",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "health",
+      "method": "GET",
+      "path": "/api/health",
+      "auth": "public",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    }
+  ],
+  "fleetd": [
+    {
+      "name": "setup",
+      "method": "POST",
+      "path": "/api/setup",
+      "auth": "public",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "status",
+      "method": "GET",
+      "path": "/api/status",
+      "auth": "public",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "fleets",
+      "method": "GET",
+      "path": "/api/fleets",
+      "auth": "public",
+      "status": 200,
+      "collection": true,
+      "permissions": []
+    },
+    {
+      "name": "addFleet",
+      "method": "POST",
+      "path": "/api/fleets",
+      "auth": "public",
+      "status": 201,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "fleet",
+      "method": "GET",
+      "path": "/api/fleets/{fleetId}",
+      "auth": "public",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "readiness",
+      "method": "GET",
+      "path": "/api/fleets/{fleetId}/readiness",
+      "auth": "public",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "changeFleet",
+      "method": "PATCH",
+      "path": "/api/fleets/{fleetId}",
+      "auth": "public",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "removeFleet",
+      "method": "DELETE",
+      "path": "/api/fleets/{fleetId}",
+      "auth": "public",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "changeFleetDelivery",
+      "method": "PUT",
+      "path": "/api/fleets/{fleetId}/delivery",
+      "auth": "public",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "createFleetMessage",
+      "method": "POST",
+      "path": "/api/fleets/{fleetId}/messages",
+      "auth": "public",
+      "status": 201,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "agents",
+      "method": "GET",
+      "path": "/api/fleets/{fleetId}/agents",
+      "auth": "public",
+      "status": 200,
+      "collection": true,
+      "permissions": []
+    },
+    {
+      "name": "addAgent",
+      "method": "POST",
+      "path": "/api/fleets/{fleetId}/agents",
+      "auth": "public",
+      "status": 201,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "agent",
+      "method": "GET",
+      "path": "/api/fleets/{fleetId}/agents/{instanceKey}",
+      "auth": "public",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "contexts",
+      "method": "GET",
+      "path": "/api/fleets/{fleetId}/agents/{instanceKey}/contexts",
+      "auth": "public",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "attachment",
+      "method": "GET",
+      "path": "/api/fleets/{fleetId}/agents/{instanceKey}/attachment",
+      "auth": "public",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "changeAgent",
+      "method": "PATCH",
+      "path": "/api/fleets/{fleetId}/agents/{instanceKey}",
+      "auth": "public",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "removeAgent",
+      "method": "DELETE",
+      "path": "/api/fleets/{fleetId}/agents/{instanceKey}",
+      "auth": "public",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "operate",
+      "method": "POST",
+      "path": "/api/operations",
+      "auth": "public",
+      "status": 202,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "operation",
+      "method": "GET",
+      "path": "/api/operations/{operationId}",
+      "auth": "public",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    }
+  ]
+}

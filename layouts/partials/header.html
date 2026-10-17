@@ -1,0 +1,15 @@
+<header class="site-header">
+  <div class="header-inner">
+    <a class="wordmark" href="/" aria-label="ctlflow home"><span class="brand-symbol" aria-hidden="true">cf<span>_</span></span><span>ctlflow</span></a>
+    <nav class="primary-nav" aria-label="Primary navigation">
+      <a href="/docs/" {{ if eq .Section "docs" }}aria-current="{{ if .IsSection }}page{{ else }}true{{ end }}"{{ end }}>Docs</a>
+      <a href="/docs/api/">API reference</a>
+      <a href="/docs/toolsmith/">Toolsmith</a>
+    </nav>
+    <div class="header-actions">
+      <a class="search-link" href="/search/"><span aria-hidden="true">⌕</span><span>Search docs</span><kbd>/</kbd></a>
+      <button class="theme-toggle" type="button" aria-label="Switch to light theme"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 13a9 9 0 0 1-9.8-9.8A9 9 0 1 0 20.8 13Z"/></svg></button>
+      <a class="source-link" href="{{ hugo.Data.sources.ctlflow.repository }}" aria-label="ctlflow source on GitHub">GitHub <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</header>

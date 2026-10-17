@@ -1,0 +1,10 @@
+{{ define "main" }}
+<article class="section-article search-page">
+  <span class="eyebrow">Local full-text search</span><h1>Search documentation.</h1>
+  <p class="article-description">Search the published documentation, HTTP operations and exact contract definitions. No query leaves this site.</p>
+  <form id="search-form" action="/search/" role="search"><label class="sr-only" for="search-query">Search documentation</label><input id="search-query" type="search" name="q" placeholder="Try “resume”, “maxMessageBytes”, or an API path" autocomplete="off"><button type="submit" class="button primary">Search <span aria-hidden="true">→</span></button></form>
+  <p id="search-status" class="support" role="status" aria-live="polite">Enter a word, phrase, operation name or path.</p>
+  <div id="search-results" class="search-results"></div>
+  <noscript><p>Search needs JavaScript. All documentation remains available through the <a href="/docs/">documentation index</a>.</p></noscript>
+</article>
+{{ end }}

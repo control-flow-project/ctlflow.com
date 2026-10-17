@@ -1,0 +1,452 @@
+---
+title: "crossfire/node/packages/contracts/src/rest/operations.ts"
+linkTitle: "operations"
+description: "Exact executable parser definitions and their imported contracts. Custom code is retained; no omitted checks are implied by field summaries."
+sourceProject: "ctlflow"
+sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+generated: true
+---
+
+
+## How to read this page
+
+These are the actual contract definitions at the documented source revision. They are reference text, not a distributed JavaScript SDK. All server implementations must enforce the same observable contract. `check.object` rejects unknown fields; custom functions and refinements remain part of validation.
+
+### Imported definitions
+
+- [`services/crossfire/node/packages/contracts/src/rest/operation.ts`](/docs/api/schemas/crossfire-contracts-rest-operation/)
+- [`services/crossfire/node/packages/contracts/src/schema/validation.ts`](/docs/api/schemas/crossfire-contracts-schema-validation/)
+- [`services/crossfire/node/packages/contracts/src/schema/request.ts`](/docs/api/schemas/crossfire-contracts-schema-request/)
+- [`services/crossfire/node/packages/contracts/src/schema/response.ts`](/docs/api/schemas/crossfire-contracts-schema-response/)
+- [`services/crossfire/node/packages/contracts/src/schema/query.ts`](/docs/api/schemas/crossfire-contracts-schema-query/)
+- [`services/crossfire/node/packages/contracts/src/schema/plan.ts`](/docs/api/schemas/crossfire-contracts-schema-plan/)
+- [`services/crossfire/node/packages/contracts/src/release.ts`](/docs/api/schemas/crossfire-contracts-release/)
+- [`services/crossfire/node/packages/contracts/src/fleet-control.ts`](/docs/api/schemas/crossfire-contracts-fleet-control/)
+- [`services/crossfire/node/packages/contracts/src/fleet-runtime.ts`](/docs/api/schemas/crossfire-contracts-fleet-runtime/)
+- [`services/crossfire/node/packages/contracts/src/schema/fleet-map.ts`](/docs/api/schemas/crossfire-contracts-schema-fleet-map/)
+- [`services/crossfire/node/packages/contracts/src/wake-up.ts`](/docs/api/schemas/crossfire-contracts-wake-up/)
+- [`services/crossfire/node/packages/contracts/src/runtime.ts`](/docs/api/schemas/crossfire-contracts-runtime/)
+- [`services/crossfire/node/packages/contracts/src/statistics.ts`](/docs/api/schemas/crossfire-contracts-statistics/)
+- [`services/crossfire/node/packages/contracts/src/publication.ts`](/docs/api/schemas/crossfire-contracts-publication/)
+- [`services/crossfire/node/packages/contracts/src/rest/binary.ts`](/docs/api/schemas/crossfire-contracts-rest-binary/)
+- [`services/crossfire/node/packages/domain/src/publication/values.ts`](/docs/api/schemas/crossfire-domain-publication-values/)
+
+## operations {#operations}
+
+```typescript
+operations = {
+    recordFleetNativeStop: operation({ method: 'PUT', path: '/api/fleets/{fleetId}/agents/{agentId}/native-stop', auth: 'fleet',
+        params: check.object({ fleetId: check.identifier, agentId: check.identifier }), query: query.none,
+        input: check.object({ connectionId: check.identifier, runId: check.identifier, receiptId: check.identifier }), output: res.recorded,
+        status: 200, collection: false, permissions: [], description: 'Record actual native close on the current controller generation after all receipts settle' }),
+    createPublication: operation({ method: 'POST', path: '/api/publications', auth: 'agent',
+        params: check.empty, query: query.none, input: publication.publicationCreation, output: publication.publicationDetails,
+        status: 201, collection: false, permissions: ['publication.publish.self'], description: 'Stage a bounded public static report' }),
+    publications: operation({ method: 'GET', path: '/api/publications', auth: 'human',
+        params: check.empty, query: publication.publicationQuery, input: check.empty, output: check.list(publication.publicationSummary, 100),
+        status: 200, collection: true, permissions: ['publication.read.owned', 'publication.read.any'], description: 'Public reports owned by your agents' }),
+    publication: operation({ method: 'GET', path: '/api/publications/{publicationId}', auth: 'either',
+        params: check.object({ publicationId: check.identifier }), query: query.none, input: check.empty, output: publication.publicationDetails,
+        status: 200, collection: false, permissions: ['publication.publish.self', 'publication.read.owned', 'publication.read.any'], description: 'Report manifest and publication state' }),
+    uploadPublicationFile: operation({ method: 'PUT', path: '/api/publications/{publicationId}/files/{fileId}', auth: 'agent', requestFormat: 'binary',
+        requestBytes: PUBLICATION_LIMITS.fileBytes, params: check.object({ publicationId: check.identifier, fileId: check.identifier }), query: query.none,
+        input: binaryInput, output: check.object({ uploaded: check.boolean }), status: 200, collection: false,
+        permissions: ['publication.publish.self'], description: 'Stream exactly one declared static file' }),
+    commitPublication: operation({ method: 'PUT', path: '/api/publications/{publicationId}/commit', auth: 'agent',
+        params: check.object({ publicationId: check.identifier }), query: query.none, input: publication.publicationMutation,
+        output: publication.publicationDetails, status: 200, collection: false, permissions: ['publication.publish.self'], description: 'Atomically make a complete report public' }),
+    deletePublication: operation({ method: 'DELETE', path: '/api/publications/{publicationId}', auth: 'human',
+        params: check.object({ publicationId: check.identifier }), query: query.none, input: publication.publicationMutation,
+        output: check.object({ deleted: check.boolean }), status: 200, collection: false,
+        permissions: ['publication.delete.owned', 'publication.delete.any'], description: 'Fence public reads and remove report files' }),
+    fleetRuntimeOperations: operation({ method: 'GET', path: '/api/fleets/{fleetId}/session-operations', auth: 'either',
+        params: check.object({ fleetId: check.identifier }), query: query.page, input: check.empty, output: check.list(fleetRuntime.runtimeOperation, 100),
+        status: 200, collection: true, permissions: ['agent.read.owned', 'agent.read.any'], description: 'Native session operation outcomes' }),
+    requestFleetRuntime: operation({ method: 'POST', path: '/api/fleets/{fleetId}/session-operations', auth: 'human',
+        params: check.object({ fleetId: check.identifier }), query: query.none, input: fleetRuntime.runtimeRequest, output: fleetRuntime.runtimeOperation,
+        status: 202, collection: false, permissions: ['agent.configure.owned', 'agent.configure.any'], description: 'Request stop, resume or confirmed fresh history through the controller' }),
+    claimFleetRuntime: operation({ method: 'PUT', path: '/api/fleets/{fleetId}/session-operations/{operationId}/claim', auth: 'fleet',
+        params: check.object({ fleetId: check.identifier, operationId: check.identifier }), query: query.none, input: fleetRuntime.runtimeClaim, output: fleetRuntime.runtimeOperation,
+        status: 200, collection: false, permissions: [], description: 'Claim an authorized session operation on the live controller generation' }),
+    receiptFleetRuntime: operation({ method: 'PUT', path: '/api/fleets/{fleetId}/session-operations/{operationId}/receipt', auth: 'fleet',
+        params: check.object({ fleetId: check.identifier, operationId: check.identifier }), query: query.none, input: fleetRuntime.runtimeReceipt, output: res.recorded,
+        status: 200, collection: false, permissions: [], description: 'Record the actual native session outcome' }),
+    runtimeObservations: operation({ method: 'GET', path: '/api/agents/{agentId}/runtime-observations', auth: 'either',
+        params: check.object({ agentId: check.identifier }), query: query.none, input: check.empty, output: runtime.observations,
+        status: 200, collection: false, permissions: ['agent.read.self', 'agent.read.owned', 'agent.read.any'], description: 'Public configured and effective native runtime settings' }),
+    reportRuntime: operation({ method: 'PUT', path: '/api/agents/{agentId}/listener-runs/{runId}/runtime', auth: 'agent',
+        params: check.object({ agentId: check.identifier, runId: check.identifier }), query: query.none, input: runtime.observation, output: res.acknowledged,
+        status: 200, collection: false, permissions: ['runtime.report.self'], description: 'Report observed native activity without a model call' }),
+    runtimeDecisions: operation({ method: 'GET', path: '/api/agents/{agentId}/runtime-decisions', auth: 'either',
+        params: check.object({ agentId: check.identifier }), query: query.runtimeDecisions, input: check.empty, output: check.list(runtime.decisionSummary, 100),
+        status: 200, collection: true, permissions: ['agent.read.self', 'agent.read.owned', 'agent.read.any'], description: 'Native human decisions' }),
+    createRuntimeDecision: operation({ method: 'POST', path: '/api/agents/{agentId}/runtime-decisions', auth: 'agent',
+        requestBytes: 16 * 1024 * 1024,
+        params: check.object({ agentId: check.identifier }), query: query.none, input: runtime.decisionCreation, output: runtime.decisionView,
+        status: 201, collection: false, permissions: ['runtime.report.self'], description: 'Bind a human decision to its original native request' }),
+    runtimeDecision: operation({ method: 'GET', path: '/api/agents/{agentId}/runtime-decisions/{decisionId}', auth: 'either',
+        params: check.object({ agentId: check.identifier, decisionId: check.identifier }), query: query.none, input: check.empty, output: runtime.decisionView,
+        status: 200, collection: false, permissions: ['agent.read.self', 'agent.read.owned', 'agent.read.any'], description: 'Read-only native decision review' }),
+    answerRuntimeDecision: operation({ method: 'POST', path: '/api/agents/{agentId}/runtime-decisions/{decisionId}/answer', auth: 'human',
+        params: check.object({ agentId: check.identifier, decisionId: check.identifier }), query: query.none, input: runtime.decisionSubmission, output: res.acknowledged,
+        status: 200, collection: false, permissions: ['runtime.decision.answer.owned'], description: 'Owner explicitly submits all native answers' }),
+    pollRuntimeDecision: operation({ method: 'GET', path: '/api/agents/{agentId}/runtime-decisions/{decisionId}/answer', auth: 'agent',
+        params: check.object({ agentId: check.identifier, decisionId: check.identifier }), query: query.none, input: check.empty, output: runtime.decisionPoll,
+        status: 200, collection: false, permissions: ['runtime.report.self'], description: 'Original listener retrieves the private answer' }),
+    receiptRuntimeDecision: operation({ method: 'PUT', path: '/api/agents/{agentId}/runtime-decisions/{decisionId}/receipt', auth: 'agent',
+        params: check.object({ agentId: check.identifier, decisionId: check.identifier }), query: query.none, input: runtime.decisionReceipt, output: res.recorded,
+        status: 200, collection: false, permissions: ['runtime.report.self'], description: 'Record native response publication or cancellation, not inferred execution' }),
+    reportFleetFailure: operation({ method: 'POST', path: '/api/fleets/{fleetId}/runtime-incidents', auth: 'fleet',
+        params: check.object({ fleetId: check.identifier }), query: query.none, input: runtime.failureReport, output: res.acknowledged,
+        status: 201, collection: false, permissions: [], description: 'Scoped controller reports an actual instance failure' }),
+    wakeRules: operation({ method: 'GET', path: '/api/wake-rules', auth: 'human',
+        params: check.empty, query: query.fleets, input: check.empty, output: check.list(wake.wakeRuleSummary, 100),
+        status: 200, collection: true, permissions: ['wake-rule.read.owned', 'wake-rule.read.any'], description: 'Scheduled Wake-ups' }),
+    createWakeRule: operation({ method: 'POST', path: '/api/wake-rules', auth: 'human',
+        params: check.empty, query: query.none, input: wake.wakeRuleCreation, output: wake.wakeRuleDetails,
+        status: 201, collection: false, permissions: ['wake-rule.manage.owned'], description: 'Create a scheduled Wake-up' }),
+    wakeRule: operation({ method: 'GET', path: '/api/wake-rules/{ruleId}', auth: 'human',
+        params: check.object({ ruleId: check.identifier }), query: query.none, input: check.empty, output: wake.wakeRuleDetails,
+        status: 200, collection: false, permissions: ['wake-rule.read.owned', 'wake-rule.read.any'], description: 'Wake-up details and attached agents' }),
+    changeWakeRule: operation({ method: 'PUT', path: '/api/wake-rules/{ruleId}', auth: 'human',
+        params: check.object({ ruleId: check.identifier }), query: query.none, input: wake.wakeRuleChange, output: wake.wakeRuleDetails,
+        status: 200, collection: false, permissions: ['wake-rule.manage.owned', 'wake-rule.manage.any'], description: 'Replace the Wake-up configuration' }),
+    deleteWakeRule: operation({ method: 'DELETE', path: '/api/wake-rules/{ruleId}', auth: 'human',
+        params: check.object({ ruleId: check.identifier }), query: query.none, input: wake.wakeRuleRemoval, output: check.object({ deleted: check.boolean }),
+        status: 200, collection: false, permissions: ['wake-rule.manage.owned', 'wake-rule.manage.any'], description: 'Delete a Wake-up and its assignments' }),
+    wakeMetadata: operation({ method: 'GET', path: '/api/agents/{agentId}/wake-deliveries', auth: 'agent',
+        params: check.object({ agentId: check.identifier }), query: wake.wakeAttachmentQuery, input: check.empty, output: wake.wakeMetadata,
+        status: 200, collection: false, permissions: ['wake-delivery.receive.self'], description: 'Read the next scheduled deadline' }),
+    claimWake: operation({ method: 'POST', path: '/api/agents/{agentId}/wake-deliveries', auth: 'agent',
+        params: check.object({ agentId: check.identifier }), query: query.none, input: wake.wakeAttachment, output: check.nullable(wake.scheduledWake),
+        status: 200, collection: false, permissions: ['wake-delivery.receive.self'], description: 'Claim one due scheduled input for this native session' }),
+    validateWake: operation({ method: 'GET', path: '/api/agents/{agentId}/wake-deliveries/{deliveryId}', auth: 'agent',
+        params: check.object({ agentId: check.identifier, deliveryId: check.identifier }), query: wake.wakeAttachmentQuery, input: check.empty,
+        output: check.object({ eligible: check.boolean }), status: 200, collection: false, permissions: ['wake-delivery.receive.self'], description: 'Recheck scheduled input before publication' }),
+    acknowledgeWake: operation({ method: 'PUT', path: '/api/agents/{agentId}/wake-deliveries/{deliveryId}/receipt', auth: 'agent',
+        params: check.object({ agentId: check.identifier, deliveryId: check.identifier }), query: query.none, input: wake.wakeAttachment,
+        output: res.recorded, status: 200, collection: false, permissions: ['wake-delivery.receive.self'], description: 'Report exact native scheduled-input receipt' }),
+    createSession: operation({ method: 'POST', path: '/api/sessions', auth: 'public',
+        params: check.empty, query: query.none, input: req.session, output: res.session,
+        status: 201, collection: false, permissions: [], description: 'Human login' }),
+    currentSession: operation({ method: 'GET', path: '/api/sessions/current', auth: 'human',
+        params: check.empty, query: query.none, input: check.empty, output: res.session,
+        status: 200, collection: false, permissions: [], description: 'Current human session' }),
+    endSession: operation({ method: 'DELETE', path: '/api/sessions/current', auth: 'human',
+        params: check.empty, query: query.none, input: check.empty, output: res.acknowledged,
+        status: 200, collection: false, permissions: [], description: 'End this session' }),
+    principals: operation({ method: 'GET', path: '/api/principals', auth: 'either',
+        params: check.empty, query: query.principals, input: check.empty, output: check.list(res.principal, 100),
+        status: 200, collection: true, permissions: ['principal.read'], description: 'Identity discovery' }),
+    resolvePrincipals: operation({ method: 'POST', path: '/api/principal-resolutions', auth: 'either',
+        params: check.empty, query: query.none, input: req.principalResolution, output: res.principalIdentities,
+        status: 200, collection: false, permissions: ['principal.read'], description: 'Resolve verified sender kinds and agent owners' }),
+    roles: operation({ method: 'GET', path: '/api/roles', auth: 'either',
+        params: check.empty, query: query.none, input: check.empty, output: check.list(res.role, 3),
+        status: 200, collection: false, permissions: ['principal.read'], description: 'Applicable roles' }),
+    permissions: operation({ method: 'GET', path: '/api/permissions', auth: 'either',
+        params: check.empty, query: query.none, input: check.empty, output: check.list(res.permission, 100),
+        status: 200, collection: false, permissions: ['principal.read'], description: 'Permission catalog' }),
+    members: operation({ method: 'GET', path: '/api/members', auth: 'human',
+        params: check.empty, query: query.page, input: check.empty, output: check.list(res.member, 100),
+        status: 200, collection: true, permissions: ['member.manage'], description: 'Members' }),
+    member: operation({ method: 'GET', path: '/api/members/{memberId}', auth: 'human',
+        params: check.object({ memberId: check.identifier }), query: query.none, input: check.empty, output: res.member,
+        status: 200, collection: false, permissions: ['member.manage'], description: 'Member details' }),
+    changeMember: operation({ method: 'PATCH', path: '/api/members/{memberId}', auth: 'human',
+        params: check.object({ memberId: check.identifier }), query: query.none, input: req.memberChange, output: res.member,
+        status: 202, collection: false, permissions: ['member.manage'], description: 'Change member' }),
+    memberRole: operation({ method: 'PUT', path: '/api/members/{memberId}/role', auth: 'human',
+        params: check.object({ memberId: check.identifier }), query: query.none, input: req.memberRole, output: res.member,
+        status: 200, collection: false, permissions: ['member.manage'], description: 'Assign human role' }),
+    createInvitation: operation({ method: 'POST', path: '/api/member-invitations', auth: 'human',
+        params: check.empty, query: query.none, input: req.memberInvitation, output: res.invitationCreated,
+        status: 201, collection: false, permissions: ['member.invite'], description: 'Create signup invitation' }),
+    invitations: operation({ method: 'GET', path: '/api/member-invitations', auth: 'human',
+        params: check.empty, query: query.page, input: check.empty, output: check.list(res.invitation, 100),
+        status: 200, collection: true, permissions: ['member.invite'], description: 'Signup invitations' }),
+    invitation: operation({ method: 'GET', path: '/api/member-invitations/{invitationId}', auth: 'human',
+        params: check.object({ invitationId: check.identifier }), query: query.none, input: check.empty, output: res.invitation,
+        status: 200, collection: false, permissions: ['member.invite'], description: 'Signup invitation' }),
+    revokeInvitation: operation({ method: 'DELETE', path: '/api/member-invitations/{invitationId}', auth: 'human',
+        params: check.object({ invitationId: check.identifier }), query: query.none, input: check.empty, output: res.acknowledged,
+        status: 202, collection: false, permissions: ['member.invite'], description: 'Revoke signup invitation' }),
+    claimInvitation: operation({ method: 'POST', path: '/api/member-invitations/{invitationId}/claim', auth: 'public',
+        params: check.object({ invitationId: check.identifier }), query: query.none, input: req.invitationClaim, output: res.acknowledged,
+        status: 200, collection: false, permissions: [], description: 'Authorize normal Element signup with a private invitation' }),
+    registrationPolicy: operation({ method: 'GET', path: '/api/registration-policy', auth: 'public',
+        params: check.empty, query: query.none, input: check.empty, output: check.object({ signupMode: check.choice('invitation', 'open') }),
+        status: 200, collection: false, permissions: [], description: 'Public signup availability' }),
+    preflight: operation({ method: 'POST', path: '/api/enrollments/preflight', auth: 'public',
+        params: check.empty, query: query.none, input: req.preflight, output: res.preflight,
+        status: 200, collection: false, permissions: [], description: 'Check exact roster without mutation' }),
+    introduceEnrollment: operation({ method: 'POST', path: '/api/enrollments', auth: 'public',
+        params: check.empty, query: query.none, input: req.enrollment, output: res.enrollmentIntroduction,
+        status: 201, collection: false, permissions: [], description: 'Introduce exact roster' }),
+    enrollments: operation({ method: 'GET', path: '/api/enrollments', auth: 'human',
+        params: check.empty, query: query.scoped, input: check.empty, output: check.list(res.enrollment, 100),
+        status: 200, collection: true, permissions: ['enrollment.read.owned', 'enrollment.read.any'], description: 'Enrollment requests' }),
+    enrollment: operation({ method: 'GET', path: '/api/enrollments/{enrollmentId}', auth: 'human',
+        params: check.object({ enrollmentId: check.identifier }), query: query.none, input: check.empty, output: res.enrollmentDetails,
+        status: 200, collection: false, permissions: ['enrollment.read.owned', 'enrollment.read.any'], description: 'Enrollment roster' }),
+    decideEnrollment: operation({ method: 'POST', path: '/api/enrollments/{enrollmentId}/decision', auth: 'human',
+        params: check.object({ enrollmentId: check.identifier }), query: query.none, input: req.enrollmentDecision, output: res.enrollmentDecision,
+        status: 202, collection: false, permissions: ['enrollment.approve.owned', 'enrollment.reject.owned', 'enrollment.reject.any'], description: 'Decide exact enrollment' }),
+    exchangeEnrollment: operation({ method: 'POST', path: '/api/enrollments/{enrollmentId}/exchange', auth: 'public',
+        params: check.object({ enrollmentId: check.identifier }), query: query.none, input: req.exchange, output: res.enrollmentExchange,
+        status: 200, collection: false, permissions: [], description: 'Exchange private claim' }),
+    fleets: operation({ method: 'GET', path: '/api/fleets', auth: 'human',
+        params: check.empty, query: query.fleets, input: check.empty, output: check.list(res.fleet, 100),
+        status: 200, collection: true, permissions: ['agent.read.owned', 'agent.read.any'], description: 'Fleet directory' }),
+    fleet: operation({ method: 'GET', path: '/api/fleets/{fleetId}', auth: 'fleet',
+        params: check.object({ fleetId: check.identifier }), query: query.none, input: check.empty, output: res.fleet,
+        status: 200, collection: false, permissions: ['agent.read.owned', 'agent.read.any'], description: 'Fleet details' }),
+    changeFleet: operation({ method: 'PATCH', path: '/api/fleets/{fleetId}', auth: 'fleet',
+        params: check.object({ fleetId: check.identifier }), query: query.none, input: req.fleetChange, output: res.fleet,
+        status: 200, collection: false, permissions: ['agent.configure.owned', 'agent.configure.any'], description: 'Update fleet reporting metadata' }),
+    archiveFleet: operation({ method: 'POST', path: '/api/fleets/{fleetId}/archive', auth: 'fleet',
+        params: check.object({ fleetId: check.identifier }), query: query.none, input: req.fleetArchive, output: res.acknowledged,
+        status: 200, collection: false, permissions: ['agent.configure.owned', 'agent.configure.any'], description: 'Decommission a fleet, preserving identity and history' }),
+    fleetMap: operation({ method: 'GET', path: '/api/fleets/{fleetId}/map', auth: 'human',
+        params: check.object({ fleetId: check.identifier }), query: query.none, input: check.empty, output: fleetMap,
+        status: 200, collection: false, permissions: ['agent.read.owned', 'agent.read.any'], description: 'Fleet connection map' }),
+    fleetStatistics: operation({ method: 'GET', path: '/api/fleets/{fleetId}/statistics', auth: 'human',
+        params: check.object({ fleetId: check.identifier }), query: statisticsQuery, input: check.empty, output: fleetStatistics,
+        status: 200, collection: false, permissions: ['agent.read.owned', 'agent.read.any'], description: 'Periodic fleet traffic and native usage summaries' }),
+    fleetAgents: operation({ method: 'GET', path: '/api/fleets/{fleetId}/agents', auth: 'fleet',
+        params: check.object({ fleetId: check.identifier }), query: query.page, input: check.empty, output: check.list(res.fleetAgent, 100),
+        status: 200, collection: true, permissions: ['agent.read.owned', 'agent.read.any'], description: 'Fleet members' }),
+    changeFleetDelivery: operation({ method: 'PUT', path: '/api/fleets/{fleetId}/delivery', auth: 'fleet',
+        params: check.object({ fleetId: check.identifier }), query: query.none, input: fleetControl.deliveryChange, output: fleetControl.fleetControl,
+        status: 200, collection: false, permissions: ['agent.configure.owned', 'agent.configure.any'], description: 'Activate or deactivate fleet listener delivery' }),
+    reportFleetConnection: operation({ method: 'PUT', path: '/api/fleets/{fleetId}/controller-connections/{connectionId}', auth: 'fleet',
+        params: check.object({ fleetId: check.identifier, connectionId: check.identifier }), query: query.none, input: fleetControl.connectionReport, output: fleetControl.fleetControl,
+        status: 200, collection: false, permissions: [], description: 'Exclusive authenticated controller lease' }),
+    fleetControl: operation({ method: 'GET', path: '/api/fleets/{fleetId}/control', auth: 'fleet',
+        params: check.object({ fleetId: check.identifier }), query: fleetControl.controlQuery, input: check.empty, output: fleetControl.fleetControlSnapshot,
+        status: 200, collection: false, permissions: [], description: 'Live controller delivery and message long poll' }),
+    fleetMessages: operation({ method: 'GET', path: '/api/fleets/{fleetId}/messages', auth: 'fleet',
+        params: check.object({ fleetId: check.identifier }), query: fleetControl.messagePage, input: check.empty, output: check.list(fleetControl.fleetMessageSummary, 10),
+        status: 200, collection: true, permissions: ['agent.read.owned', 'agent.read.any'], description: 'Paginated fleet message receipt history' }),
+    createFleetMessage: operation({ method: 'POST', path: '/api/fleets/{fleetId}/messages', auth: 'fleet',
+        params: check.object({ fleetId: check.identifier }), query: query.none, input: fleetControl.messageCreation, output: fleetControl.fleetMessageSummary,
+        status: 201, collection: false, permissions: ['agent.configure.owned', 'agent.configure.any'], description: 'Explicit idempotent direct fleet input' }),
+    acknowledgeFleetMessage: operation({ method: 'PUT', path: '/api/fleets/{fleetId}/messages/{messageId}/deliveries/{agentId}', auth: 'fleet',
+        params: check.object({ fleetId: check.identifier, messageId: check.identifier, agentId: check.identifier }), query: query.none, input: fleetControl.receiptReport, output: res.recorded,
+        status: 200, collection: false, permissions: [], description: 'Controller reports an exact recipient receipt' }),
+    removeFleetAgent: operation({ method: 'DELETE', path: '/api/fleets/{fleetId}/agents/{agentId}', auth: 'fleet',
+        params: check.object({ fleetId: check.identifier, agentId: check.identifier }), query: query.none, input: req.fleetAgentRemoval, output: res.acknowledged,
+        status: 200, collection: false, permissions: ['agent.configure.owned', 'agent.configure.any'], description: 'Retire a managed instance, preserving identity and history' }),
+    agents: operation({ method: 'GET', path: '/api/agents', auth: 'human',
+        params: check.empty, query: query.agents, input: check.empty, output: check.list(res.agent, 100),
+        status: 200, collection: true, permissions: ['agent.read.owned', 'agent.read.any'], description: 'Agent directory' }),
+    agent: operation({ method: 'GET', path: '/api/agents/{agentId}', auth: 'either',
+        params: check.object({ agentId: check.identifier }), query: query.none, input: check.empty, output: res.agent,
+        status: 200, collection: false, permissions: ['agent.read.self', 'agent.read.owned', 'agent.read.any'], description: 'Agent details' }),
+    changeAgent: operation({ method: 'PATCH', path: '/api/agents/{agentId}', auth: 'human',
+        params: check.object({ agentId: check.identifier }), query: query.none, input: req.agentChange, output: res.agent,
+        status: 202, collection: false, permissions: ['agent.configure.owned', 'agent.configure.any'], description: 'Change agent lifecycle or name' }),
+    wakePolicy: operation({ method: 'GET', path: '/api/agents/{agentId}/wake-policy', auth: 'either',
+        params: check.object({ agentId: check.identifier }), query: query.none, input: check.empty, output: res.wakePolicy,
+        status: 200, collection: false, permissions: ['agent.read.self', 'agent.read.owned', 'agent.read.any'], description: 'Wake policy' }),
+    changeWakePolicy: operation({ method: 'PUT', path: '/api/agents/{agentId}/wake-policy', auth: 'human',
+        params: check.object({ agentId: check.identifier }), query: query.none, input: req.wakePolicy, output: res.wakePolicy,
+        status: 200, collection: false, permissions: ['agent.configure.owned', 'agent.configure.any'], description: 'Replace wake policy' }),
+    deliveryPolicy: operation({ method: 'GET', path: '/api/agents/{agentId}/delivery-policy', auth: 'agent',
+        params: check.object({ agentId: check.identifier }), query: query.none, input: check.empty, output: res.deliveryPolicy,
+        status: 200, collection: false, permissions: ['agent.read.self'], description: 'Resolved listener delivery policy' }),
+    rooms: operation({ method: 'GET', path: '/api/rooms', auth: 'human',
+        params: check.empty, query: query.rooms, input: check.empty, output: check.list(res.room, 100),
+        status: 200, collection: true, permissions: ['room.manage.native'], description: 'Native rooms' }),
+    room: operation({ method: 'GET', path: '/api/rooms/{roomId}', auth: 'human',
+        params: check.object({ roomId: check.roomId }), query: query.roomContext, input: check.empty, output: res.room,
+        status: 200, collection: false, permissions: ['room.manage.native'], description: 'Native room details' }),
+    grants: operation({ method: 'GET', path: '/api/agents/{agentId}/room-grants', auth: 'either',
+        params: check.object({ agentId: check.identifier }), query: query.roomGrants, input: check.empty, output: check.list(res.grantView, 100),
+        status: 200, collection: true, permissions: ['agent.read.self', 'agent.read.owned', 'agent.read.any'], description: 'Agent room grants' }),
+    grant: operation({ method: 'GET', path: '/api/agents/{agentId}/room-grants/{roomId}', auth: 'either',
+        params: check.object({ agentId: check.identifier, roomId: check.roomId }), query: query.none, input: check.empty, output: res.grantView,
+        status: 200, collection: false, permissions: ['agent.read.self', 'agent.read.owned', 'agent.read.any', 'room.agent.invite'], description: 'One agent room grant' }),
+    setGrant: operation({ method: 'PUT', path: '/api/agents/{agentId}/room-grants/{roomId}', auth: 'either',
+        params: check.object({ agentId: check.identifier, roomId: check.roomId }), query: query.none, input: req.roomGrant, output: res.grantView,
+        status: 202, collection: false, permissions: ['agent.room-grant.manage.owned', 'agent.room-grant.manage.any', 'room.agent.invite'], description: 'Set agent room grant' }),
+    removeGrant: operation({ method: 'DELETE', path: '/api/agents/{agentId}/room-grants/{roomId}', auth: 'either',
+        params: check.object({ agentId: check.identifier, roomId: check.roomId }), query: query.none, input: req.removeGrant, output: res.grantView,
+        status: 202, collection: false, permissions: ['agent.room-grant.manage.owned', 'agent.room-grant.manage.any', 'room.agent.invite'], description: 'Remove agent room grant' }),
+    grantPermissions: operation({ method: 'GET', path: '/api/agents/{agentId}/room-grants/{roomId}/permissions', auth: 'human',
+        params: check.object({ agentId: check.identifier, roomId: check.roomId }), query: query.none, input: check.empty, output: res.grantView,
+        status: 200, collection: false, permissions: ['agent.read.owned', 'agent.read.any'], description: 'Scoped permission assignment' }),
+    acceptRoomInvitation: operation({ method: 'POST', path: '/api/agents/{agentId}/room-invitation-acceptances', auth: 'agent',
+        params: check.object({ agentId: check.identifier }), query: query.none, input: check.object({ roomId: check.roomId }),
+        output: check.object({ accepted: check.boolean }), status: 200, collection: false,
+        permissions: ['room-invitation.accept.self'], description: 'Accept a verified native invitation with read-and-reply access' }),
+    ownerConversation: operation({ method: 'POST', path: '/api/agents/{agentId}/owner-conversation', auth: 'agent',
+        params: check.object({ agentId: check.identifier }), query: query.none, input: check.empty, output: check.object({ roomId: check.roomId }),
+        status: 200, collection: false, permissions: ['owner-conversation.ensure.self'], description: 'Create or reuse the private owner DM for an actual permission request' }),
+    setGrantPermissions: operation({ method: 'PUT', path: '/api/agents/{agentId}/room-grants/{roomId}/permissions', auth: 'human',
+        params: check.object({ agentId: check.identifier, roomId: check.roomId }), query: query.none, input: req.roomPermissions, output: res.grantView,
+        status: 202, collection: false, permissions: ['agent.room-grant.manage.owned', 'agent.room-grant.manage.any'], description: 'Replace scoped permission assignment' }),
+    previewGrants: operation({ method: 'POST', path: '/api/room-grant-previews', auth: 'human',
+        params: check.empty, query: query.none, input: req.planPreview, output: plan.preview,
+        status: 200, collection: false, permissions: ['agent.room-grant.manage.owned', 'agent.room-grant.manage.any'], description: 'Review complete room plan' }),
+    applyGrants: operation({ method: 'POST', path: '/api/room-grant-changes', auth: 'human',
+        params: check.empty, query: query.none, input: req.planChange, output: plan.changed,
+        status: 202, collection: false, permissions: ['agent.room-grant.manage.owned', 'agent.room-grant.manage.any'], description: 'Apply reviewed room plan' }),
+    listenerRuns: operation({ method: 'GET', path: '/api/agents/{agentId}/listener-runs', auth: 'either',
+        params: check.object({ agentId: check.identifier }), query: query.page, input: check.empty, output: check.list(res.listenerRun, 100),
+        status: 200, collection: true, permissions: ['agent.read.self', 'agent.read.owned', 'agent.read.any'], description: 'Listener history' }),
+    reportListener: operation({ method: 'PUT', path: '/api/agents/{agentId}/listener-runs/{runId}', auth: 'agent',
+        params: check.object({ agentId: check.identifier, runId: check.identifier }), query: query.none, input: req.heartbeat, output: res.report,
+        status: 200, collection: false, permissions: ['listener.report.self'], description: 'Report this listener' }),
+    wakeNotice: operation({ method: 'PUT', path: '/api/agents/{agentId}/wake-notices/{eventId}', auth: 'agent',
+        params: check.object({ agentId: check.identifier, eventId: check.eventId }), query: query.none, input: req.wakeNotice, output: res.notice,
+        status: 202, collection: false, permissions: ['wake-notice.publish.self'], description: 'Idempotent blocked mention response' }),
+    policy: operation({ method: 'GET', path: '/api/instance-policy', auth: 'human',
+        params: check.empty, query: query.none, input: check.empty, output: res.policy,
+        status: 200, collection: false, permissions: ['principal.read'], description: 'Instance policy' }),
+    changePolicy: operation({ method: 'PATCH', path: '/api/instance-policy', auth: 'human',
+        params: check.empty, query: query.none, input: req.policy, output: res.policy,
+        status: 200, collection: false, permissions: ['policy.manage'], description: 'Change instance policy' }),
+    audit: operation({ method: 'GET', path: '/api/audit-events', auth: 'human',
+        params: check.empty, query: query.scoped, input: check.empty, output: check.list(res.audit, 100),
+        status: 200, collection: true, permissions: ['audit.read.owned', 'audit.read.any'], description: 'Scoped audit events' }),
+    release: operation({ method: 'GET', path: '/api/releases/current', auth: 'public',
+        params: check.empty, query: query.none, input: check.empty, output: manifest,
+        status: 200, collection: false, permissions: [], description: 'Current client release' }),
+    health: operation({ method: 'GET', path: '/api/health', auth: 'public',
+        params: check.empty, query: query.none, input: check.empty, output: check.object({ instance: check.name, release: check.text(200), version: check.text(40), startedAt: check.integer(),
+            loggingRetentionDays: check.integer(1), loggingError: check.nullable(check.text(4096)) }),
+        status: 200, collection: false, permissions: [], description: 'Service readiness' }),
+}
+```
+
+Related definitions:
+
+- [`operation`](/docs/api/schemas/crossfire-contracts-rest-operation/#operation)
+- [`object`](/docs/api/schemas/crossfire-contracts-schema-validation/#object)
+- [`identifier`](/docs/api/schemas/crossfire-contracts-schema-validation/#identifier)
+- [`none`](/docs/api/schemas/crossfire-contracts-schema-query/#none)
+- [`recorded`](/docs/api/schemas/crossfire-contracts-schema-response/#recorded)
+- [`empty`](/docs/api/schemas/crossfire-contracts-schema-validation/#empty)
+- [`publicationCreation`](/docs/api/schemas/crossfire-contracts-publication/#publicationCreation)
+- [`publicationDetails`](/docs/api/schemas/crossfire-contracts-publication/#publicationDetails)
+- [`publicationQuery`](/docs/api/schemas/crossfire-contracts-publication/#publicationQuery)
+- [`list`](/docs/api/schemas/crossfire-contracts-schema-validation/#list)
+- [`publicationSummary`](/docs/api/schemas/crossfire-contracts-publication/#publicationSummary)
+- [`PUBLICATION_LIMITS`](/docs/api/schemas/crossfire-domain-publication-values/#PUBLICATION_LIMITS)
+- [`binaryInput`](/docs/api/schemas/crossfire-contracts-rest-binary/#binaryInput)
+- [`boolean`](/docs/api/schemas/crossfire-contracts-schema-validation/#boolean)
+- [`publicationMutation`](/docs/api/schemas/crossfire-contracts-publication/#publicationMutation)
+- [`page`](/docs/api/schemas/crossfire-contracts-schema-query/#page)
+- [`runtimeOperation`](/docs/api/schemas/crossfire-contracts-fleet-runtime/#runtimeOperation)
+- [`runtimeRequest`](/docs/api/schemas/crossfire-contracts-fleet-runtime/#runtimeRequest)
+- [`runtimeClaim`](/docs/api/schemas/crossfire-contracts-fleet-runtime/#runtimeClaim)
+- [`runtimeReceipt`](/docs/api/schemas/crossfire-contracts-fleet-runtime/#runtimeReceipt)
+- [`observations`](/docs/api/schemas/crossfire-contracts-runtime/#observations)
+- [`observation`](/docs/api/schemas/crossfire-contracts-runtime/#observation)
+- [`acknowledged`](/docs/api/schemas/crossfire-contracts-schema-response/#acknowledged)
+- [`runtimeDecisions`](/docs/api/schemas/crossfire-contracts-schema-query/#runtimeDecisions)
+- [`decisionSummary`](/docs/api/schemas/crossfire-contracts-runtime/#decisionSummary)
+- [`decisionCreation`](/docs/api/schemas/crossfire-contracts-runtime/#decisionCreation)
+- [`decisionView`](/docs/api/schemas/crossfire-contracts-runtime/#decisionView)
+- [`decisionSubmission`](/docs/api/schemas/crossfire-contracts-runtime/#decisionSubmission)
+- [`decisionPoll`](/docs/api/schemas/crossfire-contracts-runtime/#decisionPoll)
+- [`decisionReceipt`](/docs/api/schemas/crossfire-contracts-runtime/#decisionReceipt)
+- [`failureReport`](/docs/api/schemas/crossfire-contracts-runtime/#failureReport)
+- [`fleets`](/docs/api/schemas/crossfire-contracts-schema-query/#fleets)
+- [`wakeRuleSummary`](/docs/api/schemas/crossfire-contracts-wake-up/#wakeRuleSummary)
+- [`wakeRuleCreation`](/docs/api/schemas/crossfire-contracts-wake-up/#wakeRuleCreation)
+- [`wakeRuleDetails`](/docs/api/schemas/crossfire-contracts-wake-up/#wakeRuleDetails)
+- [`wakeRuleChange`](/docs/api/schemas/crossfire-contracts-wake-up/#wakeRuleChange)
+- [`wakeRuleRemoval`](/docs/api/schemas/crossfire-contracts-wake-up/#wakeRuleRemoval)
+- [`wakeAttachmentQuery`](/docs/api/schemas/crossfire-contracts-wake-up/#wakeAttachmentQuery)
+- [`wakeMetadata`](/docs/api/schemas/crossfire-contracts-wake-up/#wakeMetadata)
+- [`wakeAttachment`](/docs/api/schemas/crossfire-contracts-wake-up/#wakeAttachment)
+- [`nullable`](/docs/api/schemas/crossfire-contracts-schema-validation/#nullable)
+- [`scheduledWake`](/docs/api/schemas/crossfire-contracts-wake-up/#scheduledWake)
+- [`session`](/docs/api/schemas/crossfire-contracts-schema-request/#session)
+- [`session`](/docs/api/schemas/crossfire-contracts-schema-response/#session)
+- [`principals`](/docs/api/schemas/crossfire-contracts-schema-query/#principals)
+- [`principal`](/docs/api/schemas/crossfire-contracts-schema-response/#principal)
+- [`principalResolution`](/docs/api/schemas/crossfire-contracts-schema-request/#principalResolution)
+- [`principalIdentities`](/docs/api/schemas/crossfire-contracts-schema-response/#principalIdentities)
+- [`role`](/docs/api/schemas/crossfire-contracts-schema-response/#role)
+- [`permission`](/docs/api/schemas/crossfire-contracts-schema-response/#permission)
+- [`member`](/docs/api/schemas/crossfire-contracts-schema-response/#member)
+- [`memberChange`](/docs/api/schemas/crossfire-contracts-schema-request/#memberChange)
+- [`memberRole`](/docs/api/schemas/crossfire-contracts-schema-request/#memberRole)
+- [`memberInvitation`](/docs/api/schemas/crossfire-contracts-schema-request/#memberInvitation)
+- [`invitationCreated`](/docs/api/schemas/crossfire-contracts-schema-response/#invitationCreated)
+- [`invitation`](/docs/api/schemas/crossfire-contracts-schema-response/#invitation)
+- [`invitationClaim`](/docs/api/schemas/crossfire-contracts-schema-request/#invitationClaim)
+- [`choice`](/docs/api/schemas/crossfire-contracts-schema-validation/#choice)
+- [`preflight`](/docs/api/schemas/crossfire-contracts-schema-request/#preflight)
+- [`preflight`](/docs/api/schemas/crossfire-contracts-schema-response/#preflight)
+- [`enrollment`](/docs/api/schemas/crossfire-contracts-schema-request/#enrollment)
+- [`enrollmentIntroduction`](/docs/api/schemas/crossfire-contracts-schema-response/#enrollmentIntroduction)
+- [`scoped`](/docs/api/schemas/crossfire-contracts-schema-query/#scoped)
+- [`enrollment`](/docs/api/schemas/crossfire-contracts-schema-response/#enrollment)
+- [`enrollmentDetails`](/docs/api/schemas/crossfire-contracts-schema-response/#enrollmentDetails)
+- [`enrollmentDecision`](/docs/api/schemas/crossfire-contracts-schema-request/#enrollmentDecision)
+- [`enrollmentDecision`](/docs/api/schemas/crossfire-contracts-schema-response/#enrollmentDecision)
+- [`exchange`](/docs/api/schemas/crossfire-contracts-schema-request/#exchange)
+- [`enrollmentExchange`](/docs/api/schemas/crossfire-contracts-schema-response/#enrollmentExchange)
+- [`fleet`](/docs/api/schemas/crossfire-contracts-schema-response/#fleet)
+- [`fleetChange`](/docs/api/schemas/crossfire-contracts-schema-request/#fleetChange)
+- [`fleetArchive`](/docs/api/schemas/crossfire-contracts-schema-request/#fleetArchive)
+- [`fleetMap`](/docs/api/schemas/crossfire-contracts-schema-fleet-map/#fleetMap)
+- [`fleetStatistics`](/docs/api/schemas/crossfire-contracts-statistics/#fleetStatistics)
+- [`statisticsQuery`](/docs/api/schemas/crossfire-contracts-statistics/#statisticsQuery)
+- [`fleetAgent`](/docs/api/schemas/crossfire-contracts-schema-response/#fleetAgent)
+- [`deliveryChange`](/docs/api/schemas/crossfire-contracts-fleet-control/#deliveryChange)
+- [`fleetControl`](/docs/api/schemas/crossfire-contracts-fleet-control/#fleetControl)
+- [`connectionReport`](/docs/api/schemas/crossfire-contracts-fleet-control/#connectionReport)
+- [`controlQuery`](/docs/api/schemas/crossfire-contracts-fleet-control/#controlQuery)
+- [`fleetControlSnapshot`](/docs/api/schemas/crossfire-contracts-fleet-control/#fleetControlSnapshot)
+- [`messagePage`](/docs/api/schemas/crossfire-contracts-fleet-control/#messagePage)
+- [`fleetMessageSummary`](/docs/api/schemas/crossfire-contracts-fleet-control/#fleetMessageSummary)
+- [`messageCreation`](/docs/api/schemas/crossfire-contracts-fleet-control/#messageCreation)
+- [`receiptReport`](/docs/api/schemas/crossfire-contracts-fleet-control/#receiptReport)
+- [`fleetAgentRemoval`](/docs/api/schemas/crossfire-contracts-schema-request/#fleetAgentRemoval)
+- [`agents`](/docs/api/schemas/crossfire-contracts-schema-query/#agents)
+- [`agent`](/docs/api/schemas/crossfire-contracts-schema-response/#agent)
+- [`agentChange`](/docs/api/schemas/crossfire-contracts-schema-request/#agentChange)
+- [`wakePolicy`](/docs/api/schemas/crossfire-contracts-schema-response/#wakePolicy)
+- [`wakePolicy`](/docs/api/schemas/crossfire-contracts-schema-request/#wakePolicy)
+- [`deliveryPolicy`](/docs/api/schemas/crossfire-contracts-schema-response/#deliveryPolicy)
+- [`rooms`](/docs/api/schemas/crossfire-contracts-schema-query/#rooms)
+- [`room`](/docs/api/schemas/crossfire-contracts-schema-response/#room)
+- [`roomId`](/docs/api/schemas/crossfire-contracts-schema-validation/#roomId)
+- [`roomContext`](/docs/api/schemas/crossfire-contracts-schema-query/#roomContext)
+- [`roomGrants`](/docs/api/schemas/crossfire-contracts-schema-query/#roomGrants)
+- [`grantView`](/docs/api/schemas/crossfire-contracts-schema-response/#grantView)
+- [`roomGrant`](/docs/api/schemas/crossfire-contracts-schema-request/#roomGrant)
+- [`removeGrant`](/docs/api/schemas/crossfire-contracts-schema-request/#removeGrant)
+- [`roomPermissions`](/docs/api/schemas/crossfire-contracts-schema-request/#roomPermissions)
+- [`planPreview`](/docs/api/schemas/crossfire-contracts-schema-request/#planPreview)
+- [`preview`](/docs/api/schemas/crossfire-contracts-schema-plan/#preview)
+- [`planChange`](/docs/api/schemas/crossfire-contracts-schema-request/#planChange)
+- [`changed`](/docs/api/schemas/crossfire-contracts-schema-plan/#changed)
+- [`listenerRun`](/docs/api/schemas/crossfire-contracts-schema-response/#listenerRun)
+- [`heartbeat`](/docs/api/schemas/crossfire-contracts-schema-request/#heartbeat)
+- [`report`](/docs/api/schemas/crossfire-contracts-schema-response/#report)
+- [`eventId`](/docs/api/schemas/crossfire-contracts-schema-validation/#eventId)
+- [`wakeNotice`](/docs/api/schemas/crossfire-contracts-schema-request/#wakeNotice)
+- [`notice`](/docs/api/schemas/crossfire-contracts-schema-response/#notice)
+- [`policy`](/docs/api/schemas/crossfire-contracts-schema-response/#policy)
+- [`policy`](/docs/api/schemas/crossfire-contracts-schema-request/#policy)
+- [`audit`](/docs/api/schemas/crossfire-contracts-schema-response/#audit)
+- [`manifest`](/docs/api/schemas/crossfire-contracts-release/#manifest)
+- [`name`](/docs/api/schemas/crossfire-contracts-schema-validation/#name)
+- [`text`](/docs/api/schemas/crossfire-contracts-schema-validation/#text)
+- [`integer`](/docs/api/schemas/crossfire-contracts-schema-validation/#integer)
+
+## OperationName {#OperationName}
+
+```typescript
+export type OperationName = keyof typeof operations;
+```
+
+Related definitions:
+
+- [`operations`](/docs/api/schemas/crossfire-contracts-rest-operations/#operations)

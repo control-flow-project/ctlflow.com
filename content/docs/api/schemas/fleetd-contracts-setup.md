@@ -1,0 +1,72 @@
+---
+title: "fleetd/node/packages/contracts/src/setup.ts"
+linkTitle: "setup"
+description: "Exact executable parser definitions and their imported contracts. Custom code is retained; no omitted checks are implied by field summaries."
+sourceProject: "ctlflow"
+sourcePath: "services/fleetd/node/packages/contracts/src/setup.ts"
+generated: true
+---
+
+
+## How to read this page
+
+These are the actual contract definitions at the documented source revision. They are reference text, not a distributed JavaScript SDK. All server implementations must enforce the same observable contract. `check.object` rejects unknown fields; custom functions and refinements remain part of validation.
+
+### Imported definitions
+
+- [`services/crossfire/node/packages/contracts/src/schema/validation.ts`](/docs/api/schemas/crossfire-contracts-schema-validation/)
+- [`services/crossfire/node/packages/kernel/src/result.ts`](/docs/api/schemas/crossfire-kernel-result/)
+- [`services/crossfire/node/packages/contracts/src/onboarding.ts`](/docs/api/schemas/crossfire-contracts-onboarding/)
+- [`services/crossfire/node/packages/contracts/src/origin.ts`](/docs/api/schemas/crossfire-contracts-origin/)
+
+## setupInput {#setupInput}
+
+```typescript
+setupInput = check.object({ descriptor: setupDescriptorSchema, workspace: check.text(4096), configuration: check.optional(check.text(4096)) })
+```
+
+Related definitions:
+
+- [`object`](/docs/api/schemas/crossfire-contracts-schema-validation/#object)
+- [`setupDescriptorSchema`](/docs/api/schemas/crossfire-contracts-onboarding/#setupDescriptorSchema)
+- [`text`](/docs/api/schemas/crossfire-contracts-schema-validation/#text)
+- [`optional`](/docs/api/schemas/crossfire-contracts-schema-validation/#optional)
+
+## SetupInput {#SetupInput}
+
+```typescript
+export type SetupInput = check.Parsed<typeof setupInput>;
+```
+
+Related definitions:
+
+- [`setupInput`](/docs/api/schemas/fleetd-contracts-setup/#setupInput)
+
+## descriptorUrl {#descriptorUrl}
+
+```typescript
+export function descriptorUrl(value: string): Result<URL> {
+    try {
+        const url = new URL(value), trusted = endpoint(url.origin), owner = check.matrixUserId(url.searchParams.get('ownerMatrixId'));
+        if (!trusted.ok)
+            return trusted;
+        if (!owner.ok)
+            return owner;
+        if (url.pathname !== '/onboarding/setup.json' || url.username || url.password || url.hash || [...url.searchParams.keys()].length !== 1
+            || url.searchParams.getAll('ownerMatrixId').length !== 1)
+            return failure('invalid', 'Use the personalized Crossfire setup descriptor URL');
+        return success(url);
+    }
+    catch {
+        return failure('invalid', 'Invalid Crossfire setup descriptor URL');
+    }
+}
+```
+
+Related definitions:
+
+- [`Result`](/docs/api/schemas/crossfire-kernel-result/#Result)
+- [`endpoint`](/docs/api/schemas/crossfire-contracts-origin/#endpoint)
+- [`matrixUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#matrixUserId)
+- [`failure`](/docs/api/schemas/crossfire-kernel-result/#failure)
+- [`success`](/docs/api/schemas/crossfire-kernel-result/#success)
