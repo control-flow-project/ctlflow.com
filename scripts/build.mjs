@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import { verifyStored } from "./docs/stored.mjs";
 import { siteOrigin } from "./build-options.mjs";
 import { verifyFleetStreet } from "./fleet-street.mjs";
+import { verifyPublishedArtwork } from "./artwork.mjs";
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 verifyStored(root);
@@ -20,4 +21,5 @@ const result = spawnSync(executable, ["--gc", "--minify", "--panicOnWarning", "-
 });
 if (result.error) throw result.error;
 if (result.status !== 0) process.exit(result.status ?? 1);
-console.log(JSON.stringify({ hugo: expectedVersion, baseURL, output: "public" }));
+const artwork = verifyPublishedArtwork(root);
+console.log(JSON.stringify({ hugo: expectedVersion, baseURL, output: "public", artwork }));

@@ -1,5 +1,6 @@
 ---
 title: fleet
+artwork: fleet
 description: Set up, inspect and control agent fleets from the command line.
 weight: 40
 ---

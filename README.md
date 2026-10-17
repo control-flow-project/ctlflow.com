@@ -14,6 +14,8 @@ uses no external fonts, analytics or remote diagram rendering.
 - [fleet-street integration and homepage verification](docs/verification/20261017-fleet-street.md)
 - [Agent fleet terminology verification](docs/verification/20261017-agent-fleet-wording.md)
 - [Documentation copy review](docs/verification/20261017-reader-copy-review.md)
+- [Landing artwork and responsive assets](docs/artwork.md)
+- [Landing artwork verification](docs/verification/20261017-landing-art.md)
 
 ## Requirements
 
@@ -60,6 +62,9 @@ It is development tooling, not a service shipped with ctlflow or Toolsmith.
 The site defaults to a white background. Readers can select a green-based dark
 theme; that preference is saved locally and retained across pages. With no
 JavaScript or no saved preference, the site stays light.
+Use heading size, weight, spacing and fine rules to establish hierarchy rather
+than enclosing panels. Code and diagrams may retain useful frames. The message
+flow reads left to right with arrows on wide screens and stacks below 1000 px.
 
 Markdown code fences must declare a language, such as `sh`, `typescript` or
 `python`. Use `text` for directory trees and other plain-text material. Missing
@@ -68,6 +73,18 @@ or unsupported languages fail the build rather than being guessed. The shared
 examples from `assets/examples/`. Syntax colors come from the shared stylesheet,
 not inline styles or browser-side highlighting. Copy buttons retain literal
 source text.
+
+Primary landing pages use transparent pop-art illustrations. The original PNGs
+live in `assets/artwork/`; Hugo generates three local, fingerprinted WebP sizes.
+Technical guides and API references do not load these illustrations. See
+[`docs/artwork.md`](docs/artwork.md) for the asset inventory, placement and exact
+generation prompts.
+Each image has one placement only, including home previews. Production builds
+verify the rendered output and reject repeated illustrations, duplicate source
+bytes, unknown selections or unused registered art.
+On mobile layouts below 1000 px, retain page-level ornamental images but hide
+section ornaments, including the two home previews. Informative images,
+screenshots and diagrams remain content and are not hidden by this policy.
 
 ## Netlify
 

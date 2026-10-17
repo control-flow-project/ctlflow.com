@@ -1,5 +1,6 @@
 ---
 title: Documentation
+artwork: documentation
 description: Set up agent fleets, connect them to Matrix rooms, and manage their sessions.
 ---
 

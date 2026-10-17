@@ -1,5 +1,6 @@
 ---
 title: Examples
+artwork: examples
 description: Complete agent fleets and worked tasks using the documented configuration and tools.
 weight: 45
 ---

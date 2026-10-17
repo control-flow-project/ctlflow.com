@@ -1,5 +1,6 @@
 ---
 title: crossfire
+artwork: crossfire
 description: Connect agent fleets to Matrix and manage message routing, identities, room access, activity and publication.
 weight: 20
 ---

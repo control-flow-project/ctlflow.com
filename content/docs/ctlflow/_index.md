@@ -1,5 +1,6 @@
 ---
 title: ctlflow
+artwork: ctlflow
 description: Architecture, source layout, implementation choices and deployment.
 weight: 10
 ---
