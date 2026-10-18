@@ -2,7 +2,7 @@
   "sources": {
     "ctlflow": {
       "repository": "https://github.com/control-flow-project/ctlflow",
-      "revision": "482dbe4a07d9f864437161016769745527a24aa6",
+      "revision": "74b51eac5493b63832899e319344bf2ec8f37715",
       "version": "0.1.22"
     },
     "toolsmith": {
@@ -27,10 +27,10 @@
     "ctlflow:services/crossfire/database/README.md": "1fffa045bc29fb36ede2276a60b88547944d739e57e445709ba4a70d2fb8362d",
     "ctlflow:services/crossfire/database/management/sqlite/contract.json": "6e52228f702a99975dd6be0f13947fd425e8cd85e7cf84b8b2e86249b43a0a32",
     "ctlflow:services/crossfire/docs/configuration.md": "5642e6daf8b3309a725ffcb7b6be5a9f04e89fb6b03644385bf1c721990735e1",
-    "ctlflow:services/crossfire/docs/container-packages.md": "9ed6da8ace1c7c9b111c789e4152e3f725e9a72691f7a7d87a48c6ff610283b8",
+    "ctlflow:services/crossfire/docs/container-packages.md": "765b40f182e73c5a44a263b6e641cd0419fc87d049a2b701b9dc4679fc36302e",
     "ctlflow:services/crossfire/docs/getting-started.md": "99be693734f7db42020c08b0cea113fd09cfe2eee476fb35474d0f235ecef0c1",
     "ctlflow:services/crossfire/docs/history.md": "814bd0be3435abe23f2a76698f5a248d05fb1b20ca7231d1260fb2c2d22791e8",
-    "ctlflow:services/crossfire/docs/local-docker.md": "bf0863c7e77606c59815c6bde3be7ffb1746c61d42c6a986bfc5412236d0e6e0",
+    "ctlflow:services/crossfire/docs/local-docker.md": "c4b8f5aaf82afa18750d20c868252d70fbd2fce9f027c223e14b7de2ef805bab",
     "ctlflow:services/crossfire/docs/logging.md": "d61993a8942696103f642e460bfc60486459bd41b8a61a1e7c2c8f1af24d9cb2",
     "ctlflow:services/crossfire/docs/management.md": "26655f08a5fc4cd320cacf59c30e1ac2f7d7909ce7bcb178798a785e42507771",
     "ctlflow:services/crossfire/docs/matrix-api.md": "030cbea663efe2bf07170a40a5c534bdeeb21c043f11de7e3216ed79ccbf7e0c",
@@ -279,7 +279,7 @@
     "content/docs/api/schemas/fleetd-contracts-configuration.md": "b260e9ded86503c9e54c15c813d1b3367b0ae41b64be963f132c884fb8b97ef5",
     "content/docs/api/schemas/fleetd-contracts-setup.md": "6db7b7d062b7d6b631c1b0c7a7eb13f89e3d5da20f0a2d6b8c8c6328ac245c8d",
     "data/operations.json": "a6d6f8edee0ac905c9f3a1b3a5a6640ac5e21c51fc14884a6d367526c5a9aad8",
-    "data/sources.json": "763e15a974252ce616ea4a4e7796933d10185601d134c16434aad57aa3919dca"
+    "data/sources.json": "bc394231e322ea57b745fabb40024ee5cafea77e0685edd9b1649455830538e8"
   },
   "counts": {
     "crossfire": 92,

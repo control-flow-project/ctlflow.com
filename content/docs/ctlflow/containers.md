@@ -60,13 +60,15 @@ code; the archive checksum is not authentication of this helper.
 
 ## Format and image contract
 
-Verified generic images may be published under
+The [published 0.1.22 release inventory](https://github.com/control-flow-project/ctlflow/blob/74b51eac5493b63832899e319344bf2ec8f37715/services/crossfire/docs/releases/0.1.22.md)
+records the exact verified generic images under
 `ghcr.io/control-flow-project/crossfire-node`, `crossfire-csharp-managed`,
 `crossfire-csharp-nativeaot`, `crossfire-rust` and `crossfire-migrations`.
-Publication is a separate release operation, not a claim that these references
-are already available. Obtain exact immutable registry manifest digests from the
-trusted publisher. A registry manifest digest and Docker's local image ID name
-different objects; do not substitute one for the other or use `latest`.
+Registry access follows the package's visibility setting. Publication is separate
+from production activation; it does not migrate or restart a deployment.
+Use the recorded immutable registry manifest digests. A registry manifest digest
+and Docker's local image ID name different objects; do not substitute one for the
+other or use `latest`.
 Never publish domain instructions, operating data, site configuration or secrets.
 
 `release.json` is a UTF-8 JSON object of at most 8192 bytes. It has exactly:

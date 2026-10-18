@@ -14,14 +14,22 @@ const read = relative => fs.readFileSync(path.join(root, relative), "utf8");
 test("Docker and setup guides keep server containers separate from host fleets", () => {
   const quickstart = read("content/docs/ctlflow/local-docker.md");
   for (const expected of ["one-shot", "existing native provider login", "fleet runs on the execution host, not in Docker",
-    "CROSSFIRE_RUNTIME_IMAGE", "CROSSFIRE_MIGRATION_IMAGE", "not available published digests", "server-state",
+    "CROSSFIRE_RUNTIME_IMAGE", "CROSSFIRE_MIGRATION_IMAGE", "published release 0.1.22", "server-state",
     "does not stop host agents", "does not install a", "No credential"])
     assert.equal((quickstart + read("content/docs/fleet/setup.md")).includes(expected), true, expected);
   assert.equal(quickstart.includes("docker compose exec"), false);
   assert.equal(quickstart.includes("CTLFLOW_FLEET_IMAGE"), false);
+  assert.equal(quickstart.includes("MANIFEST_DIGEST"), false);
+  assert.match(quickstart, /export CROSSFIRE_RUNTIME_IMAGE=ghcr\.io\/control-flow-project\/crossfire-csharp-nativeaot@sha256:[a-f0-9]{64}\n/u);
+  assert.match(quickstart, /export CROSSFIRE_MIGRATION_IMAGE=ghcr\.io\/control-flow-project\/crossfire-migrations@sha256:[a-f0-9]{64}\n/u);
+  assert.equal(quickstart.includes("Later documentation/onboarding UI changes are not contained in those images."), true);
+  assert.equal(quickstart.includes("private packages need"), true);
   const packages = read("content/docs/ctlflow/containers.md");
   for (const expected of ["Number 2", "configDigest", "descriptorDigest", "org.crossfire.package=1", "Schema 1 is not imported"])
     assert.equal(packages.includes(expected), true, expected);
+  for (const name of ["crossfire-node", "crossfire-csharp-managed", "crossfire-csharp-nativeaot", "crossfire-rust", "crossfire-migrations"])
+    assert.equal(packages.includes(name), true, name + " published image");
+  for (const page of [quickstart, packages]) assert.equal(page.includes("/services/crossfire/docs/releases/0.1.22.md"), true);
   const setup = read("content/docs/fleet/setup.md");
   assert.equal(setup.includes("$HOME/.local/share/ctlflow/releases/<version>/node_modules/.bin/fleet"), true);
   assert.equal(setup.includes("not Codex/Pi"), true);
@@ -176,7 +184,7 @@ test("Netlify headers keep site scripts/assets local and only hashed assets immu
 test("hierarchy and source URLs preserve constituents and Toolsmith optionality", () => {
   const sources = JSON.parse(read("data/sources.json"));
   assert.equal(sources.ctlflow.repository, "https://github.com/control-flow-project/ctlflow");
-  assert.equal(sources.ctlflow.revision, "482dbe4a07d9f864437161016769745527a24aa6");
+  assert.equal(sources.ctlflow.revision, "74b51eac5493b63832899e319344bf2ec8f37715");
   assert.equal(sources.ctlflow.version, "0.1.22");
   assert.equal(sources.toolsmith.revision, "9fb2183fd6c6ff9b7c270314965f83d1ea838abe");
   assert.equal(sources.toolsmith.version, "0.4.1");
