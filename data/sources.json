@@ -1,7 +1,7 @@
 {
   "ctlflow": {
     "repository": "https://github.com/control-flow-project/ctlflow",
-    "revision": "482dbe4a07d9f864437161016769745527a24aa6",
+    "revision": "74b51eac5493b63832899e319344bf2ec8f37715",
     "version": "0.1.22"
   },
   "toolsmith": {

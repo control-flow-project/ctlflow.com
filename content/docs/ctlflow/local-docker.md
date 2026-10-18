@@ -29,23 +29,28 @@ socket into the server. A server container does not sandbox host agents.
 
 ## Select images
 
-The operator obtains the two complete immutable references from the trusted
-release publisher and sets these environment variables in a terminal. These are
-placeholders, not available published digests. GHCR publication is separate from
-building and testing a release; this guide does not claim the images are published.
+The published release 0.1.22 provides these immutable NativeAOT server and shared
+migration references. They select the tested Linux amd64 build from commit
+`401bc39cb0e1ca399056e00c72598cefde9eeb87`, not a build of the latest main branch.
+Later documentation/onboarding UI changes are not contained in those images.
+
+The operator sets these environment variables in a terminal. The
+[release inventory](https://github.com/control-flow-project/ctlflow/blob/74b51eac5493b63832899e319344bf2ec8f37715/services/crossfire/docs/releases/0.1.22.md)
+also lists Node, managed C# and Rust server digests.
 
 ```sh
-export CROSSFIRE_RUNTIME_IMAGE=ghcr.io/control-flow-project/crossfire-csharp-nativeaot@sha256:RUNTIME_MANIFEST_DIGEST
-export CROSSFIRE_MIGRATION_IMAGE=ghcr.io/control-flow-project/crossfire-migrations@sha256:MIGRATION_MANIFEST_DIGEST
+export CROSSFIRE_RUNTIME_IMAGE=ghcr.io/control-flow-project/crossfire-csharp-nativeaot@sha256:f658c1bdaddd30f58edf2d0421ef4b6204f9b2f25254b435a8c3d6c0d975a826
+export CROSSFIRE_MIGRATION_IMAGE=ghcr.io/control-flow-project/crossfire-migrations@sha256:a2e3723374b19f386a33d6f8062306df6efc46809228149060cfde60bfc62bc3
 docker pull \
   "$CROSSFIRE_RUNTIME_IMAGE"
 docker pull \
   "$CROSSFIRE_MIGRATION_IMAGE"
 ```
 
-Authenticate to the registry on the host if required. Registry credentials stay
-outside the containers. Maintainers may instead select exact image IDs from a
-verified local build. Do not substitute `latest` or build a different backend
+Access follows each package's GitHub visibility setting: private packages need
+an authorized host-side GHCR login; public packages allow anonymous pulls.
+Registry credentials stay outside the containers. Maintainers may instead select
+exact image IDs from a verified local build. Do not substitute `latest` or build a different backend
 after an image pull fails.
 
 ## Start a new server

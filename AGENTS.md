@@ -81,7 +81,7 @@ All build/test commands must run in a bounded aggregate process group. On Linux:
 
 ```sh
 systemd-run --user --scope --quiet --property=MemoryMax=8G \
-  --property=MemorySwapMax=0 --property=TasksMax=256 \
+  --property=MemorySwapMax=0 --property=TasksMax=1024 \
   --working-directory=/absolute/ctlflow.com npm run check
 ```
 

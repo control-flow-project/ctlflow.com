@@ -49,7 +49,7 @@ for Linux (replace the absolute checkout directory with your own):
 
 ```sh
 systemd-run --user --scope --quiet \
-  --property=MemoryMax=8G --property=MemorySwapMax=0 --property=TasksMax=256 \
+  --property=MemoryMax=8G --property=MemorySwapMax=0 --property=TasksMax=1024 \
   --working-directory=/absolute/ctlflow.com npm run check
 ```
 
