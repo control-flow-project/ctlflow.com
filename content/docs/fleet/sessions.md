@@ -89,10 +89,10 @@ Start the original controller root after reboot. Durable desired intent restores
 enabled bindings; explicit stopped selections remain stopped.
 No boot service is installed automatically.
 
-A killed Node/C# controller can leave a native writer alive. Its lock prevents
-competing history ownership; resolve that exact process before resuming. The
-Rust Linux adapter binds its owned engine group to the parent lifetime through
-a packaged guard. Tools that escape the group are outside that protection.
+Every implementation binds its owned native engine group to the controller
+lifetime through a packaged guard. Private native-group/history locks prevent
+competing ownership during cleanup. Failed cleanup blocks replacement; never
+bypass a retained lock. Tools that escape the group are outside this protection.
 Retained data alone does not guarantee a provider/native service is available.
 
 - [Controller operations](https://github.com/control-flow-project/ctlflow/blob/main/services/fleetd/docs/operations.md)

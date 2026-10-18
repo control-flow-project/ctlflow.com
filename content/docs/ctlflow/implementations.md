@@ -90,6 +90,12 @@ ingress. Only an immediate peer listed in `trustedProxyAddresses` may supply
 one overwritten `X-Forwarded-For` IP. Untrusted headers cannot select a bucket.
 Node dispatches management requests to the same HTTP handler without another
 loopback proxy.
+Outbound Node Matrix/coordination requests use a pinned published Undici
+dispatcher with HTTP/2 disabled explicitly. This avoids the observed HTTP/2
+stream-error path without patching Node, changing its global dispatcher or
+retrying a failed protocol with another one. TLS verification, authentication,
+body bounds, cancellation and deadlines remain enforced. HTTP/1.1 does not
+provide HTTP/2 multiplexing.
 
 Pagination uses canonical positive decimal strings. Both public and private APIs
 reject signs, leading zeros, exponents, fractions, whitespace, duplicate fields
@@ -97,7 +103,7 @@ and out-of-range values. Empty collections have one logical page.
 
 ## Database
 
-Management SQLite uses application ID `1129465426`, schema 17 and the applied
+Management SQLite uses application ID `1129465426`, schema 18 and the applied
 Knex migration contract. Current metadata describes 63 application tables.
 Knex's own bookkeeping tables are separate. File state and Conduit's externally
 owned RocksDB are not management SQL databases.
@@ -108,13 +114,24 @@ No import/export is needed when changing between verified implementations.
 
 ## .NET dependencies
 
-The SDK is pinned to `11.0.100-rc.1.26425.128`; EF/SQLite packages are pinned
-to `11.0.0-rc.1.26425.128`. Managed initial deployment is permitted.
+The SDK is pinned to `11.0.100-rc.2.26504.105`; EF/SQLite packages are pinned
+to `11.0.0-rc.2.26504.105`. Managed initial deployment is permitted.
 There is no automatic managed fallback inside a NativeAOT executable.
+
+Managed and NativeAOT publication precompile the same fixed EF models and
+queries. Managed publication does not compile query expressions on the request
+path or maintain a second query implementation/cache. Managed products disable
+tiered compilation, producing optimized JIT code at first compilation rather
+than waiting for traffic-driven promotion. This adds first-call compilation work;
+the performance bank measures installed defaults, not test-only tuning.
 
 NativeAOT builds emit trimming and dynamic-code diagnostics from EF and BCL
 reflection paths. Supported fixed queries use generated model and query metadata.
 Tests execute the AOT binaries with dynamic code and reflection-based JSON disabled.
+The pooled SQLite EF options constructor also emits IL2026/IL3050 at compilation.
+Warnings remain visible under the existing linker policy. Managed and NativeAOT
+acceptance exercise independent leases, reset, rollback, connection release and
+privacy revalidation. Passing fixed queries does not certify arbitrary EF models.
 
 | Family | Relevant dependency surface |
 | --- | --- |

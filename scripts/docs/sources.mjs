@@ -10,6 +10,7 @@ export const guideReferences = [
   ["ctlflow","docs/distributions/csharp-nativeaot.md","docs/ctlflow/distributions/csharp-nativeaot.md"],
   ["ctlflow","docs/distributions/rust.md","docs/ctlflow/distributions/rust.md"],
   ["ctlflow","services/crossfire/docs/container-packages.md","docs/ctlflow/containers.md"],
+  ["ctlflow","services/crossfire/docs/local-docker.md","docs/ctlflow/local-docker.md"],
   ["ctlflow","services/crossfire/docs/getting-started.md","docs/crossfire/installation.md"],
   ["ctlflow","services/crossfire/docs/configuration.md","docs/crossfire/configuration.md"],
   ["ctlflow","services/crossfire/docs/management.md","docs/crossfire/management.md"],

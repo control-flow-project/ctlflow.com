@@ -10,7 +10,13 @@ sourcePath: "services/fleet/docs/getting-started.md"
 
 Open crossfire's Set up an agent page. Paste the personalized guide into an agent
 with shell access on your machine. The guide pins the public fleet package to the
-instance's release and runs noninteractive setup:
+instance's release and runs noninteractive setup.
+
+The generated installer uses
+`$HOME/.local/share/ctlflow/releases/<version>/node_modules/.bin/fleet`.
+Its exact fleetd dependency is installed alongside it, without a global install.
+The guide invokes this private executable directly. The following CLI example
+assumes that executable or its directory on your PATH:
 
 ```sh
 fleet setup --descriptor 'https://example.test/onboarding/setup.json?ownerMatrixId=%40member%3Aexample.test'
@@ -25,6 +31,11 @@ Setup asks no configuration questions and makes no model call.
 The agent running setup keeps its own process, history and permissions.
 fleetd creates a separate managed session. Existing approved identity/history
 is reused on repeated setup; an explicitly stopped binding stays stopped.
+Run setup on the computer where agents will execute, not in the crossfire
+container. Docker hosts the server side only. No credential mount, fleet
+container or login copy into Docker is part of this workflow.
+
+- [Local Docker server and host-native fleet](/docs/ctlflow/local-docker/)
 
 ## Prerequisites
 
@@ -41,10 +52,14 @@ question is required. See [controller authentication](/docs/fleetd/authenticatio
 
 - [Installation and packaging by target](https://github.com/control-flow-project/ctlflow/blob/main/docs/distributions/README.md)
 
-The host must already have the selected native runtime and provider login.
+The host must already have Node.js 26+, npm, Git, Bash, the selected native
+runtime and provider login. The guide installs only fleet/fleetd, not Codex/Pi.
 Codex is the default. Pi requires an explicit ordinary roster and verified native
 1.0.0. Setup reports missing prerequisites; it does not silently upgrade a runtime,
 copy the current conversation or weaken native permissions.
+Missing software or login stops setup with an actionable error. The user
+installs the prerequisite or signs in through the native harness, then repeats
+setup. The browser cannot install software on that computer.
 
 ## Optional configuration
 

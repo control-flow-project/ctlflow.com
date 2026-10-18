@@ -13,6 +13,11 @@ products. Node, C# and Rust
 are implementations beneath those owners. Toolsmith is a separate optional
 related project, not a constituent or required fleet dependency.
 
+Docker runs crossfire/Matrix/UI/content and one-shot initialization/migrations
+only. Fleet setup runs on the execution host using its existing supported native
+harness and login; the personalized guide installs only pinned npm fleet/fleetd.
+Do not document a fleet image, relay or provider-credential mount into Docker.
+
 The homepage explains what users can do and how the components connect. Put
 framework, database and migration details in their technical guides, not hero
 taglines. Use complete explanations instead of dot-separated claims or slogans.

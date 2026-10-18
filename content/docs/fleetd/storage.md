@@ -11,6 +11,12 @@ resume selections, operation files, diagnostics and private `fleetd.sock`.
 Registered fleets may live elsewhere. Private state is retained with its owning
 directory; a workarea does not move when native cwd changes.
 
+Startup accepts UUID operation files in `operations/` and daily diagnostic
+partitions in `logs/`. Obsolete `operations.json` and `daemon.log` block startup
+without being read, imported or deleted. Profiles and listener state use only
+immutable instance keys, never a display-name lookup or automatic relocation.
+Resolve unsupported files offline after verifying a private backup.
+
 The OS-user authentication file is outside individual controller roots, at the
 native configuration location ending in `ctlflow/fleetd.json`. fleet and fleetd
 read that same private file. Back it up with the roots and native histories;

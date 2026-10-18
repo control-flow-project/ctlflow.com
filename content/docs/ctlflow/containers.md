@@ -7,6 +7,9 @@ sourcePath: "services/crossfire/docs/container-packages.md"
 ---
 
 crossfire packages a selected server backend and the common Knex migration image.
+For a local server with host-native agents, use the
+[Docker quickstart](/docs/ctlflow/local-docker/). Docker runs the server side
+only; fleet/fleetd and the selected harness use the execution host's native login.
 The deployment host needs rootless Docker and an installed crossfire operator;
 it does not build source or install that server backend's language runtime.
 Node, C# and Rust operators consume the same format and can run any server backend.
@@ -48,33 +51,56 @@ reviewed artifacts rather than maintaining private dependency/source overlays.
 Docker may obtain pinned build dependencies/base images.
 Keep release artifacts in a trusted distribution location. The source uses the
 MIT license.
-The bundled package-tool.mjs is trusted Node.js 26 build-side tooling for verifying
+The bundled package-tool.mjs is trusted Node.js 26 maintenance tooling for verifying
 and exporting branded derivatives without a source checkout. It is not executed
-by the server or required by the C# operator. Trust its publisher as executable
+by the server or required by the C# operator. An activation script can run its
+pure `identities` command in the matching migration image without host Node or
+a mounted Docker socket. Trust its publisher as executable
 code; the archive checksum is not authentication of this helper.
 
 ## Format and image contract
+
+Verified generic images may be published under
+`ghcr.io/control-flow-project/crossfire-node`, `crossfire-csharp-managed`,
+`crossfire-csharp-nativeaot`, `crossfire-rust` and `crossfire-migrations`.
+Publication is a separate release operation, not a claim that these references
+are already available. Obtain exact immutable registry manifest digests from the
+trusted publisher. A registry manifest digest and Docker's local image ID name
+different objects; do not substitute one for the other or use `latest`.
+Never publish domain instructions, operating data, site configuration or secrets.
 
 `release.json` is a UTF-8 JSON object of at most 8192 bytes. It has exactly:
 
 | Field | Meaning |
 | --- | --- |
-| schemaVersion | Number 1 |
+| schemaVersion | Number 2; superseded package formats are rejected |
 | version | Coordinated product version |
 | sourceDigest | Lowercase SHA-256 of the crossfire build input |
 | backend | Explicit backend slug, such as node or csharp-nativeaot |
 | platform | linux/amd64 |
 | archiveSha256 | Lowercase SHA-256 of images.tar |
-| runtimeImage | Exact Docker sha256 image ID |
-| migrationImage | Different exact Docker sha256 image ID |
+| runtime | Runtime image object |
+| migration | Different common Knex image object |
+
+Each image object contains exactly `reference`, `configDigest` and
+`descriptorDigest`. Its package-owned `crossfire-package:` transport tag has a
+64-character lowercase hexadecimal suffix. The two SHA-256 digests identify
+the actual OCI configuration and root descriptor in the archive. They are
+different objects in the same format. Named export references keep both images
+in the OCI index; saving untagged IDs can lose the second entry.
 
 `images.tar` is a regular Docker-save archive, nonempty and at most 16 GiB.
-All three operators verify the archive even when images are cached, load it when
-required, and inspect exact image IDs/platform/labels before stopping any writer.
+All three operators verify the archive even when images are cached and load it
+when required. Classic and containerd image stores expose different native
+identity objects. Each Docker adapter verifies the current store's exact
+configuration/descriptor identity, platform and labels before stopping writers,
+then returns its immutable execution handle. Malformed descriptors fail without
+trying another identity or changing the host store. Schema 1 is not imported.
 Required labels are org.crossfire.package=1, org.opencontainers.image.version,
 org.crossfire.source and org.crossfire.backend. The migration backend is migrations;
 its version/source must equal the selected runtime. A package has no mutable tag
 selection, source-build mode or automatic backend fallback.
+The package label is an image capability marker, not the manifest schema version.
 
 Hashes establish exact bytes, not publisher authentication. Obtain the complete
 directory from a trusted release publisher; changing both the archive and manifest

@@ -39,6 +39,18 @@ answer requests that need your decision.
 Create rooms and manage human membership in Element. crossfire manages agent
 access using room IDs; changing a room title does not change its permissions.
 
+## Set up an agent
+
+`/manage/connect` supplies a personalized guide to paste into an existing agent
+with shell access on the execution host. It installs only pinned npm fleet/fleetd
+in private user-owned storage. Node.js, npm, Git, Bash, the chosen native harness
+and provider login must already be present; missing prerequisites are reported,
+not installed or upgraded. The browser cannot install host software or import
+the setup agent's conversation. The human separately approves the exact roster.
+Docker runs only the server side, not the fleet or harness.
+
+- [Local Docker server and host-native fleet](/docs/ctlflow/local-docker/)
+
 ## Interpret state
 
 Account status, controller lease, reporting listener, native activity and applied

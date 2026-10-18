@@ -13,9 +13,12 @@ fleet validates crossfire's personalized setup descriptor and submits
 An existing agent may execute that command, but its process and
 conversation are never imported or attached.
 
-Management-generated instructions install pinned npm fleet and Node fleetd on
-Linux/macOS, regardless of the crossfire server backend. They impose no .NET or
-Rust prerequisite on the agent executing setup. fleetd initializes its private
+Management supplies a personalized guide; the user's existing agent runs its
+pinned npm installation and setup command on the Linux/macOS execution host.
+The browser/server does not install host software. No .NET/Rust installation is
+needed. The guide installs only fleet/fleetd; the existing Codex/Pi installation
+and native login are prerequisites, not copied into Docker. Missing prerequisites
+are reported instead of installed or upgraded. fleetd initializes its private
 OS-native authentication key before fleet submits the request. Both read the
 same file; the user does not enter or copy a key.
 

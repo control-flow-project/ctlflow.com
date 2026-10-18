@@ -11,6 +11,27 @@ import { guideReferences } from "../scripts/docs/sources.mjs";
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const read = relative => fs.readFileSync(path.join(root, relative), "utf8");
 
+test("Docker and setup guides keep server containers separate from host fleets", () => {
+  const quickstart = read("content/docs/ctlflow/local-docker.md");
+  for (const expected of ["one-shot", "existing native provider login", "fleet runs on the execution host, not in Docker",
+    "CROSSFIRE_RUNTIME_IMAGE", "CROSSFIRE_MIGRATION_IMAGE", "not available published digests", "server-state",
+    "does not stop host agents", "does not install a", "No credential"])
+    assert.equal((quickstart + read("content/docs/fleet/setup.md")).includes(expected), true, expected);
+  assert.equal(quickstart.includes("docker compose exec"), false);
+  assert.equal(quickstart.includes("CTLFLOW_FLEET_IMAGE"), false);
+  const packages = read("content/docs/ctlflow/containers.md");
+  for (const expected of ["Number 2", "configDigest", "descriptorDigest", "org.crossfire.package=1", "Schema 1 is not imported"])
+    assert.equal(packages.includes(expected), true, expected);
+  const setup = read("content/docs/fleet/setup.md");
+  assert.equal(setup.includes("$HOME/.local/share/ctlflow/releases/<version>/node_modules/.bin/fleet"), true);
+  assert.equal(setup.includes("not Codex/Pi"), true);
+  const implementation = read("content/docs/ctlflow/implementations.md");
+  assert.equal(implementation.includes("11.0.100-rc.2.26504.105"), true);
+  assert.equal(implementation.includes("11.0.0-rc.2.26504.105"), true);
+  assert.equal(implementation.includes("schema 18"), true);
+  assert.equal(read("content/docs/toolsmith/installation.md").includes("Toolsmith 0.4.1"), true);
+});
+
 test("authored pages describe agents without restricting them to software work", () => {
   const pages = fs.readdirSync(path.join(root, "content"), { recursive: true }).filter(filename => filename.endsWith(".md")).map(filename => `content/${filename}`);
   const templates = fs.readdirSync(path.join(root, "layouts"), { recursive: true }).filter(filename => filename.endsWith(".html")).map(filename => `layouts/${filename}`);
@@ -155,9 +176,10 @@ test("Netlify headers keep site scripts/assets local and only hashed assets immu
 test("hierarchy and source URLs preserve constituents and Toolsmith optionality", () => {
   const sources = JSON.parse(read("data/sources.json"));
   assert.equal(sources.ctlflow.repository, "https://github.com/control-flow-project/ctlflow");
-  assert.equal(sources.ctlflow.revision, "243553f70c8b573ff4f7b6e89fe12f4b42ade2d4");
-  assert.equal(sources.toolsmith.revision, "5984e888a6cd24a9963de546c504e49480af5ee2");
-  assert.equal(sources.toolsmith.version, "0.4.0");
+  assert.equal(sources.ctlflow.revision, "482dbe4a07d9f864437161016769745527a24aa6");
+  assert.equal(sources.ctlflow.version, "0.1.22");
+  assert.equal(sources.toolsmith.revision, "9fb2183fd6c6ff9b7c270314965f83d1ea838abe");
+  assert.equal(sources.toolsmith.version, "0.4.1");
   for (const product of ["crossfire", "fleetd", "fleet"]) assert.equal(read(`content/docs/${product}/_index.md`).includes(`title: ${product}`), true);
   const optional = read("content/docs/toolsmith/_index.md").replace(/\s+/gu, " ");
   assert.equal(optional.includes("separate project"), true);
@@ -167,7 +189,7 @@ test("hierarchy and source URLs preserve constituents and Toolsmith optionality"
 
 test("guides are edited independently of generated API contracts", () => {
   const manifest = JSON.parse(read("data/reference-manifest.json"));
-  assert.equal(guideReferences.length, 46);
+  assert.equal(guideReferences.length, 47);
   assert.equal(manifest.counts.guides, guideReferences.length);
   for (const [project, source, output] of guideReferences) {
     const filename = `content/${output}`;
@@ -208,7 +230,7 @@ test("controller guides and every generated operation require the same OS-user c
 
 test("Toolsmith guides match the recorded public 0.4 library ownership", () => {
   const installation = read("content/docs/toolsmith/installation.md");
-  assert.equal(installation.includes("ctlflow_toolsmith-0.4.0"), true);
+  assert.equal(installation.includes("ctlflow_toolsmith-0.4.1"), true);
   assert.equal(installation.includes("0.3.0"), false);
   const library = read("content/docs/toolsmith/library.md");
   const rows = library.split("\n");

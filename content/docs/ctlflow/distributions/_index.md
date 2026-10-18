@@ -10,6 +10,14 @@ Choose one implementation for each product. All implementations use the same
 management UI, HTTP contracts and Knex-created SQLite database. C# managed and
 C# NativeAOT are two build modes of the same implementation.
 
+Docker runs only the server side. The personalized management guide installs
+pinned npm fleet/fleetd on the execution host using its existing supported
+Codex/Pi installation and native login. It does not install a harness or copy
+credentials into Docker. Native fleet distributions below are explicit packaging
+choices, not another onboarding workflow.
+
+- [Local Docker server and host-native fleet](/docs/ctlflow/local-docker/)
+
 | Target | Server installation | Fleet/controller installation | Build command |
 | --- | --- | --- | --- |
 | Node | Private source checkout and its built dependencies | Exact `@ctlflow/fleet` and `@ctlflow/fleetd` npm archives | `npm run build`, then `npm pack` |
@@ -23,8 +31,8 @@ C# NativeAOT are two build modes of the same implementation.
 - [Rust installation and packaging](/docs/ctlflow/distributions/rust/)
 
 Each guide covers prerequisites, packaging, server startup, fleet setup, upgrades
-and verification. The Rust distribution includes its target guide as `README.md`; C# includes its
-implementation README. Node npm archives contain their product README and
+and verification. Each native publisher includes its selected target/mode guide
+as `README.md`. Node npm archives contain their product README and
 product guides. No installed guide requires a local source checkout merely to
 resolve its documentation links.
 
