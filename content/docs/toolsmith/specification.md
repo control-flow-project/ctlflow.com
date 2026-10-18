@@ -30,6 +30,11 @@ are not implemented. HTML table markup is retained for interpretation rather
 than converted into inferred rows and columns. CSV and JSON readers parse their
 declared formats.
 
+HTML inspection reports markup signals; it does not compute CSS visibility.
+Document-title access screens and unresolved access dialogs remain failures.
+A caller that owns a browser validates its computed-visible DOM through the same
+text reader. Toolsmith does not run a browser or bypass access gates.
+
 ## Installation and platforms
 
 The package is MIT-licensed. Its base installation has no third-party runtime

@@ -21,6 +21,11 @@ Node, C# and Rust implementations provide the same external behavior. C# support
 managed and NativeAOT builds. They share the management UI, HTTP contracts and
 SQLite format. A failed implementation is not replaced automatically by another.
 
+Docker runs crossfire/Matrix/UI/content and one-shot Knex maintenance only.
+Fleet setup uses pinned npm fleet/fleetd on the execution host, with its existing
+Codex/Pi installation and native login. It does not install a harness or copy
+credentials into a container. The calling assistant remains independent.
+
 Codex and Earendil Pi are supported. Claude is not implemented. Unsupported model
 or effort settings are rejected rather than replaced.
 
@@ -34,6 +39,8 @@ The owner reviews the roster, names and coordination settings before enrollment.
 Preflight checks names and capacity; it does not reserve them. Introduction
 claims the complete roster atomically. A collision rejects the roster with a
 specific error instead of renaming agents or accepting a subset.
+Adding an existing local key or registered name returns `name_collision` without
+changing the roster/revision. Stale revisions fail before evaluating that edit.
 
 Private claim material is saved before submission so a retry can use the same
 request. Public names and IDs cannot recover credentials. Administrators can
@@ -234,6 +241,17 @@ Knex migrations create and upgrade management SQLite before application startup.
 Node uses Tinqer, C# uses EF Core and Rust uses Diesel for queries. They open the
 same file. There is no application-imposed database size limit; disk exhaustion
 rolls back the affected operation.
+
+Application, metadata and test data queries use the selected query library.
+Handwritten SQL is restricted to necessary schema/control operations: STRICT
+tables, triggers, SQLite settings, backup/locking and query-plan inspection of
+generated queries. Readable queries and meaningful typed data shapes take
+priority over marginal performance. There is no alternate raw data-query API.
+
+Container package schema 2 binds named image references to exact configuration
+and root-descriptor digests. The Docker adapter verifies the native identity
+exposed by the current image store. Superseded formats and malformed descriptors
+are rejected, not imported or retried with another identity.
 
 The operator holds an exclusive instance lock through package checks, container
 cleanup, backup, migration and runtime execution. It verifies container IDs and

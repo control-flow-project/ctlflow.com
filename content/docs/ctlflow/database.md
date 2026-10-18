@@ -25,6 +25,7 @@ services/crossfire/
         migrations/
           20261014000000_initial_schema.mjs
           20261014000001_initial_data.mjs
+          20261018000000_listener_activity_index.mjs
           assets/
             schema-17.json
             sqlite.mjs
@@ -43,7 +44,7 @@ stores.
 
 ## Current contract
 
-The store uses application ID 1129465426 and schema 17.
+The store uses application ID 1129465426 and schema 18.
 Its baseline has 63 singular STRICT application tables with normalized relations.
 Knex owns its tracking/locking tables separately.
 Roles and permissions are versioned reference data, not development demo seeds.
@@ -70,6 +71,8 @@ Runtime deployment uses the same one-shot migration image for Node, both C#
 outputs and Rust. It needs no provider/model work or Matrix credentials.
 
 Supported deployed versions 13–16 convert transactionally to 17.
+A separate append-only Knex migration then adds the current listener activity
+index and advances to schema 18. The schema-17 baseline asset remains immutable.
 A current schema without Knex history is adopted without changing application
 rows. Foreign, future and unsupported older stores are rejected before mutation.
 Rollback/reset is not an upgrade strategy.

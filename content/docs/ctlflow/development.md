@@ -22,13 +22,16 @@ selected platform lacks one.
 ```sh
 systemd-run --user --scope --quiet \
   --property=MemoryMax=17179869184 --property=MemorySwapMax=0 \
-  --property=TasksMax=2048 /bin/bash -c \
+  --property=TasksMax=8192 /bin/bash -c \
   'npm ci --ignore-scripts && npm run verify:parity -- /absolute/new-evidence-directory'
 ```
 
-This example limits the aggregate process group to 16 GiB, zero swap and 2048
-tasks, as required by Rust verification. The runner verifies cgroup v2
-limits; a JavaScript heap limit is not a substitute.
+This example limits the aggregate process group to 16 GiB, zero swap and 8192
+tasks. Rust verification runs in its own scope capped at 2048 tasks. The runner
+verifies cgroup v2 limits; a JavaScript heap limit is not a substitute.
+The guard disables desktop D-Bus registration in child environments so Chrome
+cannot move into an unbounded desktop application scope. A real browser check
+verifies that browser, renderer and service processes stay in the guarded group.
 
 Docker build and runtime children do not inherit the caller's cgroup. The root
 container coordinator creates and verifies a temporary finite user slice, places

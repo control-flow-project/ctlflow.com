@@ -6,7 +6,7 @@ sourceProject: "toolsmith"
 sourcePath: "docs/installation.md"
 ---
 
-Toolsmith 0.4.0 has public MIT-licensed source and wheel/sdist artifacts. Metadata
+Toolsmith 0.4.1 has public MIT-licensed source and wheel/sdist artifacts. Metadata
 declares the SPDX expression `MIT`; both artifacts include LICENSE. There is no
 PyPI/npm release yet and no automatic publishing workflow. Build from the public
 repository or install a built wheel:
@@ -23,14 +23,14 @@ store/network requirement. Unsupported filesystem primitives cause an error.
 
 ```sh
 python3 -m venv .venv
-.venv/bin/python -m pip install dist/ctlflow_toolsmith-0.4.0-py3-none-*.whl
+.venv/bin/python -m pip install dist/ctlflow_toolsmith-0.4.1-py3-none-*.whl
 .venv/bin/toolsmith --json capabilities
 ```
 
 For selected network acquisition:
 
 ```sh
-.venv/bin/python -m pip install "$(printf '%s' dist/ctlflow_toolsmith-0.4.0-py3-none-*.whl)[http]"
+.venv/bin/python -m pip install "$(printf '%s' dist/ctlflow_toolsmith-0.4.1-py3-none-*.whl)[http]"
 ```
 
 The `http` extra installs the pinned bounded DNS resolver `dnspython==2.8.0`.

@@ -23,6 +23,7 @@ serve the same API and management UI and use the same SQLite database format.
 
 ## First tasks
 
+- [Run a local Docker server and host-native fleet](/docs/ctlflow/local-docker/)
 - [Set up an agent fleet](/docs/fleet/setup/)
 - [Work through the ten-agent fleet-street example](/docs/examples/fleet-street/)
 - [Install a crossfire server](/docs/crossfire/installation/)
@@ -35,6 +36,9 @@ serve the same API and management UI and use the same SQLite database format.
 fleetd currently implements runtime adapters for Codex and Earendil Pi. Other
 runtimes require an adapter; Claude is not implemented. Setup starts a separate
 agent session; it does not take over the agent used to run setup.
+Docker runs the server side only. The personalized guide installs pinned npm
+fleet/fleetd on the execution host, not a harness. Use the selected harness's
+existing installation and provider login on that machine.
 Agents can share a history across rooms or keep a history per room.
 Separate histories do not isolate files, credentials or processes.
 

@@ -19,6 +19,12 @@ host libraries used by the `linux-x64` .NET runtime. Fleet agents also require
 Node for the shared tool client, the selected Codex or verified Pi 1.0.0
 executable and an authorized native provider login. Remote commands require SSH.
 
+Managed products disable tiered compilation and optimize methods at their first
+JIT compilation instead of waiting for traffic-driven promotion. This adds
+first-call compilation work in exchange for predictable low-volume latency.
+NativeAOT is a separate ahead-of-time build, not a runtime substitution. The
+four-target performance gate measures installed defaults without test-only tuning.
+
 The server operator requires rootless Docker and a completed container package.
 Building the managed runtime and Knex images requires a source checkout. Public deployment
 requires operator-owned DNS, HTTPS and separate application/content hostnames.

@@ -23,6 +23,14 @@ The CLI checks the fixed path, exact origin/owner/version, strict schema and
 response bounds. Redirects, ambiguous queries and credential-bearing URLs fail.
 No default deployment account or inferred owner is used.
 
+All server implementations emit pinned npm setup for fleet and Node fleetd.
+Run the guide on the Linux/macOS computer where agents will execute. It requires
+the selected existing Codex/Pi installation and native login; it does not install
+or upgrade a harness. Docker runs crossfire/Matrix/UI/content and one-shot Knex
+maintenance only, not fleets. fleetd creates its private OS-native key and fleet
+reads that same file automatically. The user does not copy a key or provider
+credentials into a roster, chat or container.
+
 Setup asks no configuration questions. It derives persisted project names,
 starts/reuses the private controller and creates a separate managed session.
 The agent running setup keeps its own process and conversation.

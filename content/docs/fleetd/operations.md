@@ -27,10 +27,21 @@ delivery/messages, contexts/attachment and idempotent operations.
 Unknown routes, methods, fields and duplicated queries are rejected.
 Pagination is canonical positive decimal, page up to 100000, size up to 100.
 
+Every endpoint requires the persistent key in the OS-native `ctlflow/fleetd.json`.
+fleetd initializes it; fleet reads that same private file and sends the bearer
+header. Inspection does not start the daemon or create a key. All controller
+roots under the same OS user share that authority.
+
+- [Authentication paths and recovery](/docs/fleetd/authentication/)
+
 Exclusive SQLite locks prevent concurrent controllers, fleet writers and receivers.
 They survive process suspension and release on exit. Do not delete lock inodes
 or substitute an expiring PID lease. Directories must be private, owned and
 canonical, with no symlink traversal.
+An unavailable socket does not prove the previous daemon released its root.
+The CLI observes the same ownership lock, with a finite cancellable deadline,
+before starting a replacement. Unsafe-state/authentication errors are not treated
+as an absent controller.
 
 UUID operation IDs and revisions reject conflicting reuse.
 Per-instance outcomes distinguish approval, running, succeeded and failed.
@@ -91,11 +102,12 @@ execution, not a proven process exit.
 
 ## Abrupt controller death
 
-Killing Node/C# fleetd can leave a native app-server alive. Its history writer
-lock rejects a competing writer; those adapters do not enforce the controller's
-lifetime after SIGKILL. Rust's Linux process adapter instead uses its packaged
-guard, exact parent pidfd and native-group lock to terminate the owned engine
-group after controller death. It does not contain tools that escape that group.
+Every implementation guards its owned native engine group against controller
+death, including SIGKILL. Node observes its private parent IPC connection, C# an
+exact parent process handle and Rust an exact parent pidfd. Each guard retains
+the private native-group lock while stopping its owned group. A replacement
+cannot bypass an existing writer lock. Tools that escape the owned group are
+outside this protection.
 No implementation uses process-name scanning, orphan adoption or copied history.
 
 A full host restart removes old processes, but retained bindings still require

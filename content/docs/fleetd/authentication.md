@@ -77,8 +77,13 @@ Moving a controller root does not move or regenerate its key.
 
 When upgrading from a release without controller authentication, stop the old
 daemon with its matching old CLI. Install coordinated new fleet/fleetd and
-start the original controller root. The new CLI cannot control an old anonymous
-daemon; there is no compatibility path.
+start the original controller root. If an old socket remains and this OS user
+has no authentication configuration, run `fleetd --root /absolute/controller/root`
+directly for the first start. fleetd generates the key and checks exclusive
+ownership before replacing a stale socket. The new fleet CLI correctly refuses
+an endpoint without its required key. Do not delete the socket or bypass
+authentication. The new CLI cannot control an old anonymous daemon; there is
+no compatibility path.
 
 For rotation, stop every controller sharing the key. Update the private file,
 or remove only `authenticationKey` and let the next start initialize it. Restart
