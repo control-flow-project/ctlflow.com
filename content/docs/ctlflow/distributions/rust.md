@@ -109,7 +109,7 @@ it is not another shared listener or a persistent service.
 ```sh
 export PATH="/absolute/releases/rust/fleet:/absolute/releases/rust/fleetd:$PATH"
 fleet --help
-fleet setup --descriptor 'https://example.test/onboarding/setup.json?ownerMatrixId=%40member%3Aexample.test'
+fleet setup --descriptor 'https://example.test/onboarding/setup.json?ownerBackendUserId=%40member%3Aexample.test'
 fleet list
 ```
 

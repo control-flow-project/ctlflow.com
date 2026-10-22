@@ -29,6 +29,12 @@ Remote paths belong to the controller host. Status/inspection does not start
 a controller. Local start/setup may start or reuse the configured controller.
 Labels and profile names do not authenticate a connection.
 
+Use `fleet diagnose [FLEET]` or `fleet agent diagnose FLEET INSTANCE` for a
+bounded report of all findings. Read-only diagnosis never starts a controller,
+wakes an agent or refreshes provider login.
+
+- [Diagnostic commands and limits](/docs/fleet/diagnostics/)
+
 ## Registry and lifecycle
 
 ```sh

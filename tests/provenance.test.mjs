@@ -95,8 +95,8 @@ test("unrecorded generated extras, missing files and changed bytes fail checks",
 
 test("the checked-in source, generator and output ledger is complete", () => {
   const manifest = verifyStored(root);
-  assert.equal(manifest.counts.crossfire, 92);
-  assert.equal(manifest.counts.fleetd, 19);
+  assert.equal(manifest.counts.crossfire, 94);
+  assert.equal(manifest.counts.fleetd, 20);
   assert.equal(manifest.counts.matrix, 157);
   assert.equal(manifest.counts.schemaModules >= 30, true);
   assert.equal(Object.keys(manifest.inputs).every(filename => /^(ctlflow|toolsmith):/u.test(filename)), true);

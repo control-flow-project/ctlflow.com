@@ -57,7 +57,7 @@ Related definitions:
 ## setupDescriptorSchema {#setupDescriptorSchema}
 
 ```typescript
-setupDescriptorSchema: check.Parser<SetupDescriptor> = check.object({ schemaVersion, server: setupOrigin, ownerMatrixId: check.matrixUserId,
+setupDescriptorSchema: check.Parser<SetupDescriptor> = check.object({ schemaVersion, server: setupOrigin, ownerBackendUserId: check.backendUserId,
     package: check.object({ name: check.choice('@ctlflow/fleet'), version: setupVersion }), instructions: check.plainText(128 * 1024) })
 ```
 
@@ -66,7 +66,7 @@ Related definitions:
 - [`object`](/docs/api/schemas/crossfire-contracts-schema-validation/#object)
 - [`schemaVersion`](/docs/api/schemas/crossfire-contracts-onboarding/#schemaVersion)
 - [`setupOrigin`](/docs/api/schemas/crossfire-contracts-onboarding/#setupOrigin)
-- [`matrixUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#matrixUserId)
+- [`backendUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendUserId)
 - [`choice`](/docs/api/schemas/crossfire-contracts-schema-validation/#choice)
 - [`setupVersion`](/docs/api/schemas/crossfire-contracts-onboarding/#setupVersion)
 - [`plainText`](/docs/api/schemas/crossfire-contracts-schema-validation/#plainText)
@@ -81,7 +81,7 @@ function quote(value: string): string { return "'" + value.replaceAll("'", "'\\'
 
 ```typescript
 export function onboardingUrl(origin: string, owner: string): string {
-    return origin + '/onboarding/setup?ownerMatrixId=' + encodeURIComponent(owner);
+    return origin + '/onboarding/setup?ownerBackendUserId=' + encodeURIComponent(owner);
 }
 ```
 
@@ -89,7 +89,7 @@ export function onboardingUrl(origin: string, owner: string): string {
 
 ```typescript
 export function setupDescriptorUrl(origin: string, owner: string): string {
-    return origin + '/onboarding/setup.json?ownerMatrixId=' + encodeURIComponent(owner);
+    return origin + '/onboarding/setup.json?ownerBackendUserId=' + encodeURIComponent(owner);
 }
 ```
 
@@ -97,7 +97,7 @@ export function setupDescriptorUrl(origin: string, owner: string): string {
 
 ```typescript
 export function setupDescriptor(origin: string, owner: string, release: Manifest, instructions = ''): SetupDescriptor {
-    return { schemaVersion: 1, server: origin, ownerMatrixId: owner,
+    return { schemaVersion: 1, server: origin, ownerBackendUserId: owner,
         package: { name: '@ctlflow/fleet', version: release.version }, instructions };
 }
 ```
@@ -150,13 +150,13 @@ export function onboardingGuide(origin: string, owner: string, release: Manifest
     return [
         '# Set up a crossfire agent',
         '',
-        'crossfire lets people message managed agents through Matrix. fleetd owns each agent’s native session and the shared listener; a single agent is an ordinary one-agent fleet.',
+        'crossfire lets people message managed agents through Messaging. fleetd owns each agent’s native session and the shared listener; a single agent is an ordinary one-agent fleet.',
         'These instructions are for the coding harness performing setup. Run them on the computer where native agents will execute; Docker hosts the server only. Install only the pinned Node.js @ctlflow/fleet CLI and its exact Node.js fleetd dependency into private user-owned storage. The selected Codex/Pi installation and native login must already exist there. Do not install or upgrade a harness or copy provider credentials into Docker. Fleet attachment does not require .NET or a C# controller. Do not attach this coding session; fleetd starts a separate managed native session.',
         'Server: ' + origin, 'Verified human owner: ' + owner,
         '',
         '## 1. Check prerequisites',
         'Use the human-selected project directory on Linux or macOS. Requires Node.js 26+, npm, Git, Bash and an existing supported native harness with provider login. Codex is the default; Earendil Pi requires explicit ordinary fleet configuration. Check node --version, npm --version, git --version and the selected harness version. The controller performs model-free native capability and authentication checks before enrolling or starting an agent.',
-        'If a prerequisite or provider login is missing, stop and report it. The user must install missing prerequisites or complete the selected harness native login before repeating setup. Never install or upgrade Codex/Pi as part of these instructions. Official prerequisite documentation: https://nodejs.org/en/download ; https://git-scm.com/downloads ; https://developers.openai.com/codex/cli . Never request Matrix passwords, administrator tokens, ports or session IDs. Do not use sudo, change host services or install global skills.',
+        'If a prerequisite or provider login is missing, stop and report it. The user must install missing prerequisites or complete the selected harness native login before repeating setup. Never install or upgrade Codex/Pi as part of these instructions. Official prerequisite documentation: https://nodejs.org/en/download ; https://git-scm.com/downloads ; https://developers.openai.com/codex/cli . Never request Messaging passwords, administrator tokens, ports or session IDs. Do not use sudo, change host services or install global skills.',
         'This coding session only performs setup. It stays independent: its process, conversation and project-native settings are not adopted or imported. fleetd creates a separate managed session. Subsequent resume and wake reuse that managed session’s saved histories. Linux inert-provider checks are not macOS or paid-provider certification.',
         '',
         '## 2. Run the complete setup command',

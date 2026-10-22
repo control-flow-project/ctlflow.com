@@ -170,8 +170,8 @@ Related definitions:
 ## wakeRuleAgent {#wakeRuleAgent}
 
 ```typescript
-wakeRuleAgent = check.object({ principalId: check.identifier, matrixUserId: check.matrixUserId, kind: check.choice('agent'),
-    displayName: check.text(255), ownerId: check.identifier, ownerMatrixId: check.matrixUserId,
+wakeRuleAgent = check.object({ principalId: check.identifier, backendUserId: check.backendUserId, kind: check.choice('agent'),
+    displayName: check.text(255), ownerId: check.identifier, ownerBackendUserId: check.backendUserId,
     ruleId: check.identifier, agentId: check.identifier, nextDueAt: check.integer(), lastDeliveredAt: check.nullable(check.integer()) })
 ```
 
@@ -179,7 +179,7 @@ Related definitions:
 
 - [`object`](/docs/api/schemas/crossfire-contracts-schema-validation/#object)
 - [`identifier`](/docs/api/schemas/crossfire-contracts-schema-validation/#identifier)
-- [`matrixUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#matrixUserId)
+- [`backendUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendUserId)
 - [`choice`](/docs/api/schemas/crossfire-contracts-schema-validation/#choice)
 - [`text`](/docs/api/schemas/crossfire-contracts-schema-validation/#text)
 - [`integer`](/docs/api/schemas/crossfire-contracts-schema-validation/#integer)
@@ -242,7 +242,7 @@ Related definitions:
 
 ```typescript
 scheduledWake = check.object({ deliveryId: check.identifier, ruleId: check.identifier, ruleRevision: check.integer(), name, message,
-    scheduledAt: check.integer(), sessionId: check.text(200), ownerMatrixId: check.matrixUserId, authorizerMatrixId: check.matrixUserId })
+    scheduledAt: check.integer(), sessionId: check.text(200), ownerBackendUserId: check.backendUserId, authorizerBackendUserId: check.backendUserId })
 ```
 
 Related definitions:
@@ -253,7 +253,7 @@ Related definitions:
 - [`name`](/docs/api/schemas/crossfire-contracts-wake-up/#name)
 - [`message`](/docs/api/schemas/crossfire-contracts-wake-up/#message)
 - [`text`](/docs/api/schemas/crossfire-contracts-schema-validation/#text)
-- [`matrixUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#matrixUserId)
+- [`backendUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendUserId)
 
 ## WakeRuleSummary {#WakeRuleSummary}
 

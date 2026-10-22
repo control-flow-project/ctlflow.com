@@ -31,7 +31,8 @@ for (const [project, root] of Object.entries(roots)) {
 }
 for (const [project, source] of guideReferences) read(project, source);
 const model = createModel(roots.ctlflow, snapshots.ctlflow);
-for (const filename of ["rest/envelope.ts", "rest/limits.ts", "matrix-directory.ts"]) model.closure(model.load(path.join(roots.ctlflow, "services/crossfire/node/packages/contracts/src", filename)));
+for (const filename of ["rest/envelope.ts", "rest/limits.ts"]) model.closure(model.load(path.join(roots.ctlflow, "services/crossfire/node/packages/contracts/src", filename)));
+model.closure(model.load(path.join(roots.ctlflow, "services/crossfire/node/packages/adapter-matrix/src/directory.ts")));
 const inventories = {};
 for (const [product, catalog] of Object.entries(catalogSources)) {
   const operations = extractOperations(model, path.join(roots.ctlflow, catalog));
@@ -50,12 +51,13 @@ for (const filename of [
   "services/crossfire/node/apps/server/src/content-server.ts",
   "services/crossfire/node/apps/server/src/artifacts.ts",
   "services/crossfire/node/apps/server/src/http/create-server.ts",
-  "services/crossfire/node/apps/server/src/http/transport.ts",
-  "services/crossfire/node/apps/server/src/http/registration.ts",
-  "services/crossfire/node/apps/server/src/http/registration-page.ts",
-  "services/crossfire/node/apps/server/src/http/matrix-directory.ts",
-  "services/crossfire/node/packages/contracts/src/matrix-directory.ts",
-  "services/crossfire/node/apps/server/src/http/matrix-profile.ts",
+  "services/crossfire/node/apps/server/src/http/messaging.ts",
+  "services/crossfire/node/packages/adapter-matrix/src/web/transport.ts",
+  "services/crossfire/node/packages/adapter-matrix/src/web/registration.ts",
+  "services/crossfire/node/packages/adapter-matrix/src/web/registration-page.ts",
+  "services/crossfire/node/packages/adapter-matrix/src/web/directory.ts",
+  "services/crossfire/node/packages/adapter-matrix/src/directory.ts",
+  "services/crossfire/node/packages/adapter-matrix/src/web/profile.ts",
   "services/crossfire/node/apps/server/src/http/binary.ts",
   "services/crossfire/node/packages/contracts/src/rest/limits.ts",
   "services/fleetd/node/apps/daemon/src/http.ts",

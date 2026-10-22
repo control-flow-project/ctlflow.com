@@ -1,9 +1,9 @@
 ---
-title: "crossfire/node/packages/contracts/src/matrix-directory.ts"
-linkTitle: "matrix-directory"
+title: "crossfire/node/packages/adapter-matrix/src/directory.ts"
+linkTitle: "directory"
 description: "Validation functions, types and constants from the recorded source revision."
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/matrix-directory.ts"
+sourcePath: "services/crossfire/node/packages/adapter-matrix/src/directory.ts"
 generated: true
 ---
 

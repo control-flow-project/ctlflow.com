@@ -125,11 +125,11 @@ array; 0–100 entries; item: object; fields below; unknown fields rejected ([`p
 | Field path | Representation and constraints |
 | --- | --- |
 | `[].principalId` | lowercase opaque UUID |
-| `[].matrixUserId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `[].backendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `[].kind` | `human` or `agent` |
 | `[].displayName` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `[].ownerId` | lowercase opaque UUID |
-| `[].ownerMatrixId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `[].ownerBackendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 
 ### Validation
 

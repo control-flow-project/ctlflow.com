@@ -114,8 +114,8 @@ array; 0–100 entries; item: object; fields below; unknown fields rejected ([`l
 | --- | --- |
 | `[].runId` | lowercase opaque UUID |
 | `[].agentId` | lowercase opaque UUID |
-| `[].release` | string; 1–200 UTF-16 units; well-formed Unicode; no C0/DEL controls; JSON null permitted |
-| `[].controller` | object; fields below; unknown fields rejected; JSON null permitted |
+| `[].release` | string; 1–200 UTF-16 units; well-formed Unicode; no C0/DEL controls |
+| `[].controller` | object; fields below; unknown fields rejected |
 | `[].controller.fleetId` | lowercase opaque UUID |
 | `[].controller.connectionId` | lowercase opaque UUID |
 | `[].controller.credentialId` | lowercase opaque UUID |

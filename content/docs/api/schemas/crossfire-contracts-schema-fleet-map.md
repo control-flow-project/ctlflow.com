@@ -22,7 +22,7 @@ All code blocks below are TypeScript declarations copied from the server. They d
 ## mapAgent {#mapAgent}
 
 ```typescript
-mapAgent = check.object({ agentId: check.identifier, matrixUserId: check.matrixUserId, instanceKey: check.name,
+mapAgent = check.object({ agentId: check.identifier, backendUserId: check.backendUserId, instanceKey: check.name,
     displayName: check.text(255), status: check.status, owner, sourceId: check.text(64, 64),
     listener: check.choice('online', 'offline', 'disconnecting'), lastSeenAt: check.nullable(check.integer()) })
 ```
@@ -31,7 +31,7 @@ Related definitions:
 
 - [`object`](/docs/api/schemas/crossfire-contracts-schema-validation/#object)
 - [`identifier`](/docs/api/schemas/crossfire-contracts-schema-validation/#identifier)
-- [`matrixUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#matrixUserId)
+- [`backendUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendUserId)
 - [`name`](/docs/api/schemas/crossfire-contracts-schema-validation/#name)
 - [`text`](/docs/api/schemas/crossfire-contracts-schema-validation/#text)
 - [`status`](/docs/api/schemas/crossfire-contracts-schema-validation/#status)

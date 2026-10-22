@@ -60,13 +60,14 @@ code; the archive checksum is not authentication of this helper.
 
 ## Format and image contract
 
-The [published 0.1.22 release inventory](https://github.com/control-flow-project/ctlflow/blob/74b51eac5493b63832899e319344bf2ec8f37715/services/crossfire/docs/releases/0.1.22.md)
-records the exact verified generic images under
+Generic images use the names
 `ghcr.io/control-flow-project/crossfire-node`, `crossfire-csharp-managed`,
 `crossfire-csharp-nativeaot`, `crossfire-rust` and `crossfire-migrations`.
 Registry access follows the package's visibility setting. Publication is separate
 from production activation; it does not migrate or restart a deployment.
-Use the recorded immutable registry manifest digests. A registry manifest digest
+Use verified immutable references from a coordinated current release package.
+No current 0.1.23 registry publication is claimed by these guides; earlier
+publication records describe their original release only. A registry manifest digest
 and Docker's local image ID name different objects; do not substitute one for the
 other or use `latest`.
 Never publish domain instructions, operating data, site configuration or secrets.
@@ -97,7 +98,8 @@ when required. Classic and containerd image stores expose different native
 identity objects. Each Docker adapter verifies the current store's exact
 configuration/descriptor identity, platform and labels before stopping writers,
 then returns its immutable execution handle. Malformed descriptors fail without
-trying another identity or changing the host store. Schema 1 is not imported.
+trying another identity or changing the host store. Only the current exact package
+contract is accepted.
 Required labels are org.crossfire.package=1, org.opencontainers.image.version,
 org.crossfire.source and org.crossfire.backend. The migration backend is migrations;
 its version/source must equal the selected runtime. A package has no mutable tag
@@ -201,7 +203,7 @@ The shared actual-container bank builds packages once and then runs identical
 API/UI/data assertions on each backend. It additionally crosses operator/backend
 selection, runs image-owned readiness probes, tests transfer/import and rejects
 corrupt archives/mismatched labels before touching a running instance.
-The ordinary installed-products and historical migration banks remain required.
+The ordinary installed-products and current Knex initialization banks remain required.
 
 The root packaging command calls the Node/C# builder and Rust image producer. Rust reuses the common asset/migration Dockerfile,
 package exporter and label validation; only its runtime build is target-owned.

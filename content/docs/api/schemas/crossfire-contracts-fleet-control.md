@@ -51,7 +51,7 @@ Related definitions:
 ```typescript
 fleetMessageCommand = check.object({ messageId: check.identifier, fleetId: check.identifier, body: messageBody,
     createdAt: check.integer(), expiresAt: check.integer(), sender: check.refine(check.object({ kind: check.choice('human', 'controller'),
-        matrixUserId: check.nullable(check.matrixUserId) }), sender => (sender.kind === 'human') === (sender.matrixUserId !== null), 'Invalid fleet message sender'),
+        backendUserId: check.nullable(check.backendUserId) }), sender => (sender.kind === 'human') === (sender.backendUserId !== null), 'Invalid fleet message sender'),
     agentIds: check.list(check.identifier, 100) })
 ```
 
@@ -64,7 +64,7 @@ Related definitions:
 - [`refine`](/docs/api/schemas/crossfire-contracts-schema-validation/#refine)
 - [`choice`](/docs/api/schemas/crossfire-contracts-schema-validation/#choice)
 - [`nullable`](/docs/api/schemas/crossfire-contracts-schema-validation/#nullable)
-- [`matrixUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#matrixUserId)
+- [`backendUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendUserId)
 - [`list`](/docs/api/schemas/crossfire-contracts-schema-validation/#list)
 
 ## fleetControlSnapshot {#fleetControlSnapshot}

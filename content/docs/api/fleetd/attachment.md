@@ -67,7 +67,7 @@ custom validation; see function below
 
 | Field path | Representation and constraints |
 | --- | --- |
-| `context (parser branch 1)` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls; optional property |
+| `context (parser branch 1)` | string; 1–260 UTF-16 units; well-formed Unicode; no C0/DEL controls; optional property |
 
 Accepted query parameters: `context`.
 
@@ -81,7 +81,7 @@ Constraint on `value`:
 
 ```typescript
 input => { if (!(input instanceof URLSearchParams) || [...input.keys()].some(key => key !== 'context') || input.getAll('context').length > 1)
-    return failure('invalid', 'Use one exact context'); return check.object({ context: check.optional(check.text(255)) })(input.has('context') ? { context: input.get('context') } : {}); }
+    return failure('invalid', 'Use one exact context'); return check.object({ context: check.optional(check.text(MAX_HISTORY_CONTEXT)) })(input.has('context') ? { context: input.get('context') } : {}); }
 ```
 
 ### Validation
@@ -90,7 +90,7 @@ This TypeScript is the server's validation code, reproduced from its contract. I
 
 ```typescript
 input => { if (!(input instanceof URLSearchParams) || [...input.keys()].some(key => key !== 'context') || input.getAll('context').length > 1)
-    return failure('invalid', 'Use one exact context'); return check.object({ context: check.optional(check.text(255)) })(input.has('context') ? { context: input.get('context') } : {}); }
+    return failure('invalid', 'Use one exact context'); return check.object({ context: check.optional(check.text(MAX_HISTORY_CONTEXT)) })(input.has('context') ? { context: input.get('context') } : {}); }
 ```
 
 Referenced definitions:
@@ -99,6 +99,7 @@ Referenced definitions:
 - [`object`](/docs/api/schemas/crossfire-contracts-schema-validation/#object)
 - [`optional`](/docs/api/schemas/crossfire-contracts-schema-validation/#optional)
 - [`text`](/docs/api/schemas/crossfire-contracts-schema-validation/#text)
+- [`MAX_HISTORY_CONTEXT`](/docs/api/schemas/crossfire-kernel-history-context/#MAX_HISTORY_CONTEXT)
 
 ## Request body
 

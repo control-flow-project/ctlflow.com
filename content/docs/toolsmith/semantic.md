@@ -67,8 +67,8 @@ Consumers keep canonical text and authorization in their own SQLite database.
 Enable foreign keys and call `initialize_index` once. It creates only derivative
 relations and loads the packaged extension; it does not set application schema
 versions, change row factories or commit an existing transaction. Existing or
-partial index schemas fail. The previous raw-vector schema has an explicit
-`migrate_index` forward conversion; there is no alternate runtime reader.
+partial index schemas fail. There is one current index structure and no
+historical converter or alternate runtime reader.
 
 The following application code creates an in-memory index and an authorization
 table. Its `Source` contains literal sample text, not an article downloaded by
@@ -211,10 +211,10 @@ toolsmith --root "$PWD/local-store" --collection sample semantic status
 toolsmith --root "$PWD/local-store" --collection sample semantic search "plain English question" --model-directory "$MODEL_DIRECTORY" --limit 20
 ```
 
-Archive schema v3 includes the native index and current-text counter. Explicit
-`maintenance migrate` verifies and copies reviewed v1/v2 stores into a new v3
-destination, preserving the source as rollback data. Raw vectors are converted
-without encoding again. Ordinary reads reject older or unknown schemas.
+The archive's current schema includes the native index and current-text counter.
+Initialization creates it directly. Explicit indexing builds derivatives from
+retained canonical text; backup and restore copy only validated current state.
+No schema-conversion command or historical index reader exists.
 
 Databases have no Toolsmith byte ceiling. Backup/restore use an explicit aggregate
 20 GiB budget and stream database files; individual retained artifacts remain

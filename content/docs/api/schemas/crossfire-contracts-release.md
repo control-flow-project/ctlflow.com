@@ -20,7 +20,7 @@ All code blocks below are TypeScript declarations copied from the server. They d
 ## ARTIFACTS {#ARTIFACTS}
 
 ```typescript
-ARTIFACTS = ["README.md", "SKILL.md", "crossfire-client.mjs", "matrix-spec-LICENSE.txt"] as const
+ARTIFACTS = ["README.md", "SKILL.md", "crossfire-client.mjs", "messaging-LICENSE.txt"] as const
 ```
 
 ## ArtifactName {#ArtifactName}

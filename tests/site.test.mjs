@@ -14,30 +14,31 @@ const read = relative => fs.readFileSync(path.join(root, relative), "utf8");
 test("Docker and setup guides keep server containers separate from host fleets", () => {
   const quickstart = read("content/docs/ctlflow/local-docker.md");
   for (const expected of ["one-shot", "existing native provider login", "fleet runs on the execution host, not in Docker",
-    "CROSSFIRE_RUNTIME_IMAGE", "CROSSFIRE_MIGRATION_IMAGE", "published release 0.1.22", "server-state",
+    "CROSSFIRE_RUNTIME_IMAGE", "CROSSFIRE_MIGRATION_IMAGE", "current source 0.1.23", "server-state",
     "does not stop host agents", "does not install a", "No credential"])
     assert.equal((quickstart + read("content/docs/fleet/setup.md")).includes(expected), true, expected);
   assert.equal(quickstart.includes("docker compose exec"), false);
   assert.equal(quickstart.includes("CTLFLOW_FLEET_IMAGE"), false);
   assert.equal(quickstart.includes("MANIFEST_DIGEST"), false);
-  assert.match(quickstart, /export CROSSFIRE_RUNTIME_IMAGE=ghcr\.io\/control-flow-project\/crossfire-csharp-nativeaot@sha256:[a-f0-9]{64}\n/u);
-  assert.match(quickstart, /export CROSSFIRE_MIGRATION_IMAGE=ghcr\.io\/control-flow-project\/crossfire-migrations@sha256:[a-f0-9]{64}\n/u);
-  assert.equal(quickstart.includes("Later documentation/onboarding UI changes are not contained in those images."), true);
+  assert.match(quickstart, /CROSSFIRE_RUNTIME_IMAGE:\?Set the verified current runtime image reference/u);
+  assert.match(quickstart, /CROSSFIRE_MIGRATION_IMAGE:\?Set its matching current migration image reference/u);
+  assert.equal(quickstart.includes("No 0.1.23 registry digest is claimed"), true);
+  assert.doesNotMatch(quickstart, /@sha256:[a-f0-9]{64}/u);
   assert.equal(quickstart.includes("private packages need"), true);
   const packages = read("content/docs/ctlflow/containers.md");
-  for (const expected of ["Number 2", "configDigest", "descriptorDigest", "org.crossfire.package=1", "Schema 1 is not imported"])
+  for (const expected of ["Number 2", "configDigest", "descriptorDigest", "org.crossfire.package=1", "current exact package"])
     assert.equal(packages.includes(expected), true, expected);
   for (const name of ["crossfire-node", "crossfire-csharp-managed", "crossfire-csharp-nativeaot", "crossfire-rust", "crossfire-migrations"])
     assert.equal(packages.includes(name), true, name + " published image");
-  for (const page of [quickstart, packages]) assert.equal(page.includes("/services/crossfire/docs/releases/0.1.22.md"), true);
+  for (const page of [quickstart, packages]) assert.doesNotMatch(page, /\/services\/crossfire\/docs\/releases\/0\.1\.22\.md/u);
   const setup = read("content/docs/fleet/setup.md");
   assert.equal(setup.includes("$HOME/.local/share/ctlflow/releases/<version>/node_modules/.bin/fleet"), true);
   assert.equal(setup.includes("not Codex/Pi"), true);
   const implementation = read("content/docs/ctlflow/implementations.md");
   assert.equal(implementation.includes("11.0.100-rc.2.26504.105"), true);
   assert.equal(implementation.includes("11.0.0-rc.2.26504.105"), true);
-  assert.equal(implementation.includes("schema 18"), true);
-  assert.equal(read("content/docs/toolsmith/installation.md").includes("Toolsmith 0.4.1"), true);
+  assert.equal(implementation.includes("current schema 1"), true);
+  assert.equal(read("content/docs/toolsmith/installation.md").includes("Toolsmith 0.4.2"), true);
 });
 
 test("authored pages describe agents without restricting them to software work", () => {
@@ -184,10 +185,10 @@ test("Netlify headers keep site scripts/assets local and only hashed assets immu
 test("hierarchy and source URLs preserve constituents and Toolsmith optionality", () => {
   const sources = JSON.parse(read("data/sources.json"));
   assert.equal(sources.ctlflow.repository, "https://github.com/control-flow-project/ctlflow");
-  assert.equal(sources.ctlflow.revision, "74b51eac5493b63832899e319344bf2ec8f37715");
-  assert.equal(sources.ctlflow.version, "0.1.22");
-  assert.equal(sources.toolsmith.revision, "9fb2183fd6c6ff9b7c270314965f83d1ea838abe");
-  assert.equal(sources.toolsmith.version, "0.4.1");
+  assert.equal(sources.ctlflow.revision, "2b2da4df5331dc71c0908011f34f35d8378bbdcf");
+  assert.equal(sources.ctlflow.version, "0.1.23");
+  assert.equal(sources.toolsmith.revision, "106d593690378cea074eefa9af421b73b088df36");
+  assert.equal(sources.toolsmith.version, "0.4.2");
   for (const product of ["crossfire", "fleetd", "fleet"]) assert.equal(read(`content/docs/${product}/_index.md`).includes(`title: ${product}`), true);
   const optional = read("content/docs/toolsmith/_index.md").replace(/\s+/gu, " ");
   assert.equal(optional.includes("separate project"), true);
@@ -195,9 +196,26 @@ test("hierarchy and source URLs preserve constituents and Toolsmith optionality"
   assert.equal(read("AGENTS.md").includes("parent monorepo; crossfire, fleetd and fleet"), true);
 });
 
+test("current guides match neutral identities and the sole current storage contracts", () => {
+  const configuration = read("content/docs/crossfire/configuration.md");
+  for (const expected of ["`messaging`", "`administrator`", "messaging.parameters", 'messaging.type = "matrix"'])
+    assert.equal(configuration.includes(expected), true, expected);
+  for (const field of ["serverName", "matrixOrigin", "jwtSecret", "registrationSecret"])
+    assert.equal(configuration.includes(`| \`${field}\` |`), false, field + " is not a root configuration field");
+  for (const page of ["fleet/setup", "crossfire/enrollment", "api/native-http"])
+    assert.equal(read(`content/docs/${page}.md`).includes("ownerBackendUserId"), true, page);
+  for (const page of ["fleet/configuration", "fleetd/coordination"])
+    assert.equal(read(`content/docs/${page}.md`).includes("backend_user_id"), true, page);
+  const database = read("content/docs/ctlflow/database.md");
+  for (const expected of ["00_initial.mjs", "57 singular STRICT", "101 foreign-key", "87 explicit indexes", "20 triggers"])
+    assert.equal(database.includes(expected), true, expected);
+  for (const page of ["fleetd/storage", "toolsmith/semantic", "toolsmith/operations"])
+    assert.equal(read(`content/docs/${page}.md`).includes("current"), true, page);
+});
+
 test("guides are edited independently of generated API contracts", () => {
   const manifest = JSON.parse(read("data/reference-manifest.json"));
-  assert.equal(guideReferences.length, 47);
+  assert.equal(guideReferences.length, 49);
   assert.equal(manifest.counts.guides, guideReferences.length);
   for (const [project, source, output] of guideReferences) {
     const filename = `content/${output}`;
@@ -212,7 +230,7 @@ test("guides are edited independently of generated API contracts", () => {
 
 test("controller guides and every generated operation require the same OS-user credential", () => {
   const catalogs = JSON.parse(read("data/operations.json"));
-  assert.equal(catalogs.fleetd.length, 19);
+  assert.equal(catalogs.fleetd.length, 20);
   for (const operation of catalogs.fleetd) {
     assert.equal(operation.auth, "controller", operation.name);
     const page = read(`content/docs/api/fleetd/${slug(operation.name)}.md`);
@@ -238,7 +256,7 @@ test("controller guides and every generated operation require the same OS-user c
 
 test("Toolsmith guides match the recorded public 0.4 library ownership", () => {
   const installation = read("content/docs/toolsmith/installation.md");
-  assert.equal(installation.includes("ctlflow_toolsmith-0.4.1"), true);
+  assert.equal(installation.includes("ctlflow_toolsmith-0.4.2"), true);
   assert.equal(installation.includes("0.3.0"), false);
   const library = read("content/docs/toolsmith/library.md");
   const rows = library.split("\n");

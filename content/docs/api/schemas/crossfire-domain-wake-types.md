@@ -25,11 +25,11 @@ export type WakeSelection = {
 };
 ```
 
-## MatrixWakeSelection {#MatrixWakeSelection}
+## BackendWakeSelection {#BackendWakeSelection}
 
 ```typescript
-export type MatrixWakeSelection = {
-    matrixUserId: string;
+export type BackendWakeSelection = {
+    backendUserId: string;
     includeAgents: boolean;
 };
 ```

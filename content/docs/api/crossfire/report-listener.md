@@ -108,8 +108,8 @@ object; fields below; unknown fields rejected ([`heartbeat`](/docs/api/schemas/c
 | `statistics.endedAt` | exact JSON integer; 0…9007199254740991 ([`count`](/docs/api/schemas/crossfire-contracts-statistics/#count)) |
 | `statistics.dropped` | exact JSON integer; 0…9007199254740991 ([`count`](/docs/api/schemas/crossfire-contracts-statistics/#count)) |
 | `statistics.flows` | array; 0–256 entries; item: object; fields below; unknown fields rejected ([`trafficFlow`](/docs/api/schemas/crossfire-contracts-statistics/#trafficFlow)) |
-| `statistics.flows[].roomId` | immutable Matrix room ID; maximum 255 UTF-16 units |
-| `statistics.flows[].senderMatrixId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `statistics.flows[].roomId` | opaque room ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
+| `statistics.flows[].senderBackendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `statistics.flows[].messageType` | string; 1–100 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `statistics.flows[].observed` | exact JSON integer; 0…9007199254740991 ([`count`](/docs/api/schemas/crossfire-contracts-statistics/#count)) |
 | `statistics.flows[].delivered` | exact JSON integer; 0…9007199254740991 ([`count`](/docs/api/schemas/crossfire-contracts-statistics/#count)) |
@@ -135,7 +135,7 @@ The following checks apply in addition to the field limits.
 Constraint on `statistics`:
 
 ```typescript
-value => value.endedAt >= value.startedAt && new Set(value.flows.map(flow => JSON.stringify([flow.roomId, flow.senderMatrixId, flow.messageType]))).size === value.flows.length
+value => value.endedAt >= value.startedAt && new Set(value.flows.map(flow => JSON.stringify([flow.roomId, flow.senderBackendUserId, flow.messageType]))).size === value.flows.length
     && new Set(value.usage.map(sample => JSON.stringify([sample.runtime, sample.sessionId]))).size === value.usage.length
 ```
 

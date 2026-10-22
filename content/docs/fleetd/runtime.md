@@ -36,7 +36,7 @@ skill or administrator text uses the same producer on the next eligible activati
 
 ## Message delivery and interruption
 
-The listener filters native Matrix events using current account, room, wake and
+The listener filters normalized backend events using current account, room, wake and
 controller authority. Input identifies the receiving agent and owner, sender, room, event and timestamp.
 Missing metadata is marked unknown.
 

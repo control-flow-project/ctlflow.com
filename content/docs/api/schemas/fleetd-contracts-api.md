@@ -14,6 +14,7 @@ All code blocks below are TypeScript declarations copied from the server. They d
 
 ### Imported definitions
 
+- [`services/crossfire/node/packages/kernel/src/history-context.ts`](/docs/api/schemas/crossfire-kernel-history-context/)
 - [`services/crossfire/node/packages/contracts/src/schema/validation.ts`](/docs/api/schemas/crossfire-contracts-schema-validation/)
 - [`services/crossfire/node/packages/contracts/src/schema/controller.ts`](/docs/api/schemas/crossfire-contracts-schema-controller/)
 - [`services/crossfire/node/packages/contracts/src/rest/operation.ts`](/docs/api/schemas/crossfire-contracts-rest-operation/)
@@ -23,6 +24,7 @@ All code blocks below are TypeScript declarations copied from the server. They d
 - [`services/crossfire/node/packages/contracts/src/fleet-control.ts`](/docs/api/schemas/crossfire-contracts-fleet-control/)
 - [`services/fleetd/node/packages/contracts/src/setup.ts`](/docs/api/schemas/fleetd-contracts-setup/)
 - [`services/fleetd/node/packages/contracts/src/configuration.ts`](/docs/api/schemas/fleetd-contracts-configuration/)
+- [`services/fleetd/node/packages/contracts/src/diagnostics.ts`](/docs/api/schemas/fleetd-contracts-diagnostics/)
 
 ## releaseDirectory {#releaseDirectory}
 
@@ -262,6 +264,8 @@ Related definitions:
 
 ```typescript
 operations = {
+    diagnostics: operation({ ...common, method: 'GET', path: '/api/diagnostics', params: check.empty, query: diagnosticQuery, input: check.empty,
+        output: diagnosticReport, description: 'Read bounded diagnostics without starting sessions, refreshing credentials or repairing state' }),
     setup: operation({ ...common, method: 'POST', path: '/api/setup', params: check.empty, query: none, input: setupInput,
         output: setupResult, description: 'Set up an ordinary fleet without configuration questions; preserve prior stop intent' }),
     status: operation({ ...common, method: 'GET', path: '/api/status', params: check.empty, query: none, input: check.empty,
@@ -280,10 +284,10 @@ operations = {
     addAgent: operation({ ...common, method: 'POST', path: '/api/fleets/{fleetId}/agents', params, query: none, input: check.object({ expectedRevision: check.integer(), instance }), output: fleetView, status: 201, description: 'Add defined instance' }),
     agent: operation({ ...common, method: 'GET', path: '/api/fleets/{fleetId}/agents/{instanceKey}', params: agentParams, query: none, input: check.empty, output: instanceView, description: 'Instance details' }),
     contexts: operation({ ...common, method: 'GET', path: '/api/fleets/{fleetId}/agents/{instanceKey}/contexts', params: agentParams, query: none, input: check.empty,
-        output: check.list(check.object({ context: check.text(255), runtime: check.name, sessionId: check.text(200) }), 2002), description: 'Read retained native history identities without starting a session' }),
+        output: check.list(check.object({ context: check.text(MAX_HISTORY_CONTEXT), runtime: check.name, sessionId: check.text(200) }), 2002), description: 'Read retained native history identities without starting a session' }),
     attachment: operation({ ...common, method: 'GET', path: '/api/fleets/{fleetId}/agents/{instanceKey}/attachment', params: agentParams,
         query: input => { if (!(input instanceof URLSearchParams) || [...input.keys()].some(key => key !== 'context') || input.getAll('context').length > 1)
-            return failure('invalid', 'Use one exact context'); return check.object({ context: check.optional(check.text(255)) })(input.has('context') ? { context: input.get('context') } : {}); },
+            return failure('invalid', 'Use one exact context'); return check.object({ context: check.optional(check.text(MAX_HISTORY_CONTEXT)) })(input.has('context') ? { context: input.get('context') } : {}); },
         input: check.empty, output: attachment, description: 'Read a private live terminal pointer; sleeping and stopped sessions require explicit resume' }),
     changeAgent: operation({ ...common, method: 'PATCH', path: '/api/fleets/{fleetId}/agents/{instanceKey}', params: agentParams, query: none, input: check.object({ expectedRevision: check.integer(), definition: check.name }), output: fleetView, description: 'Change a stopped instance definition' }),
     removeAgent: operation({ ...common, method: 'DELETE', path: '/api/fleets/{fleetId}/agents/{instanceKey}', params: agentParams, query: none, input: check.object({ expectedRevision: check.integer() }), output: fleetView, description: 'Retire a stopped instance registration while preserving private history' }),
@@ -298,6 +302,8 @@ Related definitions:
 - [`common`](/docs/api/schemas/fleetd-contracts-api/#common)
 - [`params`](/docs/api/schemas/fleetd-contracts-api/#params)
 - [`empty`](/docs/api/schemas/crossfire-contracts-schema-validation/#empty)
+- [`diagnosticQuery`](/docs/api/schemas/fleetd-contracts-diagnostics/#diagnosticQuery)
+- [`diagnosticReport`](/docs/api/schemas/fleetd-contracts-diagnostics/#diagnosticReport)
 - [`none`](/docs/api/schemas/crossfire-contracts-schema-query/#none)
 - [`setupInput`](/docs/api/schemas/fleetd-contracts-setup/#setupInput)
 - [`setupResult`](/docs/api/schemas/fleetd-contracts-api/#setupResult)
@@ -317,6 +323,7 @@ Related definitions:
 - [`instanceView`](/docs/api/schemas/fleetd-contracts-api/#instanceView)
 - [`instance`](/docs/api/schemas/fleetd-contracts-api/#instance)
 - [`agentParams`](/docs/api/schemas/fleetd-contracts-api/#agentParams)
+- [`MAX_HISTORY_CONTEXT`](/docs/api/schemas/crossfire-kernel-history-context/#MAX_HISTORY_CONTEXT)
 - [`name`](/docs/api/schemas/crossfire-contracts-schema-validation/#name)
 - [`attachment`](/docs/api/schemas/fleetd-contracts-attachment/#attachment)
 - [`failure`](/docs/api/schemas/crossfire-kernel-result/#failure)

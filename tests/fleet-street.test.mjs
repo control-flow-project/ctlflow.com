@@ -25,7 +25,7 @@ function fixture() {
 test("fleet-street snapshots retain the complete pinned example and report", () => {
   const metadata = verifyFleetStreet(root);
   assert.equal(metadata.agentCount, 10);
-  assert.equal(metadata.fleetRelease, "0.1.20");
+  assert.equal(metadata.fleetRelease, "0.1.23");
   assert.equal(Object.keys(metadata.snippets).length, 7);
   assert.equal(Object.keys(metadata.outputs).length, 12);
   const roster = fs.readFileSync(path.join(root, "assets", metadata.snippets.roster.asset), "utf8");

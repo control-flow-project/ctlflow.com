@@ -13,7 +13,7 @@ The guide verifies the active registered human and pins the exact public fleet
 release. Its JSON descriptor is at:
 
 ```text
-/onboarding/setup.json?ownerMatrixId=EXACT_MATRIX_ID
+/onboarding/setup.json?ownerBackendUserId=EXACT_BACKEND_USER_ID
 ```
 
 The server generates this descriptor and fleet downloads it during setup. The

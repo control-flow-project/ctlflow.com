@@ -56,7 +56,7 @@ POST /_matrix/client/v3/auth/org.crossfire.login.registration/fallback/web?sessi
 The invitation claim route belongs to the REST catalog. Opening a private invitation does not let an arbitrary JSON registration request choose roles. Element JSON registration does not require an ambient invitation token in its body.
 
 - [Invitation claim contract](/docs/api/crossfire/claim-invitation/)
-- [Registration transport source](source:ctlflow:services/crossfire/node/apps/server/src/http/registration.ts)
+- [Registration adapter source](source:ctlflow:services/crossfire/node/packages/adapter-matrix/src/web/registration.ts)
 
 ## Native directory and profile
 
@@ -69,13 +69,13 @@ Its native result has `results: {user_id, display_name}[]` and a boolean `limite
 ## Personalized setup
 
 ```text
-GET/HEAD /onboarding/setup?ownerMatrixId=@member:example.test
-GET/HEAD /onboarding/setup.json?ownerMatrixId=@member:example.test
+GET/HEAD /onboarding/setup?ownerBackendUserId=@member:example.test
+GET/HEAD /onboarding/setup.json?ownerBackendUserId=@member:example.test
 ```
 
-Supply exactly one `ownerMatrixId`; encode it as a query value. The server resolves one active registered human. These routes are readable setup material, not enrollment approval. Responses are respectively plain text and JSON, no-store, without a REST envelope.
+Supply exactly one `ownerBackendUserId`; encode it as a query value. The server resolves one active registered human. These routes are readable setup material, not enrollment approval. Responses are respectively plain text and JSON, no-store, without a REST envelope.
 
-The descriptor contains `schemaVersion: 1`, the exact server origin, `ownerMatrixId`, the package `{name: "@ctlflow/fleet", version: "<exact release>"}` and bounded administrator instructions. The CLI checks exact origin, owner, installed version, duplicate/unknown fields and redirects. Human enrollment approval remains mandatory.
+The descriptor contains `schemaVersion: 1`, the exact server origin, `ownerBackendUserId`, the package `{name: "@ctlflow/fleet", version: "<exact release>"}` and bounded administrator instructions. The CLI checks exact origin, owner, installed version, duplicate/unknown fields and redirects. Human enrollment approval remains mandatory.
 
 The generated guide installs **Node fleet and Node fleetd**, independent of the selected server implementation. It leaves the setup session untouched and starts a separate managed history.
 

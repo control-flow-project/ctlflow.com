@@ -26,7 +26,7 @@ preview = check.object({ digest: check.text(64, 64), snapshots: check.list(check
     changes: check.list(check.object({ agentId: check.identifier, roomId: check.roomId, before: check.nullable(grant),
         agentName: check.text(255), instanceKey: check.name, roomName: check.text(255), roomAlias: check.nullable(check.text(255)),
         after: check.nullable(grantIntent), changed: check.boolean, authorizerId: check.identifier,
-        nativePowerLevel: check.nullable(check.integer(Number.MIN_SAFE_INTEGER)), nativeCreator: check.boolean }), 10000) })
+        authority: check.nullable(roomAuthority) }), 10000) })
 ```
 
 Related definitions:
@@ -43,6 +43,7 @@ Related definitions:
 - [`grantIntent`](/docs/api/schemas/crossfire-contracts-schema-request/#grantIntent)
 - [`changed`](/docs/api/schemas/crossfire-contracts-schema-plan/#changed)
 - [`boolean`](/docs/api/schemas/crossfire-contracts-schema-validation/#boolean)
+- [`roomAuthority`](/docs/api/schemas/crossfire-contracts-schema-response/#roomAuthority)
 
 ## changed {#changed}
 

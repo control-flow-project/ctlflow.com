@@ -96,18 +96,30 @@ object; fields below; unknown fields rejected ([`planChange`](/docs/api/schemas/
 | `plan.agents` | array; 1–100 entries; item: object; fields below; unknown fields rejected |
 | `plan.agents[].instanceKey` | lowercase name; pattern `[a-z][a-z0-9-]{0,39}` |
 | `plan.agents[].grants` | array; 0–100 entries; item: object; fields below; unknown fields rejected ([`grantIntent`](/docs/api/schemas/crossfire-contracts-schema-request/#grantIntent)) |
-| `plan.agents[].grants[].roomId` | immutable Matrix room ID; maximum 255 UTF-16 units |
+| `plan.agents[].grants[].roomId` | opaque room ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `plan.agents[].grants[].accessMode` | `read` or `reply` or `custom` |
-| `plan.agents[].grants[].powerLevel` | exact JSON integer; -9007199254740991…9007199254740991; JSON null permitted |
+| `plan.agents[].grants[].nativeAccess` | custom validation: [`backendParameters`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendParameters); see function below; JSON null permitted |
 | `plan.agents[].grants[].muted` | boolean |
 | `digest` | string; 64–64 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `snapshots` | array; 1–100 entries; item: object; fields below; unknown fields rejected |
 | `snapshots[].agentId` | lowercase opaque UUID |
 | `snapshots[].revision` | exact JSON integer; 0…9007199254740991 ([`revision`](/docs/api/schemas/crossfire-contracts-schema-request/#revision)) |
 | `snapshots[].grants` | array; 0–100 entries; item: object; fields below; unknown fields rejected |
-| `snapshots[].grants[].roomId` | immutable Matrix room ID; maximum 255 UTF-16 units |
+| `snapshots[].grants[].roomId` | opaque room ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `snapshots[].grants[].generation` | lowercase opaque UUID |
 | `snapshots[].grants[].revision` | exact JSON integer; 0…9007199254740991 ([`revision`](/docs/api/schemas/crossfire-contracts-schema-request/#revision)) |
+
+### Additional checks
+
+The following checks apply in addition to the field limits.
+
+Constraint on `plan.agents[].grants[].nativeAccess`:
+
+```typescript
+input => input !== null && typeof input === 'object' && !Array.isArray(input)
+    && json(input) && Object.keys(input).length <= 64 && new TextEncoder().encode(JSON.stringify(input)).length <= 8192
+    ? success(input as JsonObject) : failure('invalid', 'Expected a backend parameter object up to 8192 UTF-8 bytes')
+```
 
 ### Validation
 

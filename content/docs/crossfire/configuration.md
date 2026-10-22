@@ -15,19 +15,28 @@ change. Do not put these files in source control or expose them through nginx.
 | Field | Meaning |
 | --- | --- |
 | `instance` | Lowercase instance identifier, at most 40 characters |
-| `serverName` | Native Matrix server name; not a display label |
 | `publicOrigin` | Exact application origin |
 | `contentOrigin` | Exact separate report origin/hostname |
-| `matrixOrigin` | Private native homeserver endpoint |
-| `administrator` | Initial human Matrix ID on this server |
-| `jwtSecret`, `registrationSecret` | Private native integration credentials |
+| `messaging` | Selected backend `{type, parameters}`; its adapter validates parameters |
+| `administrator` | Initial human's backend user ID |
 | `publicationBudget` | Optional finite report reservations and upload concurrency |
 | `loggingRetentionDays` | Positive exact integer; omitted means seven days |
 | `trustedProxyAddresses` | Up to 32 distinct literal immediate-peer IP addresses; omitted means none |
 
 Unknown fields and invalid origins fail startup. HTTPS is required for public
-origins; explicit loopback HTTP is for local use. Content must not share the main
-or Matrix HTTPS hostname. Changing a label cannot confer authority.
+origins; explicit loopback HTTP is for local use. Content must use a separate
+hostname. The selected adapter also checks its backend's origin boundaries.
+Changing a label cannot confer authority.
+
+## Matrix backend parameters
+
+Select `messaging.type = "matrix"` for the implemented Matrix backend. Its
+`messaging.parameters` object contains exactly `serverName`, `origin`, `jwtSecret`
+and `registrationSecret`. `origin` names the private homeserver endpoint;
+`serverName` is its native server name. Both private integration secrets have at
+least 32 characters. They are adapter parameters, not configuration-root fields.
+Never commit or disclose them in room messages. Generic platform configuration
+and identities do not interpret Matrix-specific syntax or permissions.
 
 ## Trusted ingress and request quotas
 

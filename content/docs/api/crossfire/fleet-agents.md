@@ -115,12 +115,12 @@ array; 0–100 entries; item: object; fields below; unknown fields rejected ([`f
 | `[].instanceKey` | lowercase name; pattern `[a-z][a-z0-9-]{0,39}` |
 | `[].agent` | object; fields below; unknown fields rejected ([`agent`](/docs/api/schemas/crossfire-contracts-schema-response/#agent)) |
 | `[].agent.agentId` | lowercase opaque UUID |
-| `[].agent.matrixUserId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `[].agent.backendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `[].agent.name` | lowercase name; pattern `[a-z][a-z0-9-]{0,39}` |
 | `[].agent.displayName` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `[].agent.owner` | object; fields below; unknown fields rejected ([`owner`](/docs/api/schemas/crossfire-contracts-schema-response/#owner)) |
 | `[].agent.owner.memberId` | lowercase opaque UUID |
-| `[].agent.owner.matrixUserId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `[].agent.owner.backendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `[].agent.owner.displayName` | string; 1–100 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `[].agent.owner.status` | validator `choice('active', 'suspended', 'revoked')` ([`status`](/docs/api/schemas/crossfire-contracts-schema-validation/#status)) |
 | `[].agent.status` | validator `choice('active', 'suspended', 'revoked')` ([`status`](/docs/api/schemas/crossfire-contracts-schema-validation/#status)) |
@@ -142,8 +142,8 @@ array; 0–100 entries; item: object; fields below; unknown fields rejected ([`f
 | `[].agent.activity.activeRuns` | array; 0–100 entries; item: object; fields below; unknown fields rejected ([`listenerRun`](/docs/api/schemas/crossfire-contracts-schema-response/#listenerRun)) |
 | `[].agent.activity.activeRuns[].runId` | lowercase opaque UUID |
 | `[].agent.activity.activeRuns[].agentId` | lowercase opaque UUID |
-| `[].agent.activity.activeRuns[].release` | string; 1–200 UTF-16 units; well-formed Unicode; no C0/DEL controls; JSON null permitted |
-| `[].agent.activity.activeRuns[].controller` | object; fields below; unknown fields rejected; JSON null permitted |
+| `[].agent.activity.activeRuns[].release` | string; 1–200 UTF-16 units; well-formed Unicode; no C0/DEL controls |
+| `[].agent.activity.activeRuns[].controller` | object; fields below; unknown fields rejected |
 | `[].agent.activity.activeRuns[].controller.fleetId` | lowercase opaque UUID |
 | `[].agent.activity.activeRuns[].controller.connectionId` | lowercase opaque UUID |
 | `[].agent.activity.activeRuns[].controller.credentialId` | lowercase opaque UUID |

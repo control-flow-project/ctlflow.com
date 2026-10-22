@@ -93,7 +93,7 @@ object; fields below; unknown fields rejected ([`preflight`](/docs/api/schemas/c
 | `controller.name` | string; 1–100 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `controller.metadata` | custom validation: [`metadata`](/docs/api/schemas/crossfire-contracts-schema-controller/#metadata); see function below; optional property |
 | `controllerCredential` | string; 1–200 UTF-16 units; well-formed Unicode; no C0/DEL controls; optional property |
-| `ownerMatrixId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `ownerBackendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `fleetKey` | lowercase name; pattern `[a-z][a-z0-9-]{0,39}` |
 | `instances` | array; 1–100 entries; item: object; fields below; unknown fields rejected ([`instance`](/docs/api/schemas/crossfire-contracts-schema-request/#instance)) |
 | `instances[].instanceKey` | lowercase name; pattern `[a-z][a-z0-9-]{0,39}` |
@@ -103,8 +103,8 @@ object; fields below; unknown fields rejected ([`preflight`](/docs/api/schemas/c
 | `instances[].identity.accessToken` | string; 1–8192 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `instances[].coordinationPolicy` | object; fields below; unknown fields rejected; constraint: Select unique identities; everyone requires no individual selections ([`coordinationPolicy`](/docs/api/schemas/crossfire-contracts-coordination-policy/#coordinationPolicy)) |
 | `instances[].coordinationPolicy.wakeMode` | validator `choice('selected', 'humans', 'everyone')` ([`wakeMode`](/docs/api/schemas/crossfire-contracts-schema-validation/#wakeMode)) |
-| `instances[].coordinationPolicy.senders` | array; 0–2000 entries; item: object; fields below; unknown fields rejected ([`matrixWakeSelection`](/docs/api/schemas/crossfire-contracts-coordination-policy/#matrixWakeSelection)) |
-| `instances[].coordinationPolicy.senders[].matrixUserId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `instances[].coordinationPolicy.senders` | array; 0–2000 entries; item: object; fields below; unknown fields rejected ([`backendWakeSelection`](/docs/api/schemas/crossfire-contracts-coordination-policy/#backendWakeSelection)) |
+| `instances[].coordinationPolicy.senders[].backendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `instances[].coordinationPolicy.senders[].includeAgents` | boolean |
 | `instances[].coordinationPolicy.permissions` | array; 0–1 entries; item: `room.agent.invite` |
 
@@ -132,7 +132,7 @@ Constraint on `instances[].coordinationPolicy`:
 
 ```typescript
 policy => (policy.wakeMode !== 'everyone' || policy.senders.length === 0)
-    && new Set(policy.senders.map(sender => sender.matrixUserId)).size === policy.senders.length
+    && new Set(policy.senders.map(sender => sender.backendUserId)).size === policy.senders.length
 ```
 
 ### Validation

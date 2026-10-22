@@ -124,8 +124,8 @@ object; fields below; unknown fields rejected ([`scheduledWake`](/docs/api/schem
 | `message` | plain-text string; at most 16384 UTF-8 bytes; allowed whitespace controls only; constraint: Provide a wake-up message ([`message`](/docs/api/schemas/crossfire-contracts-wake-up/#message)) |
 | `scheduledAt` | exact JSON integer; 0…9007199254740991 |
 | `sessionId` | string; 1–200 UTF-16 units; well-formed Unicode; no C0/DEL controls |
-| `ownerMatrixId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
-| `authorizerMatrixId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `ownerBackendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
+| `authorizerBackendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 
 ### Additional checks
 

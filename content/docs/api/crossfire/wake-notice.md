@@ -41,7 +41,7 @@ object; fields below; unknown fields rejected
 | Field path | Representation and constraints |
 | --- | --- |
 | `agentId` | lowercase opaque UUID |
-| `eventId` | opaque Matrix event ID; maximum 255 UTF-16 units |
+| `eventId` | opaque event ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 
 ### Validation
 
@@ -98,7 +98,7 @@ object; fields below; unknown fields rejected ([`wakeNotice`](/docs/api/schemas/
 
 | Field path | Representation and constraints |
 | --- | --- |
-| `roomId` | immutable Matrix room ID; maximum 255 UTF-16 units |
+| `roomId` | opaque room ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 
 ### Validation
 

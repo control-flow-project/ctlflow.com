@@ -89,13 +89,13 @@ object; fields below; unknown fields rejected ([`principalResolution`](/docs/api
 
 | Field path | Representation and constraints |
 | --- | --- |
-| `matrixUserIds` | array; 1–100 entries; item: well-formed Matrix user ID; maximum 255 UTF-16 units; constraint: Resolve unique Matrix identities |
+| `backendUserIds` | array; 1–100 entries; item: opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters; constraint: Resolve unique backend identities |
 
 ### Additional checks
 
 The following checks apply in addition to the field limits.
 
-Constraint on `matrixUserIds`:
+Constraint on `backendUserIds`:
 
 ```typescript
 ids => new Set(ids).size === ids.length
@@ -121,9 +121,9 @@ array; 1–100 entries; item: object; fields below; unknown fields rejected; con
 
 | Field path | Representation and constraints |
 | --- | --- |
-| `[].matrixUserId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `[].backendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `[].kind` | `human` or `agent` or `unknown` |
-| `[].ownerMatrixId` | well-formed Matrix user ID; maximum 255 UTF-16 units; JSON null permitted |
+| `[].ownerBackendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters; JSON null permitted |
 | `[].displayName` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls; JSON null permitted |
 | `[].ownerDisplayName` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls; JSON null permitted |
 
@@ -134,13 +134,13 @@ The following checks apply in addition to the field limits.
 Constraint on `object`:
 
 ```typescript
-identities => new Set(identities.map(identity => identity.matrixUserId)).size === identities.length
+identities => new Set(identities.map(identity => identity.backendUserId)).size === identities.length
 ```
 
 Constraint on `[]`:
 
 ```typescript
-identity => (identity.kind === 'agent') === (identity.ownerMatrixId !== null)
+identity => (identity.kind === 'agent') === (identity.ownerBackendUserId !== null)
 ```
 
 ### Validation

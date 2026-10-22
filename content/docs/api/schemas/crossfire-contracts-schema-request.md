@@ -60,7 +60,7 @@ Related definitions:
 ## roster {#roster}
 
 ```typescript
-roster = { controller, controllerCredential: check.optional(check.text(200)), ownerMatrixId: check.matrixUserId, fleetKey: check.name, instances: check.list(instance, 100, 1) }
+roster = { controller, controllerCredential: check.optional(check.text(200)), ownerBackendUserId: check.backendUserId, fleetKey: check.name, instances: check.list(instance, 100, 1) }
 ```
 
 Related definitions:
@@ -68,7 +68,7 @@ Related definitions:
 - [`controller`](/docs/api/schemas/crossfire-contracts-schema-controller/#controller)
 - [`optional`](/docs/api/schemas/crossfire-contracts-schema-validation/#optional)
 - [`text`](/docs/api/schemas/crossfire-contracts-schema-validation/#text)
-- [`matrixUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#matrixUserId)
+- [`backendUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendUserId)
 - [`name`](/docs/api/schemas/crossfire-contracts-schema-validation/#name)
 - [`list`](/docs/api/schemas/crossfire-contracts-schema-validation/#list)
 - [`instance`](/docs/api/schemas/crossfire-contracts-schema-request/#instance)
@@ -227,7 +227,7 @@ Related definitions:
 ## grantIntent {#grantIntent}
 
 ```typescript
-grantIntent = check.object({ roomId: check.roomId, accessMode: check.choice('read', 'reply', 'custom'), powerLevel: check.nullable(check.integer(Number.MIN_SAFE_INTEGER)), muted: check.boolean })
+grantIntent = check.object({ roomId: check.roomId, accessMode: check.choice('read', 'reply', 'custom'), nativeAccess: check.nullable(check.backendParameters), muted: check.boolean })
 ```
 
 Related definitions:
@@ -236,13 +236,13 @@ Related definitions:
 - [`roomId`](/docs/api/schemas/crossfire-contracts-schema-validation/#roomId)
 - [`choice`](/docs/api/schemas/crossfire-contracts-schema-validation/#choice)
 - [`nullable`](/docs/api/schemas/crossfire-contracts-schema-validation/#nullable)
-- [`integer`](/docs/api/schemas/crossfire-contracts-schema-validation/#integer)
+- [`backendParameters`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendParameters)
 - [`boolean`](/docs/api/schemas/crossfire-contracts-schema-validation/#boolean)
 
 ## roomGrant {#roomGrant}
 
 ```typescript
-roomGrant = check.object({ expectedRevision: revision, expectedGeneration: check.nullable(check.identifier), accessMode: check.choice('read', 'reply', 'custom'), powerLevel: check.nullable(check.integer(Number.MIN_SAFE_INTEGER)), muted: check.boolean })
+roomGrant = check.object({ expectedRevision: revision, expectedGeneration: check.nullable(check.identifier), accessMode: check.choice('read', 'reply', 'custom'), nativeAccess: check.nullable(check.backendParameters), muted: check.boolean })
 ```
 
 Related definitions:
@@ -252,7 +252,7 @@ Related definitions:
 - [`nullable`](/docs/api/schemas/crossfire-contracts-schema-validation/#nullable)
 - [`identifier`](/docs/api/schemas/crossfire-contracts-schema-validation/#identifier)
 - [`choice`](/docs/api/schemas/crossfire-contracts-schema-validation/#choice)
-- [`integer`](/docs/api/schemas/crossfire-contracts-schema-validation/#integer)
+- [`backendParameters`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendParameters)
 - [`boolean`](/docs/api/schemas/crossfire-contracts-schema-validation/#boolean)
 
 ## removeGrant {#removeGrant}
@@ -314,7 +314,7 @@ Related definitions:
 ## principalResolution {#principalResolution}
 
 ```typescript
-principalResolution = check.object({ matrixUserIds: check.refine(check.list(check.matrixUserId, 100, 1), ids => new Set(ids).size === ids.length, 'Resolve unique Matrix identities') })
+principalResolution = check.object({ backendUserIds: check.refine(check.list(check.backendUserId, 100, 1), ids => new Set(ids).size === ids.length, 'Resolve unique backend identities') })
 ```
 
 Related definitions:
@@ -322,7 +322,7 @@ Related definitions:
 - [`object`](/docs/api/schemas/crossfire-contracts-schema-validation/#object)
 - [`refine`](/docs/api/schemas/crossfire-contracts-schema-validation/#refine)
 - [`list`](/docs/api/schemas/crossfire-contracts-schema-validation/#list)
-- [`matrixUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#matrixUserId)
+- [`backendUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendUserId)
 
 ## plan {#plan}
 

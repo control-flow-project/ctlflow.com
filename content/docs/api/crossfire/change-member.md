@@ -121,7 +121,7 @@ object; fields below; unknown fields rejected ([`member`](/docs/api/schemas/cros
 | Field path | Representation and constraints |
 | --- | --- |
 | `memberId` | lowercase opaque UUID |
-| `matrixUserId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `backendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `displayName` | string; 1–100 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `roleCode` | `member` or `administrator` |
 | `status` | validator `choice('active', 'suspended', 'revoked')` ([`status`](/docs/api/schemas/crossfire-contracts-schema-validation/#status)) |

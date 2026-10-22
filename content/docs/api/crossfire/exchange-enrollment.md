@@ -120,7 +120,7 @@ object; fields below; unknown fields rejected ([`enrollmentExchange`](/docs/api/
 | `fleet` | object; fields below; unknown fields rejected; JSON null permitted |
 | `fleet.fleetId` | lowercase opaque UUID |
 | `fleet.controllerCredential` | string; 1–200 UTF-16 units; well-formed Unicode; no C0/DEL controls; JSON null permitted |
-| `ownerMatrixId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `ownerBackendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `instances` | array; 0–100 entries; item: object; fields below; unknown fields rejected |
 | `instances[].instanceKey` | lowercase name; pattern `[a-z][a-z0-9-]{0,39}` |
 | `instances[].name` | lowercase name; pattern `[a-z][a-z0-9-]{0,39}` |
@@ -128,9 +128,21 @@ object; fields below; unknown fields rejected ([`enrollmentExchange`](/docs/api/
 | `instances[].status` | `ready` or `provisioning` |
 | `instances[].errorCode` | string; 1–100 UTF-16 units; well-formed Unicode; no C0/DEL controls; JSON null permitted |
 | `instances[].account` | object; fields below; unknown fields rejected; JSON null permitted |
-| `instances[].account.matrixUserId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `instances[].account.userId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `instances[].account.accessToken` | string; 1–8192 UTF-16 units; well-formed Unicode; no C0/DEL controls |
-| `instances[].account.deviceId` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls |
+| `instances[].account.native` | custom validation: [`backendParameters`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendParameters); see function below |
+
+### Additional checks
+
+The following checks apply in addition to the field limits.
+
+Constraint on `instances[].account.native`:
+
+```typescript
+input => input !== null && typeof input === 'object' && !Array.isArray(input)
+    && json(input) && Object.keys(input).length <= 64 && new TextEncoder().encode(JSON.stringify(input)).length <= 8192
+    ? success(input as JsonObject) : failure('invalid', 'Expected a backend parameter object up to 8192 UTF-8 bytes')
+```
 
 ### Validation
 

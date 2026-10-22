@@ -15,6 +15,8 @@ All code blocks below are TypeScript declarations copied from the server. They d
 ### Imported definitions
 
 - [`services/crossfire/node/packages/kernel/src/result.ts`](/docs/api/schemas/crossfire-kernel-result/)
+- [`services/crossfire/node/packages/kernel/src/json.ts`](/docs/api/schemas/crossfire-kernel-json/)
+- [`services/crossfire/node/packages/kernel/src/identifier.ts`](/docs/api/schemas/crossfire-kernel-identifier/)
 
 ## Parser {#Parser}
 
@@ -243,37 +245,61 @@ Related definitions:
 - [`success`](/docs/api/schemas/crossfire-kernel-result/#success)
 - [`failure`](/docs/api/schemas/crossfire-kernel-result/#failure)
 
-## matrixUserId {#matrixUserId}
+## opaque {#opaque}
 
 ```typescript
-matrixUserId: Parser<string> = input => typeof input === 'string' && input.length <= 255 && input.isWellFormed() && /^@[^:\s]+:[^\s]+$/u.test(input) ? success(input) : failure('invalid', 'Expected a Matrix user ID')
+opaque: Parser<string> = input => opaqueIdentifier(input) ? success(input) : failure('invalid', 'Expected an opaque backend identifier')
 ```
 
 Related definitions:
 
+- [`opaqueIdentifier`](/docs/api/schemas/crossfire-kernel-identifier/#opaqueIdentifier)
 - [`success`](/docs/api/schemas/crossfire-kernel-result/#success)
 - [`failure`](/docs/api/schemas/crossfire-kernel-result/#failure)
+
+## backendUserId {#backendUserId}
+
+```typescript
+backendUserId = opaque
+```
+
+Related definitions:
+
+- [`opaque`](/docs/api/schemas/crossfire-contracts-schema-validation/#opaque)
 
 ## roomId {#roomId}
 
 ```typescript
-roomId: Parser<string> = input => typeof input === 'string' && input.length <= 255 && input.isWellFormed() && /^!\S+$/u.test(input) ? success(input) : failure('invalid', 'Expected an immutable Matrix room ID')
+roomId = opaque
 ```
 
 Related definitions:
 
-- [`success`](/docs/api/schemas/crossfire-kernel-result/#success)
-- [`failure`](/docs/api/schemas/crossfire-kernel-result/#failure)
+- [`opaque`](/docs/api/schemas/crossfire-contracts-schema-validation/#opaque)
 
 ## eventId {#eventId}
 
 ```typescript
-eventId: Parser<string> = input => typeof input === 'string' && input.length <= 255 && input.isWellFormed() && /^\$\S+$/u.test(input) ? success(input) : failure('invalid', 'Expected a Matrix event ID')
+eventId = opaque
 ```
 
 Related definitions:
 
+- [`opaque`](/docs/api/schemas/crossfire-contracts-schema-validation/#opaque)
+
+## backendParameters {#backendParameters}
+
+```typescript
+backendParameters: Parser<JsonObject> = input => input !== null && typeof input === 'object' && !Array.isArray(input)
+    && json(input) && Object.keys(input).length <= 64 && new TextEncoder().encode(JSON.stringify(input)).length <= 8192
+    ? success(input as JsonObject) : failure('invalid', 'Expected a backend parameter object up to 8192 UTF-8 bytes')
+```
+
+Related definitions:
+
+- [`json`](/docs/api/schemas/crossfire-kernel-json/#json)
 - [`success`](/docs/api/schemas/crossfire-kernel-result/#success)
+- [`JsonObject`](/docs/api/schemas/crossfire-kernel-json/#JsonObject)
 - [`failure`](/docs/api/schemas/crossfire-kernel-result/#failure)
 
 ## secret {#secret}

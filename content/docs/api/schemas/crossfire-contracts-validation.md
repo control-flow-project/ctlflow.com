@@ -61,12 +61,12 @@ export function text(value: unknown, maximum = 200): value is string { return ch
 ## userId {#userId}
 
 ```typescript
-export function userId(value: unknown): value is string { return check.matrixUserId(value).ok; }
+export function userId(value: unknown): value is string { return check.backendUserId(value).ok; }
 ```
 
 Related definitions:
 
-- [`matrixUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#matrixUserId)
+- [`backendUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendUserId)
 
 ## roomId {#roomId}
 
@@ -79,7 +79,7 @@ export function roomId(value: unknown): value is string { return check.roomId(va
 ```typescript
 export function selectRoom(selector: string): string {
     if (!roomId(selector))
-        throw new Error('Use an exact native room ID from matrix get-joined-rooms');
+        throw new Error('Use an exact room identifier returned by the messaging backend');
     return selector;
 }
 ```
