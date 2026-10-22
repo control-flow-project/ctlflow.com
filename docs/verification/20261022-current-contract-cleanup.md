@@ -41,3 +41,12 @@ release/catalog values. Those expectations now match the current committed
 contracts. Full build, source and browser gates were rerun after correction.
 
 No live website, server, controller, provider login or deployment state changed.
+
+## Independent rereview correction
+
+The independent read-only review found one remaining incorrect documentation
+claim: repeated existing-database maintenance was said to suppress extra backups.
+Node, C# and Rust actually create a new uniquely named verified snapshot on every
+backup-before-migration invocation. The database guide now states that behavior;
+the owning guide test asserts it. This prose/test-only correction receives a
+focused source-test run, not another container/runtime or full browser cycle.

@@ -78,8 +78,11 @@ authorization and never includes credentials or saved native histories by defaul
 
 Acquire exclusive instance ownership, stop/confirm owned writers, verify the
 required private backup, run Knex, then start the selected application.
-Failure blocks later phases. Current migrated stores do not accumulate redundant
-upgrade backups. Never force-unlock a Knex migration while a writer might remain.
+Failure blocks later phases. For an existing management database, each invocation
+of the backup-before-migration step creates and verifies a new uniquely named
+snapshot, even when the current migration is already applied. Previous snapshots
+are not automatically removed or reused. Never force-unlock a Knex migration
+while a writer might remain.
 
 All implementations open the same file. Fixtures also use the actual Knex
 migration, including the EF model generator's input. Acceptance checks current

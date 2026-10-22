@@ -209,6 +209,8 @@ test("current guides match neutral identities and the sole current storage contr
   const database = read("content/docs/ctlflow/database.md");
   for (const expected of ["00_initial.mjs", "57 singular STRICT", "101 foreign-key", "87 explicit indexes", "20 triggers"])
     assert.equal(database.includes(expected), true, expected);
+  for (const expected of ["each invocation", "new uniquely named", "not automatically removed or reused"])
+    assert.equal(database.includes(expected), true, expected);
   for (const page of ["fleetd/storage", "toolsmith/semantic", "toolsmith/operations"])
     assert.equal(read(`content/docs/${page}.md`).includes("current"), true, page);
 });
