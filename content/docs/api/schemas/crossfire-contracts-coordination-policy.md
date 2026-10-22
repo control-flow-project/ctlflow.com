@@ -17,24 +17,24 @@ All code blocks below are TypeScript declarations copied from the server. They d
 - [`services/crossfire/node/packages/contracts/src/schema/validation.ts`](/docs/api/schemas/crossfire-contracts-schema-validation/)
 - [`services/crossfire/node/packages/domain/src/coordination/values.ts`](/docs/api/schemas/crossfire-domain-coordination-values/)
 
-## matrixWakeSelection {#matrixWakeSelection}
+## backendWakeSelection {#backendWakeSelection}
 
 ```typescript
-matrixWakeSelection = check.object({ matrixUserId: check.matrixUserId, includeAgents: check.boolean })
+backendWakeSelection = check.object({ backendUserId: check.backendUserId, includeAgents: check.boolean })
 ```
 
 Related definitions:
 
 - [`object`](/docs/api/schemas/crossfire-contracts-schema-validation/#object)
-- [`matrixUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#matrixUserId)
+- [`backendUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendUserId)
 - [`boolean`](/docs/api/schemas/crossfire-contracts-schema-validation/#boolean)
 
 ## coordinationPolicy {#coordinationPolicy}
 
 ```typescript
 coordinationPolicy = check.refine(check.object({ wakeMode: check.wakeMode,
-    senders: check.list(matrixWakeSelection, 2000), permissions: check.list(check.choice('room.agent.invite'), 1) }), policy => (policy.wakeMode !== 'everyone' || policy.senders.length === 0)
-    && new Set(policy.senders.map(sender => sender.matrixUserId)).size === policy.senders.length, 'Select unique identities; everyone requires no individual selections') satisfies check.Parser<CoordinationPolicy>
+    senders: check.list(backendWakeSelection, 2000), permissions: check.list(check.choice('room.agent.invite'), 1) }), policy => (policy.wakeMode !== 'everyone' || policy.senders.length === 0)
+    && new Set(policy.senders.map(sender => sender.backendUserId)).size === policy.senders.length, 'Select unique identities; everyone requires no individual selections') satisfies check.Parser<CoordinationPolicy>
 ```
 
 Related definitions:
@@ -43,15 +43,15 @@ Related definitions:
 - [`object`](/docs/api/schemas/crossfire-contracts-schema-validation/#object)
 - [`wakeMode`](/docs/api/schemas/crossfire-contracts-schema-validation/#wakeMode)
 - [`list`](/docs/api/schemas/crossfire-contracts-schema-validation/#list)
-- [`matrixWakeSelection`](/docs/api/schemas/crossfire-contracts-coordination-policy/#matrixWakeSelection)
+- [`backendWakeSelection`](/docs/api/schemas/crossfire-contracts-coordination-policy/#backendWakeSelection)
 - [`choice`](/docs/api/schemas/crossfire-contracts-schema-validation/#choice)
 - [`CoordinationPolicy`](/docs/api/schemas/crossfire-domain-coordination-values/#CoordinationPolicy)
 
 ## defaultCoordinationPolicy {#defaultCoordinationPolicy}
 
 ```typescript
-export function defaultCoordinationPolicy(ownerMatrixId: string): CoordinationPolicy {
-    return { wakeMode: 'selected', senders: [{ matrixUserId: ownerMatrixId, includeAgents: false }], permissions: [] };
+export function defaultCoordinationPolicy(ownerBackendUserId: string): CoordinationPolicy {
+    return { wakeMode: 'selected', senders: [{ backendUserId: ownerBackendUserId, includeAgents: false }], permissions: [] };
 }
 ```
 

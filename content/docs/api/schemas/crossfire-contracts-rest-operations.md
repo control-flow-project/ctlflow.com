@@ -35,6 +35,11 @@ All code blocks below are TypeScript declarations copied from the server. They d
 
 ```typescript
 operations = {
+    messagingBackend: operation({ method: 'GET', path: '/api/messaging-backend', auth: 'public', params: check.empty, query: query.none, input: check.empty,
+        output: res.messagingBackend, status: 200, collection: false, permissions: [], description: 'Configured messaging backend and public client entry points' }),
+    authenticateBackend: operation({ method: 'POST', path: '/api/backend-authentication', auth: 'public', params: check.empty, query: query.none,
+        input: check.object({ username: check.text(255), password: check.text(1024) }), output: check.object({ accessToken: check.text(8192) }),
+        status: 200, collection: false, permissions: [], description: 'Authenticate with the configured messaging backend' }),
     recordFleetNativeStop: operation({ method: 'PUT', path: '/api/fleets/{fleetId}/agents/{agentId}/native-stop', auth: 'fleet',
         params: check.object({ fleetId: check.identifier, agentId: check.identifier }), query: query.none,
         input: check.object({ connectionId: check.identifier, runId: check.identifier, receiptId: check.identifier }), output: res.recorded,
@@ -323,11 +328,13 @@ operations = {
 Related definitions:
 
 - [`operation`](/docs/api/schemas/crossfire-contracts-rest-operation/#operation)
-- [`object`](/docs/api/schemas/crossfire-contracts-schema-validation/#object)
-- [`identifier`](/docs/api/schemas/crossfire-contracts-schema-validation/#identifier)
-- [`none`](/docs/api/schemas/crossfire-contracts-schema-query/#none)
-- [`recorded`](/docs/api/schemas/crossfire-contracts-schema-response/#recorded)
 - [`empty`](/docs/api/schemas/crossfire-contracts-schema-validation/#empty)
+- [`none`](/docs/api/schemas/crossfire-contracts-schema-query/#none)
+- [`messagingBackend`](/docs/api/schemas/crossfire-contracts-schema-response/#messagingBackend)
+- [`object`](/docs/api/schemas/crossfire-contracts-schema-validation/#object)
+- [`text`](/docs/api/schemas/crossfire-contracts-schema-validation/#text)
+- [`identifier`](/docs/api/schemas/crossfire-contracts-schema-validation/#identifier)
+- [`recorded`](/docs/api/schemas/crossfire-contracts-schema-response/#recorded)
 - [`publicationCreation`](/docs/api/schemas/crossfire-contracts-publication/#publicationCreation)
 - [`publicationDetails`](/docs/api/schemas/crossfire-contracts-publication/#publicationDetails)
 - [`publicationQuery`](/docs/api/schemas/crossfire-contracts-publication/#publicationQuery)
@@ -438,7 +445,6 @@ Related definitions:
 - [`audit`](/docs/api/schemas/crossfire-contracts-schema-response/#audit)
 - [`manifest`](/docs/api/schemas/crossfire-contracts-release/#manifest)
 - [`name`](/docs/api/schemas/crossfire-contracts-schema-validation/#name)
-- [`text`](/docs/api/schemas/crossfire-contracts-schema-validation/#text)
 - [`integer`](/docs/api/schemas/crossfire-contracts-schema-validation/#integer)
 
 ## OperationName {#OperationName}

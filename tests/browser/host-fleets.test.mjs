@@ -35,14 +35,14 @@ test("server-only Docker and host setup are readable on desktop and mobile", asy
       assert.equal(response.status(), 200);
       await page.getByRole("heading", { level: 1, name: "Local Docker server and host fleet", exact: true }).waitFor();
       const text = await page.locator("main").innerText();
-      for (const expected of ["Your fleet runs on the execution host, not in Docker.", "published release 0.1.22",
+      for (const expected of ["Your fleet runs on the execution host, not in Docker.", "current source 0.1.23",
         "server-state", "Stopping the server does not stop host agents.", "native provider login"])
         assert.equal(text.includes(expected), true, expected);
       const commands = await page.locator("main pre").allTextContents();
-      assert.equal(commands.some(command => /crossfire-csharp-nativeaot@sha256:[a-f0-9]{64}/u.test(command)), true);
-      assert.equal(commands.some(command => /crossfire-migrations@sha256:[a-f0-9]{64}/u.test(command)), true);
+      assert.equal(commands.some(command => command.includes("CROSSFIRE_RUNTIME_IMAGE:?Set the verified current runtime image reference")), true);
+      assert.equal(commands.some(command => command.includes("CROSSFIRE_MIGRATION_IMAGE:?Set its matching current migration image reference")), true);
       assert.equal(commands.some(command => command.includes("MANIFEST_DIGEST")), false);
-      assert.equal(await page.getByRole("link", { name: "release inventory", exact: true }).count(), 1);
+      assert.equal(await page.getByRole("link", { name: "container packages", exact: true }).count(), 2);
       assert.equal(commands.some(command => command.includes("--profile maintenance run --rm migrate")), true);
       assert.equal(commands.some(command => command.includes("down --volumes")), false);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);

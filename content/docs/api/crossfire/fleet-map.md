@@ -116,11 +116,11 @@ object; fields below; unknown fields rejected; constraint: Fleet map contains du
 | `fleet.fleetId` | lowercase opaque UUID |
 | `fleet.owner` | object; fields below; unknown fields rejected ([`principal`](/docs/api/schemas/crossfire-contracts-schema-response/#principal)) |
 | `fleet.owner.principalId` | lowercase opaque UUID |
-| `fleet.owner.matrixUserId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `fleet.owner.backendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `fleet.owner.kind` | `human` or `agent` |
 | `fleet.owner.displayName` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `fleet.owner.ownerId` | lowercase opaque UUID |
-| `fleet.owner.ownerMatrixId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `fleet.owner.ownerBackendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `fleet.fleetKey` | lowercase name; pattern `[a-z][a-z0-9-]{0,39}` |
 | `fleet.label` | string; 1–100 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `fleet.controller` | object; fields below; unknown fields rejected ([`controller`](/docs/api/schemas/crossfire-contracts-schema-controller/#controller)) |
@@ -141,44 +141,43 @@ object; fields below; unknown fields rejected; constraint: Fleet map contains du
 | `capturedAt` | exact JSON integer; 0…9007199254740991 |
 | `agents` | array; 0–1000 entries; item: object; fields below; unknown fields rejected ([`mapAgent`](/docs/api/schemas/crossfire-contracts-schema-fleet-map/#mapAgent)) |
 | `agents[].agentId` | lowercase opaque UUID |
-| `agents[].matrixUserId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `agents[].backendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `agents[].instanceKey` | lowercase name; pattern `[a-z][a-z0-9-]{0,39}` |
 | `agents[].displayName` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `agents[].status` | validator `choice('active', 'suspended', 'revoked')` ([`status`](/docs/api/schemas/crossfire-contracts-schema-validation/#status)) |
 | `agents[].owner` | object; fields below; unknown fields rejected ([`owner`](/docs/api/schemas/crossfire-contracts-schema-response/#owner)) |
 | `agents[].owner.memberId` | lowercase opaque UUID |
-| `agents[].owner.matrixUserId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `agents[].owner.backendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `agents[].owner.displayName` | string; 1–100 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `agents[].owner.status` | validator `choice('active', 'suspended', 'revoked')` ([`status`](/docs/api/schemas/crossfire-contracts-schema-validation/#status)) |
 | `agents[].sourceId` | string; 64–64 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `agents[].listener` | `online` or `offline` or `disconnecting` |
 | `agents[].lastSeenAt` | exact JSON integer; 0…9007199254740991; JSON null permitted |
 | `rooms` | array; 0–2000 entries; item: object; fields below; unknown fields rejected ([`mapRoom`](/docs/api/schemas/crossfire-contracts-schema-fleet-map/#mapRoom)) |
-| `rooms[].roomId` | immutable Matrix room ID; maximum 255 UTF-16 units |
+| `rooms[].roomId` | opaque room ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `rooms[].name` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls; JSON null permitted |
 | `rooms[].alias` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls; JSON null permitted |
 | `connections` | array; 0–10000 entries; item: object; fields below; unknown fields rejected ([`mapConnection`](/docs/api/schemas/crossfire-contracts-schema-fleet-map/#mapConnection)) |
 | `connections[].agentId` | lowercase opaque UUID |
-| `connections[].roomId` | immutable Matrix room ID; maximum 255 UTF-16 units |
+| `connections[].roomId` | opaque room ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `connections[].grant` | object; fields below; unknown fields rejected ([`grant`](/docs/api/schemas/crossfire-contracts-schema-response/#grant)); JSON null permitted |
 | `connections[].grant.agentId` | lowercase opaque UUID |
-| `connections[].grant.roomId` | immutable Matrix room ID; maximum 255 UTF-16 units |
+| `connections[].grant.roomId` | opaque room ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `connections[].grant.generation` | lowercase opaque UUID |
 | `connections[].grant.authorizerId` | lowercase opaque UUID |
 | `connections[].grant.addedById` | lowercase opaque UUID |
 | `connections[].grant.accessMode` | `none` or `read` or `reply` or `custom` |
-| `connections[].grant.powerLevel` | exact JSON integer; -9007199254740991…9007199254740991; JSON null permitted |
+| `connections[].grant.nativeAccess` | custom validation: [`backendParameters`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendParameters); see function below; JSON null permitted |
 | `connections[].grant.muted` | boolean |
 | `connections[].grant.revision` | exact JSON integer; 0…9007199254740991 |
 | `connections[].grant.accessRevision` | exact JSON integer; 0…9007199254740991 |
 | `connections[].grant.updatedAt` | exact JSON integer; 0…9007199254740991 |
-| `connections[].application` | object; fields below; unknown fields rejected; constraint: Native creators have no finite power level ([`grantApplication`](/docs/api/schemas/crossfire-contracts-schema-response/#grantApplication)); JSON null permitted |
+| `connections[].application` | object; fields below; unknown fields rejected ([`grantApplication`](/docs/api/schemas/crossfire-contracts-schema-response/#grantApplication)); JSON null permitted |
 | `connections[].application.observedGeneration` | lowercase opaque UUID; JSON null permitted |
 | `connections[].application.appliedRevision` | exact JSON integer; 0…9007199254740991; JSON null permitted |
 | `connections[].application.appliedAccessRevision` | exact JSON integer; 0…9007199254740991; JSON null permitted |
 | `connections[].application.membership` | `join` or `invite` or `leave` or `ban`; JSON null permitted |
-| `connections[].application.creator` | boolean |
-| `connections[].application.powerLevel` | exact JSON integer; -9007199254740991…9007199254740991; JSON null permitted |
+| `connections[].application.nativeAccess` | custom validation: [`backendParameters`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendParameters); see function below; JSON null permitted |
 | `connections[].application.lastAttemptAt` | exact JSON integer; 0…9007199254740991; JSON null permitted |
 | `connections[].application.lastSuccessAt` | exact JSON integer; 0…9007199254740991; JSON null permitted |
 | `connections[].application.errorCode` | string; 1–100 UTF-16 units; well-formed Unicode; no C0/DEL controls; JSON null permitted |
@@ -192,11 +191,11 @@ object; fields below; unknown fields rejected; constraint: Fleet map contains du
 | `sources[].eligiblePrincipalIds` | array; 0–2000 entries; item: lowercase opaque UUID |
 | `principals` | array; 0–2000 entries; item: object; fields below; unknown fields rejected ([`principal`](/docs/api/schemas/crossfire-contracts-schema-response/#principal)) |
 | `principals[].principalId` | lowercase opaque UUID |
-| `principals[].matrixUserId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `principals[].backendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `principals[].kind` | `human` or `agent` |
 | `principals[].displayName` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `principals[].ownerId` | lowercase opaque UUID |
-| `principals[].ownerMatrixId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `principals[].ownerBackendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 
 ### Additional checks
 
@@ -239,10 +238,12 @@ function metadata(input: unknown): Result<Record<string, string>> {
 }
 ```
 
-Constraint on `connections[].application`:
+Constraint on `connections[].application.nativeAccess`:
 
 ```typescript
-application => !application.creator || application.powerLevel === null
+input => input !== null && typeof input === 'object' && !Array.isArray(input)
+    && json(input) && Object.keys(input).length <= 64 && new TextEncoder().encode(JSON.stringify(input)).length <= 8192
+    ? success(input as JsonObject) : failure('invalid', 'Expected a backend parameter object up to 8192 UTF-8 bytes')
 ```
 
 ### Validation

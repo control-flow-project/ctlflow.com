@@ -137,11 +137,11 @@ object; fields below; unknown fields rejected; constraint: Invalid selected wake
 | `senders` | array; 0–2000 entries; item: object; fields below; unknown fields rejected; constraint: Only people can include their agents ([`wakeSender`](/docs/api/schemas/crossfire-contracts-schema-response/#wakeSender)) |
 | `senders[].identity` | object; fields below; unknown fields rejected ([`principal`](/docs/api/schemas/crossfire-contracts-schema-response/#principal)) |
 | `senders[].identity.principalId` | lowercase opaque UUID |
-| `senders[].identity.matrixUserId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `senders[].identity.backendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `senders[].identity.kind` | `human` or `agent` |
 | `senders[].identity.displayName` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `senders[].identity.ownerId` | lowercase opaque UUID |
-| `senders[].identity.ownerMatrixId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `senders[].identity.ownerBackendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `senders[].includeAgents` | boolean |
 
 ### Additional checks

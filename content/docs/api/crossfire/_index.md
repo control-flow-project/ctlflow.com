@@ -1,8 +1,8 @@
 ---
 title: "crossfire HTTP API"
-description: "92 HTTP operations with request fields, responses and validation."
+description: "94 HTTP operations with request fields, responses and validation."
 weight: 30
-operationCount: 92
+operationCount: 94
 generated: true
 noCards: true
 ---
@@ -14,6 +14,8 @@ These pages are generated from the operation definitions and validation function
 
 | Operation | Method | Path | Authentication | Success |
 | --- | --- | --- | --- | --- |
+| [`messagingBackend`](/docs/api/crossfire/messaging-backend/) | `GET` | `/api/messaging-backend` | `public` | 200 |
+| [`authenticateBackend`](/docs/api/crossfire/authenticate-backend/) | `POST` | `/api/backend-authentication` | `public` | 200 |
 | [`recordFleetNativeStop`](/docs/api/crossfire/record-fleet-native-stop/) | `PUT` | `/api/fleets/{fleetId}/agents/{agentId}/native-stop` | `fleet` | 200 |
 | [`createPublication`](/docs/api/crossfire/create-publication/) | `POST` | `/api/publications` | `agent` | 201 |
 | [`publications`](/docs/api/crossfire/publications/) | `GET` | `/api/publications` | `human` | 200 |

@@ -124,23 +124,23 @@ array; 0–100 entries; item: object; fields below; unknown fields rejected ([`a
 | `[].actorKind` | `human` or `agent` or `controller` or `system` or `anonymous` |
 | `[].actor` | object; fields below; unknown fields rejected ([`principal`](/docs/api/schemas/crossfire-contracts-schema-response/#principal)); JSON null permitted |
 | `[].actor.principalId` | lowercase opaque UUID |
-| `[].actor.matrixUserId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `[].actor.backendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `[].actor.kind` | `human` or `agent` |
 | `[].actor.displayName` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `[].actor.ownerId` | lowercase opaque UUID |
-| `[].actor.ownerMatrixId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `[].actor.ownerBackendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `[].target` | object; fields below; unknown fields rejected ([`principal`](/docs/api/schemas/crossfire-contracts-schema-response/#principal)); JSON null permitted |
 | `[].target.principalId` | lowercase opaque UUID |
-| `[].target.matrixUserId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `[].target.backendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `[].target.kind` | `human` or `agent` |
 | `[].target.displayName` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `[].target.ownerId` | lowercase opaque UUID |
-| `[].target.ownerMatrixId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `[].target.ownerBackendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `[].actorPrincipalId` | lowercase opaque UUID; JSON null permitted |
 | `[].ownerId` | lowercase opaque UUID; JSON null permitted |
 | `[].targetKind` | string; 1–100 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `[].targetId` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls |
-| `[].roomId` | immutable Matrix room ID; maximum 255 UTF-16 units; JSON null permitted |
+| `[].roomId` | opaque room ID; 1–255 UTF-16 units, well-formed Unicode without control characters; JSON null permitted |
 | `[].membershipGeneration` | lowercase opaque UUID; JSON null permitted |
 | `[].authorizerId` | lowercase opaque UUID; JSON null permitted |
 | `[].addedById` | lowercase opaque UUID; JSON null permitted |

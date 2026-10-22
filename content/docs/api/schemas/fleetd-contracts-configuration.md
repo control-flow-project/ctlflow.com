@@ -54,7 +54,7 @@ Related definitions:
 ## coordination {#coordination}
 
 ```typescript
-coordination = check.object({ adapter: check.choice('crossfire'), server: check.text(2048), owner: check.matrixUserId })
+coordination = check.object({ adapter: check.choice('crossfire'), server: check.text(2048), owner: check.backendUserId })
 ```
 
 Related definitions:
@@ -62,7 +62,7 @@ Related definitions:
 - [`object`](/docs/api/schemas/crossfire-contracts-schema-validation/#object)
 - [`choice`](/docs/api/schemas/crossfire-contracts-schema-validation/#choice)
 - [`text`](/docs/api/schemas/crossfire-contracts-schema-validation/#text)
-- [`matrixUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#matrixUserId)
+- [`backendUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendUserId)
 
 ## roster {#roster}
 
@@ -82,7 +82,7 @@ Related definitions:
 
 ```typescript
 coordinationOptions = check.object({ wake_mode: check.wakeMode,
-    wake_senders: check.list(check.object({ matrix_user_id: check.matrixUserId, include_agents: check.boolean }), 2000),
+    wake_senders: check.list(check.object({ backend_user_id: check.backendUserId, include_agents: check.boolean }), 2000),
     permissions: check.list(check.choice('room.agent.invite'), 1) })
 ```
 
@@ -91,7 +91,7 @@ Related definitions:
 - [`object`](/docs/api/schemas/crossfire-contracts-schema-validation/#object)
 - [`wakeMode`](/docs/api/schemas/crossfire-contracts-schema-validation/#wakeMode)
 - [`list`](/docs/api/schemas/crossfire-contracts-schema-validation/#list)
-- [`matrixUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#matrixUserId)
+- [`backendUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendUserId)
 - [`boolean`](/docs/api/schemas/crossfire-contracts-schema-validation/#boolean)
 - [`choice`](/docs/api/schemas/crossfire-contracts-schema-validation/#choice)
 
@@ -103,7 +103,7 @@ definition = check.object({ name: check.text(100), runtime: implementedRuntime, 
         if (!parsed.ok)
             return parsed;
         const valid = coordinationPolicy({ wakeMode: parsed.value.wake_mode,
-            senders: parsed.value.wake_senders.map(sender => ({ matrixUserId: sender.matrix_user_id, includeAgents: sender.include_agents })), permissions: parsed.value.permissions });
+            senders: parsed.value.wake_senders.map(sender => ({ backendUserId: sender.backend_user_id, includeAgents: sender.include_agents })), permissions: parsed.value.permissions });
         return valid.ok ? parsed : valid;
     }), runtime_options: runtimeOptions })
 ```

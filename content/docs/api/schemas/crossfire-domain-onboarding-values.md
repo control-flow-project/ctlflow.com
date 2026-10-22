@@ -22,7 +22,7 @@ This module has no local contract dependencies.
 export type SetupDescriptor = {
     schemaVersion: 1;
     server: string;
-    ownerMatrixId: string;
+    ownerBackendUserId: string;
     package: {
         name: '@ctlflow/fleet';
         version: string;

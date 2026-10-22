@@ -38,7 +38,7 @@ object; fields below; unknown fields rejected
 
 | Field path | Representation and constraints |
 | --- | --- |
-| `roomId` | immutable Matrix room ID; maximum 255 UTF-16 units |
+| `roomId` | opaque room ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 
 ### Validation
 
@@ -122,33 +122,25 @@ object; fields below; unknown fields rejected ([`room`](/docs/api/schemas/crossf
 
 | Field path | Representation and constraints |
 | --- | --- |
-| `roomId` | immutable Matrix room ID; maximum 255 UTF-16 units |
+| `roomId` | opaque room ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `name` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `topic` | string; 0–4096 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `alias` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls; JSON null permitted |
-| `authority` | object; fields below; unknown fields rejected; constraint: Native creator authority has no finite power level ([`roomAuthority`](/docs/api/schemas/crossfire-contracts-schema-response/#roomAuthority)); JSON null permitted |
-| `authority.matrixUserId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
-| `authority.powerLevel` | exact JSON integer; -9007199254740991…9007199254740991; JSON null permitted |
-| `authority.creator` | boolean |
-| `authority.creatorIds` | array; 0–100 entries; item: well-formed Matrix user ID; maximum 255 UTF-16 units |
-| `authority.readLevel` | exact JSON integer; -9007199254740991…9007199254740991 |
-| `authority.replyLevel` | exact JSON integer; -9007199254740991…9007199254740991 |
-| `authority.inviteLevel` | exact JSON integer; -9007199254740991…9007199254740991 |
-| `authority.kickLevel` | exact JSON integer; -9007199254740991…9007199254740991 |
-| `authority.changePowerLevel` | exact JSON integer; -9007199254740991…9007199254740991 |
-| `authority.nativePermissions` | array; 0–1000 entries; item: object; fields below; unknown fields rejected |
-| `authority.nativePermissions[].action` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls |
-| `authority.nativePermissions[].level` | exact JSON integer; -9007199254740991…9007199254740991 |
-
-### Additional checks
-
-The following checks apply in addition to the field limits.
-
-Constraint on `authority`:
-
-```typescript
-authority => authority.creator === (authority.powerLevel === null)
-```
+| `authority` | object; fields below; unknown fields rejected ([`roomAuthority`](/docs/api/schemas/crossfire-contracts-schema-response/#roomAuthority)); JSON null permitted |
+| `authority.backendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
+| `authority.canInvite` | boolean |
+| `authority.authorityRevision` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls |
+| `authority.accessModes` | array; 0–3 entries; item: `read` or `reply` or `custom` |
+| `authority.accessFields` | array; 0–64 entries; item: object; fields below; unknown fields rejected |
+| `authority.accessFields[].key` | string; 1–100 UTF-16 units; well-formed Unicode; no C0/DEL controls |
+| `authority.accessFields[].label` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls |
+| `authority.accessFields[].minimum` | exact JSON integer; -9007199254740991…9007199254740991 |
+| `authority.accessFields[].maximum` | exact JSON integer; -9007199254740991…9007199254740991 |
+| `authority.accessFields[].defaultValue` | exact JSON integer; -9007199254740991…9007199254740991 |
+| `authority.permissions` | array; 0–1000 entries; item: object; fields below; unknown fields rejected |
+| `authority.permissions[].action` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls |
+| `authority.permissions[].label` | string; 1–1000 UTF-16 units; well-formed Unicode; no C0/DEL controls |
+| `authority.permissions[].allowed` | boolean |
 
 ### Validation
 

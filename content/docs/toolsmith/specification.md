@@ -126,9 +126,9 @@ Backup takes a consistent SQLite snapshot and copies referenced objects to a new
 private destination. Restore verifies the complete backup before publishing a
 new store. Neither operation overwrites an existing destination.
 
-Archive schema v3 is the current format. Explicit migration verifies supported
-v1/v2 stores and copies them forward, retaining the source. Ordinary reads do
-not migrate databases.
+The archive has one current schema. Initialization creates it directly; access
+and restore validate its structure. No historical schema converter or alternate
+reader exists. Verified restore copies current state into a new destination.
 
 Integrity checks and index rebuilds are explicit maintenance. They do not repair
 lost originals or change supplied provenance. Cleanup requires a preview and

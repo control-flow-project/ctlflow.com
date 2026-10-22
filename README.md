@@ -16,6 +16,7 @@ diagrams and browser-based search. Layouts and assets are maintained here. It
 uses no external fonts, analytics or remote diagram rendering.
 
 - [Local verification record](docs/verification/20261017-site.md)
+- [Current-contract cleanup and verification](docs/verification/20261022-current-contract-cleanup.md)
 - [Server Docker and host fleet documentation checks](docs/verification/20261018-server-docker-host-fleets.md)
 - [Theme, typography and code-example verification](docs/verification/20261017-theme-typography.md)
 - [fleet-street integration and homepage verification](docs/verification/20261017-fleet-street.md)

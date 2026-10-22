@@ -22,7 +22,7 @@ Closing the CLI/SSH connection does not cancel accepted operations.
 ## Private API and locks
 
 Local and SSH clients use the same private HTTP resources:
-status/setup, fleet registration, instance configuration, readiness,
+status/setup/diagnostics, fleet registration, instance configuration, readiness,
 delivery/messages, contexts/attachment and idempotent operations.
 Unknown routes, methods, fields and duplicated queries are rejected.
 Pagination is canonical positive decimal, page up to 100000, size up to 100.
@@ -33,6 +33,7 @@ header. Inspection does not start the daemon or create a key. All controller
 roots under the same OS user share that authority.
 
 - [Authentication paths and recovery](/docs/fleetd/authentication/)
+- [Read-only diagnostics](/docs/fleetd/diagnostics/)
 
 Exclusive SQLite locks prevent concurrent controllers, fleet writers and receivers.
 They survive process suspension and release on exit. Do not delete lock inodes

@@ -97,7 +97,7 @@ and syscalls rather than treating fixture encoders as native certification.
 
 <separately optional archive root>/
 ├── .lock
-├── toolsmith.sqlite3        Current archive schema v3, versions/files/operations
+├── toolsmith.sqlite3        Current archive schema, source versions/files/operations
 ├── objects/<sha256>         Immutable retained file bytes
 └── tmp/.stage-<uuid>.tmp    Invocation-owned staging
 ```
@@ -124,9 +124,8 @@ resume. It calls the same HTTPS producer. Network/native effects stay outside SQ
 transactions. Status starts nothing; retries uncertain GETs are explicitly requested
 and disclosed, within remaining admission limits.
 
-Archive schema v3 uses the generic native vector index, current-text view and
-change counter. Explicit migration preserves verified v1/v2 source stores and
-converts their derivatives into this schema. The migration verifies originals, copies into a new destination, rebuilds only
-derivatives and verifies before publication. The source
-remains unchanged as the rollback copy. Ordinary reads accept only the current
-schema: no dual runtime reader, automatic migration, reset or hidden fallback.
+The archive uses one current schema with the generic native vector index,
+current-text view and change counter. Initialization creates it directly; store
+access and restore check that structure. There is no historical schema converter,
+alternate reader, automatic reset or hidden fallback. Source versions remain
+domain data with exact citations.

@@ -75,7 +75,7 @@ Related definitions:
 ## trafficFlow {#trafficFlow}
 
 ```typescript
-trafficFlow = check.object({ roomId: check.roomId, senderMatrixId: check.matrixUserId,
+trafficFlow = check.object({ roomId: check.roomId, senderBackendUserId: check.backendUserId,
     messageType: check.text(100), observed: count, delivered: count, contentBytes: count, deliveredBytes: count, attachmentBytes: count, largestBytes: count })
 ```
 
@@ -83,7 +83,7 @@ Related definitions:
 
 - [`object`](/docs/api/schemas/crossfire-contracts-schema-validation/#object)
 - [`roomId`](/docs/api/schemas/crossfire-contracts-schema-validation/#roomId)
-- [`matrixUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#matrixUserId)
+- [`backendUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendUserId)
 - [`text`](/docs/api/schemas/crossfire-contracts-schema-validation/#text)
 - [`count`](/docs/api/schemas/crossfire-contracts-statistics/#count)
 
@@ -91,7 +91,7 @@ Related definitions:
 
 ```typescript
 statisticsBatch = check.refine(check.object({ sequence: check.integer(1), startedAt: count, endedAt: count, dropped: count,
-    flows: check.list(trafficFlow, STATISTICS_LIMITS.flows), usage: check.list(usageSample, STATISTICS_LIMITS.sessions) }), value => value.endedAt >= value.startedAt && new Set(value.flows.map(flow => JSON.stringify([flow.roomId, flow.senderMatrixId, flow.messageType]))).size === value.flows.length
+    flows: check.list(trafficFlow, STATISTICS_LIMITS.flows), usage: check.list(usageSample, STATISTICS_LIMITS.sessions) }), value => value.endedAt >= value.startedAt && new Set(value.flows.map(flow => JSON.stringify([flow.roomId, flow.senderBackendUserId, flow.messageType]))).size === value.flows.length
     && new Set(value.usage.map(sample => JSON.stringify([sample.runtime, sample.sessionId]))).size === value.usage.length, 'Invalid interval or duplicate summaries')
 ```
 
@@ -181,9 +181,9 @@ Related definitions:
 ```typescript
 fleetStatistics = check.object({ capturedAt: count, since: count, retentionDays: count, intervals: count, dropped: count,
     firstReportAt: check.nullable(count), lastReportAt: check.nullable(count), totals,
-    agents: check.list(check.object({ agentId: check.identifier, displayName: check.text(255), matrixUserId: check.matrixUserId, totals,
+    agents: check.list(check.object({ agentId: check.identifier, displayName: check.text(255), backendUserId: check.backendUserId, totals,
         tokens: check.nullable(tokenCounts) }), 100),
-    flows: check.list(check.object({ agentId: check.identifier, senderMatrixId: check.matrixUserId, senderName: check.nullable(check.text(255)),
+    flows: check.list(check.object({ agentId: check.identifier, senderBackendUserId: check.backendUserId, senderName: check.nullable(check.text(255)),
         roomId: check.roomId, messageType: check.text(100), ...{ totals } }), 100),
     meta: check.object({ page: count, pageSize: count, totalItems: count, totalPages: count }),
     tokens: check.nullable(tokenCounts), spend: check.nullable(check.text(100)) })
@@ -198,7 +198,7 @@ Related definitions:
 - [`list`](/docs/api/schemas/crossfire-contracts-schema-validation/#list)
 - [`identifier`](/docs/api/schemas/crossfire-contracts-schema-validation/#identifier)
 - [`text`](/docs/api/schemas/crossfire-contracts-schema-validation/#text)
-- [`matrixUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#matrixUserId)
+- [`backendUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendUserId)
 - [`tokenCounts`](/docs/api/schemas/crossfire-contracts-statistics/#tokenCounts)
 - [`roomId`](/docs/api/schemas/crossfire-contracts-schema-validation/#roomId)
 

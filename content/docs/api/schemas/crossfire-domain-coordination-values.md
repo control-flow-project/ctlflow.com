@@ -21,11 +21,11 @@ All code blocks below are TypeScript declarations copied from the server. They d
 ```typescript
 export type CoordinationPolicy = {
     wakeMode: 'humans' | 'everyone' | 'selected';
-    senders: MatrixWakeSelection[];
+    senders: BackendWakeSelection[];
     permissions: 'room.agent.invite'[];
 };
 ```
 
 Related definitions:
 
-- [`MatrixWakeSelection`](/docs/api/schemas/crossfire-domain-wake-types/#MatrixWakeSelection)
+- [`BackendWakeSelection`](/docs/api/schemas/crossfire-domain-wake-types/#BackendWakeSelection)

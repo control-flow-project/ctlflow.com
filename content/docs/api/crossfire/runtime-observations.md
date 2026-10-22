@@ -114,7 +114,7 @@ array; 0–2002 entries; item: object; fields below; unknown fields rejected ([`
 | --- | --- |
 | `[].runId` | lowercase opaque UUID |
 | `[].sessionId` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls |
-| `[].roomId` | immutable Matrix room ID; maximum 255 UTF-16 units; JSON null permitted |
+| `[].roomId` | opaque room ID; 1–255 UTF-16 units, well-formed Unicode without control characters; JSON null permitted |
 | `[].runtime` | lowercase name; pattern `[a-z][a-z0-9-]{0,39}` |
 | `[].state` | `idle` or `working` or `waiting-approval` or `waiting-answer` or `failed` or `unavailable` or `sleeping` or `waking` ([`runtimeState`](/docs/api/schemas/crossfire-contracts-runtime/#runtimeState)) |
 | `[].observedAt` | exact JSON integer; 0…9007199254740991 |

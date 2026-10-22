@@ -136,7 +136,7 @@ object; fields below; unknown fields rejected ([`fleetStatistics`](/docs/api/sch
 | `agents` | array; 0–100 entries; item: object; fields below; unknown fields rejected |
 | `agents[].agentId` | lowercase opaque UUID |
 | `agents[].displayName` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls |
-| `agents[].matrixUserId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `agents[].backendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `agents[].totals` | object; fields below; unknown fields rejected ([`totals`](/docs/api/schemas/crossfire-contracts-statistics/#totals)) |
 | `agents[].totals.observed` | exact JSON integer; 0…9007199254740991 ([`count`](/docs/api/schemas/crossfire-contracts-statistics/#count)) |
 | `agents[].totals.delivered` | exact JSON integer; 0…9007199254740991 ([`count`](/docs/api/schemas/crossfire-contracts-statistics/#count)) |
@@ -153,9 +153,9 @@ object; fields below; unknown fields rejected ([`fleetStatistics`](/docs/api/sch
 | `agents[].tokens.total` | exact JSON integer; 0…9007199254740991 ([`count`](/docs/api/schemas/crossfire-contracts-statistics/#count)) |
 | `flows` | array; 0–100 entries; item: object; fields below; unknown fields rejected |
 | `flows[].agentId` | lowercase opaque UUID |
-| `flows[].senderMatrixId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `flows[].senderBackendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `flows[].senderName` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls; JSON null permitted |
-| `flows[].roomId` | immutable Matrix room ID; maximum 255 UTF-16 units |
+| `flows[].roomId` | opaque room ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `flows[].messageType` | string; 1–100 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `flows[].totals` | object; fields below; unknown fields rejected ([`totals`](/docs/api/schemas/crossfire-contracts-statistics/#totals)) |
 | `flows[].totals.observed` | exact JSON integer; 0…9007199254740991 ([`count`](/docs/api/schemas/crossfire-contracts-statistics/#count)) |

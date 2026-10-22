@@ -143,11 +143,11 @@ object; fields below; unknown fields rejected ([`fleet`](/docs/api/schemas/cross
 | `fleetId` | lowercase opaque UUID |
 | `owner` | object; fields below; unknown fields rejected ([`principal`](/docs/api/schemas/crossfire-contracts-schema-response/#principal)) |
 | `owner.principalId` | lowercase opaque UUID |
-| `owner.matrixUserId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `owner.backendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `owner.kind` | `human` or `agent` |
 | `owner.displayName` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `owner.ownerId` | lowercase opaque UUID |
-| `owner.ownerMatrixId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `owner.ownerBackendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `fleetKey` | lowercase name; pattern `[a-z][a-z0-9-]{0,39}` |
 | `label` | string; 1–100 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `controller` | object; fields below; unknown fields rejected ([`controller`](/docs/api/schemas/crossfire-contracts-schema-controller/#controller)) |

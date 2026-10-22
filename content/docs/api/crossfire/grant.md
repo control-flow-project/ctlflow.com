@@ -39,7 +39,7 @@ object; fields below; unknown fields rejected
 | Field path | Representation and constraints |
 | --- | --- |
 | `agentId` | lowercase opaque UUID |
-| `roomId` | immutable Matrix room ID; maximum 255 UTF-16 units |
+| `roomId` | opaque room ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 
 ### Validation
 
@@ -118,24 +118,23 @@ object; fields below; unknown fields rejected ([`grantView`](/docs/api/schemas/c
 | `revision` | exact JSON integer; 0…9007199254740991 |
 | `grant` | object; fields below; unknown fields rejected ([`grant`](/docs/api/schemas/crossfire-contracts-schema-response/#grant)); JSON null permitted |
 | `grant.agentId` | lowercase opaque UUID |
-| `grant.roomId` | immutable Matrix room ID; maximum 255 UTF-16 units |
+| `grant.roomId` | opaque room ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `grant.generation` | lowercase opaque UUID |
 | `grant.authorizerId` | lowercase opaque UUID |
 | `grant.addedById` | lowercase opaque UUID |
 | `grant.accessMode` | `none` or `read` or `reply` or `custom` |
-| `grant.powerLevel` | exact JSON integer; -9007199254740991…9007199254740991; JSON null permitted |
+| `grant.nativeAccess` | custom validation: [`backendParameters`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendParameters); see function below; JSON null permitted |
 | `grant.muted` | boolean |
 | `grant.revision` | exact JSON integer; 0…9007199254740991 |
 | `grant.accessRevision` | exact JSON integer; 0…9007199254740991 |
 | `grant.updatedAt` | exact JSON integer; 0…9007199254740991 |
 | `ownerConversation` | boolean |
-| `application` | object; fields below; unknown fields rejected; constraint: Native creators have no finite power level ([`grantApplication`](/docs/api/schemas/crossfire-contracts-schema-response/#grantApplication)); JSON null permitted |
+| `application` | object; fields below; unknown fields rejected ([`grantApplication`](/docs/api/schemas/crossfire-contracts-schema-response/#grantApplication)); JSON null permitted |
 | `application.observedGeneration` | lowercase opaque UUID; JSON null permitted |
 | `application.appliedRevision` | exact JSON integer; 0…9007199254740991; JSON null permitted |
 | `application.appliedAccessRevision` | exact JSON integer; 0…9007199254740991; JSON null permitted |
 | `application.membership` | `join` or `invite` or `leave` or `ban`; JSON null permitted |
-| `application.creator` | boolean |
-| `application.powerLevel` | exact JSON integer; -9007199254740991…9007199254740991; JSON null permitted |
+| `application.nativeAccess` | custom validation: [`backendParameters`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendParameters); see function below; JSON null permitted |
 | `application.lastAttemptAt` | exact JSON integer; 0…9007199254740991; JSON null permitted |
 | `application.lastSuccessAt` | exact JSON integer; 0…9007199254740991; JSON null permitted |
 | `application.errorCode` | string; 1–100 UTF-16 units; well-formed Unicode; no C0/DEL controls; JSON null permitted |
@@ -147,10 +146,12 @@ object; fields below; unknown fields rejected ([`grantView`](/docs/api/schemas/c
 
 The following checks apply in addition to the field limits.
 
-Constraint on `application`:
+Constraint on `application.nativeAccess`:
 
 ```typescript
-application => !application.creator || application.powerLevel === null
+input => input !== null && typeof input === 'object' && !Array.isArray(input)
+    && json(input) && Object.keys(input).length <= 64 && new TextEncoder().encode(JSON.stringify(input)).length <= 8192
+    ? success(input as JsonObject) : failure('invalid', 'Expected a backend parameter object up to 8192 UTF-8 bytes')
 ```
 
 ### Validation

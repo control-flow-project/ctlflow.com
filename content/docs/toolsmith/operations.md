@@ -1,6 +1,6 @@
 ---
 title: "Archive operations"
-description: "Back up, restore, inspect and migrate the optional text archive."
+description: "Back up, restore and inspect the optional text archive."
 weight: 70
 sourceProject: "toolsmith"
 sourcePath: "docs/operations.md"
@@ -54,7 +54,7 @@ not reset quotas or blindly retry an unknown cooldown.
 
 Backup holds a shared collection lock, validates the store, snapshots SQLite and
 copies referenced objects to a **new** private directory. The manifest records
-format/schema/collection/database/object identities. Staging and unreferenced
+format/collection/database/object identities. Staging and unreferenced
 objects are not backup content. A consistent backup is not a source-rights grant.
 
 Restore validates the entire backup, object set and captured database before
@@ -115,16 +115,14 @@ of filesystem deletion. Retained originals/objects are never cleanup targets.
 
 ## Schema
 
-Current archive schema v3 uses the generic lexical/native vector indexes and a
-current-text generation counter. Ordinary reads reject other schemas.
-`migrate_store` explicitly verifies reviewed v1/v2 schemas, canonical provenance
-and objects, forward-copies to a new destination, converts retained vectors
-without inference, adds the current view/counter and verifies the result
-before atomic publication. The source remains unchanged as the rollback copy.
-Unknown schema shapes, destination collisions or verification failures abort;
-there is no dual runtime reader, in-place reset or automatic migration.
+The archive has one current schema, using generic lexical/native vector indexes
+and a current-text generation counter. Initialization creates it directly; store
+access and restore validate its structure. No schema converter or historical
+reader exists. Verified restore copies current state into a new destination,
+retaining originals and exact citations.
 
-Applications using only the index libraries need their own schema migration;
-the archive command does not convert application-specific databases. Shared
-quota adoption uses reviewed quiesced counters with `import_budget`, preserving
-periods, charges and cooldowns rather than copying old-format runtime handlers.
+Caller-owned application indexes are independent of this optional archive.
+Consumers may explicitly rebuild derivatives from their retained canonical text
+with the public indexing APIs. `import_budget` accepts reviewed current counters
+and cooldowns into an empty root; it does not read a consumer's state files or
+interpret a previous schema.

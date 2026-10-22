@@ -98,7 +98,7 @@ object; fields below; unknown fields rejected ([`setupInput`](/docs/api/schemas/
 | `descriptor` | object; fields below; unknown fields rejected ([`setupDescriptorSchema`](/docs/api/schemas/crossfire-contracts-onboarding/#setupDescriptorSchema)) |
 | `descriptor.schemaVersion` | custom validation: [`schemaVersion`](/docs/api/schemas/crossfire-contracts-onboarding/#schemaVersion); see function below |
 | `descriptor.server` | string; 1–2048 UTF-16 units; well-formed Unicode; no C0/DEL controls; constraint: Use an exact HTTPS or loopback HTTP origin ([`setupOrigin`](/docs/api/schemas/crossfire-contracts-onboarding/#setupOrigin)) |
-| `descriptor.ownerMatrixId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `descriptor.ownerBackendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `descriptor.package` | object; fields below; unknown fields rejected |
 | `descriptor.package.name` | `@ctlflow/fleet` |
 | `descriptor.package.version` | string; 1–100 UTF-16 units; well-formed Unicode; no C0/DEL controls; constraint: Use one exact npm version ([`setupVersion`](/docs/api/schemas/crossfire-contracts-onboarding/#setupVersion)) |

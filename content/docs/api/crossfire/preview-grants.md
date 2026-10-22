@@ -94,10 +94,22 @@ object; fields below; unknown fields rejected ([`planPreview`](/docs/api/schemas
 | `plan.agents` | array; 1–100 entries; item: object; fields below; unknown fields rejected |
 | `plan.agents[].instanceKey` | lowercase name; pattern `[a-z][a-z0-9-]{0,39}` |
 | `plan.agents[].grants` | array; 0–100 entries; item: object; fields below; unknown fields rejected ([`grantIntent`](/docs/api/schemas/crossfire-contracts-schema-request/#grantIntent)) |
-| `plan.agents[].grants[].roomId` | immutable Matrix room ID; maximum 255 UTF-16 units |
+| `plan.agents[].grants[].roomId` | opaque room ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `plan.agents[].grants[].accessMode` | `read` or `reply` or `custom` |
-| `plan.agents[].grants[].powerLevel` | exact JSON integer; -9007199254740991…9007199254740991; JSON null permitted |
+| `plan.agents[].grants[].nativeAccess` | custom validation: [`backendParameters`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendParameters); see function below; JSON null permitted |
 | `plan.agents[].grants[].muted` | boolean |
+
+### Additional checks
+
+The following checks apply in addition to the field limits.
+
+Constraint on `plan.agents[].grants[].nativeAccess`:
+
+```typescript
+input => input !== null && typeof input === 'object' && !Array.isArray(input)
+    && json(input) && Object.keys(input).length <= 64 && new TextEncoder().encode(JSON.stringify(input)).length <= 8192
+    ? success(input as JsonObject) : failure('invalid', 'Expected a backend parameter object up to 8192 UTF-8 bytes')
+```
 
 ### Validation
 
@@ -124,20 +136,20 @@ object; fields below; unknown fields rejected ([`preview`](/docs/api/schemas/cro
 | `snapshots[].agentId` | lowercase opaque UUID |
 | `snapshots[].revision` | exact JSON integer; 0…9007199254740991 |
 | `snapshots[].grants` | array; 0–100 entries; item: object; fields below; unknown fields rejected |
-| `snapshots[].grants[].roomId` | immutable Matrix room ID; maximum 255 UTF-16 units |
+| `snapshots[].grants[].roomId` | opaque room ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `snapshots[].grants[].generation` | lowercase opaque UUID |
 | `snapshots[].grants[].revision` | exact JSON integer; 0…9007199254740991 |
 | `changes` | array; 0–10000 entries; item: object; fields below; unknown fields rejected |
 | `changes[].agentId` | lowercase opaque UUID |
-| `changes[].roomId` | immutable Matrix room ID; maximum 255 UTF-16 units |
+| `changes[].roomId` | opaque room ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `changes[].before` | object; fields below; unknown fields rejected ([`grant`](/docs/api/schemas/crossfire-contracts-schema-response/#grant)); JSON null permitted |
 | `changes[].before.agentId` | lowercase opaque UUID |
-| `changes[].before.roomId` | immutable Matrix room ID; maximum 255 UTF-16 units |
+| `changes[].before.roomId` | opaque room ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `changes[].before.generation` | lowercase opaque UUID |
 | `changes[].before.authorizerId` | lowercase opaque UUID |
 | `changes[].before.addedById` | lowercase opaque UUID |
 | `changes[].before.accessMode` | `none` or `read` or `reply` or `custom` |
-| `changes[].before.powerLevel` | exact JSON integer; -9007199254740991…9007199254740991; JSON null permitted |
+| `changes[].before.nativeAccess` | custom validation: [`backendParameters`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendParameters); see function below; JSON null permitted |
 | `changes[].before.muted` | boolean |
 | `changes[].before.revision` | exact JSON integer; 0…9007199254740991 |
 | `changes[].before.accessRevision` | exact JSON integer; 0…9007199254740991 |
@@ -147,14 +159,39 @@ object; fields below; unknown fields rejected ([`preview`](/docs/api/schemas/cro
 | `changes[].roomName` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `changes[].roomAlias` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls; JSON null permitted |
 | `changes[].after` | object; fields below; unknown fields rejected ([`grantIntent`](/docs/api/schemas/crossfire-contracts-schema-request/#grantIntent)); JSON null permitted |
-| `changes[].after.roomId` | immutable Matrix room ID; maximum 255 UTF-16 units |
+| `changes[].after.roomId` | opaque room ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `changes[].after.accessMode` | `read` or `reply` or `custom` |
-| `changes[].after.powerLevel` | exact JSON integer; -9007199254740991…9007199254740991; JSON null permitted |
+| `changes[].after.nativeAccess` | custom validation: [`backendParameters`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendParameters); see function below; JSON null permitted |
 | `changes[].after.muted` | boolean |
 | `changes[].changed` | boolean |
 | `changes[].authorizerId` | lowercase opaque UUID |
-| `changes[].nativePowerLevel` | exact JSON integer; -9007199254740991…9007199254740991; JSON null permitted |
-| `changes[].nativeCreator` | boolean |
+| `changes[].authority` | object; fields below; unknown fields rejected ([`roomAuthority`](/docs/api/schemas/crossfire-contracts-schema-response/#roomAuthority)); JSON null permitted |
+| `changes[].authority.backendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
+| `changes[].authority.canInvite` | boolean |
+| `changes[].authority.authorityRevision` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls |
+| `changes[].authority.accessModes` | array; 0–3 entries; item: `read` or `reply` or `custom` |
+| `changes[].authority.accessFields` | array; 0–64 entries; item: object; fields below; unknown fields rejected |
+| `changes[].authority.accessFields[].key` | string; 1–100 UTF-16 units; well-formed Unicode; no C0/DEL controls |
+| `changes[].authority.accessFields[].label` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls |
+| `changes[].authority.accessFields[].minimum` | exact JSON integer; -9007199254740991…9007199254740991 |
+| `changes[].authority.accessFields[].maximum` | exact JSON integer; -9007199254740991…9007199254740991 |
+| `changes[].authority.accessFields[].defaultValue` | exact JSON integer; -9007199254740991…9007199254740991 |
+| `changes[].authority.permissions` | array; 0–1000 entries; item: object; fields below; unknown fields rejected |
+| `changes[].authority.permissions[].action` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls |
+| `changes[].authority.permissions[].label` | string; 1–1000 UTF-16 units; well-formed Unicode; no C0/DEL controls |
+| `changes[].authority.permissions[].allowed` | boolean |
+
+### Additional checks
+
+The following checks apply in addition to the field limits.
+
+Constraint on `changes[].after.nativeAccess`:
+
+```typescript
+input => input !== null && typeof input === 'object' && !Array.isArray(input)
+    && json(input) && Object.keys(input).length <= 64 && new TextEncoder().encode(JSON.stringify(input)).length <= 8192
+    ? success(input as JsonObject) : failure('invalid', 'Expected a backend parameter object up to 8192 UTF-8 bytes')
+```
 
 ### Validation
 

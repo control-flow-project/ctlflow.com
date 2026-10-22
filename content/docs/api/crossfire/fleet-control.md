@@ -138,7 +138,7 @@ object; fields below; unknown fields rejected; constraint: Invalid fleet control
 | `messages[].expiresAt` | exact JSON integer; 0…9007199254740991 |
 | `messages[].sender` | object; fields below; unknown fields rejected; constraint: Invalid fleet message sender |
 | `messages[].sender.kind` | `human` or `controller` |
-| `messages[].sender.matrixUserId` | well-formed Matrix user ID; maximum 255 UTF-16 units; JSON null permitted |
+| `messages[].sender.backendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters; JSON null permitted |
 | `messages[].agentIds` | array; 0–100 entries; item: lowercase opaque UUID |
 | `runtimeOperations` | array; 0–1 entries; item: object; fields below; unknown fields rejected; constraint: Invalid session operation outcome ([`runtimeOperation`](/docs/api/schemas/crossfire-contracts-fleet-runtime/#runtimeOperation)) |
 | `runtimeOperations[].operationId` | lowercase opaque UUID |
@@ -172,7 +172,7 @@ body => !!body.trim() && body.length <= 4096
 Constraint on `messages[].sender`:
 
 ```typescript
-sender => (sender.kind === 'human') === (sender.matrixUserId !== null)
+sender => (sender.kind === 'human') === (sender.backendUserId !== null)
 ```
 
 Constraint on `runtimeOperations[]`:

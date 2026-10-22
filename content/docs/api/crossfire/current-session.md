@@ -109,7 +109,7 @@ object; fields below; unknown fields rejected ([`session`](/docs/api/schemas/cro
 | --- | --- |
 | `member` | object; fields below; unknown fields rejected ([`member`](/docs/api/schemas/crossfire-contracts-schema-response/#member)) |
 | `member.memberId` | lowercase opaque UUID |
-| `member.matrixUserId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `member.backendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `member.displayName` | string; 1–100 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `member.roleCode` | `member` or `administrator` |
 | `member.status` | validator `choice('active', 'suspended', 'revoked')` ([`status`](/docs/api/schemas/crossfire-contracts-schema-validation/#status)) |

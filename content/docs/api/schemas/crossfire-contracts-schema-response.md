@@ -20,34 +20,70 @@ All code blocks below are TypeScript declarations copied from the server. They d
 - [`services/crossfire/node/packages/contracts/src/fleet-control.ts`](/docs/api/schemas/crossfire-contracts-fleet-control/)
 - [`services/crossfire/node/packages/contracts/src/coordination-policy.ts`](/docs/api/schemas/crossfire-contracts-coordination-policy/)
 - [`services/crossfire/node/packages/contracts/src/runtime.ts`](/docs/api/schemas/crossfire-contracts-runtime/)
+- [`services/crossfire/node/packages/contracts/src/client.ts`](/docs/api/schemas/crossfire-contracts-client/)
+
+## backendLink {#backendLink}
+
+```typescript
+backendLink = check.refine(check.text(2048), value => {
+    try {
+        const url = new URL(value);
+        return ['http:', 'https:'].includes(url.protocol) && !url.username && !url.password && value === value.trim() && !/[\u0000-\u0020\u007f]/u.test(value);
+    }
+    catch {
+        return false;
+    }
+}, 'Expected an absolute HTTP(S) backend link without credentials')
+```
+
+Related definitions:
+
+- [`refine`](/docs/api/schemas/crossfire-contracts-schema-validation/#refine)
+- [`text`](/docs/api/schemas/crossfire-contracts-schema-validation/#text)
+
+## messagingBackend {#messagingBackend}
+
+```typescript
+messagingBackend = check.object({ type: check.name, label: check.text(100), chatUrl: backendLink, signupUrl: backendLink,
+    signupInstructions: check.list(check.text(2000), 20), configuration: backendConfiguration })
+```
+
+Related definitions:
+
+- [`object`](/docs/api/schemas/crossfire-contracts-schema-validation/#object)
+- [`name`](/docs/api/schemas/crossfire-contracts-schema-validation/#name)
+- [`text`](/docs/api/schemas/crossfire-contracts-schema-validation/#text)
+- [`backendLink`](/docs/api/schemas/crossfire-contracts-schema-response/#backendLink)
+- [`list`](/docs/api/schemas/crossfire-contracts-schema-validation/#list)
+- [`backendConfiguration`](/docs/api/schemas/crossfire-contracts-client/#backendConfiguration)
 
 ## principal {#principal}
 
 ```typescript
-principal = check.object({ principalId: check.identifier, matrixUserId: check.matrixUserId, kind: check.choice('human', 'agent'),
-    displayName: check.text(255), ownerId: check.identifier, ownerMatrixId: check.matrixUserId })
+principal = check.object({ principalId: check.identifier, backendUserId: check.backendUserId, kind: check.choice('human', 'agent'),
+    displayName: check.text(255), ownerId: check.identifier, ownerBackendUserId: check.backendUserId })
 ```
 
 Related definitions:
 
 - [`object`](/docs/api/schemas/crossfire-contracts-schema-validation/#object)
 - [`identifier`](/docs/api/schemas/crossfire-contracts-schema-validation/#identifier)
-- [`matrixUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#matrixUserId)
+- [`backendUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendUserId)
 - [`choice`](/docs/api/schemas/crossfire-contracts-schema-validation/#choice)
 - [`text`](/docs/api/schemas/crossfire-contracts-schema-validation/#text)
 
 ## principalIdentity {#principalIdentity}
 
 ```typescript
-principalIdentity = check.refine(check.object({ matrixUserId: check.matrixUserId, kind: check.choice('human', 'agent', 'unknown'),
-    ownerMatrixId: check.nullable(check.matrixUserId), displayName: check.nullable(check.text(255)), ownerDisplayName: check.nullable(check.text(255)) }), identity => (identity.kind === 'agent') === (identity.ownerMatrixId !== null), 'Only registered agents have an owner')
+principalIdentity = check.refine(check.object({ backendUserId: check.backendUserId, kind: check.choice('human', 'agent', 'unknown'),
+    ownerBackendUserId: check.nullable(check.backendUserId), displayName: check.nullable(check.text(255)), ownerDisplayName: check.nullable(check.text(255)) }), identity => (identity.kind === 'agent') === (identity.ownerBackendUserId !== null), 'Only registered agents have an owner')
 ```
 
 Related definitions:
 
 - [`refine`](/docs/api/schemas/crossfire-contracts-schema-validation/#refine)
 - [`object`](/docs/api/schemas/crossfire-contracts-schema-validation/#object)
-- [`matrixUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#matrixUserId)
+- [`backendUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendUserId)
 - [`choice`](/docs/api/schemas/crossfire-contracts-schema-validation/#choice)
 - [`nullable`](/docs/api/schemas/crossfire-contracts-schema-validation/#nullable)
 - [`text`](/docs/api/schemas/crossfire-contracts-schema-validation/#text)
@@ -55,7 +91,7 @@ Related definitions:
 ## principalIdentities {#principalIdentities}
 
 ```typescript
-principalIdentities = check.refine(check.list(principalIdentity, 100, 1), identities => new Set(identities.map(identity => identity.matrixUserId)).size === identities.length, 'Resolved identities must be unique')
+principalIdentities = check.refine(check.list(principalIdentity, 100, 1), identities => new Set(identities.map(identity => identity.backendUserId)).size === identities.length, 'Resolved identities must be unique')
 ```
 
 Related definitions:
@@ -107,7 +143,7 @@ Related definitions:
 ## member {#member}
 
 ```typescript
-member = check.object({ memberId: check.identifier, matrixUserId: check.matrixUserId, displayName: check.text(HUMAN_SIGNUP.labelMax),
+member = check.object({ memberId: check.identifier, backendUserId: check.backendUserId, displayName: check.text(HUMAN_SIGNUP.labelMax),
     roleCode: check.choice('member', 'administrator'), status: check.status, revision: check.integer(), createdAt: check.integer(), application })
 ```
 
@@ -115,7 +151,7 @@ Related definitions:
 
 - [`object`](/docs/api/schemas/crossfire-contracts-schema-validation/#object)
 - [`identifier`](/docs/api/schemas/crossfire-contracts-schema-validation/#identifier)
-- [`matrixUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#matrixUserId)
+- [`backendUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendUserId)
 - [`text`](/docs/api/schemas/crossfire-contracts-schema-validation/#text)
 - [`HUMAN_SIGNUP`](/docs/api/schemas/crossfire-contracts-policy/#HUMAN_SIGNUP)
 - [`choice`](/docs/api/schemas/crossfire-contracts-schema-validation/#choice)
@@ -140,8 +176,8 @@ Related definitions:
 ## listenerRun {#listenerRun}
 
 ```typescript
-listenerRun = check.object({ runId: check.identifier, agentId: check.identifier, release: check.nullable(check.text(200)),
-    controller: check.nullable(check.object({ fleetId: check.identifier, connectionId: check.identifier, credentialId: check.identifier })),
+listenerRun = check.object({ runId: check.identifier, agentId: check.identifier, release: check.text(200),
+    controller: check.object({ fleetId: check.identifier, connectionId: check.identifier, credentialId: check.identifier }),
     startedAt: check.integer(), lastSeenAt: check.integer(), activeMs: check.integer(), messagesDelivered: check.integer(),
     stoppedAt: check.nullable(check.integer()), disconnectRequestedAt: check.nullable(check.integer()) })
 ```
@@ -150,10 +186,10 @@ Related definitions:
 
 - [`object`](/docs/api/schemas/crossfire-contracts-schema-validation/#object)
 - [`identifier`](/docs/api/schemas/crossfire-contracts-schema-validation/#identifier)
-- [`nullable`](/docs/api/schemas/crossfire-contracts-schema-validation/#nullable)
 - [`text`](/docs/api/schemas/crossfire-contracts-schema-validation/#text)
 - [`controller`](/docs/api/schemas/crossfire-contracts-schema-controller/#controller)
 - [`integer`](/docs/api/schemas/crossfire-contracts-schema-validation/#integer)
+- [`nullable`](/docs/api/schemas/crossfire-contracts-schema-validation/#nullable)
 
 ## activity {#activity}
 
@@ -174,14 +210,14 @@ Related definitions:
 ## owner {#owner}
 
 ```typescript
-owner = check.object({ memberId: check.identifier, matrixUserId: check.matrixUserId, displayName: check.text(HUMAN_SIGNUP.labelMax), status: check.status })
+owner = check.object({ memberId: check.identifier, backendUserId: check.backendUserId, displayName: check.text(HUMAN_SIGNUP.labelMax), status: check.status })
 ```
 
 Related definitions:
 
 - [`object`](/docs/api/schemas/crossfire-contracts-schema-validation/#object)
 - [`identifier`](/docs/api/schemas/crossfire-contracts-schema-validation/#identifier)
-- [`matrixUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#matrixUserId)
+- [`backendUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendUserId)
 - [`text`](/docs/api/schemas/crossfire-contracts-schema-validation/#text)
 - [`HUMAN_SIGNUP`](/docs/api/schemas/crossfire-contracts-policy/#HUMAN_SIGNUP)
 - [`status`](/docs/api/schemas/crossfire-contracts-schema-validation/#status)
@@ -189,7 +225,7 @@ Related definitions:
 ## agent {#agent}
 
 ```typescript
-agent = check.object({ agentId: check.identifier, matrixUserId: check.matrixUserId, name: check.name, displayName: check.text(255),
+agent = check.object({ agentId: check.identifier, backendUserId: check.backendUserId, name: check.name, displayName: check.text(255),
     owner, status: check.status, revision: check.integer(), createdAt: check.integer(), application, activity, nativeRuntime: check.nullable(nativeRuntimeSummary),
     deployment: check.object({ fleetId: check.identifier, fleetKey: check.name, label: check.text(100), controllerName: check.text(100), reportedAt: check.integer(), instanceKey: check.name }),
     canRetire: check.boolean, allowedActions: check.list(check.choice('configure', 'room-grant.manage', 'retire'), 3) })
@@ -199,7 +235,7 @@ Related definitions:
 
 - [`object`](/docs/api/schemas/crossfire-contracts-schema-validation/#object)
 - [`identifier`](/docs/api/schemas/crossfire-contracts-schema-validation/#identifier)
-- [`matrixUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#matrixUserId)
+- [`backendUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendUserId)
 - [`name`](/docs/api/schemas/crossfire-contracts-schema-validation/#name)
 - [`text`](/docs/api/schemas/crossfire-contracts-schema-validation/#text)
 - [`owner`](/docs/api/schemas/crossfire-contracts-schema-response/#owner)
@@ -249,7 +285,7 @@ Related definitions:
 
 ```typescript
 grant = check.object({ agentId: check.identifier, roomId: check.roomId, generation: check.identifier, authorizerId: check.identifier,
-    addedById: check.identifier, accessMode: check.choice('none', 'read', 'reply', 'custom'), powerLevel: check.nullable(check.integer(Number.MIN_SAFE_INTEGER)),
+    addedById: check.identifier, accessMode: check.choice('none', 'read', 'reply', 'custom'), nativeAccess: check.nullable(check.backendParameters),
     muted: check.boolean, revision: check.integer(), accessRevision: check.integer(), updatedAt: check.integer() })
 ```
 
@@ -260,29 +296,28 @@ Related definitions:
 - [`roomId`](/docs/api/schemas/crossfire-contracts-schema-validation/#roomId)
 - [`choice`](/docs/api/schemas/crossfire-contracts-schema-validation/#choice)
 - [`nullable`](/docs/api/schemas/crossfire-contracts-schema-validation/#nullable)
-- [`integer`](/docs/api/schemas/crossfire-contracts-schema-validation/#integer)
+- [`backendParameters`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendParameters)
 - [`boolean`](/docs/api/schemas/crossfire-contracts-schema-validation/#boolean)
+- [`integer`](/docs/api/schemas/crossfire-contracts-schema-validation/#integer)
 
 ## grantApplication {#grantApplication}
 
 ```typescript
-grantApplication = check.refine(check.object({ observedGeneration: check.nullable(check.identifier), appliedRevision: check.nullable(check.integer()),
-    appliedAccessRevision: check.nullable(check.integer()), membership: check.nullable(check.choice('join', 'invite', 'leave', 'ban')), creator: check.boolean,
-    powerLevel: check.nullable(check.integer(Number.MIN_SAFE_INTEGER)), lastAttemptAt: check.nullable(check.integer()), lastSuccessAt: check.nullable(check.integer()),
-    errorCode: check.nullable(check.text(100)), errorMessage: check.nullable(check.text(4096)) }), application => !application.creator || application.powerLevel === null, 'Native creators have no finite power level')
+grantApplication = check.object({ observedGeneration: check.nullable(check.identifier), appliedRevision: check.nullable(check.integer()),
+    appliedAccessRevision: check.nullable(check.integer()), membership: check.nullable(check.choice('join', 'invite', 'leave', 'ban')),
+    nativeAccess: check.nullable(check.backendParameters), lastAttemptAt: check.nullable(check.integer()), lastSuccessAt: check.nullable(check.integer()),
+    errorCode: check.nullable(check.text(100)), errorMessage: check.nullable(check.text(4096)) })
 ```
 
 Related definitions:
 
-- [`refine`](/docs/api/schemas/crossfire-contracts-schema-validation/#refine)
 - [`object`](/docs/api/schemas/crossfire-contracts-schema-validation/#object)
 - [`nullable`](/docs/api/schemas/crossfire-contracts-schema-validation/#nullable)
 - [`identifier`](/docs/api/schemas/crossfire-contracts-schema-validation/#identifier)
 - [`integer`](/docs/api/schemas/crossfire-contracts-schema-validation/#integer)
 - [`choice`](/docs/api/schemas/crossfire-contracts-schema-validation/#choice)
-- [`boolean`](/docs/api/schemas/crossfire-contracts-schema-validation/#boolean)
+- [`backendParameters`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendParameters)
 - [`text`](/docs/api/schemas/crossfire-contracts-schema-validation/#text)
-- [`application`](/docs/api/schemas/crossfire-contracts-schema-response/#application)
 
 ## grantView {#grantView}
 
@@ -310,7 +345,7 @@ Related definitions:
 
 ```typescript
 deliveryGrant = check.object({ roomId: check.roomId, accessMode: check.choice('read', 'reply', 'custom'),
-    powerLevel: check.nullable(check.integer(Number.MIN_SAFE_INTEGER)), muted: check.boolean })
+    nativeAccess: check.nullable(check.backendParameters), muted: check.boolean })
 ```
 
 Related definitions:
@@ -319,21 +354,21 @@ Related definitions:
 - [`roomId`](/docs/api/schemas/crossfire-contracts-schema-validation/#roomId)
 - [`choice`](/docs/api/schemas/crossfire-contracts-schema-validation/#choice)
 - [`nullable`](/docs/api/schemas/crossfire-contracts-schema-validation/#nullable)
-- [`integer`](/docs/api/schemas/crossfire-contracts-schema-validation/#integer)
+- [`backendParameters`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendParameters)
 - [`boolean`](/docs/api/schemas/crossfire-contracts-schema-validation/#boolean)
 
 ## deliveryPolicy {#deliveryPolicy}
 
 ```typescript
-deliveryPolicy = check.refine(check.object({ agentId: check.identifier, matrixUserId: check.matrixUserId, ownerMatrixId: check.matrixUserId,
+deliveryPolicy = check.refine(check.object({ agentId: check.identifier, backendUserId: check.backendUserId, ownerBackendUserId: check.backendUserId,
     maxMessageBytes: check.integer(4096, 4194304),
     fleetIdleTimeoutSeconds: check.integer(0, 604800),
     status: check.status, ownerStatus: check.status, ownerConversation: check.nullable(check.roomId), roomGrants: check.list(deliveryGrant, 101), wakeMode: check.wakeMode,
-    senderMatrixIds: check.list(check.matrixUserId, 2000) }), policy => new Set(policy.senderMatrixIds).size === policy.senderMatrixIds.length && !policy.senderMatrixIds.includes(policy.matrixUserId)
+    senderBackendUserIds: check.list(check.backendUserId, 2000) }), policy => new Set(policy.senderBackendUserIds).size === policy.senderBackendUserIds.length && !policy.senderBackendUserIds.includes(policy.backendUserId)
     && new Set(policy.roomGrants.map(grant => grant.roomId)).size === policy.roomGrants.length
-    && policy.roomGrants.every(grant => (grant.accessMode === 'custom') === (grant.powerLevel !== null))
+    && policy.roomGrants.every(grant => (grant.accessMode === 'custom') === (grant.nativeAccess !== null))
     && (policy.ownerConversation === null || policy.roomGrants.some(grant => grant.roomId === policy.ownerConversation && grant.accessMode === 'reply' && !grant.muted))
-    && (policy.status === 'active' && policy.ownerStatus === 'active' || policy.senderMatrixIds.length === 0), 'Invalid resolved delivery authority')
+    && (policy.status === 'active' && policy.ownerStatus === 'active' || policy.senderBackendUserIds.length === 0), 'Invalid resolved delivery authority')
 ```
 
 Related definitions:
@@ -341,7 +376,7 @@ Related definitions:
 - [`refine`](/docs/api/schemas/crossfire-contracts-schema-validation/#refine)
 - [`object`](/docs/api/schemas/crossfire-contracts-schema-validation/#object)
 - [`identifier`](/docs/api/schemas/crossfire-contracts-schema-validation/#identifier)
-- [`matrixUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#matrixUserId)
+- [`backendUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendUserId)
 - [`integer`](/docs/api/schemas/crossfire-contracts-schema-validation/#integer)
 - [`status`](/docs/api/schemas/crossfire-contracts-schema-validation/#status)
 - [`nullable`](/docs/api/schemas/crossfire-contracts-schema-validation/#nullable)
@@ -355,22 +390,21 @@ Related definitions:
 ## roomAuthority {#roomAuthority}
 
 ```typescript
-roomAuthority = check.refine(check.object({ matrixUserId: check.matrixUserId, powerLevel: check.nullable(check.integer(Number.MIN_SAFE_INTEGER)), creator: check.boolean,
-    creatorIds: check.list(check.matrixUserId, 100), readLevel: check.integer(Number.MIN_SAFE_INTEGER), replyLevel: check.integer(Number.MIN_SAFE_INTEGER),
-    inviteLevel: check.integer(Number.MIN_SAFE_INTEGER), kickLevel: check.integer(Number.MIN_SAFE_INTEGER), changePowerLevel: check.integer(Number.MIN_SAFE_INTEGER),
-    nativePermissions: check.list(check.object({ action: check.text(255), level: check.integer(Number.MIN_SAFE_INTEGER) }), 1000) }), authority => authority.creator === (authority.powerLevel === null), 'Native creator authority has no finite power level')
+roomAuthority = check.object({ backendUserId: check.backendUserId, canInvite: check.boolean, authorityRevision: check.text(255),
+    accessModes: check.list(check.choice('read', 'reply', 'custom'), 3),
+    accessFields: check.list(check.object({ key: check.text(100), label: check.text(255), minimum: check.integer(Number.MIN_SAFE_INTEGER), maximum: check.integer(Number.MIN_SAFE_INTEGER), defaultValue: check.integer(Number.MIN_SAFE_INTEGER) }), 64),
+    permissions: check.list(check.object({ action: check.text(255), label: check.text(1000), allowed: check.boolean }), 1000) })
 ```
 
 Related definitions:
 
-- [`refine`](/docs/api/schemas/crossfire-contracts-schema-validation/#refine)
 - [`object`](/docs/api/schemas/crossfire-contracts-schema-validation/#object)
-- [`matrixUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#matrixUserId)
-- [`nullable`](/docs/api/schemas/crossfire-contracts-schema-validation/#nullable)
-- [`integer`](/docs/api/schemas/crossfire-contracts-schema-validation/#integer)
+- [`backendUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendUserId)
 - [`boolean`](/docs/api/schemas/crossfire-contracts-schema-validation/#boolean)
-- [`list`](/docs/api/schemas/crossfire-contracts-schema-validation/#list)
 - [`text`](/docs/api/schemas/crossfire-contracts-schema-validation/#text)
+- [`list`](/docs/api/schemas/crossfire-contracts-schema-validation/#list)
+- [`choice`](/docs/api/schemas/crossfire-contracts-schema-validation/#choice)
+- [`integer`](/docs/api/schemas/crossfire-contracts-schema-validation/#integer)
 
 ## room {#room}
 
@@ -479,9 +513,9 @@ Related definitions:
 ```typescript
 enrollmentExchange = check.object({ status: check.choice('pending', 'rejected', 'expired', 'provisioning', 'ready'),
     fleet: check.nullable(check.object({ fleetId: check.identifier, controllerCredential: check.nullable(check.text(200)) })),
-    ownerMatrixId: check.matrixUserId, instances: check.list(check.object({ instanceKey: check.name, name: check.name, agentId: check.nullable(check.identifier),
+    ownerBackendUserId: check.backendUserId, instances: check.list(check.object({ instanceKey: check.name, name: check.name, agentId: check.nullable(check.identifier),
         status: check.choice('ready', 'provisioning'), errorCode: check.nullable(check.text(100)), account: check.nullable(check.object({
-            matrixUserId: check.matrixUserId, accessToken: check.text(8192), deviceId: check.text(255)
+            userId: check.backendUserId, accessToken: check.text(8192), native: check.backendParameters
         })) }), 100) })
 ```
 
@@ -493,9 +527,10 @@ Related definitions:
 - [`nullable`](/docs/api/schemas/crossfire-contracts-schema-validation/#nullable)
 - [`identifier`](/docs/api/schemas/crossfire-contracts-schema-validation/#identifier)
 - [`text`](/docs/api/schemas/crossfire-contracts-schema-validation/#text)
-- [`matrixUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#matrixUserId)
+- [`backendUserId`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendUserId)
 - [`list`](/docs/api/schemas/crossfire-contracts-schema-validation/#list)
 - [`name`](/docs/api/schemas/crossfire-contracts-schema-validation/#name)
+- [`backendParameters`](/docs/api/schemas/crossfire-contracts-schema-validation/#backendParameters)
 
 ## fleet {#fleet}
 

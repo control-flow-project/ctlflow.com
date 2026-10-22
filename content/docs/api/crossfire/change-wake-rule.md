@@ -159,11 +159,11 @@ object; fields below; unknown fields rejected ([`wakeRuleDetails`](/docs/api/sch
 | `ruleId` | lowercase opaque UUID |
 | `owner` | object; fields below; unknown fields rejected ([`principal`](/docs/api/schemas/crossfire-contracts-schema-response/#principal)) |
 | `owner.principalId` | lowercase opaque UUID |
-| `owner.matrixUserId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `owner.backendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `owner.kind` | `human` or `agent` |
 | `owner.displayName` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `owner.ownerId` | lowercase opaque UUID |
-| `owner.ownerMatrixId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `owner.ownerBackendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `configuredById` | lowercase opaque UUID |
 | `name` | string; 1–100 UTF-16 units; well-formed Unicode; no C0/DEL controls; constraint: Provide a Wake-up name ([`name`](/docs/api/schemas/crossfire-contracts-wake-up/#name)) |
 | `message` | plain-text string; at most 16384 UTF-8 bytes; allowed whitespace controls only; constraint: Provide a wake-up message ([`message`](/docs/api/schemas/crossfire-contracts-wake-up/#message)) |
@@ -182,11 +182,11 @@ object; fields below; unknown fields rejected ([`wakeRuleDetails`](/docs/api/sch
 | `lastDeliveredAt` | exact JSON integer; 0…9007199254740991; JSON null permitted |
 | `agents` | array; 0–1000 entries; item: object; fields below; unknown fields rejected ([`wakeRuleAgent`](/docs/api/schemas/crossfire-contracts-wake-up/#wakeRuleAgent)) |
 | `agents[].principalId` | lowercase opaque UUID |
-| `agents[].matrixUserId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `agents[].backendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `agents[].kind` | `agent` |
 | `agents[].displayName` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `agents[].ownerId` | lowercase opaque UUID |
-| `agents[].ownerMatrixId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `agents[].ownerBackendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `agents[].ruleId` | lowercase opaque UUID |
 | `agents[].agentId` | lowercase opaque UUID |
 | `agents[].nextDueAt` | exact JSON integer; 0…9007199254740991 |

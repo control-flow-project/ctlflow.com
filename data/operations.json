@@ -1,6 +1,24 @@
 {
   "crossfire": [
     {
+      "name": "messagingBackend",
+      "method": "GET",
+      "path": "/api/messaging-backend",
+      "auth": "public",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    },
+    {
+      "name": "authenticateBackend",
+      "method": "POST",
+      "path": "/api/backend-authentication",
+      "auth": "public",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    },
+    {
       "name": "recordFleetNativeStop",
       "method": "PUT",
       "path": "/api/fleets/{fleetId}/agents/{agentId}/native-stop",
@@ -1037,6 +1055,15 @@
     }
   ],
   "fleetd": [
+    {
+      "name": "diagnostics",
+      "method": "GET",
+      "path": "/api/diagnostics",
+      "auth": "controller",
+      "status": 200,
+      "collection": false,
+      "permissions": []
+    },
     {
       "name": "setup",
       "method": "POST",

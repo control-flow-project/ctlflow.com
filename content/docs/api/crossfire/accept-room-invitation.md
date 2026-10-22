@@ -94,7 +94,7 @@ object; fields below; unknown fields rejected
 
 | Field path | Representation and constraints |
 | --- | --- |
-| `roomId` | immutable Matrix room ID; maximum 255 UTF-16 units |
+| `roomId` | opaque room ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 
 ### Validation
 

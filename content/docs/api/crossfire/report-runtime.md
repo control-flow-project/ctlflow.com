@@ -96,7 +96,7 @@ object; fields below; unknown fields rejected ([`observation`](/docs/api/schemas
 | Field path | Representation and constraints |
 | --- | --- |
 | `sessionId` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls |
-| `roomId` | immutable Matrix room ID; maximum 255 UTF-16 units; JSON null permitted |
+| `roomId` | opaque room ID; 1–255 UTF-16 units, well-formed Unicode without control characters; JSON null permitted |
 | `runtime` | `codex` or `pi` ([`implementedRuntime`](/docs/api/schemas/crossfire-contracts-runtime/#implementedRuntime)) |
 | `state` | `idle` or `working` or `waiting-approval` or `waiting-answer` or `failed` or `unavailable` or `sleeping` or `waking` ([`runtimeState`](/docs/api/schemas/crossfire-contracts-runtime/#runtimeState)) |
 | `observedAt` | exact JSON integer; 0…9007199254740991 |

@@ -118,7 +118,7 @@ array; 0–2002 entries; item: object; fields below; unknown fields rejected
 
 | Field path | Representation and constraints |
 | --- | --- |
-| `[].context` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls |
+| `[].context` | string; 1–260 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `[].runtime` | lowercase name; pattern `[a-z][a-z0-9-]{0,39}` |
 | `[].sessionId` | string; 1–200 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 
@@ -127,7 +127,7 @@ array; 0–2002 entries; item: object; fields below; unknown fields rejected
 This TypeScript is the server's validation code, reproduced from its contract. It describes the accepted format; client applications do not need to run or import it.
 
 ```typescript
-check.list(check.object({ context: check.text(255), runtime: check.name, sessionId: check.text(200) }), 2002)
+check.list(check.object({ context: check.text(MAX_HISTORY_CONTEXT), runtime: check.name, sessionId: check.text(200) }), 2002)
 ```
 
 Referenced definitions:
@@ -135,6 +135,7 @@ Referenced definitions:
 - [`list`](/docs/api/schemas/crossfire-contracts-schema-validation/#list)
 - [`object`](/docs/api/schemas/crossfire-contracts-schema-validation/#object)
 - [`text`](/docs/api/schemas/crossfire-contracts-schema-validation/#text)
+- [`MAX_HISTORY_CONTEXT`](/docs/api/schemas/crossfire-kernel-history-context/#MAX_HISTORY_CONTEXT)
 - [`name`](/docs/api/schemas/crossfire-contracts-schema-validation/#name)
 
 ## Response envelope

@@ -19,7 +19,7 @@ The guide invokes this private executable directly. The following CLI example
 assumes that executable or its directory on your PATH:
 
 ```sh
-fleet setup --descriptor 'https://example.test/onboarding/setup.json?ownerMatrixId=%40member%3Aexample.test'
+fleet setup --descriptor 'https://example.test/onboarding/setup.json?ownerBackendUserId=%40member%3Aexample.test'
 ```
 
 Use the actual personalized URL, not this example.
@@ -69,7 +69,7 @@ then passes that existing file to `--config`; setup does not generate it from
 the filename in this command:
 
 ```sh
-fleet setup --descriptor 'https://example.test/onboarding/setup.json?ownerMatrixId=%40member%3Aexample.test' \
+fleet setup --descriptor 'https://example.test/onboarding/setup.json?ownerBackendUserId=%40member%3Aexample.test' \
   --root /absolute/private/controller \
   --config /absolute/private/fleet/runtime.toml
 ```

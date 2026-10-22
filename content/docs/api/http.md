@@ -52,7 +52,7 @@ example shows a request rejected because the record changed:
 }
 ```
 
-The operation's output schema applies to `data`. Application IDs and request IDs are UUIDs; Matrix IDs, cursors and native session identifiers retain their own opaque formats. Strings/keys must be well-formed Unicode. Malformed UTF-8 and unpaired UTF-16 surrogates are rejected, not replaced silently.
+The operation's output schema applies to `data`. Application IDs and request IDs are UUIDs; backend user IDs, room/event IDs, cursors and native session identifiers retain their own opaque formats. Backend adapters validate their native identifiers. Strings/keys must be well-formed Unicode. Malformed UTF-8 and unpaired UTF-16 surrogates are rejected, not replaced silently.
 
 | Code | HTTP status |
 | --- | --- |

@@ -1,8 +1,8 @@
 ---
 title: "fleetd private API"
-description: "19 HTTP operations with request fields, responses and validation."
+description: "20 HTTP operations with request fields, responses and validation."
 weight: 40
-operationCount: 19
+operationCount: 20
 generated: true
 noCards: true
 ---
@@ -14,6 +14,7 @@ These pages are generated from the operation definitions and validation function
 
 | Operation | Method | Path | Authentication | Success |
 | --- | --- | --- | --- | --- |
+| [`diagnostics`](/docs/api/fleetd/diagnostics/) | `GET` | `/api/diagnostics` | `controller` | 200 |
 | [`setup`](/docs/api/fleetd/setup/) | `POST` | `/api/setup` | `controller` | 200 |
 | [`status`](/docs/api/fleetd/status/) | `GET` | `/api/status` | `controller` | 200 |
 | [`fleets`](/docs/api/fleetd/fleets/) | `GET` | `/api/fleets` | `controller` | 200 |

@@ -120,12 +120,12 @@ object; fields below; unknown fields rejected ([`agent`](/docs/api/schemas/cross
 | Field path | Representation and constraints |
 | --- | --- |
 | `agentId` | lowercase opaque UUID |
-| `matrixUserId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `backendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `name` | lowercase name; pattern `[a-z][a-z0-9-]{0,39}` |
 | `displayName` | string; 1–255 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `owner` | object; fields below; unknown fields rejected ([`owner`](/docs/api/schemas/crossfire-contracts-schema-response/#owner)) |
 | `owner.memberId` | lowercase opaque UUID |
-| `owner.matrixUserId` | well-formed Matrix user ID; maximum 255 UTF-16 units |
+| `owner.backendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `owner.displayName` | string; 1–100 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `owner.status` | validator `choice('active', 'suspended', 'revoked')` ([`status`](/docs/api/schemas/crossfire-contracts-schema-validation/#status)) |
 | `status` | validator `choice('active', 'suspended', 'revoked')` ([`status`](/docs/api/schemas/crossfire-contracts-schema-validation/#status)) |
@@ -147,8 +147,8 @@ object; fields below; unknown fields rejected ([`agent`](/docs/api/schemas/cross
 | `activity.activeRuns` | array; 0–100 entries; item: object; fields below; unknown fields rejected ([`listenerRun`](/docs/api/schemas/crossfire-contracts-schema-response/#listenerRun)) |
 | `activity.activeRuns[].runId` | lowercase opaque UUID |
 | `activity.activeRuns[].agentId` | lowercase opaque UUID |
-| `activity.activeRuns[].release` | string; 1–200 UTF-16 units; well-formed Unicode; no C0/DEL controls; JSON null permitted |
-| `activity.activeRuns[].controller` | object; fields below; unknown fields rejected; JSON null permitted |
+| `activity.activeRuns[].release` | string; 1–200 UTF-16 units; well-formed Unicode; no C0/DEL controls |
+| `activity.activeRuns[].controller` | object; fields below; unknown fields rejected |
 | `activity.activeRuns[].controller.fleetId` | lowercase opaque UUID |
 | `activity.activeRuns[].controller.connectionId` | lowercase opaque UUID |
 | `activity.activeRuns[].controller.credentialId` | lowercase opaque UUID |

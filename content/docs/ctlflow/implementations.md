@@ -103,13 +103,13 @@ and out-of-range values. Empty collections have one logical page.
 
 ## Database
 
-Management SQLite uses application ID `1129465426`, schema 18 and the applied
-Knex migration contract. Current metadata describes 63 application tables.
+Management SQLite uses application ID `1129465426`, current schema 1 and the sole
+initial Knex migration. Current metadata describes 57 application tables.
 Knex's own bookkeeping tables are separate. File state and Conduit's externally
 owned RocksDB are not management SQL databases.
 
-Supported historical conversion is a forward migration, not a runtime reader.
-Applications reject missing, foreign, unsupported or unmigrated stores.
+There is no historical schema converter or alternate runtime reader.
+Applications validate the current database and completed Knex initialization.
 No import/export is needed when changing between verified implementations.
 
 ## .NET dependencies

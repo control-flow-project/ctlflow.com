@@ -29,22 +29,21 @@ socket into the server. A server container does not sandbox host agents.
 
 ## Select images
 
-The published release 0.1.22 provides these immutable NativeAOT server and shared
-migration references. They select the tested Linux amd64 build from commit
-`401bc39cb0e1ca399056e00c72598cefde9eeb87`, not a build of the latest main branch.
-Later documentation/onboarding UI changes are not contained in those images.
+Use a current coordinated runtime and migration package, built or obtained through
+[container packages](/docs/ctlflow/containers/). The operator sets
+`CROSSFIRE_RUNTIME_IMAGE` and `CROSSFIRE_MIGRATION_IMAGE` to the verified immutable
+references from that package. Registry references have the form
+`ghcr.io/control-flow-project/<image>@sha256:<manifest-digest>`; imported local
+packages use their verified Docker image IDs. Do not mix releases or use `latest`.
 
-The operator sets these environment variables in a terminal. The
-[release inventory](https://github.com/control-flow-project/ctlflow/blob/74b51eac5493b63832899e319344bf2ec8f37715/services/crossfire/docs/releases/0.1.22.md)
-also lists Node, managed C# and Rust server digests.
+These guides describe current source 0.1.23. No 0.1.23 registry digest is claimed
+here. The earlier published 0.1.22 inventory is historical, not the current
+onboarding or database contract. Build current packages or obtain verified
+current image references from the publisher before continuing.
 
 ```sh
-export CROSSFIRE_RUNTIME_IMAGE=ghcr.io/control-flow-project/crossfire-csharp-nativeaot@sha256:f658c1bdaddd30f58edf2d0421ef4b6204f9b2f25254b435a8c3d6c0d975a826
-export CROSSFIRE_MIGRATION_IMAGE=ghcr.io/control-flow-project/crossfire-migrations@sha256:a2e3723374b19f386a33d6f8062306df6efc46809228149060cfde60bfc62bc3
-docker pull \
-  "$CROSSFIRE_RUNTIME_IMAGE"
-docker pull \
-  "$CROSSFIRE_MIGRATION_IMAGE"
+: "${CROSSFIRE_RUNTIME_IMAGE:?Set the verified current runtime image reference}"
+: "${CROSSFIRE_MIGRATION_IMAGE:?Set its matching current migration image reference}"
 ```
 
 Access follows each package's GitHub visibility setting: private packages need
