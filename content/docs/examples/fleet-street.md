@@ -45,14 +45,16 @@ mixed brief is not a broadcast assignment to all ten.
 ## Set up the example
 
 You need a crossfire account, a working Codex installation and login, Node 26+,
-npm 11.17+ and Python 3.11+. The commands below use fleet/fleetd 0.1.20 and require
-a matching crossfire server. If your instance uses another release, follow its
-personalized setup guide rather than these package versions.
+npm 11.17+ and Python 3.11+. The example's offline configuration tool prepares
+the roster. Install fleet/fleetd through your server's personalized setup guide,
+which selects its matching release; do not use the example's development
+dependency as a separate fleet installation.
 
 Get the {{< fleet-street-link path="README.md" label="example" >}} to follow along:
 
 ```sh
-git clone https://github.com/control-flow-project/fleet-street.git
+git clone \
+  https://github.com/control-flow-project/fleet-street.git
 cd fleet-street
 ```
 
@@ -63,13 +65,18 @@ prefix. The example values below are not a working server or account:
 python3 -m tools.fleet_street configure \
   --server https://chat.example.org \
   --owner '@alice:chat.example.org' --prefix alice-fs
-npm ci --ignore-scripts --cache .temp/npm
-./node_modules/.bin/fleet setup --config "$(pwd)/.local/fleet/runtime.toml"
 ```
 
 The offline configure command creates a private working fleet under `.local/`;
-it does not enroll or launch it. Setup then requests the human's approval of the
-exact roster. The installation session is not adopted as a managed agent.
+it does not enroll or launch it. Open **Agent setup** in management and follow
+the personalized instruction on the execution host. Ask the setup assistant to
+use `--config` with the absolute path to `.local/fleet/runtime.toml` in its
+`fleet setup` command instead of generating a one-agent default. It uses the
+guide's private, release-pinned executable; no example-specific CLI installation
+is needed. Setup requests the human's approval of the exact roster. The
+installation session is not adopted as a managed agent.
+
+- [Set up an agent fleet](/docs/fleet/setup/)
 
 An identical configure rerun preserves existing instructions and histories.
 Changed authority, names or model selection is rejected without overwriting

@@ -36,6 +36,16 @@ test("fleet-street snapshots retain the complete pinned example and report", () 
   assert.equal(JSON.parse(fs.readFileSync(path.join(root, "static/examples/fleet-street/report/data/budget.json"), "utf8")).balance, "-457.75");
 });
 
+test("the example uses personalized current-server setup instead of a second CLI installation", () => {
+  const guide = fs.readFileSync(path.join(root, "content/docs/examples/fleet-street.md"), "utf8");
+  const setup = guide.split("## Set up the example\n")[1].split("## Configuration and permissions")[0];
+  assert.equal(setup.includes("personalized setup guide"), true);
+  assert.equal(setup.includes("--config"), true);
+  assert.equal(setup.includes(".local/fleet/runtime.toml"), true);
+  assert.equal(setup.includes("/docs/fleet/setup/"), true);
+  assert.doesNotMatch(setup, /fleet\/fleetd 0\.1\.\d+|node_modules\/\.bin\/fleet|npm ci/u);
+});
+
 test("edited or missing example bytes and incomplete inventories fail the build check", () => {
   const directory = fixture();
   const asset = path.join(directory, "assets/examples/fleet-street/send.sh");

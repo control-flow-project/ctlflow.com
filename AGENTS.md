@@ -18,6 +18,14 @@ only. Fleet setup runs on the execution host using its existing supported native
 harness and login; the personalized guide installs only pinned npm fleet/fleetd.
 Do not document a fleet image, relay or provider-credential mount into Docker.
 
+Every coordinated product publication includes this website: review edited
+guides, synchronize generated references to the released source, update image
+versions/digests and access requirements, and verify desktop/mobile rendering.
+Keep documentation consistent with the actual published artifacts; never imply
+anonymous pulls when packages remain private. A source push or local build is
+not a website deployment. Verify the production pages after authorized hosting
+publication, or report the precise missing hosting credential/operator action.
+
 The homepage explains what users can do and how the components connect. Put
 framework, database and migration details in their technical guides, not hero
 taglines. Use complete explanations instead of dot-separated claims or slogans.
