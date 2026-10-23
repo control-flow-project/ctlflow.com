@@ -17,6 +17,7 @@ credentials into Docker. Native fleet distributions below are explicit packaging
 choices, not another onboarding workflow.
 
 - [Local Docker server and host-native fleet](/docs/ctlflow/local-docker/)
+- [Published 0.1.24 server and migration images](/docs/ctlflow/container-release/)
 
 | Target | Server installation | Fleet/controller installation | Build command |
 | --- | --- | --- | --- |

@@ -7,6 +7,7 @@ import { siteOrigin } from "../scripts/build-options.mjs";
 import { netlifyHeaders } from "../scripts/serve.mjs";
 import { slug } from "../scripts/docs/api-pages.mjs";
 import { guideReferences } from "../scripts/docs/sources.mjs";
+import { containerRelease } from "./fixtures/container-release.mjs";
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const read = relative => fs.readFileSync(path.join(root, relative), "utf8");
@@ -14,16 +15,16 @@ const read = relative => fs.readFileSync(path.join(root, relative), "utf8");
 test("Docker and setup guides keep server containers separate from host fleets", () => {
   const quickstart = read("content/docs/ctlflow/local-docker.md");
   for (const expected of ["one-shot", "existing native provider login", "fleet runs on the execution host, not in Docker",
-    "CROSSFIRE_RUNTIME_IMAGE", "CROSSFIRE_MIGRATION_IMAGE", "current source 0.1.23", "server-state",
+    "CROSSFIRE_RUNTIME_IMAGE", "CROSSFIRE_MIGRATION_IMAGE", `published ${containerRelease.version}`, "server-state",
     "does not stop host agents", "does not install a", "No credential"])
     assert.equal((quickstart + read("content/docs/fleet/setup.md")).includes(expected), true, expected);
   assert.equal(quickstart.includes("docker compose exec"), false);
   assert.equal(quickstart.includes("CTLFLOW_FLEET_IMAGE"), false);
   assert.equal(quickstart.includes("MANIFEST_DIGEST"), false);
-  assert.match(quickstart, /CROSSFIRE_RUNTIME_IMAGE:\?Set the verified current runtime image reference/u);
-  assert.match(quickstart, /CROSSFIRE_MIGRATION_IMAGE:\?Set its matching current migration image reference/u);
-  assert.equal(quickstart.includes("No 0.1.23 registry digest is claimed"), true);
-  assert.doesNotMatch(quickstart, /@sha256:[a-f0-9]{64}/u);
+  for (const name of ["crossfire-csharp-nativeaot", "crossfire-migrations"])
+    assert.equal(quickstart.includes(`ghcr.io/control-flow-project/${name}@${containerRelease.images[name]}`), true, name + " current quickstart digest");
+  assert.doesNotMatch(quickstart, /CROSSFIRE_(?:RUNTIME|MIGRATION)_IMAGE:\?Set/u);
+  assert.doesNotMatch(quickstart, /No 0\.1\.\d+ registry digest is claimed/u);
   assert.equal(quickstart.includes("private packages need"), true);
   const packages = read("content/docs/ctlflow/containers.md");
   for (const expected of ["Number 2", "configDigest", "descriptorDigest", "org.crossfire.package=1", "current exact package"])
@@ -39,6 +40,23 @@ test("Docker and setup guides keep server containers separate from host fleets",
   assert.equal(implementation.includes("11.0.0-rc.2.26504.105"), true);
   assert.equal(implementation.includes("current schema 1"), true);
   assert.equal(read("content/docs/toolsmith/installation.md").includes("Toolsmith 0.4.2"), true);
+});
+
+test("the published container inventory and source mapping retain exact release facts", () => {
+  const inventory = read("content/docs/ctlflow/container-release.md");
+  assert.equal(inventory.includes(`title: "Container release ${containerRelease.version}"`), true);
+  assert.equal(inventory.includes(`sourcePath: "services/crossfire/docs/releases/${containerRelease.version}.md"`), true);
+  assert.equal(guideReferences.some(([project, source, destination]) => project === "ctlflow"
+    && source === `services/crossfire/docs/releases/${containerRelease.version}.md`
+    && destination === "docs/ctlflow/container-release.md"), true);
+  for (const [name, digest] of Object.entries(containerRelease.images)) {
+    assert.equal(inventory.includes(`| \`${name}\` | \`${digest}\` |`), true, name + " immutable published manifest");
+  }
+  assert.equal(inventory.includes("anonymous authorization returned 401"), true);
+  assert.equal(inventory.includes("There is no fleet image"), true);
+  assert.doesNotMatch(inventory, /MANIFEST_DIGEST|CTLFLOW_FLEET_IMAGE|@latest/u);
+  for (const filename of ["content/docs/ctlflow/local-docker.md", "content/docs/ctlflow/containers.md", "content/docs/ctlflow/distributions/_index.md"])
+    assert.equal(read(filename).includes("/docs/ctlflow/container-release/"), true, filename + " current inventory link");
 });
 
 test("authored pages describe agents without restricting them to software work", () => {
@@ -124,7 +142,7 @@ test("theatre examples distinguish ordinary chat from supplied and agent-written
   }
   assert.equal(guide.includes("--budget examples/budget.json"), true);
   assert.equal(guide.includes("--budget .local/budget.json"), false);
-  assert.equal(guide.includes("git clone https://github.com/control-flow-project/fleet-street.git\ncd fleet-street"), true);
+  assert.equal(guide.includes(["git clone \\", "  https://github.com/control-flow-project/fleet-street.git", "cd fleet-street"].join("\n")), true);
   assert.equal(guide.includes("git fetch origin"), false);
   assert.equal(fs.existsSync(path.join(root, "layouts/shortcodes/fleet-street-checkout.html")), false);
 });
@@ -185,9 +203,9 @@ test("Netlify headers keep site scripts/assets local and only hashed assets immu
 test("hierarchy and source URLs preserve constituents and Toolsmith optionality", () => {
   const sources = JSON.parse(read("data/sources.json"));
   assert.equal(sources.ctlflow.repository, "https://github.com/control-flow-project/ctlflow");
-  assert.equal(sources.ctlflow.revision, "2b2da4df5331dc71c0908011f34f35d8378bbdcf");
-  assert.equal(sources.ctlflow.version, "0.1.23");
-  assert.equal(sources.toolsmith.revision, "106d593690378cea074eefa9af421b73b088df36");
+  assert.equal(sources.ctlflow.revision, "38c859ebca9d32071a43f481edf8171c7e8c601f");
+  assert.equal(sources.ctlflow.version, containerRelease.version);
+  assert.equal(sources.toolsmith.revision, "08704c92e647ce8d901d7dca2232ef420dee1760");
   assert.equal(sources.toolsmith.version, "0.4.2");
   for (const product of ["crossfire", "fleetd", "fleet"]) assert.equal(read(`content/docs/${product}/_index.md`).includes(`title: ${product}`), true);
   const optional = read("content/docs/toolsmith/_index.md").replace(/\s+/gu, " ");
@@ -217,7 +235,7 @@ test("current guides match neutral identities and the sole current storage contr
 
 test("guides are edited independently of generated API contracts", () => {
   const manifest = JSON.parse(read("data/reference-manifest.json"));
-  assert.equal(guideReferences.length, 49);
+  assert.equal(guideReferences.length, 50);
   assert.equal(manifest.counts.guides, guideReferences.length);
   for (const [project, source, output] of guideReferences) {
     const filename = `content/${output}`;

@@ -21,7 +21,7 @@ harness, move your login into a container or adopt the assistant running setup.
 - Docker with Compose and Linux amd64 server images. This quickstart was tested on Linux x64, not macOS or ARM64.
 - Trusted, coordinated server and migration images. Build packages as described in [container packages](/docs/ctlflow/containers/) or obtain their immutable references from the publisher.
 - Loopback ports 8080 and 8082 available on the Docker host.
-- On the fleet execution host: Node.js 26+, npm, Git, Bash, the supported harness and its existing native provider login.
+- On the fleet execution host: Node.js 26+, npm 11.17+, Git, Bash, the supported harness and its existing native provider login.
 
 No credentials, domain fleet definitions or model weights are in the images.
 Do not mount a home directory, login, fleet workarea, controller state or Docker
@@ -29,22 +29,27 @@ socket into the server. A server container does not sandbox host agents.
 
 ## Select images
 
-Use a current coordinated runtime and migration package, built or obtained through
-[container packages](/docs/ctlflow/containers/). The operator sets
-`CROSSFIRE_RUNTIME_IMAGE` and `CROSSFIRE_MIGRATION_IMAGE` to the verified immutable
-references from that package. Registry references have the form
-`ghcr.io/control-flow-project/<image>@sha256:<manifest-digest>`; imported local
-packages use their verified Docker image IDs. Do not mix releases or use `latest`.
+Use the published 0.1.24 release. Its inventory contains all four runtime choices
+and their shared migration image, with actual registry manifest digests. The
+earlier 0.1.22 inventory is historical, not this quickstart's release.
 
-These guides describe current source 0.1.23. No 0.1.23 registry digest is claimed
-here. The earlier published 0.1.22 inventory is historical, not the current
-onboarding or database contract. Build current packages or obtain verified
-current image references from the publisher before continuing.
+- [Published 0.1.24 images and registry access](/docs/ctlflow/container-release/)
+
+For the default NativeAOT server, the operator selects and pulls these immutable
+references after completing the inventory's host-side registry login if required:
 
 ```sh
-: "${CROSSFIRE_RUNTIME_IMAGE:?Set the verified current runtime image reference}"
-: "${CROSSFIRE_MIGRATION_IMAGE:?Set its matching current migration image reference}"
+export \
+  CROSSFIRE_RUNTIME_IMAGE=ghcr.io/control-flow-project/crossfire-csharp-nativeaot@sha256:37dc1f30ac1cd7cdf9b1cefc2a8bc65a81a546e3f7842a742797daea4a187f42 \
+  CROSSFIRE_MIGRATION_IMAGE=ghcr.io/control-flow-project/crossfire-migrations@sha256:254a215b8d7fbb6e8d82b1dfec3fe5d930f259ad35a75ee8ac6100e82982cf3c
+docker pull \
+  "$CROSSFIRE_RUNTIME_IMAGE"
+docker pull \
+  "$CROSSFIRE_MIGRATION_IMAGE"
 ```
+
+The inventory also lists Node, managed C# and Rust. Retain the same migration
+reference when selecting a different runtime. Do not mix releases or use `latest`.
 
 Access follows each package's GitHub visibility setting: private packages need
 an authorized host-side GHCR login; public packages allow anonymous pulls.

@@ -261,6 +261,14 @@ replacement. A failed migration prevents application startup.
 Production upgrades preserve data and require a verified backup. They do not
 reset stores or replace native histories.
 
+Publishing coordinates every affected package, server/migration image and
+installation guide. Verify actual registry pulls and their exact version/digest
+references; a local build, source push or running deployment is not proof of
+registry publication. Website references must describe the same released
+artifacts and access requirements. Unpublished or blocked surfaces remain
+explicitly incomplete.
+
 - [Database layout and migrations](/docs/ctlflow/database/)
 - [Container packages](/docs/ctlflow/containers/)
+- [Published 0.1.24 image inventory](/docs/ctlflow/container-release/)
 - [Development and verification](/docs/ctlflow/development/)

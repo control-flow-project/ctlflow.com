@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import { test } from "node:test";
 import { chromium } from "playwright";
 import { startServer } from "../../scripts/serve.mjs";
+import { containerRelease } from "../fixtures/container-release.mjs";
 
 const root = path.dirname(path.dirname(path.dirname(fileURLToPath(import.meta.url))));
 
@@ -35,18 +36,29 @@ test("server-only Docker and host setup are readable on desktop and mobile", asy
       assert.equal(response.status(), 200);
       await page.getByRole("heading", { level: 1, name: "Local Docker server and host fleet", exact: true }).waitFor();
       const text = await page.locator("main").innerText();
-      for (const expected of ["Your fleet runs on the execution host, not in Docker.", "current source 0.1.23",
+      for (const expected of ["Your fleet runs on the execution host, not in Docker.", `published ${containerRelease.version}`,
         "server-state", "Stopping the server does not stop host agents.", "native provider login"])
         assert.equal(text.includes(expected), true, expected);
       const commands = await page.locator("main pre").allTextContents();
-      assert.equal(commands.some(command => command.includes("CROSSFIRE_RUNTIME_IMAGE:?Set the verified current runtime image reference")), true);
-      assert.equal(commands.some(command => command.includes("CROSSFIRE_MIGRATION_IMAGE:?Set its matching current migration image reference")), true);
+      assert.equal(commands.some(command => command.includes(`CROSSFIRE_RUNTIME_IMAGE=ghcr.io/control-flow-project/crossfire-csharp-nativeaot@${containerRelease.images["crossfire-csharp-nativeaot"]}`)), true);
+      assert.equal(commands.some(command => command.includes(`CROSSFIRE_MIGRATION_IMAGE=ghcr.io/control-flow-project/crossfire-migrations@${containerRelease.images["crossfire-migrations"]}`)), true);
       assert.equal(commands.some(command => command.includes("MANIFEST_DIGEST")), false);
-      assert.equal(await page.getByRole("link", { name: "container packages", exact: true }).count(), 2);
+      assert.equal(await page.getByRole("link", { name: "container packages", exact: true }).count(), 1);
       assert.equal(commands.some(command => command.includes("--profile maintenance run --rm migrate")), true);
       assert.equal(commands.some(command => command.includes("down --volumes")), false);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);
       await page.screenshot({ path: path.join(artifacts, "docker-" + width + ".png"), fullPage: true });
+      await page.getByRole("link", { name: `Published ${containerRelease.version} images and registry access`, exact: true }).click();
+      await page.getByRole("heading", { level: 1, name: `Container release ${containerRelease.version}`, exact: true }).waitFor();
+      const inventory = await page.locator("main").innerText();
+      for (const [name, digest] of Object.entries(containerRelease.images)) {
+        assert.equal(inventory.includes(name), true, name);
+        assert.equal(inventory.includes(digest), true, name + " published digest");
+      }
+      assert.equal(await page.locator("main table tbody tr").count(), 5);
+      assert.equal(inventory.includes("anonymous authorization returned 401"), true);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);
+      await page.screenshot({ path: path.join(artifacts, "release-" + width + ".png"), fullPage: true });
       await page.goto(preview.origin + "/docs/fleet/setup/");
       const setup = await page.locator("main").innerText();
       assert.equal(setup.includes("not Codex/Pi"), true);

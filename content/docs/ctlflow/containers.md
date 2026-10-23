@@ -60,14 +60,15 @@ code; the archive checksum is not authentication of this helper.
 
 ## Format and image contract
 
-Generic images use the names
+The [published 0.1.24 inventory](/docs/ctlflow/container-release/) provides
+immutable references for the generic images:
 `ghcr.io/control-flow-project/crossfire-node`, `crossfire-csharp-managed`,
 `crossfire-csharp-nativeaot`, `crossfire-rust` and `crossfire-migrations`.
 Registry access follows the package's visibility setting. Publication is separate
 from production activation; it does not migrate or restart a deployment.
 Use verified immutable references from a coordinated current release package.
-No current 0.1.23 registry publication is claimed by these guides; earlier
-publication records describe their original release only. A registry manifest digest
+The current inventory records verified authenticated pulls of all five images;
+private packages still require authorized host-side registry access. A registry manifest digest
 and Docker's local image ID name different objects; do not substitute one for the
 other or use `latest`.
 Never publish domain instructions, operating data, site configuration or secrets.

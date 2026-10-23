@@ -458,7 +458,7 @@ test("fleet-street has a complete source-linked walkthrough and a working genera
   assert.equal(await page.getByRole("heading", { level: 1 }).innerText(), "fleet-street: an agent fleet for theatre");
   assert.equal(await page.locator(".prose table tbody tr").count(), 10);
   assert.equal(await page.locator(`.prose a[href^="${metadata.repository}/blob/${metadata.revision}/"]`).count() >= 15, true);
-  assert.equal((await page.locator("code.language-sh").first().textContent()).trim(), "git clone https://github.com/control-flow-project/fleet-street.git\ncd fleet-street");
+  assert.equal((await page.locator("code.language-sh").first().textContent()).trim(), ["git clone \\", "  https://github.com/control-flow-project/fleet-street.git", "cd fleet-street"].join("\n"));
   assert.equal(await page.locator(".prose").innerText().then(text => text.includes("person does not need to write JSON")), true);
   assert.equal(await page.locator(".prose code.language-json").count(), 3);
   for (const [index, filename] of ["brief", "budget", "report"].entries()) {
@@ -660,7 +660,7 @@ test("navigation and documents remain readable with JavaScript disabled; missing
   assert.equal(await page.locator('.landing-art[data-artwork="examples"] img').evaluate(image => image.naturalWidth > 0), true);
   await page.goto(`${preview.origin}/docs/examples/fleet-street/`);
   assert.equal(await page.locator("main .landing-art").count(), 0);
-  await page.getByRole("link", { name: "Set up an agent fleet", exact: true }).click();
+  await page.getByRole("complementary", { name: "Documentation navigation", exact: true }).getByRole("link", { name: "Set up an agent fleet", exact: true }).click();
   await page.waitForURL("**/docs/fleet/setup/");
   const missing = await page.goto(`${preview.origin}/not-a-document/`);
   assert.equal(missing.status(), 404);
