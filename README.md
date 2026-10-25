@@ -18,6 +18,7 @@ uses no external fonts, analytics or remote diagram rendering.
 - [Local verification record](docs/verification/20261017-site.md)
 - [Current-contract cleanup and verification](docs/verification/20261022-current-contract-cleanup.md)
 - [Current container publication documentation](docs/verification/20261023-container-publication.md)
+- [Toolsmith 0.5.0 guide verification](docs/verification/20261025-toolsmith.md)
 - [Server Docker and host fleet documentation checks](docs/verification/20261018-server-docker-host-fleets.md)
 - [Theme, typography and code-example verification](docs/verification/20261017-theme-typography.md)
 - [fleet-street integration and homepage verification](docs/verification/20261017-fleet-street.md)

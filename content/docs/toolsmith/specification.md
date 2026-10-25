@@ -17,15 +17,16 @@ permissions, summaries, agent instructions and domain-specific logic.
 
 ## Available operations
 
-- Read UTF-8, JSON, static HTML, RSS, Atom and CSV.
+- Read UTF-8, JSON/JSONL, XML, static HTML, RSS, Atom and CSV, with literal links and metadata.
+- Extract PDF text or render selected pages through optional in-process dependencies.
 - Read, hash and copy regular files; inventory trees; create or extract selected ZIP members.
-- Download approved public HTTPS URLs with explicit request and byte budgets.
+- Download selected approved HTTPS URLs in concurrent groups with explicit pacing, request and byte budgets.
 - Append and verify generic JSON journals.
-- Add lexical and semantic indexes to caller-owned SQLite databases.
+- Add lexical and semantic indexes to caller-owned SQLite databases; query individually or in batches.
 - Optionally retain immutable text and file versions with citations.
-- Back up, restore, inspect, rebuild or migrate the optional archive.
+- Back up, restore, inspect or rebuild the optional archive.
 
-Browser automation, PDF extraction, OCR, generative summaries and public hosting
+Browser automation, OCR, generative summaries and public hosting
 are not implemented. HTML table markup is retained for interpretation rather
 than converted into inferred rows and columns. CSV and JSON readers parse their
 declared formats.
@@ -38,7 +39,7 @@ text reader. Toolsmith does not run a browser or bypass access gates.
 ## Installation and platforms
 
 The package is MIT-licensed. Its base installation has no third-party runtime
-dependencies. HTTP and semantic encoding use optional extras. Model weights are
+dependencies. HTTP, PDF and semantic encoding use optional extras. Model weights are
 not redistributed or downloaded automatically.
 
 Python 3.13+ is required. Secure persistence requires Linux filesystem primitives
@@ -84,8 +85,10 @@ while TLS verifies the original hostname. Every redirect repeats these checks.
 
 Requests do not inherit proxy settings or forward cookies or authorization.
 Wire bytes, expanded bytes, redirects and total time have explicit limits.
-`Retry-After`, spacing and quota exhaustion return deferrals rather than sleeping
-or automatically retrying.
+Upstream `Retry-After` and quota exhaustion return deferrals immediately. Local
+spacing and active-request-slot waits are bounded by the current deadline;
+neither starts an unattended retry queue. A batch reports unfinished inputs
+explicitly and does not certify source discovery or application completion.
 
 An interrupted GET may have reached the publisher. Explicit resume states that
 it may repeat the request and retains the original allowance and policy.

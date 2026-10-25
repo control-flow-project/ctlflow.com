@@ -53,7 +53,8 @@ configuration, credentials or unknown files.
   and a total I/O deadline including slow header/body reads. No helper watchdog
   process/thread or sleep loop is used.
 - Reservation/operation count persists before GET. Unknown receipt stays charged;
-  cooldown/spacing/quota defers rather than spinning. Completed operation replay
+  upstream cooldown/quota defers immediately; local spacing/slot waits stay within
+  the current deadline. Completed operation replay
   has no network effect. Explicit uncertain resume reports potential repeat GETs.
 
 The browser-style User-Agent addresses publishers that distinguish command-line
@@ -79,8 +80,15 @@ content/titles are not auto-redacted. Returned tool metadata excludes incidental
 machine paths and credentials, but consumers must decide which retained content
 can be shared. Store metadata and source-limit state are private local records.
 
-Base installation has no runtime dependencies. HTTP's optional dependency is pinned;
-dependency audit is part of release verification. Browser automation, PDF extraction and OCR are not implemented.
+Base installation has no runtime dependencies. Optional HTTP and PDF dependencies
+are pinned; dependency audit is part of release verification. PDF text extraction
+and rendering run in process. The native parser is not an OS sandbox; callers
+own process-level controls. Browser automation and OCR are not implemented.
+
+Typed and JSON HTTP policies normalize approved hostnames and reject duplicates
+after normalization. Raw HTTP destinations must be absolute and new; an existing
+file, directory or dangling symlink is rejected before sending a request. Final
+publication remains atomic and never overwrites a competing destination.
 
 ## Optional semantic inference
 

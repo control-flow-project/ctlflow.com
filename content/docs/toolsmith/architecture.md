@@ -29,16 +29,17 @@ worker thread exists. Toolsmith has no fleet/runtime/domain dependency.
 ```text
 src/toolsmith/
 ├── result.py, validation.py, clock.py, compression.py, sqlite.py
-├── scopes.py               Shared validated database-resident search scope
+├── scopes.py, search_batch.py  Validated database scopes and finite query batches
 ├── files.py, filesystem.py  Safe IO, streams, descriptors, locks and tree publication
 ├── archives.py             Exact explicitly selected files, not document manifests
-├── readers/                Parsing types, UTF-8/JSON, static HTML, feeds and CSV
+├── readers/                UTF-8/JSON/JSONL/XML, HTML links/metadata, feeds, CSV and optional PDF
 ├── lexical/                Caller-owned derivatives and exact literal passages
 ├── semantic/               Offline encoder, caller-owned vectors and bulk metadata
 │   └── store.py            Optional archive composition, no second vector engine
 ├── acquisition/
 │   ├── client.py           Generic approved raw HTTPS responses
-│   ├── transport.py        One DNS/TLS/HTTPS implementation
+│   ├── transport.py        One cooperative DNS/TLS/HTTPS implementation
+│   ├── batch.py, buckets.py  Concurrent groups with sequential, explicitly paced items
 │   ├── urls.py, config.py   Boundary validation and generic policy parsing
 │   ├── budgets.py          Shared durable group/task reservations and cooldowns
 │   ├── budget_import.py    Explicit reviewed quota transfer, original state retained
@@ -51,7 +52,9 @@ src/toolsmith/
 └── cli/                    Thin calls to the same libraries
 ```
 
-No browser/PDF/OCR substitute exists. No application source approvals, financial
+Optional PDF text/rendering runs in process. No browser or OCR is supplied.
+Single requests and batches use the same HTTPS transport and shared budget owner;
+local scheduling never replaces upstream allowance checks. No application source approvals, financial
 schemas/calculations, summary model or agent instructions are copied here.
 
 ## Application-owned data and derivatives
