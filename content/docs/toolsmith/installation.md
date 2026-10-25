@@ -1,12 +1,12 @@
 ---
 title: "Installation"
-description: "Build and install Toolsmith, then select HTTP or semantic search dependencies."
+description: "Build and install Toolsmith, then select HTTP, PDF or semantic search dependencies."
 weight: 10
 sourceProject: "toolsmith"
 sourcePath: "docs/installation.md"
 ---
 
-Toolsmith 0.4.2 has public MIT-licensed source and wheel/sdist artifacts. Metadata
+Toolsmith 0.5.0 has public MIT-licensed source and wheel/sdist artifacts. Metadata
 declares the SPDX expression `MIT`; both artifacts include LICENSE. There is no
 PyPI/npm release yet and no automatic publishing workflow. Build from the public
 repository or install a built wheel:
@@ -23,17 +23,21 @@ store/network requirement. Unsupported filesystem primitives cause an error.
 
 ```sh
 python3 -m venv .venv
-.venv/bin/python -m pip install dist/ctlflow_toolsmith-0.4.2-py3-none-*.whl
+.venv/bin/python -m pip install dist/ctlflow_toolsmith-0.5.0-py3-none-*.whl
 .venv/bin/toolsmith --json capabilities
 ```
 
 For selected network acquisition:
 
 ```sh
-.venv/bin/python -m pip install "$(printf '%s' dist/ctlflow_toolsmith-0.4.2-py3-none-*.whl)[http]"
+.venv/bin/python -m pip install "$(printf '%s' dist/ctlflow_toolsmith-0.5.0-py3-none-*.whl)[http]"
 ```
 
-The `http` extra installs the pinned bounded DNS resolver `dnspython==2.8.0`.
+The `http` extra installs `dnspython==2.8.0` and `aiohttp==3.14.5`. One
+cooperative asynchronous transport serves both synchronous and asynchronous
+callers without worker threads. The `pdf` extra installs `pypdfium2==5.14.0`
+and `Pillow==13.0.0` for in-process text extraction and PNG page rendering.
+Install only the extras the application needs.
 There are no base runtime dependencies. Nothing downloads browsers, OCR models,
 embeddings, skills or agent software. No global services or credentials are created.
 Supply an explicit private store and separate shared source-limit directory only
@@ -63,6 +67,9 @@ marker and license/metadata; repository tests/scripts/docs remain in the sdist.
 Neither artifact includes private stores, `.analysis`, secrets or development
 environments. Installed-artifact acceptance verifies both formats from clean
 environments, including absence of the optional dependency in a base installation.
+
+The reviewed security exceptions are exactly `certifi==2026.10.19` and
+`filelock==4.2.1`. They do not change the release-age policy for other packages.
 
 The separately selected `[semantic]` extra provides pinned inference/tokenizer
 dependencies. See [model preparation](/docs/toolsmith/semantic/): supplying model assets is an

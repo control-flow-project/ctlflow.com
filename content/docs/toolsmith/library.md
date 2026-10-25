@@ -39,16 +39,22 @@ HTTP client for a Toolsmith service, skill installation or fleet integration.
 | `toolsmith.files` | `read_bytes`, `write_new_bytes`, `replace_bytes`, `hash_file`, `copy_file`, `file_stamp`, `FileDigest`, `FileStamp`; explicit private descriptors and locks |
 | `toolsmith.paths` | `relative_components`, `relative_parent`, `relative_file`; descriptor-pinned relative paths |
 | `toolsmith.filesystem` | `inventory`, `sync_directory_tree`, `publish_directory`, `FileEntry` |
-| `toolsmith.archives` | `pack_files`, `unpack_files`, `read_archive_member`, `MemberSource`, `MemberDigest`, `ArchiveReport` |
-| `toolsmith.readers` | `Document`, `TextPart`, `read_text`, `normalize_text`, `read_json`, `read_html`, `inspect_html`, `HtmlInspection`, `read_feed`, `Feed`, `FeedEntry`, `decode_table`, `iter_table_rows`, `project_table` |
+| `toolsmith.archives` | `list_archive`, `pack_files`, `unpack_files`, `read_archive_member`, `ArchiveEntry`, `MemberSource`, `MemberDigest`, `ArchiveReport` |
+| `toolsmith.readers` | `Document`, `TextPart`, `read_text`, `normalize_text`, `read_json`, `read_json_lines`, `read_xml`, `XmlDocument`, `XmlElement`, `XmlLimits`, `read_pdf`, `PdfText`, `PdfPageText`, `render_pdf_page`, `PdfImage`, `read_html`, `inspect_html`, `HtmlInspection`, `HtmlLink`, `HtmlMetadata`, `HtmlStructuredData`, `read_feed`, `Feed`, `FeedEntry`, `decode_table`, `iter_table_rows`, `project_table` |
 | `toolsmith.readers.content` | `validate_content`; PDF signature only, not extraction |
-| `toolsmith.lexical` | `Source`, `Scope`, `initialize_index`, `inspect_index`, `indexed_scope`, `matching_scope`, `index_source`, `invalidate_source`, `search`, `check_index`, `compile_query`, `Region`, `find_text` |
-| `toolsmith.semantic` | `load_model`, `inspect_model`, `Source`, `Scope`, `prepare_connection`, `prepare_embedding`, `encode_query`, `initialize_index`, `inspect_index`, `inspect_coverage`, `indexed_scope`, `pending_references`, `publish_embedding`, `invalidate_embedding`, `relocate_embedding`, `clear_index`, `search_embeddings`, `check_index`, `indexed_digest` |
-| `toolsmith.acquisition.client` | `HttpPolicy`, `FetchResponse`, `fetch_http` without an archive |
+| `toolsmith.lexical` | `Source`, `Scope`, `initialize_index`, `inspect_index`, `indexed_scope`, `matching_scope`, `index_source`, `invalidate_source`, `search`, `search_batch`, `check_index`, `compile_query`, `Region`, `find_text` |
+| `toolsmith.semantic` | `load_model`, `inspect_model`, `Source`, `Scope`, `prepare_connection`, `prepare_embedding`, `encode_query`, `initialize_index`, `inspect_index`, `inspect_coverage`, `indexed_scope`, `pending_references`, `publish_embedding`, `invalidate_embedding`, `relocate_embedding`, `clear_index`, `search_embeddings`, `search_batch`, `search_embeddings_batch`, `check_index`, `indexed_digest` |
+| `toolsmith.acquisition.client` | `HttpPolicy`, `FetchResponse`, `fetch_http`, `fetch_http_async` without an archive |
 | `toolsmith.acquisition.config` | `read_http_policy`, `read_budget_policy` |
-| `toolsmith.acquisition.budgets` | `BudgetPolicy`, `Reservation`, `BudgetStatus`, `inspect_budget`, `reserve_budget`, `settle_budget` |
+| `toolsmith.acquisition.budgets` | `BudgetPolicy`, `Reservation`, `BudgetStatus`, `inspect_budget`, `reserve_budget`, `reserve_budget_async`, `settle_budget` |
 | `toolsmith.acquisition.configuration` | `Configuration`, `inspect_configuration`, `configure_budget`, `check_budget` |
 | `toolsmith.acquisition.budget_import` | `BudgetSnapshot`, `GroupUsage`, `Usage`, `import_budget` for reviewed quiesced counters |
+| `toolsmith.compression` | `expand_gzip` with an explicit expanded-byte ceiling |
+| `toolsmith.search_batch` | `SearchQuery`, `EmbeddingQuery`, `QueryResult`, `SearchBatch`, `read_queries` |
+| `toolsmith.acquisition.urls` | `resolve_url`, `resolve_urls`, `ResolvedUrl`; resolution grants no HTTP authority |
+| `toolsmith.acquisition.batch` | `DownloadRequest`, `DownloadedFile`, `DownloadOutcome`, `DownloadBatch`, `download_batch`, `download_batch_async` |
+| `toolsmith.acquisition.buckets` | `Bucket`, `BucketResult`, `run_buckets_async`; finite caller-selected operations and spacing |
+| `toolsmith.acquisition.transport` | `NativeResolver`, `NativeTransport`, `request_pinned`, `request_pinned_async` |
 | `toolsmith.journal` | `Record`, `read_journal`, `append_record` |
 
 The following modules compose the **optional text archive**, not a generic storage
@@ -109,6 +115,21 @@ The optional HTTP boundary accepts `Clock`, `Resolver` and `Transport` protocols
 for deterministic integration/tests. The shipping composition uses bounded native
 DNS/TLS/HTTPS. These interfaces allow deterministic tests and custom composition. DNS approval and byte/deadline checks remain in acquisition;
 custom callers remain responsible for their own transport's actual network behavior.
+
+Raw `HttpPolicy` and archive `SourcePolicy` accept one to 32 exact public DNS
+hosts. Typed and JSON policies normalize case, sort hosts and reject duplicates
+after normalization. The raw HTTP CLI rejects existing or relative destinations
+before fetching; final publication is atomic and never replaces an existing file.
+
+`inspect_html` returns literal `HtmlLink` values and metadata alongside cleaned
+text. Targets remain untrusted; resolution and source approval precede HTTP.
+`read_feed` returns every distinct entry within its bounds and an explicit
+`next_url` for declared Atom pagination, honoring inherited `xml:base`.
+Conflicting next links fail. Neither reader follows links or certifies that a
+publisher exposed every relevant document.
+
+The [primitive recipes](/docs/toolsmith/primitives/) show complete batch outputs,
+caller-owned acquisition callbacks, PDF pages and indexed batch queries.
 
 Importing the HTTP module does not import its optional DNS dependency. Missing
 dependency fails on selected network acquisition, not on text/storage import.

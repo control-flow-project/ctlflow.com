@@ -39,7 +39,7 @@ test("Docker and setup guides keep server containers separate from host fleets",
   assert.equal(implementation.includes("11.0.100-rc.2.26504.105"), true);
   assert.equal(implementation.includes("11.0.0-rc.2.26504.105"), true);
   assert.equal(implementation.includes("current schema 1"), true);
-  assert.equal(read("content/docs/toolsmith/installation.md").includes("Toolsmith 0.4.2"), true);
+  assert.equal(read("content/docs/toolsmith/installation.md").includes("Toolsmith 0.5.0"), true);
 });
 
 test("the published container inventory and source mapping retain exact release facts", () => {
@@ -203,10 +203,10 @@ test("Netlify headers keep site scripts/assets local and only hashed assets immu
 test("hierarchy and source URLs preserve constituents and Toolsmith optionality", () => {
   const sources = JSON.parse(read("data/sources.json"));
   assert.equal(sources.ctlflow.repository, "https://github.com/control-flow-project/ctlflow");
-  assert.equal(sources.ctlflow.revision, "38c859ebca9d32071a43f481edf8171c7e8c601f");
+  assert.equal(sources.ctlflow.revision, "0e7a92c2e394659c4fd2edd39623e9ebd5532d47");
   assert.equal(sources.ctlflow.version, containerRelease.version);
-  assert.equal(sources.toolsmith.revision, "08704c92e647ce8d901d7dca2232ef420dee1760");
-  assert.equal(sources.toolsmith.version, "0.4.2");
+  assert.equal(sources.toolsmith.revision, "1f7d7c29ad0b6e1075c448058598a45ad60ceecf");
+  assert.equal(sources.toolsmith.version, "0.5.0");
   for (const product of ["crossfire", "fleetd", "fleet"]) assert.equal(read(`content/docs/${product}/_index.md`).includes(`title: ${product}`), true);
   const optional = read("content/docs/toolsmith/_index.md").replace(/\s+/gu, " ");
   assert.equal(optional.includes("separate project"), true);
@@ -235,7 +235,7 @@ test("current guides match neutral identities and the sole current storage contr
 
 test("guides are edited independently of generated API contracts", () => {
   const manifest = JSON.parse(read("data/reference-manifest.json"));
-  assert.equal(guideReferences.length, 50);
+  assert.equal(guideReferences.length, 51);
   assert.equal(manifest.counts.guides, guideReferences.length);
   for (const [project, source, output] of guideReferences) {
     const filename = `content/${output}`;
@@ -274,9 +274,9 @@ test("controller guides and every generated operation require the same OS-user c
   assert.equal(client.includes("Do not attach `Cookie`, `Origin` or `Authorization`"), false);
 });
 
-test("Toolsmith guides match the recorded public 0.4 library ownership", () => {
+test("Toolsmith guides match the recorded public 0.5 library ownership", () => {
   const installation = read("content/docs/toolsmith/installation.md");
-  assert.equal(installation.includes("ctlflow_toolsmith-0.4.2"), true);
+  assert.equal(installation.includes("ctlflow_toolsmith-0.5.0"), true);
   assert.equal(installation.includes("0.3.0"), false);
   const library = read("content/docs/toolsmith/library.md");
   const rows = library.split("\n");

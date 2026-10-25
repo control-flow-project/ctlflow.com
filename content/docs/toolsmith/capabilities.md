@@ -11,6 +11,10 @@ or `Failure(code,message,retry_after_seconds)`; failures never silently become
 successful, truncated or substituted work. Filesystem effects use explicit absolute
 paths, not a global store. Applications own rights, permissions and source meaning.
 
+See [acquisition and reading recipes](/docs/toolsmith/primitives/) for complete
+file outputs, HTML links, XML/JSONL, optional PDF pages, URL/ZIP/gzip operations,
+concurrent downloads and batch search. Applications choose and interpret inputs.
+
 ## Generic capabilities: no text archive required
 
 | Capability | Inputs and results | Limits and cautions |
@@ -21,7 +25,11 @@ paths, not a global store. Applications own rights, permissions and source meani
 | Exact-file ZIP | Explicit selected files / expected member digests → archive or extracted directory | 10,000 files, 128 MiB/member, 1 GiB total, 4 MiB central directory, path depth 64; no encryption/special/extra members or partial publication |
 | Text / JSON | Explicit UTF-8 bytes → parsing types or bounded JSON | Text default 4 MiB, configurable 128 MiB; JSON default 32 MiB, configurable 128 MiB; duplicate keys/nonfinite numbers rejected |
 | Static HTML | Bytes and explicit text/article selection → `Document` | 4 MiB, 50,000 nodes, depth 128; access screens rejected; article identity/prose checked; table/dynamic-content warnings |
-| RSS/Atom | Bytes, source URL and explicit entry limit → `Feed` | 2 MiB, 12,000 nodes, depth 32, 1,000 entries; validate omitted entries; duplicates/conflicts/counts/truncation; original/offset/UTC dates distinct |
+| RSS/Atom | Bytes and source URL → complete `Feed` | 2 MiB, two million nodes, depth 32; all distinct entries within those bounds, explicit declared next URL; duplicate/conflict counts and original/offset/UTC dates distinct |
+| XML / JSONL | Supplied bytes → structured XML or JSON records | Default 32 MiB; XML rejects DTD/entities; invalid JSONL is an error, never a dropped line |
+| Optional PDF | Supplied bytes and selected pages → text/continuation or PNG | 32 MiB input; page and pixel bounds; no OCR or browser |
+| Download batch | Selected requests and policies → per-input files/outcomes | 32 MiB manifest; concurrent caller-defined groups, sequential items and explicit deadline/unfinished work |
+| Batch indexed search | Query IDs/text and authorized SQLite scope → coverage and per-query results | 32 MiB input; existing per-query limits, without sampling the corpus |
 | Tabular input | CSV/one ZIP-CSV/one GZIP-CSV → UTF-8 rows/projection | Compressed 32 MiB, expanded 64 MiB; comma/pipe/tab dialect; 256 columns, default 1,000,000 scanned rows; explicit larger budgets supported; strings only; exact scan/match/truncation counts |
 | Response validation | Selected format/media type → explicit warnings | Wrong-format/access pages rejected; PDF signature only, not a PDF parser or OCR |
 | Literal passages | Source/query/optional nonoverlapping regions → exact matches and counts | Source 128 MiB, 1,000 returned matches; no arbitrary region-count cutoff; punctuation and page-bounded context preserved |
@@ -82,7 +90,8 @@ authorize access bypass or prove a source is public.
 `unavailable` 7; `deferred` 8; `integrity` 9; `io` 10; `http` 11; `tls` 12.
 Success exits zero. Known deferrals include an interval, not a promised successful
 retry. Unknown cooldowns remain blocked for operator review; quota rollover cannot
-shorten them. No retry/wait slot, daemon, automatic fallback or process helper.
+shorten them. No unattended retry queue, daemon, automatic fallback or process
+helper. Only local spacing/slot waits run within the current request deadline.
 
 Source content/titles remain untrusted caller data. Path-free tool receipts omit
 incidental machine details, not arbitrary private strings supplied by callers.

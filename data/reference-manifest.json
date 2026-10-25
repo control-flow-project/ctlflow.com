@@ -2,13 +2,13 @@
   "sources": {
     "ctlflow": {
       "repository": "https://github.com/control-flow-project/ctlflow",
-      "revision": "38c859ebca9d32071a43f481edf8171c7e8c601f",
+      "revision": "0e7a92c2e394659c4fd2edd39623e9ebd5532d47",
       "version": "0.1.24"
     },
     "toolsmith": {
       "repository": "https://github.com/control-flow-project/toolsmith",
-      "revision": "08704c92e647ce8d901d7dca2232ef420dee1760",
-      "version": "0.4.2"
+      "revision": "1f7d7c29ad0b6e1075c448058598a45ad60ceecf",
+      "version": "0.5.0"
     }
   },
   "inputs": {
@@ -115,21 +115,22 @@
     "ctlflow:services/fleetd/node/packages/contracts/src/diagnostics.ts": "9e7a1ca9a9568999f85bfd08bf8ac73dae1180fca3c8ae54ad52f50a5df5467c",
     "ctlflow:services/fleetd/node/packages/contracts/src/setup.ts": "6ce870ffb9c20d5fb8843487b7c166f9c94e8286050bcec24786b3ce8c100fac",
     "ctlflow:services/fleetd/node/packages/storage/src/authentication.ts": "a445cf8f2649294342f8940602b538709b233d0832bb4d4e0f483a1066ffc8d4",
-    "toolsmith:docs/architecture.md": "050e2f5d782a69d7f52c8630d1e5c0e0a5fd4709b75728656c2241e4c64aad7b",
-    "toolsmith:docs/cli.md": "179534638dc6fa5a5967cff6cb181607aabb8a78369aeff0b14cf6afaf4ef9e7",
-    "toolsmith:docs/installation.md": "a26ed7f597c452f4daa2932a6af24cd6d7c6b69db7acdd035d43d573fa2c3413",
-    "toolsmith:docs/library.md": "9ce32a7bf9f683ef4e2e5482cd58d2da06802405ff04c514edd15fb7b02d1a1d",
-    "toolsmith:docs/limits.md": "8cb148f83fa32ca06feb8275819f6f89d011dfc0e6dd61309aecdcaa30401fbb",
+    "toolsmith:docs/architecture.md": "7e23c729eec2efcfaa63ddf45e505c5f5a71d2e535bd78ca396ad0f1a418464d",
+    "toolsmith:docs/cli.md": "ff0a07c5643f77aebfc287de089d21f0cb2f2f1c014724cd353d83713eaa3d71",
+    "toolsmith:docs/installation.md": "0c50caec6e216db78f40b584b77e9c76bfc546a922335f2d13e4d3c1f2aac281",
+    "toolsmith:docs/library.md": "9771fd5b34e30aca068940dd6399598e9e618a574fb2c552b2d938d6da95e38d",
+    "toolsmith:docs/limits.md": "eadbb41b145529d4abeaf3d38d2c0784eb09712912fb175312a0caa6f93bcea5",
     "toolsmith:docs/operations.md": "50f3975199db20b6ab454a9161fe1a42d6f0f3b1a862a72919f5ba6a5c352a1b",
+    "toolsmith:docs/primitives.md": "3e730097fb70807e7004a3dc429673eb96dc412521a9f45f675d74971b133590",
     "toolsmith:docs/security.md": "6830b9e2f0ee9208b9639d8a3eb0775ecf36fd1f5b52549d24166616e9f2cbd6",
     "toolsmith:docs/semantic.md": "f8021e30485bd24fe477fa5ce33229a7dc30789fe44b6bdaba3f26dc01118090",
-    "toolsmith:docs/specification.md": "b441f45334fec5ecd541d21ac299c982f971b2044d3e4691b7c0c48040dc174a",
-    "toolsmith:docs/tools.md": "bfb6846f475de29cb7b1dcae9ebd966308f49c6d3c26121aa47f635d95d14fd4",
-    "toolsmith:pyproject.toml": "de2c3d7854d709ce6514406e6fb8c2e390fadfa5bcf100fa9c645c9bd7d72b1a"
+    "toolsmith:docs/specification.md": "37d09ee5509680bd58875ee19310c8c33869c70be860aec16737071b8d80536d",
+    "toolsmith:docs/tools.md": "2030d4b2a3b995c6944e7d310e84fa4a332c96e1d1ed6258033dcdb510359b6e",
+    "toolsmith:pyproject.toml": "2060042622c478a4b7a4d33407c9e3b564b516cf2e9f606b8b4bd4b00a440980"
   },
   "generator": {
     "scripts/sync-docs.mjs": "66cf2444bc13cb5c13b94b1e73ef96d446fcf30e8ea2cac3523abfd0a96ab293",
-    "scripts/docs/sources.mjs": "bdf3aabbba8390b0aeee364bcebf52a4c4f55d580157d42f4b53568f3d16ae86",
+    "scripts/docs/sources.mjs": "2680c0dfc0a244b89e76e9c87715aab727f37a00c4028e934dfd2814dfdea1bd",
     "scripts/docs/model.mjs": "3d64e9bec3caf876d6f111558144d0f215707af1299d1fabccc100d6559de94b",
     "scripts/docs/fields.mjs": "f77e6215700d62091730133e0b19c6821965185480379f7db601d4bf59e2f710",
     "scripts/docs/api-pages.mjs": "39120bbbbfd054bd38d6fa3d9a3be202e3b4ad09d200c7db6fbcefe6c8e9080e",
@@ -298,13 +299,13 @@
     "content/docs/api/schemas/fleetd-contracts-diagnostics.md": "0ed11c97681973c2cd2d2764578f7886f2f73fff1fbf6568e3967333ec345376",
     "content/docs/api/schemas/fleetd-contracts-setup.md": "21e29d054cc003c9092e982c8033f06bfadc6f5689f13ae678334cdb30677444",
     "data/operations.json": "0a9895a23ad3459200fbb28d9a48cab3824b5b64e939949e2c1f882f25c3a0bf",
-    "data/sources.json": "893c1c310df742317dedb60284e3b3593009967e911da62a47635da96ed5b7e8"
+    "data/sources.json": "67aff99a7285fa21629d7bd2186f3557ad0ff20175cfa76d1ee2b0dc2d6df6e4"
   },
   "counts": {
     "crossfire": 94,
     "fleetd": 20,
     "matrix": 157,
     "schemaModules": 43,
-    "guides": 50
+    "guides": 51
   }
 }

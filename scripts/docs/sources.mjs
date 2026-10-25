@@ -42,6 +42,7 @@ export const guideReferences = [
   ["toolsmith","docs/installation.md","docs/toolsmith/installation.md"],
   ["toolsmith","docs/library.md","docs/toolsmith/library.md"],
   ["toolsmith","docs/cli.md","docs/toolsmith/cli.md"],
+  ["toolsmith","docs/primitives.md","docs/toolsmith/primitives.md"],
   ["toolsmith","docs/tools.md","docs/toolsmith/capabilities.md"],
   ["toolsmith","docs/semantic.md","docs/toolsmith/semantic.md"],
   ["toolsmith","docs/limits.md","docs/toolsmith/limits.md"],
