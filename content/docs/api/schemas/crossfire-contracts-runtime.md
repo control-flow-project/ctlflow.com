@@ -56,7 +56,7 @@ Related definitions:
 ## listenerOptions {#listenerOptions}
 
 ```typescript
-listenerOptions = check.object({ history_mode: check.optional(check.choice('shared', 'per-room')) })
+listenerOptions = check.object({ history_mode: check.optional(check.choice('shared', 'per-room')), mirror_output: check.optional(check.boolean) })
 ```
 
 Related definitions:
@@ -64,6 +64,7 @@ Related definitions:
 - [`object`](/docs/api/schemas/crossfire-contracts-schema-validation/#object)
 - [`optional`](/docs/api/schemas/crossfire-contracts-schema-validation/#optional)
 - [`choice`](/docs/api/schemas/crossfire-contracts-schema-validation/#choice)
+- [`boolean`](/docs/api/schemas/crossfire-contracts-schema-validation/#boolean)
 
 ## option {#option}
 

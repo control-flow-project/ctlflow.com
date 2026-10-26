@@ -70,7 +70,12 @@ conditions. Do not delete them to force a new context.
 
 ## Owner output and decisions
 
-Visible non-thinking native output goes only to the verified private owner DM.
+With output mirroring enabled, visible non-thinking native output goes only to
+the verified private owner DM. The operator can select
+[`listener_options.mirror_output = false`](/docs/fleet/configuration/#collection-output)
+to suppress new native-output deliveries for a collector. This requires the
+matching fleetd source build; published 0.1.24 packages do not include it.
+Explicit messages, activity, usage, approvals and questions remain available.
 Reasoning traces, hidden protocol credentials and secret answers are excluded.
 Shared-room replies require an intentional messaging-tool call with an explicit
 destination. Terminal output never infers a public audience.

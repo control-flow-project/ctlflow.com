@@ -127,6 +127,7 @@ object; fields below; unknown fields rejected ([`instanceView`](/docs/api/schema
 | `instance.runtimeOptions` | custom validation: [`runtimeOptions`](/docs/api/schemas/fleetd-contracts-configuration/#runtimeOptions); see function below; optional property |
 | `instance.listenerOptions` | object; fields below; unknown fields rejected; optional property |
 | `instance.listenerOptions.historyMode` | `shared` or `per-room`; optional property |
+| `instance.listenerOptions.mirrorOutput` | boolean; optional property |
 | `phase` | `stopped` or `starting` or `awaiting-approval` or `running` or `sleeping` or `waking` or `stopping` or `failed` ([`phase`](/docs/api/schemas/fleetd-contracts-api/#phase)) |
 | `listenerActive` | boolean |
 | `desiredActive` | boolean |

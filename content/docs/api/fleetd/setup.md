@@ -169,6 +169,7 @@ object; fields below; unknown fields rejected ([`setupResult`](/docs/api/schemas
 | `fleet.instances[].instance.runtimeOptions` | custom validation: [`runtimeOptions`](/docs/api/schemas/fleetd-contracts-configuration/#runtimeOptions); see function below; optional property |
 | `fleet.instances[].instance.listenerOptions` | object; fields below; unknown fields rejected; optional property |
 | `fleet.instances[].instance.listenerOptions.historyMode` | `shared` or `per-room`; optional property |
+| `fleet.instances[].instance.listenerOptions.mirrorOutput` | boolean; optional property |
 | `fleet.instances[].phase` | `stopped` or `starting` or `awaiting-approval` or `running` or `sleeping` or `waking` or `stopping` or `failed` ([`phase`](/docs/api/schemas/fleetd-contracts-api/#phase)) |
 | `fleet.instances[].listenerActive` | boolean |
 | `fleet.instances[].desiredActive` | boolean |

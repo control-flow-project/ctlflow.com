@@ -85,6 +85,34 @@ replaces its default; nested tables replace whole values, not recursive fields.
 The adapter validates the same result during inspection, start/resume, recovery
 and reset. Changes apply at a stopped-to-running transition.
 
+## Collection output
+
+An operator can suppress automatic native-output mirroring for a noisy collector
+while keeping intentional messages, required owner decisions, activity and usage
+reporting. This source setting requires a matching fleetd build; the published
+0.1.24 packages do not include it. Update explicitly before configuring it.
+
+For a collector instance, the fleet author adds this table to its roster entry
+in `research/runtime.toml`:
+
+```toml
+[instances.listener_options]
+history_mode = "shared"
+mirror_output = false
+```
+
+The default is `true`. A false value prevents newly observed text, tool results
+and final output from being queued for the owner DM. It preserves native history,
+telemetry, approvals, questions and explicit messaging-tool calls. A delivery
+already journaled before the change keeps its recorded identity and completion
+rules. Changes apply at the next stopped-to-running transition. Use the same
+setting for Codex and Pi on Node, managed C#, NativeAOT and Rust.
+
+Keep exhaustive collection progress in the application's run records. Agents can
+send a few deliberate final, blocker or requested-status messages without posting
+a message for every fetch. This setting does not change access permissions or
+make same-user files confidential from the owner.
+
 ## Role
 
 Save this role definition as `research/agents/analyst/agent.toml`, beside the
