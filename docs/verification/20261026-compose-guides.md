@@ -1,7 +1,7 @@
 # Compose migration guide review — 26 October 2026
 
 The coordinated documentation change follows ctlflow implementation revision
-`cf3dd0c87f68213d6a8995548108cf8d5faa9aa8` (source version 0.1.24).
+`7c5f8ef0cc2ee9401825483a875185b22281c5e7` (source version 0.1.24).
 It updates the twelve affected installation, operations, container, database,
 implementation, source-layout, specification and distribution guides. Node,
 managed C#, NativeAOT and Rust prescribe the same Compose lifecycle: stop the

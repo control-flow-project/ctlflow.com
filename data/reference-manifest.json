@@ -2,7 +2,7 @@
   "sources": {
     "ctlflow": {
       "repository": "https://github.com/control-flow-project/ctlflow",
-      "revision": "cf3dd0c87f68213d6a8995548108cf8d5faa9aa8",
+      "revision": "7c5f8ef0cc2ee9401825483a875185b22281c5e7",
       "version": "0.1.24"
     },
     "toolsmith": {
@@ -299,7 +299,7 @@
     "content/docs/api/schemas/fleetd-contracts-diagnostics.md": "0ed11c97681973c2cd2d2764578f7886f2f73fff1fbf6568e3967333ec345376",
     "content/docs/api/schemas/fleetd-contracts-setup.md": "21e29d054cc003c9092e982c8033f06bfadc6f5689f13ae678334cdb30677444",
     "data/operations.json": "0a9895a23ad3459200fbb28d9a48cab3824b5b64e939949e2c1f882f25c3a0bf",
-    "data/sources.json": "58bc431afe4385367679e38251cb604f891504b9d641914e5689525bd9edede2"
+    "data/sources.json": "b6c9b03b2f74a22b4ee928b36c9c941cb201e55f06344f5e60f2ee0fa33c0d8c"
   },
   "counts": {
     "crossfire": 94,
