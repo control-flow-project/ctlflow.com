@@ -76,13 +76,13 @@ authorization and never includes credentials or saved native histories by defaul
 
 ## Upgrade order
 
-Acquire exclusive instance ownership, stop/confirm owned writers, verify the
-required private backup, run Knex, then start the selected application.
-Failure blocks later phases. For an existing management database, each invocation
-of the backup-before-migration step creates and verifies a new uniquely named
-snapshot, even when the current migration is already applied. Previous snapshots
-are not automatically removed or reused. Never force-unlock a Knex migration
-while a writer might remain.
+Use the same Compose project and state throughout. Stop crossfire writers, remove
+the completed migrate job, then run up with the matching runtime/migration
+images. The success dependency gates runtime activation on a fresh Knex job.
+Dependency order alone does not quiesce a previous runtime or replace a completed
+job. A failure blocks activation. Backups are optional and operator-managed;
+SQLite backups must include committed WAL state. Never delete state or volumes
+to recover a failed migration or force-unlock while a writer might remain.
 
 All implementations open the same file. Fixtures also use the actual Knex
 migration, including the EF model generator's input. Acceptance checks current

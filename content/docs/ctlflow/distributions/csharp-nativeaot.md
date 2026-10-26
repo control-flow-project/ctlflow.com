@@ -50,33 +50,58 @@ fleet/fleetd products may be public npm packages.
 
 ## Install and run the server
 
-Copy the entire completed directory to its selected release location. Keep
-sibling products and data together; do not merge over an active release.
-For a new local instance:
+Server deployment uses Docker Compose with the selected csharp-nativeaot image and
+matching one-shot Knex image. Build the four backend kits from source with
+`npm run package:containers -- --output /absolute/packages`. Copy the complete
+selected directory, including release.json, images.tar, package-tool.mjs and
+compose.yaml, to the deployment host. The trusted maintenance helper requires
+Node.js 26; these examples also use jq. No host SDK is required to run an image.
+
+Verify/import trusted artifacts before stopping any current writer:
 
 ```sh
-/absolute/releases/csharp-nativeaot/crossfire/Crossfire.Server init \
-  --directory /absolute/private/crossfire-state --instance team \
-  --origin http://127.0.0.1:8098 --content-origin http://localhost:8099 \
-  --server-name team.localhost --administrator admin
-/absolute/releases/csharp-nativeaot/crossfire/Crossfire.Server start \
-  --directory /absolute/private/crossfire-state --package /absolute/packages/csharp-nativeaot \
-  --port 8098 --content-port 8099
+set -eu
+node /absolute/packages/csharp-nativeaot/package-tool.mjs verify \
+  /absolute/packages/csharp-nativeaot > /absolute/private/verified-images.json
+export CROSSFIRE_RUNTIME_IMAGE=$(jq -r .runtimeImage /absolute/private/verified-images.json)
+export CROSSFIRE_MIGRATION_IMAGE=$(jq -r .migrationImage /absolute/private/verified-images.json)
+export CROSSFIRE_STATE=/absolute/private/crossfire-state
+export CROSSFIRE_PORT=8098 CROSSFIRE_CONTENT_PORT=8099
+export CROSSFIRE_INSTANCE=team CROSSFIRE_SERVER_NAME=team.localhost
+export CROSSFIRE_ORIGIN=http://127.0.0.1:8098
+export CROSSFIRE_CONTENT_ORIGIN=http://localhost:8099
+export CROSSFIRE_ADMINISTRATOR=admin
+docker compose -p team -f /absolute/packages/csharp-nativeaot/compose.yaml \
+  --profile maintenance run --rm initialize
+docker compose -p team -f /absolute/packages/csharp-nativeaot/compose.yaml \
+  up -d --no-build --wait
 ```
 
-Initialization refuses nonempty state. The initial password is in private
-`bootstrap.json`, field `administratorPassword`. The operator validates ownership,
-confirms removal of its owned container orphans, verifies any required upgrade
-backup and runs Knex before the selected NativeAOT runtime image. Ctrl+C stops
-the owned container and retains data. Build packages with the root
-`npm run package:containers -- --output /absolute/packages` command first.
-The package, not the operator's implementation, selects the server backend.
-`--source`, `--compile` and `--runtime` are rejected.
+Run initialize only for new empty state. It refuses nonempty state and writes
+the initial administratorPassword in private bootstrap.json. Compose starts the
+runtime only after the common Knex job succeeds. Existing configuration,
+credentials, Matrix data and publications remain in the selected state directory.
+The server never migrates at startup. There is no `crossfire start` Docker
+operator or automatic backend fallback.
 
-The example serves Element at `http://127.0.0.1:8098/` and management at
-`http://127.0.0.1:8098/manage/`. The separate content port serves committed
-reports only. Public deployments need exact HTTPS origins, trusted ingress and
-separate proxy routes. These example addresses are not live deployments.
+For upgrades, verify/select the matching release, use the SAME project/state,
+stop writers and remove the completed job before starting:
+
+```sh
+docker compose -p team -f /absolute/packages/csharp-nativeaot/compose.yaml stop crossfire
+docker compose -p team -f /absolute/packages/csharp-nativeaot/compose.yaml rm -f migrate
+docker compose -p team -f /absolute/packages/csharp-nativeaot/compose.yaml up -d --no-build --wait
+```
+
+A failed migration blocks activation. Inspect the migrate service logs and
+correct its failure before retrying; never delete state or volumes to recover.
+Backups are optional and operator-managed. SQLite backups must include committed
+WAL state through its backup API or a quiescent procedure.
+
+The example serves Element at http://127.0.0.1:8098/ and management at
+http://127.0.0.1:8098/manage/. Reports use the separate content origin. Public
+hosting needs exact HTTPS origins, separate proxy routes and trusted ingress.
+These are local example addresses, not live deployment evidence.
 
 ## Install and connect fleet and fleetd
 
@@ -108,13 +133,7 @@ stopped bindings stay stopped. No boot service is installed automatically.
 
 ## Upgrade and verify
 
-Keep the exact source revision and distribution manifest. Back up private
-server/controller/fleet state, credentials and native histories, including a
-WAL-consistent management backup. Stop the old operator normally, then start
-the selected new release against the same directory and explicit runtime.
-The database remains the common Knex-created SQLite file.
-
-Use the new CLI's `fleet update FLEET` or
+Record the exact source revision and distribution manifest. Use the new CLI's `fleet update FLEET` or
 `fleet agent update FLEET INSTANCE`, then restart fleetd with the same root.
 Remote updates require the exact installed remote
 `/absolute/releases/csharp-nativeaot/fleetd/artifacts` directory. Inspect outcomes,

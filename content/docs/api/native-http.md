@@ -89,7 +89,7 @@ The generated guide installs **Node fleet and Node fleetd**, independent of the 
 - `README.md`
 - `SKILL.md`
 - `crossfire-client.mjs`
-- `matrix-spec-LICENSE.txt`
+- `messaging-LICENSE.txt`
 
 `GET/HEAD /onboarding/{release}/{artifact}` serves those exact bytes. The manifest is raw JSON, not a REST envelope. Immutable assets use a one-year immutable cache policy; clients verify declared byte lengths and SHA-256 before activation. Maximum artifact size is 8 MiB. Recovery/wake does not download replacements or silently upgrade software.
 

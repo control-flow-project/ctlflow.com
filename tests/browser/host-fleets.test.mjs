@@ -44,7 +44,9 @@ test("server-only Docker and host setup are readable on desktop and mobile", asy
       assert.equal(commands.some(command => command.includes(`CROSSFIRE_MIGRATION_IMAGE=ghcr.io/control-flow-project/crossfire-migrations@${containerRelease.images["crossfire-migrations"]}`)), true);
       assert.equal(commands.some(command => command.includes("MANIFEST_DIGEST")), false);
       assert.equal(await page.getByRole("link", { name: "container packages", exact: true }).count(), 1);
-      assert.equal(commands.some(command => command.includes("--profile maintenance run --rm migrate")), true);
+      assert.equal(commands.some(command => command.includes("--profile maintenance run --rm migrate")), false);
+      assert.equal(commands.some(command => command.includes("stop crossfire") && command.includes("rm -f migrate") && command.includes("up -d --no-build --wait")), true);
+      assert.equal(text.includes("Backups are optional and operator-managed"), true);
       assert.equal(commands.some(command => command.includes("down --volumes")), false);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);
       await page.screenshot({ path: path.join(artifacts, "docker-" + width + ".png"), fullPage: true });

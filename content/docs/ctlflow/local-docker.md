@@ -71,15 +71,12 @@ docker compose \
   --profile maintenance run --rm initialize
 docker compose \
   -f services/crossfire/docker/local/compose.yaml \
-  --profile maintenance run --rm migrate
-docker compose \
-  -f services/crossfire/docker/local/compose.yaml \
   up --no-build --wait
 ```
 
 Initialization generates private credentials on a new empty volume and refuses
-to overwrite an initialized instance. The matching Knex migration must succeed
-before starting the server. The running server never migrates itself.
+to overwrite an initialized instance. Compose runs the matching one-shot Knex job automatically and starts the runtime
+only after success. The running server never migrates itself.
 
 The operator reads the generated password privately in that terminal, then signs
 in as `admin` (`@admin:local.test`). Do not paste the password into chat or setup.
@@ -153,9 +150,19 @@ Stopping the server does not stop host agents. Use management session controls
 or host `fleet stop`/`fleet start` for that. Resume preserves exact saved histories;
 explicitly stopped selections stay stopped. Fresh history requires confirmation.
 
-For upgrades, stop server writers, verify a private backup, select coordinated
-images, run their matching one-shot migration and start the server. Back up host
-fleet state separately. No automatic update or boot service is installed.
+For upgrades, verify/select coordinated images, then use the same project and
+state for each command:
+
+```sh
+docker compose -f services/crossfire/docker/local/compose.yaml stop crossfire
+docker compose -f services/crossfire/docker/local/compose.yaml rm -f migrate
+docker compose -f services/crossfire/docker/local/compose.yaml up -d --no-build --wait
+```
+
+Stopping writers and removing the completed job are both required. A migration
+failure blocks activation. Backups are optional and operator-managed; SQLite
+backups must include committed WAL data. No automatic update or boot service is
+installed.
 
 - [Package upgrades and backend selection](/docs/ctlflow/containers/)
 - [Fleet restart and saved histories](/docs/fleet/sessions/)

@@ -203,9 +203,9 @@ test("Netlify headers keep site scripts/assets local and only hashed assets immu
 test("hierarchy and source URLs preserve constituents and Toolsmith optionality", () => {
   const sources = JSON.parse(read("data/sources.json"));
   assert.equal(sources.ctlflow.repository, "https://github.com/control-flow-project/ctlflow");
-  assert.equal(sources.ctlflow.revision, "0e7a92c2e394659c4fd2edd39623e9ebd5532d47");
+  assert.equal(sources.ctlflow.revision, "cf3dd0c87f68213d6a8995548108cf8d5faa9aa8");
   assert.equal(sources.ctlflow.version, containerRelease.version);
-  assert.equal(sources.toolsmith.revision, "1f7d7c29ad0b6e1075c448058598a45ad60ceecf");
+  assert.equal(sources.toolsmith.revision, "621d5cd046896fc7a11663073846131e24ee32b0");
   assert.equal(sources.toolsmith.version, "0.5.0");
   for (const product of ["crossfire", "fleetd", "fleet"]) assert.equal(read(`content/docs/${product}/_index.md`).includes(`title: ${product}`), true);
   const optional = read("content/docs/toolsmith/_index.md").replace(/\s+/gu, " ");
@@ -227,7 +227,7 @@ test("current guides match neutral identities and the sole current storage contr
   const database = read("content/docs/ctlflow/database.md");
   for (const expected of ["00_initial.mjs", "57 singular STRICT", "101 foreign-key", "87 explicit indexes", "20 triggers"])
     assert.equal(database.includes(expected), true, expected);
-  for (const expected of ["each invocation", "new uniquely named", "not automatically removed or reused"])
+  for (const expected of ["same Compose project", "completed migrate job", "Backups are optional and operator-managed"])
     assert.equal(database.includes(expected), true, expected);
   for (const page of ["fleetd/storage", "toolsmith/semantic", "toolsmith/operations"])
     assert.equal(read(`content/docs/${page}.md`).includes("current"), true, page);
