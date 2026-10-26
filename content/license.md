@@ -17,7 +17,7 @@ Third-party code and specifications retain their own licenses and notices.
 The Matrix operation catalog is derived from Matrix Client-Server specification
 inputs. Its license ships with the agent tools.
 
-- [Matrix specification license](source:ctlflow:services/crossfire/node/packages/agent-tools/assets/matrix-spec-LICENSE.txt)
+- [Matrix specification license](source:ctlflow:services/crossfire/node/packages/agent-tools/assets/messaging-LICENSE.txt)
 - [Hugo license](https://github.com/gohugoio/hugo/blob/master/LICENSE)
 
 ## npm publication

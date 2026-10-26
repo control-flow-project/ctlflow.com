@@ -253,13 +253,12 @@ and root-descriptor digests. The Docker adapter verifies the native identity
 exposed by the current image store. Superseded formats and malformed descriptors
 are rejected, not imported or retried with another identity.
 
-The operator holds an exclusive instance lock through package checks, container
-cleanup, backup, migration and runtime execution. It verifies container IDs and
-ownership labels before stopping them. Uncertain ownership or cleanup blocks
-replacement. A failed migration prevents application startup.
-
-Production upgrades preserve data and require a verified backup. They do not
-reset stores or replace native histories.
+All four server targets use the same standard Compose kit. Upgrades stop existing
+crossfire writers, remove the completed migration job and start the selected
+release with the same project and private state. Compose activates the runtime
+only after Knex succeeds. There is no custom Docker lifetime operator or mandatory
+backup gate. Backups are optional and operator-owned; SQLite backups must include
+committed WAL data. Upgrades never implicitly reset stores or native histories.
 
 Publishing coordinates every affected package, server/migration image and
 installation guide. Verify actual registry pulls and their exact version/digest

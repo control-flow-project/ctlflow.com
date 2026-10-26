@@ -1,6 +1,6 @@
 {
   "repository": "https://github.com/control-flow-project/fleet-street",
-  "revision": "60cb319fbc1444f83db42c61b7d4d11b255f1145",
+  "revision": "c0a5e2fd089a3d7c888829048820a3d3a50d2efa",
   "version": "0.1.0",
   "fleetRelease": "0.1.23",
   "agentCount": 10,
