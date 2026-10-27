@@ -61,6 +61,14 @@ The browser-style User-Agent addresses publishers that distinguish command-line
 defaults. It is not a browser, authorization bypass or guarantee a publisher will
 accept a request. Permission denials do not trigger another acquisition path.
 
+Caller-owned adapters may explicitly use the low-level pinned transport for POST
+with one to 65,536 opaque request bytes and reviewed headers. The adapter owns
+endpoint/body authorization, content type, quota accounting and any retries or
+redirect decisions. The transport owns Host and request framing, retains TLS,
+address-pinning, deadline and response bounds, and never follows or retries a
+response. Request bodies do not enter errors or response metadata. High-level
+HTTP, archive, batch and CLI acquisition remain GET-only.
+
 An application may keep reviewed JSON configuration with the shared quota state.
 Configuration changes and allowance changes commit together under one lock.
 Reservations must present the inspected configuration digest; stale approval

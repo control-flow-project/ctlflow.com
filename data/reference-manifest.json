@@ -7,7 +7,7 @@
     },
     "toolsmith": {
       "repository": "https://github.com/control-flow-project/toolsmith",
-      "revision": "9e995ed75150355e76abe5c0a25cdbace1073a19",
+      "revision": "5147056036555883d7b85731f25579241d942291",
       "version": "0.5.0"
     }
   },
@@ -118,13 +118,13 @@
     "toolsmith:docs/architecture.md": "7e23c729eec2efcfaa63ddf45e505c5f5a71d2e535bd78ca396ad0f1a418464d",
     "toolsmith:docs/cli.md": "028a970aa9a7a5d44bb418c7d1b4e2234fe67783d9c7fe2a5b4a838f968e20a8",
     "toolsmith:docs/installation.md": "ba1159b7863b5227755e2f482022763affe9a0b02341d8bc60f47ee1605a7f1a",
-    "toolsmith:docs/library.md": "5226dc961e08d892ee308cfa6f79264a2d388102ec48f84d66b2c6ad5a1e364e",
-    "toolsmith:docs/limits.md": "eabf38b432945a3faf57e6d90b66c9c1fddcadd3f49c22998fdf78681f66be72",
+    "toolsmith:docs/library.md": "0b3f06fd9a0ce9619eb520161a85b5e739edd012ac5af27771d297777ee4ac2a",
+    "toolsmith:docs/limits.md": "10f8a4f76b9e6a805cc231744a39087c8ae07b9d881f0c5b9cffd452b6f0d11b",
     "toolsmith:docs/operations.md": "50f3975199db20b6ab454a9161fe1a42d6f0f3b1a862a72919f5ba6a5c352a1b",
     "toolsmith:docs/primitives.md": "9c34255244c7b04fc5c3e7a56a56ffd99cccf195afc9ad101549d33da963e453",
-    "toolsmith:docs/security.md": "6830b9e2f0ee9208b9639d8a3eb0775ecf36fd1f5b52549d24166616e9f2cbd6",
+    "toolsmith:docs/security.md": "41adbe608026c80f652a492ff7b321fa49ecc4435572518a572eda74b9f2936a",
     "toolsmith:docs/semantic.md": "f8021e30485bd24fe477fa5ce33229a7dc30789fe44b6bdaba3f26dc01118090",
-    "toolsmith:docs/specification.md": "58f101951bc21d7a4fb55880ba8b17722ccdd111b5d71e5747015f1ccebe6992",
+    "toolsmith:docs/specification.md": "a791602370bb01e0b27022e38d29527696eecdb398f2edf5f22032863d155201",
     "toolsmith:docs/tools.md": "b441e392929b6539bdc43893b6903f1d39c50ca8b5323cba671f3e5ff012da5d",
     "toolsmith:pyproject.toml": "f074096622c0a7da2f5167af55541433bcaaf8082406458bc47352e06f7f142c"
   },
@@ -299,7 +299,7 @@
     "content/docs/api/schemas/fleetd-contracts-diagnostics.md": "0ed11c97681973c2cd2d2764578f7886f2f73fff1fbf6568e3967333ec345376",
     "content/docs/api/schemas/fleetd-contracts-setup.md": "21e29d054cc003c9092e982c8033f06bfadc6f5689f13ae678334cdb30677444",
     "data/operations.json": "0a9895a23ad3459200fbb28d9a48cab3824b5b64e939949e2c1f882f25c3a0bf",
-    "data/sources.json": "77ae894eae135f50239537ecef80de5bb51f6aef89988fca12d30378465aa6e8"
+    "data/sources.json": "f7f4474e1cdafabd21ba2adb727e060541f9c8fa170db31cb8110ac0e7711c24"
   },
   "counts": {
     "crossfire": 94,

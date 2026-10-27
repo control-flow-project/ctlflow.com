@@ -54,7 +54,7 @@ HTTP client for a Toolsmith service, skill installation or fleet integration.
 | `toolsmith.acquisition.urls` | `resolve_url`, `resolve_urls`, `ResolvedUrl`; resolution grants no HTTP authority |
 | `toolsmith.acquisition.batch` | `DownloadRequest`, `DownloadedFile`, `DownloadOutcome`, `DownloadBatch`, `download_batch`, `download_batch_async` |
 | `toolsmith.acquisition.buckets` | `Bucket`, `BucketResult`, `run_buckets_async`; finite caller-selected operations and spacing |
-| `toolsmith.acquisition.transport` | `NativeResolver`, `NativeTransport`, `request_pinned`, `request_pinned_async` |
+| `toolsmith.acquisition.transport` | `HttpMethod`, `NativeResolver`, `NativeTransport.request`/`request_async`, `request_pinned`, `request_pinned_async` |
 | `toolsmith.journal` | `Record`, `read_journal`, `append_record` |
 
 The following modules compose the **optional text archive**, not a generic storage
@@ -133,6 +133,15 @@ caller-owned acquisition callbacks, PDF pages and indexed batch queries.
 
 Importing the HTTP module does not import its optional DNS dependency. Missing
 dependency fails on selected network acquisition, not on text/storage import.
+
+The low-level pinned functions accept keyword-only `method="GET"`, `body=None`
+and caller-reviewed `headers`. Explicit POST requires one to 65,536 opaque body
+bytes; GET rejects a body. The caller approves the endpoint and body, supplies
+the content type, and owns quota accounting and retry/redirect decisions. The
+transport owns Host and request framing, validates the pinned address and TLS
+hostname, and returns statuses without following redirects or retrying. Request
+bodies stay out of errors and response metadata. High-level HTTP, archive, batch
+and CLI acquisition remain GET-only.
 
 ## Caller-owned lexical index
 
