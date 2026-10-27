@@ -32,7 +32,13 @@ untrusted data. Ordinary form-wrapped content stays readable, while interactive
 controls and their values do not become prose. Use retained text and metadata
 when interpreting links; a short link label does not represent all nearby context.
 
-XML preserves expanded namespace names, attributes, text and child order.
+XML preserves expanded namespace names, in-scope prefix bindings, attributes,
+text and tail ordering. The pure library `read_xml_records` converter can select
+one exact name or multiple distinct names in one bounded pass. Selected records
+cannot nest, and a malformed tail fails the complete read. Explicit XML input
+can reach 144 MiB/eight million nodes; defaults remain 32 MiB/two million.
+HTML byte/node budgets are separately selectable to 8 MiB/500,000 nodes with
+4 MiB/50,000-node defaults, retaining depth, access and extracted-output limits.
 RSS/Atom returns every distinct entry within its byte/structure limits and a
 publisher-declared next URL when present. The caller authorizes each next page
 and detects repeated URLs. An absent next link does not establish that discovery

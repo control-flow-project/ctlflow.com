@@ -27,6 +27,10 @@ init/status/check/delete do not activate a model.
 `read json`, `read table --column NAME [--filter COLUMN=VALUE]`
 and `read html --selection article [--title INTENDED]` use generic parsers.
 Table output includes complete scan/match counts and explicit truncation.
+The optional `xls` extra enables typed paged workbook reading. UTF-8/XML accept
+explicit byte bounds up to 144 MiB, retaining 4 MiB/32 MiB defaults. HTML accepts
+up to 8 MiB and 500,000 nodes with 4 MiB/50,000-node defaults; depth, access checks
+and extracted-output limits remain independent.
 `filesystem hash/copy FILE --maximum-bytes N` streams selected regular files.
 
 `http request URL --policy FILE --budget-policy FILE --network-state DIR --task ID
@@ -46,13 +50,14 @@ No command starts a server, helper process, listener or fleet.
 ```text
 toolsmith capabilities
 toolsmith store init | inspect
-toolsmith read text FILE --title TITLE
-toolsmith read html FILE [--title TITLE]
-toolsmith read html-links FILE
+toolsmith read text FILE --title TITLE [--maximum-bytes N]
+toolsmith read html FILE [--title TITLE] [--maximum-bytes N] [--maximum-nodes N]
+toolsmith read html-links FILE [--maximum-bytes N] [--maximum-nodes N]
 toolsmith read feed FILE --source-url URL
 toolsmith read json FILE
 toolsmith read jsonl FILE
-toolsmith read xml FILE
+toolsmith read xml FILE [--maximum-bytes N]
+toolsmith read xls FILE [--sheet N] [--start N] [--limit N]
 toolsmith read pdf FILE [--start N] [--limit N]
 toolsmith render pdf FILE --page N [--dpi N] --destination FILE
 toolsmith url resolve BASE_URL --file TARGETS_JSON

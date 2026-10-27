@@ -18,6 +18,7 @@ permissions, summaries, agent instructions and domain-specific logic.
 ## Available operations
 
 - Read UTF-8, JSON/JSONL, XML, static HTML, RSS, Atom and CSV, with literal links and metadata.
+- Read typed cached XLS cells through the optional `xls` extra, preserving number formats and explicit row-page continuation.
 - Extract PDF text or render selected pages through optional in-process dependencies.
 - Read, hash and copy regular files; inventory trees; create or extract selected ZIP members.
 - Download selected approved HTTPS URLs in concurrent groups with explicit pacing, request and byte budgets.
@@ -36,10 +37,16 @@ Document-title access screens and unresolved access dialogs remain failures.
 A caller that owns a browser validates its computed-visible DOM through the same
 text reader. Toolsmith does not run a browser or bypass access gates.
 
+XML retains namespace scopes and text/tail order. Its pure selected-record
+converter validates the complete document before returning converted results;
+no malformed tail becomes a successful prefix. Its explicit byte ceiling is
+144 MiB with a 32 MiB default. HTML keeps a 4 MiB/50,000-node default and accepts
+explicit bounds to 8 MiB/500,000 nodes, retaining depth, access and output checks.
+
 ## Installation and platforms
 
 The package is MIT-licensed. Its base installation has no third-party runtime
-dependencies. HTTP, PDF and semantic encoding use optional extras. Model weights are
+dependencies. HTTP, PDF, XLS and semantic encoding use optional extras. Model weights are
 not redistributed or downloaded automatically.
 
 Python 3.13+ is required. Secure persistence requires Linux filesystem primitives
