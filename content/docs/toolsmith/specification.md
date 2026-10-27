@@ -74,6 +74,11 @@ callers using the same upstream allowance share that state. Reservations are
 recorded before requests; unknown usage remains charged. Clock rollback, reboot
 and policy changes do not reset an allowance.
 
+Generic budget reservations accept an explicit operation deadline up to 120
+seconds. An interrupted consumer retains its active slot until that deadline;
+expiry releases the slot and keeps unknown usage charged. Standalone HTTP keeps
+its separate sixty-second request ceiling.
+
 Journals have explicit roots, caller-defined event schemas and caller-managed
 retention. Nothing expires automatically unless an operation documents that
 behavior.

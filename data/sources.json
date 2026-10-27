@@ -6,7 +6,7 @@
   },
   "toolsmith": {
     "repository": "https://github.com/control-flow-project/toolsmith",
-    "revision": "930b746d8d32152873e9fa740aa2d943cac5bb76",
+    "revision": "9e995ed75150355e76abe5c0a25cdbace1073a19",
     "version": "0.5.0"
   }
 }
