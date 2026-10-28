@@ -203,9 +203,9 @@ test("Netlify headers keep site scripts/assets local and only hashed assets immu
 test("hierarchy and source URLs preserve constituents and Toolsmith optionality", () => {
   const sources = JSON.parse(read("data/sources.json"));
   assert.equal(sources.ctlflow.repository, "https://github.com/control-flow-project/ctlflow");
-  assert.equal(sources.ctlflow.revision, "75234d6f6b625fc1ff2c52f7e370ffbdd97bad96");
+  assert.equal(sources.ctlflow.revision, "5a89674befa98cff17fbc777886af39bbf195c11");
   assert.equal(sources.ctlflow.version, containerRelease.version);
-  assert.equal(sources.toolsmith.revision, "5147056036555883d7b85731f25579241d942291");
+  assert.equal(sources.toolsmith.revision, "e1bdc126b21e3f3b1da3434ecc2f2abdde88f476");
   assert.equal(sources.toolsmith.version, "0.5.0");
   for (const product of ["crossfire", "fleetd", "fleet"]) assert.equal(read(`content/docs/${product}/_index.md`).includes(`title: ${product}`), true);
   const optional = read("content/docs/toolsmith/_index.md").replace(/\s+/gu, " ");
@@ -285,4 +285,13 @@ test("Toolsmith guides match the recorded public 0.5 library ownership", () => {
   for (const symbol of ["toolsmith.paths", "toolsmith.acquisition.configuration", "indexed_scope", "matching_scope", "prepare_connection", "HtmlInspection"])
     assert.equal(library.includes(symbol), true, symbol);
   assert.equal(read("content/docs/toolsmith/security.md").includes("stale approval"), true);
+});
+
+test("documented SQL values use named parameters", () => {
+  for (const relative of fs.readdirSync(path.join(root, "content"), { recursive: true }).filter(name => name.endsWith(".md"))) {
+    const content = read(path.join("content", relative));
+    for (const match of content.matchAll(/```(?:python|py)\n([\s\S]*?)```/gu)) {
+      assert.doesNotMatch(match[1], /(?:VALUES\s*\([^\n]*|WHERE\s+[\w.]+\s*(?:=|IS|LIKE)\s*)\?/iu, relative);
+    }
+  }
 });
