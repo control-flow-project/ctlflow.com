@@ -667,3 +667,19 @@ test("navigation and documents remain readable with JavaScript disabled; missing
   assert.equal(await page.getByRole("heading", { name: "Page not found." }).isVisible(), true);
   evidence.tests.push("no-javascript-progressive-navigation-and-404");
 });
+
+
+test("quiet collection guides preserve explicit messaging and source-build requirements on desktop and mobile", async context => {
+  for (const width of [390, 1440]) {
+    const { page } = await pageFor(context, { viewport: { width, height: 1000 } });
+    const response = await page.goto(preview.origin + "/docs/fleet/configuration/#collection-output");
+    assert.equal(response.status(), 200);
+    const guide = await page.locator("main").innerText();
+    for (const value of ["mirror_output = false", "0.1.24 packages do not include it", "required owner decisions", "already journaled"])
+      assert.equal(guide.toLowerCase().includes(value.toLowerCase()), true, value);
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);
+    await page.goto(preview.origin + "/docs/fleetd/runtime/");
+    assert.equal((await page.locator("main").innerText()).includes("listener_options.mirror_output = false"), true);
+  }
+  evidence.tests.push("quiet-collection-desktop-mobile");
+});

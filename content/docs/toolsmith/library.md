@@ -40,7 +40,7 @@ HTTP client for a Toolsmith service, skill installation or fleet integration.
 | `toolsmith.paths` | `relative_components`, `relative_parent`, `relative_file`; descriptor-pinned relative paths |
 | `toolsmith.filesystem` | `inventory`, `sync_directory_tree`, `publish_directory`, `FileEntry` |
 | `toolsmith.archives` | `list_archive`, `pack_files`, `unpack_files`, `read_archive_member`, `ArchiveEntry`, `MemberSource`, `MemberDigest`, `ArchiveReport` |
-| `toolsmith.readers` | `Document`, `TextPart`, `read_text`, `normalize_text`, `read_json`, `read_json_lines`, `read_xml`, `XmlDocument`, `XmlElement`, `XmlLimits`, `read_pdf`, `PdfText`, `PdfPageText`, `render_pdf_page`, `PdfImage`, `read_html`, `inspect_html`, `HtmlInspection`, `HtmlLink`, `HtmlMetadata`, `HtmlStructuredData`, `read_feed`, `Feed`, `FeedEntry`, `decode_table`, `iter_table_rows`, `project_table` |
+| `toolsmith.readers` | `Document`, `TextPart`, `read_text`, `normalize_text`, `read_json`, `read_json_lines`, `read_xml`, `read_xml_records`, `XmlDocument`, `XmlElement`, `XmlLimits`, `read_pdf`, `PdfText`, `PdfPageText`, `render_pdf_page`, `PdfImage`, `read_html`, `inspect_html`, `HtmlInspection`, `HtmlLink`, `HtmlMetadata`, `HtmlStructuredData`, `read_xls`, `XlsCell`, `XlsRow`, `XlsSheet`, `read_feed`, `Feed`, `FeedEntry`, `decode_table`, `iter_table_rows`, `project_table` |
 | `toolsmith.readers.content` | `validate_content`; PDF signature only, not extraction |
 | `toolsmith.lexical` | `Source`, `Scope`, `initialize_index`, `inspect_index`, `indexed_scope`, `matching_scope`, `index_source`, `invalidate_source`, `search`, `search_batch`, `check_index`, `compile_query`, `Region`, `find_text` |
 | `toolsmith.semantic` | `load_model`, `inspect_model`, `Source`, `Scope`, `prepare_connection`, `prepare_embedding`, `encode_query`, `initialize_index`, `inspect_index`, `inspect_coverage`, `indexed_scope`, `pending_references`, `publish_embedding`, `invalidate_embedding`, `relocate_embedding`, `clear_index`, `search_embeddings`, `search_batch`, `search_embeddings_batch`, `check_index`, `indexed_digest` |
@@ -54,7 +54,7 @@ HTTP client for a Toolsmith service, skill installation or fleet integration.
 | `toolsmith.acquisition.urls` | `resolve_url`, `resolve_urls`, `ResolvedUrl`; resolution grants no HTTP authority |
 | `toolsmith.acquisition.batch` | `DownloadRequest`, `DownloadedFile`, `DownloadOutcome`, `DownloadBatch`, `download_batch`, `download_batch_async` |
 | `toolsmith.acquisition.buckets` | `Bucket`, `BucketResult`, `run_buckets_async`; finite caller-selected operations and spacing |
-| `toolsmith.acquisition.transport` | `NativeResolver`, `NativeTransport`, `request_pinned`, `request_pinned_async` |
+| `toolsmith.acquisition.transport` | `HttpMethod`, `NativeResolver`, `NativeTransport.request`/`request_async`, `request_pinned`, `request_pinned_async` |
 | `toolsmith.journal` | `Record`, `read_journal`, `append_record` |
 
 The following modules compose the **optional text archive**, not a generic storage
@@ -134,6 +134,15 @@ caller-owned acquisition callbacks, PDF pages and indexed batch queries.
 Importing the HTTP module does not import its optional DNS dependency. Missing
 dependency fails on selected network acquisition, not on text/storage import.
 
+The low-level pinned functions accept keyword-only `method="GET"`, `body=None`
+and caller-reviewed `headers`. Explicit POST requires one to 65,536 opaque body
+bytes; GET rejects a body. The caller approves the endpoint and body, supplies
+the content type, and owns quota accounting and retry/redirect decisions. The
+transport owns Host and request framing, validates the pinned address and TLS
+hostname, and returns statuses without following redirects or retrying. Request
+bodies stay out of errors and response metadata. High-level HTTP, archive, batch
+and CLI acquisition remain GET-only.
+
 ## Caller-owned lexical index
 
 This self-contained Python example creates an in-memory SQLite index, supplies
@@ -183,3 +192,29 @@ Atom format and original links separately from canonical article URLs.
 `toolsmith.semantic.store` composes those functions with exact retained citations.
 Importing either loads no optional native package or model. See
 [semantic contracts](/docs/toolsmith/semantic/) and [fleet integration](source:toolsmith:docs/fleet-recipes.md).
+
+## Reader bounds and native formats
+
+`read_xls(content, sheet=0, start=0, limit=1000)` returns typed XLS cells, number
+formats, date mode, merged ranges, dimensions and continuation. Numeric and date
+values preserve the exact decimal expansion of their stored binary64 value.
+Text, Boolean, error, empty and formatted-blank cells stay distinct. Cached
+formula results are read without recalculation; the backend does not identify
+which cells were formulas. The application owns rounding, date conversion, units
+and interpretation. Only XLS calls load the optional `xls` dependency.
+
+`XmlElement.namespaces` contains the in-scope prefix bindings, including local
+rebinding, default namespace removal and the implicit `xml` prefix. Expanded
+element names do not resolve lexical QName values for the caller. Text and tail
+ordering are preserved. `read_xml_records` selects one exact element name or a
+nonempty tuple of distinct names in one pass; selected records cannot nest.
+Its pure converter performs no external effects. Converted records are returned
+only after the entire document validates, including its tail.
+
+`XmlLimits.maximum_bytes` defaults to 32 MiB and explicitly supports up to
+144 MiB; node, depth and field limits remain independent. `read_text` and safe
+regular-file `read_bytes` share that explicit ceiling without changing their
+defaults or retained-artifact limits. HTML `read_html` and `inspect_html` accept
+`maximum_bytes` (default 4 MiB, ceiling 8 MiB) and `maximum_nodes` (default 50,000,
+ceiling 500,000). Access/password, depth, attribute and extracted-output checks
+still apply.

@@ -44,7 +44,7 @@ Related definitions:
 instance = check.object({ key: check.name, name: check.name, definition: check.name, workarea: check.text(1024),
     workspace: check.optional(check.text(4096)),
     runtimeOptions: check.optional(runtimeOptions),
-    listenerOptions: check.optional(check.object({ historyMode: check.optional(check.choice('shared', 'per-room')) })) })
+    listenerOptions: check.optional(check.object({ historyMode: check.optional(check.choice('shared', 'per-room')), mirrorOutput: check.optional(check.boolean) })) })
 ```
 
 Related definitions:
@@ -55,6 +55,7 @@ Related definitions:
 - [`optional`](/docs/api/schemas/crossfire-contracts-schema-validation/#optional)
 - [`runtimeOptions`](/docs/api/schemas/fleetd-contracts-configuration/#runtimeOptions)
 - [`choice`](/docs/api/schemas/crossfire-contracts-schema-validation/#choice)
+- [`boolean`](/docs/api/schemas/crossfire-contracts-schema-validation/#boolean)
 
 ## phase {#phase}
 

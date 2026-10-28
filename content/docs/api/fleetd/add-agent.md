@@ -109,6 +109,7 @@ object; fields below; unknown fields rejected
 | `instance.runtimeOptions` | custom validation: [`runtimeOptions`](/docs/api/schemas/fleetd-contracts-configuration/#runtimeOptions); see function below; optional property |
 | `instance.listenerOptions` | object; fields below; unknown fields rejected; optional property |
 | `instance.listenerOptions.historyMode` | `shared` or `per-room`; optional property |
+| `instance.listenerOptions.mirrorOutput` | boolean; optional property |
 
 ### Additional checks
 
@@ -162,6 +163,7 @@ object; fields below; unknown fields rejected ([`fleetView`](/docs/api/schemas/f
 | `instances[].instance.runtimeOptions` | custom validation: [`runtimeOptions`](/docs/api/schemas/fleetd-contracts-configuration/#runtimeOptions); see function below; optional property |
 | `instances[].instance.listenerOptions` | object; fields below; unknown fields rejected; optional property |
 | `instances[].instance.listenerOptions.historyMode` | `shared` or `per-room`; optional property |
+| `instances[].instance.listenerOptions.mirrorOutput` | boolean; optional property |
 | `instances[].phase` | `stopped` or `starting` or `awaiting-approval` or `running` or `sleeping` or `waking` or `stopping` or `failed` ([`phase`](/docs/api/schemas/fleetd-contracts-api/#phase)) |
 | `instances[].listenerActive` | boolean |
 | `instances[].desiredActive` | boolean |

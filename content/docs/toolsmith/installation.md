@@ -1,6 +1,6 @@
 ---
 title: "Installation"
-description: "Build and install Toolsmith, then select HTTP, PDF or semantic search dependencies."
+description: "Build and install Toolsmith, then select HTTP, PDF, XLS or semantic search dependencies."
 weight: 10
 sourceProject: "toolsmith"
 sourcePath: "docs/installation.md"
@@ -37,6 +37,7 @@ The `http` extra installs `dnspython==2.8.0` and `aiohttp==3.14.5`. One
 cooperative asynchronous transport serves both synchronous and asynchronous
 callers without worker threads. The `pdf` extra installs `pypdfium2==5.14.0`
 and `Pillow==13.0.0` for in-process text extraction and PNG page rendering.
+The `xls` extra installs `xlrd==2.0.2` for in-process cached XLS-cell reading.
 Install only the extras the application needs.
 There are no base runtime dependencies. Nothing downloads browsers, OCR models,
 embeddings, skills or agent software. No global services or credentials are created.

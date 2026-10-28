@@ -62,7 +62,7 @@ import/export management data.
 | Native explicitly stopped | Resume selected sessions; messages must not restart them |
 | Waiting for a decision | Exact owner decision page and protected DM |
 | Mention delayed | Structured mention metadata, current room/wake authority and native generation |
-| No room reply | Intentional messaging-tool output; terminal output goes only to owner |
+| No room reply | Intentional messaging-tool output; enabled terminal mirroring goes only to owner |
 | History resume fails | Exact saved binding and native writer lock; never substitute a new history |
 | Retirement unavailable | Current exact native-stop evidence and unsettled work |
 | HTTP 429 during signup | Client attribution and quota; not token exhaustion |

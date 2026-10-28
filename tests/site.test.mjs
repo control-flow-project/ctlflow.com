@@ -203,9 +203,9 @@ test("Netlify headers keep site scripts/assets local and only hashed assets immu
 test("hierarchy and source URLs preserve constituents and Toolsmith optionality", () => {
   const sources = JSON.parse(read("data/sources.json"));
   assert.equal(sources.ctlflow.repository, "https://github.com/control-flow-project/ctlflow");
-  assert.equal(sources.ctlflow.revision, "bd096533b6dbc5a8bdac2fa97e276c351a8bf9b9");
+  assert.equal(sources.ctlflow.revision, "75234d6f6b625fc1ff2c52f7e370ffbdd97bad96");
   assert.equal(sources.ctlflow.version, containerRelease.version);
-  assert.equal(sources.toolsmith.revision, "621d5cd046896fc7a11663073846131e24ee32b0");
+  assert.equal(sources.toolsmith.revision, "5147056036555883d7b85731f25579241d942291");
   assert.equal(sources.toolsmith.version, "0.5.0");
   for (const product of ["crossfire", "fleetd", "fleet"]) assert.equal(read(`content/docs/${product}/_index.md`).includes(`title: ${product}`), true);
   const optional = read("content/docs/toolsmith/_index.md").replace(/\s+/gu, " ");
