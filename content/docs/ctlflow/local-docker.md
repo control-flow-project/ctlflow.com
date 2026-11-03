@@ -8,12 +8,12 @@ sourcePath: "services/crossfire/docs/local-docker.md"
 
 Docker runs crossfire, Conduit Matrix, Element, the management UI and the isolated
 report listener. One-shot containers initialize and migrate server state. The
-default server backend is C# NativeAOT; Node, managed C# and Rust use the same
+default server backend is C# NativeAOT; managed C# and Rust use the same
 Compose definition and API.
 
 Your fleet runs on the execution host, not in Docker. fleetd uses the supported
 Codex or Earendil Pi installation and provider login already on that computer.
-The supplied setup guide installs only fleet and fleetd. It does not install a
+The supplied setup guide uses matching installed native fleet/fleetd. It does not install a
 harness, move your login into a container or adopt the assistant running setup.
 
 ## Requirements
@@ -21,7 +21,9 @@ harness, move your login into a container or adopt the assistant running setup.
 - Docker with Compose and Linux amd64 server images. This quickstart was tested on Linux x64, not macOS or ARM64.
 - Trusted, coordinated server and migration images. Build packages as described in [container packages](/docs/ctlflow/containers/) or obtain their immutable references from the publisher.
 - Loopback ports 8080 and 8082 available on the Docker host.
-- On the fleet execution host: Node.js 26+, npm 11.17+, Git, Bash, the supported harness and its existing native provider login.
+- On the fleet execution host: Linux x64, matching native fleet/fleetd, Git, Bash,
+  the supported harness and its existing login. Messaging tools and Pi retain
+  their Node.js requirements.
 
 No credentials, domain fleet definitions or model weights are in the images.
 Do not mount a home directory, login, fleet workarea, controller state or Docker
@@ -29,28 +31,26 @@ socket into the server. A server container does not sandbox host agents.
 
 ## Select images
 
-Use the published 0.1.25 release inventory. It contains all four runtime choices
-and their shared migration image, with actual registry manifest digests. Earlier inventories describe their historical releases.
+Use a matching current native-only container kit. Build it from the selected
+source as described in the package guide; the 0.1.26 candidate has not been
+published. The published 0.1.25 inventory below records historical registry
+bytes and does not certify current setup commands.
 
-- [Published 0.1.25 images and registry access](/docs/ctlflow/container-release/)
+- [Historical 0.1.25 native images and registry access](/docs/ctlflow/container-release/)
 
-For the default NativeAOT server, set `CROSSFIRE_RUNTIME_IMAGE` to its complete
-immutable reference from the inventory and `CROSSFIRE_MIGRATION_IMAGE` to the
-matching maintenance reference. Complete the host-side registry login if
-required, then export and pull those values:
+For the default NativeAOT kit, verify/import the package and select the immutable
+handles returned by its trusted maintenance tool:
 
 ```sh
-export \
-  CROSSFIRE_RUNTIME_IMAGE=ghcr.io/control-flow-project/crossfire-csharp-nativeaot@sha256:35dc255c2d4f96be65c3281f62a605077e598571bab11c25d89655facdcaed2e \
-  CROSSFIRE_MIGRATION_IMAGE=ghcr.io/control-flow-project/crossfire-migrations@sha256:f544454d0fff75bfc1383add8a3cb5fdbe5bd19fca0933f0e0eb171a637cffe8
-docker pull \
-  "$CROSSFIRE_RUNTIME_IMAGE"
-docker pull \
-  "$CROSSFIRE_MIGRATION_IMAGE"
+node /absolute/packages/csharp-nativeaot/package-tool.mjs verify \
+  /absolute/packages/csharp-nativeaot > /absolute/private/verified-images.json
+export CROSSFIRE_RUNTIME_IMAGE=$(jq -r .runtimeImage /absolute/private/verified-images.json)
+export CROSSFIRE_MIGRATION_IMAGE=$(jq -r .migrationImage /absolute/private/verified-images.json)
 ```
 
-The inventory also lists Node, managed C# and Rust. Retain the same migration
-reference when selecting a different runtime. Do not mix releases or use `latest`.
+The package tool requires Node.js 26; this extraction uses jq. Managed C# and Rust
+kits use the same workflow. Keep runtime/migration releases coordinated and use
+immutable image handles. Do not mix releases or use `latest`.
 
 Access follows each package's GitHub visibility setting: private packages need
 an authorized host-side GHCR login; public packages allow anonymous pulls.
@@ -61,7 +61,7 @@ after an image pull fails.
 ## Start a new server
 
 The server operator clones the public monorepo to obtain its Compose definition.
-Host fleet installation later uses npm and does not require this checkout.
+Host fleet installation uses a native distribution and does not require this checkout.
 
 ```sh
 git clone \
@@ -85,7 +85,7 @@ in as `admin` (`@admin:local.test`). Do not paste the password into chat or setu
 ```sh
 docker compose \
   -f services/crossfire/docker/local/compose.yaml \
-  --profile maintenance run --rm --no-deps --entrypoint node initialize \
+  --profile maintenance run --rm --no-deps --entrypoint node migrate \
   -e 'process.stdout.write(JSON.parse(require("node:fs").readFileSync("/runtime/bootstrap.json","utf8")).administratorPassword+"\n")'
 ```
 
@@ -99,15 +99,15 @@ The report root normally returns 404. Published reports have opaque URLs.
 ## Connect a host fleet
 
 1. Open **Agent setup** in management. Copy its personalized instruction into an existing agent with shell access, opened in the intended project on the execution host.
-2. The assistant follows the guide, installing the pinned public `@ctlflow/fleet` and its exact `@ctlflow/fleetd` dependency into `$HOME/.local/share/ctlflow/releases/<version>`. It calls the private executable directly; this is not a global installation.
+2. Install the matching native distribution in private storage first, retain its sibling fleet/fleetd directories and put fleet on PATH. The assistant uses that release to run setup.
 3. The controller checks the selected existing harness and login. Missing prerequisites stop setup; the user installs or signs in through the native harness and retries.
 4. Setup prints an enrollment URL and verification code. The human reviews and approves that exact roster in management. The controller waits and continues without a second enrollment.
 5. Setup checks listener/native readiness without a dummy model prompt. Invite the enrolled agent to the needed room in Element; approval creates no chats or room membership.
 
 Codex is the default. Pi uses an explicit ordinary `--config /absolute/runtime.toml`;
 the same option can select a supplied multi-agent roster. The setup assistant
-remains independent. Linux/macOS attachment uses Node fleet/fleetd regardless of
-server backend and requires no host-side .NET or Rust installation.
+remains independent. Verified native distributions target Linux x64. NativeAOT
+and Rust require no installed SDK or managed runtime.
 
 The browser cannot install software on another machine. For this loopback
 quickstart, the fleet and browser use the Docker host's `http://127.0.0.1:8080`.

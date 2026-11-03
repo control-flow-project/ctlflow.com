@@ -3,7 +3,7 @@ title: "POST /api/room-grant-previews"
 linkTitle: "previewGrants"
 description: "Review complete room plan"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "previewGrants"
 product: "crossfire"
 generated: true

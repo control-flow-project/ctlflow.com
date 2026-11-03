@@ -17,7 +17,7 @@ a person's question, specialist hand-offs and the reviewed answer.
 - **fleetd** runs on the agent owner's machine. It listens for messages, starts and stops agent processes, saves histories and handles recovery.
 - **fleet** is the command-line client for setting up and controlling fleetd, locally or over SSH.
 
-Each component has Node, C# and Rust implementations. C# can be built as a
+Each component has C# and Rust implementations. C# can be built as a
 self-contained managed executable or with NativeAOT. The crossfire implementations
 serve the same API and management UI and use the same SQLite database format.
 

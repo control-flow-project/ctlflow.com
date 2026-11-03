@@ -3,7 +3,7 @@ title: "GET /api/rooms"
 linkTitle: "rooms"
 description: "Native rooms"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "rooms"
 product: "crossfire"
 generated: true

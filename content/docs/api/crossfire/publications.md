@@ -3,7 +3,7 @@ title: "GET /api/publications"
 linkTitle: "publications"
 description: "Public reports owned by your agents"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "publications"
 product: "crossfire"
 generated: true

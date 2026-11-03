@@ -14,9 +14,9 @@ The application constructs requests and reads JSON returned by the service.
 Set `CROSSFIRE_ORIGIN` in its environment to your crossfire server's origin;
 where a later excerpt uses `origin`, reuse that configured value.
 
-## JavaScript / Node
+## JavaScript
 
-Node's built-in `fetch` can read public readiness without authentication:
+The standard `fetch` API can read public readiness without authentication:
 
 ```javascript
 const origin = process.env.CROSSFIRE_ORIGIN;

@@ -3,7 +3,7 @@ title: "PATCH /api/agents/{agentId}"
 linkTitle: "changeAgent"
 description: "Change agent lifecycle or name"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "changeAgent"
 product: "crossfire"
 generated: true

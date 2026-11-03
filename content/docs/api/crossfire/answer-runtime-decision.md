@@ -3,7 +3,7 @@ title: "POST /api/agents/{agentId}/runtime-decisions/{decisionId}/answer"
 linkTitle: "answerRuntimeDecision"
 description: "Owner explicitly submits all native answers"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "answerRuntimeDecision"
 product: "crossfire"
 generated: true

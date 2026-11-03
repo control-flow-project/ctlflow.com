@@ -65,4 +65,4 @@ recovery methods. No target guarantees arbitrary subprocess cleanup after SIGKIL
 
 - [Controller failure boundaries](https://github.com/control-flow-project/ctlflow/blob/main/services/fleetd/docs/operations.md)
 - [Session controls](/docs/fleet/sessions/)
-- [Operator inspection tools](https://github.com/control-flow-project/ctlflow/blob/main/services/fleetd/node/tools/README.md)
+- [Operator inspection tools](https://github.com/control-flow-project/ctlflow/blob/main/services/fleetd/tools/README.md)

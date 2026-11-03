@@ -3,7 +3,7 @@ title: "GET /api/fleets"
 linkTitle: "fleets"
 description: "Fleet directory"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "fleets"
 product: "crossfire"
 generated: true

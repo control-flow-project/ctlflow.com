@@ -3,7 +3,7 @@ title: "PATCH /api/fleets/{fleetId}/agents/{instanceKey}"
 linkTitle: "changeAgent"
 description: "Change a stopped instance definition"
 sourceProject: "ctlflow"
-sourcePath: "services/fleetd/node/packages/contracts/src/api.ts"
+sourcePath: "services/fleetd/packages/contracts/src/api.ts"
 operation: "changeAgent"
 product: "fleetd"
 generated: true

@@ -1,9 +1,9 @@
 ---
-title: "crossfire/node/packages/contracts/src/rest/binary.ts"
+title: "crossfire/packages/contracts/src/rest/binary.ts"
 linkTitle: "binary"
 description: "Validation functions, types and constants from the recorded source revision."
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/binary.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/binary.ts"
 generated: true
 ---
 
@@ -14,8 +14,8 @@ All code blocks below are TypeScript declarations copied from the server. They d
 
 ### Imported definitions
 
-- [`services/crossfire/node/packages/kernel/src/result.ts`](/docs/api/schemas/crossfire-kernel-result/)
-- [`services/crossfire/node/packages/kernel/src/bytes.ts`](/docs/api/schemas/crossfire-kernel-bytes/)
+- [`services/crossfire/packages/kernel/src/result.ts`](/docs/api/schemas/crossfire-kernel-result/)
+- [`services/crossfire/packages/kernel/src/bytes.ts`](/docs/api/schemas/crossfire-kernel-bytes/)
 
 ## binaryInput {#binaryInput}
 

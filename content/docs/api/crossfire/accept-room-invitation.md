@@ -3,7 +3,7 @@ title: "POST /api/agents/{agentId}/room-invitation-acceptances"
 linkTitle: "acceptRoomInvitation"
 description: "Accept a verified native invitation with read-and-reply access"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "acceptRoomInvitation"
 product: "crossfire"
 generated: true

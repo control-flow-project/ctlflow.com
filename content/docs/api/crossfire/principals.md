@@ -3,7 +3,7 @@ title: "GET /api/principals"
 linkTitle: "principals"
 description: "Identity discovery"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "principals"
 product: "crossfire"
 generated: true

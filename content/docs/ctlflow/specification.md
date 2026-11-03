@@ -17,12 +17,12 @@ sends commands to fleetd. Every agent belongs to a fleet, including single-agent
 installations. Setup leaves the assistant running setup separate from those
 agents.
 
-Node, C# and Rust implementations provide the same external behavior. C# supports
+C# and Rust implementations provide the same external behavior. C# supports
 managed and NativeAOT builds. They share the management UI, HTTP contracts and
 SQLite format. A failed implementation is not replaced automatically by another.
 
 Docker runs crossfire/Matrix/UI/content and one-shot Knex maintenance only.
-Fleet setup uses pinned npm fleet/fleetd on the execution host, with its existing
+Fleet setup uses matching installed native fleet/fleetd on the execution host, with its existing
 Codex/Pi installation and native login. It does not install a harness or copy
 credentials into a container. The calling assistant remains independent.
 
@@ -238,7 +238,8 @@ configuration and reports are not logs.
 ## Storage and deployment
 
 Knex migrations create and upgrade management SQLite before application startup.
-Node uses Tinqer, C# uses EF Core and Rust uses Diesel for queries. They open the
+C# uses EF Core and Rust uses Diesel for application queries.
+Read-only TypeScript inspection uses Tinqer. They open the
 same file. There is no application-imposed database size limit; disk exhaustion
 rolls back the affected operation.
 
@@ -253,7 +254,7 @@ and root-descriptor digests. The Docker adapter verifies the native identity
 exposed by the current image store. Superseded formats and malformed descriptors
 are rejected, not imported or retried with another identity.
 
-All four server targets use the same standard Compose kit. Upgrades stop existing
+All three server targets use the same standard Compose kit. Upgrades stop existing
 crossfire writers, remove the completed migration job and start the selected
 release with the same project and private state. Compose activates the runtime
 only after Knex succeeds. There is no custom Docker lifetime operator or mandatory

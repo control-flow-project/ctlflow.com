@@ -8,7 +8,7 @@ weight: 10
 
 {{< diagram "products" >}}
 
-The ctlflow repository contains three products. Each has Node, C# and Rust
+The ctlflow repository contains three products. Each has C# and Rust
 implementations. C# supports managed and NativeAOT builds.
 
 | Component | Location | Responsibility |
@@ -42,9 +42,9 @@ agent. Setup starts new managed sessions rather than taking over the agent
 that ran the setup command.
 
 Docker contains the server side only: crossfire, Matrix, shared UI/content and
-one-shot Knex initialization/migrations. Fleet setup installs only pinned npm
-fleet/fleetd on the execution host, using its existing supported harness and
-native login. No fleet container, login mount or relay is supplied.
+native initialization and one-shot Knex migrations. Fleet setup uses the matching
+installed native fleet/fleetd on the execution host, with its existing supported
+harness and native login. No fleet container, login mount or relay is supplied.
 
 - [Local Docker server and host-native fleet](/docs/ctlflow/local-docker/)
 
@@ -54,7 +54,8 @@ Domain modules contain rules and interfaces. Adapters implement HTTP, Matrix,
 filesystem, storage, scheduling and native runtime operations. The applications
 assemble those adapters. Domain modules do not import concrete adapters.
 
-Node uses Tinqer for application queries, C# uses EF Core and Rust uses Diesel.
+C# uses EF Core for application queries and Rust uses Diesel.
+Read-only TypeScript inspection tooling uses Tinqer.
 Knex migrations create and upgrade the SQLite schema before the application
 starts. Applications validate the database but do not migrate it.
 Application, metadata and test data queries use those query libraries, not

@@ -1,9 +1,9 @@
 ---
-title: "crossfire/node/packages/contracts/src/rest/operations.ts"
+title: "crossfire/packages/contracts/src/rest/operations.ts"
 linkTitle: "operations"
 description: "Validation functions, types and constants from the recorded source revision."
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 generated: true
 ---
 
@@ -14,22 +14,22 @@ All code blocks below are TypeScript declarations copied from the server. They d
 
 ### Imported definitions
 
-- [`services/crossfire/node/packages/contracts/src/rest/operation.ts`](/docs/api/schemas/crossfire-contracts-rest-operation/)
-- [`services/crossfire/node/packages/contracts/src/schema/validation.ts`](/docs/api/schemas/crossfire-contracts-schema-validation/)
-- [`services/crossfire/node/packages/contracts/src/schema/request.ts`](/docs/api/schemas/crossfire-contracts-schema-request/)
-- [`services/crossfire/node/packages/contracts/src/schema/response.ts`](/docs/api/schemas/crossfire-contracts-schema-response/)
-- [`services/crossfire/node/packages/contracts/src/schema/query.ts`](/docs/api/schemas/crossfire-contracts-schema-query/)
-- [`services/crossfire/node/packages/contracts/src/schema/plan.ts`](/docs/api/schemas/crossfire-contracts-schema-plan/)
-- [`services/crossfire/node/packages/contracts/src/release.ts`](/docs/api/schemas/crossfire-contracts-release/)
-- [`services/crossfire/node/packages/contracts/src/fleet-control.ts`](/docs/api/schemas/crossfire-contracts-fleet-control/)
-- [`services/crossfire/node/packages/contracts/src/fleet-runtime.ts`](/docs/api/schemas/crossfire-contracts-fleet-runtime/)
-- [`services/crossfire/node/packages/contracts/src/schema/fleet-map.ts`](/docs/api/schemas/crossfire-contracts-schema-fleet-map/)
-- [`services/crossfire/node/packages/contracts/src/wake-up.ts`](/docs/api/schemas/crossfire-contracts-wake-up/)
-- [`services/crossfire/node/packages/contracts/src/runtime.ts`](/docs/api/schemas/crossfire-contracts-runtime/)
-- [`services/crossfire/node/packages/contracts/src/statistics.ts`](/docs/api/schemas/crossfire-contracts-statistics/)
-- [`services/crossfire/node/packages/contracts/src/publication.ts`](/docs/api/schemas/crossfire-contracts-publication/)
-- [`services/crossfire/node/packages/contracts/src/rest/binary.ts`](/docs/api/schemas/crossfire-contracts-rest-binary/)
-- [`services/crossfire/node/packages/domain/src/publication/values.ts`](/docs/api/schemas/crossfire-domain-publication-values/)
+- [`services/crossfire/packages/contracts/src/rest/operation.ts`](/docs/api/schemas/crossfire-contracts-rest-operation/)
+- [`services/crossfire/packages/contracts/src/schema/validation.ts`](/docs/api/schemas/crossfire-contracts-schema-validation/)
+- [`services/crossfire/packages/contracts/src/schema/request.ts`](/docs/api/schemas/crossfire-contracts-schema-request/)
+- [`services/crossfire/packages/contracts/src/schema/response.ts`](/docs/api/schemas/crossfire-contracts-schema-response/)
+- [`services/crossfire/packages/contracts/src/schema/query.ts`](/docs/api/schemas/crossfire-contracts-schema-query/)
+- [`services/crossfire/packages/contracts/src/schema/plan.ts`](/docs/api/schemas/crossfire-contracts-schema-plan/)
+- [`services/crossfire/packages/contracts/src/release.ts`](/docs/api/schemas/crossfire-contracts-release/)
+- [`services/crossfire/packages/contracts/src/fleet-control.ts`](/docs/api/schemas/crossfire-contracts-fleet-control/)
+- [`services/crossfire/packages/contracts/src/fleet-runtime.ts`](/docs/api/schemas/crossfire-contracts-fleet-runtime/)
+- [`services/crossfire/packages/contracts/src/schema/fleet-map.ts`](/docs/api/schemas/crossfire-contracts-schema-fleet-map/)
+- [`services/crossfire/packages/contracts/src/wake-up.ts`](/docs/api/schemas/crossfire-contracts-wake-up/)
+- [`services/crossfire/packages/contracts/src/runtime.ts`](/docs/api/schemas/crossfire-contracts-runtime/)
+- [`services/crossfire/packages/contracts/src/statistics.ts`](/docs/api/schemas/crossfire-contracts-statistics/)
+- [`services/crossfire/packages/contracts/src/publication.ts`](/docs/api/schemas/crossfire-contracts-publication/)
+- [`services/crossfire/packages/contracts/src/rest/binary.ts`](/docs/api/schemas/crossfire-contracts-rest-binary/)
+- [`services/crossfire/packages/domain/src/publication/values.ts`](/docs/api/schemas/crossfire-domain-publication-values/)
 
 ## operations {#operations}
 

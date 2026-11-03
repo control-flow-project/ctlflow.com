@@ -3,7 +3,7 @@ title: "POST /api/member-invitations/{invitationId}/claim"
 linkTitle: "claimInvitation"
 description: "Authorize normal Element signup with a private invitation"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "claimInvitation"
 product: "crossfire"
 generated: true

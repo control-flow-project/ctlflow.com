@@ -40,8 +40,8 @@ reported as a receipt from the previous process.
 For example, the theatre fleet can stop and resume only its budget analyst:
 
 ```sh
-./node_modules/.bin/fleet agent stop fleet-street budget-analyst
-./node_modules/.bin/fleet agent start fleet-street budget-analyst
+fleet agent stop fleet-street budget-analyst
+fleet agent start fleet-street budget-analyst
 ```
 
 Those commands reuse the saved context; they do not start over. Its

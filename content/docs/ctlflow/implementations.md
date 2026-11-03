@@ -1,12 +1,12 @@
 ---
-title: "Node, C# and Rust"
+title: "C# and Rust"
 description: "Implementation differences, dependencies and supported platforms."
 weight: 20
 sourceProject: "ctlflow"
 sourcePath: "docs/architecture/native-implementations.md"
 ---
 
-The repository has Node, C# and Rust implementations of crossfire, fleetd and fleet.
+The repository has C# and Rust implementations of crossfire, fleetd and fleet.
 C# targets .NET 11 and produces managed and NativeAOT distributions from the same
 source. Rust distributions are built with Cargo. Shared tests run against
 explicitly selected distributions.
@@ -16,7 +16,7 @@ explicitly selected distributions.
 ```text
 services/
   crossfire/
-    node/{apps/server,packages,tests,scripts,tools,Dockerfile}
+    packages/                         shared TypeScript contracts and tooling
     csharp/{apps/Crossfire.Server,packages,tests,build,scripts,Dockerfile}
     rust/{apps/server,packages,tests,scripts,Dockerfile}
     apps/web/
@@ -26,12 +26,12 @@ services/
     scripts/
     docs/
   fleetd/
-    node/{apps/daemon,packages,tests,scripts,tools}
+    packages/                         shared TypeScript contracts and tooling
     csharp/{apps/Fleetd.Daemon,packages,tests}
     rust/{apps/daemon,packages}
     tests/contracts/
   fleet/
-    node/{apps/cli,packages,tests,scripts}
+    packages/                         shared TypeScript contracts and tooling
     csharp/{apps/Fleet.Cli,packages}
     rust/{apps/cli,packages}
     tests/contracts/
@@ -43,14 +43,14 @@ Language-specific code is inside each product's implementation directory.
 
 | Concern | Shared contract | Implementation difference |
 | --- | --- | --- |
-| API | Same routes, input validation, errors and response fields | Node HTTP / ASP.NET / Axum |
-| Domain | Functional operations, explicit ports, expected failure values | TypeScript modules / C# static modules and records / Rust modules and values |
-| Data | Same SQLite file and normalized schema | Tinqer / EF / Diesel |
+| API | Same routes, input validation, errors and response fields | ASP.NET / Axum |
+| Domain | Functional operations, explicit ports, expected failure values | C# static modules and records / Rust modules and values |
+| Data | Same SQLite file and normalized schema | EF / Diesel |
 | Migrations | One service-owned Knex image | No runtime or EF migrations |
 | UI | One React project and built assets | None |
 | Native sessions | fleetd-owned Codex/Pi adapters | Native process and transport libraries |
 | Execution composition | fleetd execution adapter, not daemon-domain code | Language-local adapter projects |
-| Distribution | Standalone products and shared tool bytes | npm archives / managed or NativeAOT trees / native Cargo trees |
+| Distribution | Standalone products and shared tool bytes | managed or NativeAOT trees / native Cargo trees |
 | Server deployment | One Docker package format, shared migration image and image-owned readiness | Backend-specific runtime image, never language-specific site activation |
 | Verification | One external scenario bank | Separate internal unit/compiler tests |
 
@@ -60,7 +60,7 @@ the common Knex image is an explicit migration dependency.
 
 ## Server deployment
 
-All four server targets use the same standard Docker Compose kit and common
+All three server targets use the same standard Docker Compose kit and common
 one-shot Knex image. Compose owns lifecycle and project isolation; runtime
 startup depends on successful migration. Upgrades stop crossfire writers, remove
 the completed migrate job and start the selected release with the same project
@@ -69,7 +69,7 @@ and private state. Backups are optional and operator-managed.
 The trusted package tool validates/imports exact archive/image/source identities
 and release labels before stopping writers. Backend selection is explicit and
 independent of native configuration/serve executables. There is no custom
-Node/C#/Rust Docker lifetime operator, orphan-takeover protocol or mandatory
+C#/Rust Docker lifetime operator, orphan-takeover protocol or mandatory
 backup gate. Current images target Linux amd64. Native agent process/history
 ownership remains a separate fleetd concern.
 
@@ -80,14 +80,6 @@ ownership remains a separate fleetd concern.
 Public mutation limits distinguish the actual client from a configured trusted
 ingress. Only an immediate peer listed in `trustedProxyAddresses` may supply
 one overwritten `X-Forwarded-For` IP. Untrusted headers cannot select a bucket.
-Node dispatches management requests to the same HTTP handler without another
-loopback proxy.
-Outbound Node Matrix/coordination requests use a pinned published Undici
-dispatcher with HTTP/2 disabled explicitly. This avoids the observed HTTP/2
-stream-error path without patching Node, changing its global dispatcher or
-retrying a failed protocol with another one. TLS verification, authentication,
-body bounds, cancellation and deadlines remain enforced. HTTP/1.1 does not
-provide HTTP/2 multiplexing.
 
 Pagination uses canonical positive decimal strings. Both public and private APIs
 reject signs, leading zeros, exponents, fractions, whitespace, duplicate fields

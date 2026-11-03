@@ -3,7 +3,7 @@ title: "DELETE /api/agents/{agentId}/room-grants/{roomId}"
 linkTitle: "removeGrant"
 description: "Remove agent room grant"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "removeGrant"
 product: "crossfire"
 generated: true

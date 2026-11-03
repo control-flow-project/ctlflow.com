@@ -3,7 +3,7 @@ title: "PUT /api/members/{memberId}/role"
 linkTitle: "memberRole"
 description: "Assign human role"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "memberRole"
 product: "crossfire"
 generated: true

@@ -1,9 +1,9 @@
 ---
-title: "crossfire/node/packages/kernel/src/identifier.ts"
+title: "crossfire/packages/kernel/src/identifier.ts"
 linkTitle: "identifier"
 description: "Validation functions, types and constants from the recorded source revision."
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/kernel/src/identifier.ts"
+sourcePath: "services/crossfire/packages/kernel/src/identifier.ts"
 generated: true
 ---
 

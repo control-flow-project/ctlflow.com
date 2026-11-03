@@ -47,10 +47,10 @@ data, first-party LICENSE, dependency licenses/notices, this README and
 coordinated version, tool release and executable paths.
 
 This writes a local distribution, not a release upload, npm package or deployment.
-Only the Node fleet/fleetd products may be public npm packages.
+All npm workspaces are private tooling dependencies.
 
 Server image construction is separate from executable packaging. After the shared
-Node build, the root command builds Node, managed C#, NativeAOT C# and Rust packages:
+shared build, the root command builds managed C#, NativeAOT C# and Rust packages:
 
 ```sh
 npm run package:containers -- --output /absolute/packages/release
@@ -63,7 +63,7 @@ archive contains its runtime and the common Knex image, selected by immutable ID
 ## Install and run the server
 
 Server deployment uses Docker Compose with the selected rust image and
-matching one-shot Knex image. Build the four backend kits from source with
+matching one-shot Knex image. Build the three backend kits from source with
 `npm run package:containers -- --output /absolute/packages`. Copy the complete
 selected directory, including release.json, images.tar, package-tool.mjs and
 compose.yaml, to the deployment host. The trusted maintenance helper requires

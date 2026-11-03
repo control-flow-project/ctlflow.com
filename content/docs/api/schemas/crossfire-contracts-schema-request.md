@@ -1,9 +1,9 @@
 ---
-title: "crossfire/node/packages/contracts/src/schema/request.ts"
+title: "crossfire/packages/contracts/src/schema/request.ts"
 linkTitle: "request"
 description: "Validation functions, types and constants from the recorded source revision."
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/schema/request.ts"
+sourcePath: "services/crossfire/packages/contracts/src/schema/request.ts"
 generated: true
 ---
 
@@ -14,12 +14,12 @@ All code blocks below are TypeScript declarations copied from the server. They d
 
 ### Imported definitions
 
-- [`services/crossfire/node/packages/contracts/src/schema/controller.ts`](/docs/api/schemas/crossfire-contracts-schema-controller/)
-- [`services/crossfire/node/packages/contracts/src/schema/validation.ts`](/docs/api/schemas/crossfire-contracts-schema-validation/)
-- [`services/crossfire/node/packages/kernel/src/result.ts`](/docs/api/schemas/crossfire-kernel-result/)
-- [`services/crossfire/node/packages/contracts/src/policy.ts`](/docs/api/schemas/crossfire-contracts-policy/)
-- [`services/crossfire/node/packages/contracts/src/statistics.ts`](/docs/api/schemas/crossfire-contracts-statistics/)
-- [`services/crossfire/node/packages/contracts/src/coordination-policy.ts`](/docs/api/schemas/crossfire-contracts-coordination-policy/)
+- [`services/crossfire/packages/contracts/src/schema/controller.ts`](/docs/api/schemas/crossfire-contracts-schema-controller/)
+- [`services/crossfire/packages/contracts/src/schema/validation.ts`](/docs/api/schemas/crossfire-contracts-schema-validation/)
+- [`services/crossfire/packages/kernel/src/result.ts`](/docs/api/schemas/crossfire-kernel-result/)
+- [`services/crossfire/packages/contracts/src/policy.ts`](/docs/api/schemas/crossfire-contracts-policy/)
+- [`services/crossfire/packages/contracts/src/statistics.ts`](/docs/api/schemas/crossfire-contracts-statistics/)
+- [`services/crossfire/packages/contracts/src/coordination-policy.ts`](/docs/api/schemas/crossfire-contracts-coordination-policy/)
 
 ## revision {#revision}
 

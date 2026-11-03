@@ -3,7 +3,7 @@ title: "GET /api/agents/{agentId}/wake-deliveries"
 linkTitle: "wakeMetadata"
 description: "Read the next scheduled deadline"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "wakeMetadata"
 product: "crossfire"
 generated: true

@@ -3,7 +3,7 @@ title: "PUT /api/agents/{agentId}/room-grants/{roomId}"
 linkTitle: "setGrant"
 description: "Set agent room grant"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "setGrant"
 product: "crossfire"
 generated: true

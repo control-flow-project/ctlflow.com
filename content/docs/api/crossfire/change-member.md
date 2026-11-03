@@ -3,7 +3,7 @@ title: "PATCH /api/members/{memberId}"
 linkTitle: "changeMember"
 description: "Change member"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "changeMember"
 product: "crossfire"
 generated: true

@@ -3,7 +3,7 @@ title: "GET /api/sessions/current"
 linkTitle: "currentSession"
 description: "Current human session"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "currentSession"
 product: "crossfire"
 generated: true

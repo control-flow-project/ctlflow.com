@@ -3,7 +3,7 @@ title: "PATCH /api/fleets/{fleetId}"
 linkTitle: "changeFleet"
 description: "Fleet label"
 sourceProject: "ctlflow"
-sourcePath: "services/fleetd/node/packages/contracts/src/api.ts"
+sourcePath: "services/fleetd/packages/contracts/src/api.ts"
 operation: "changeFleet"
 product: "fleetd"
 generated: true

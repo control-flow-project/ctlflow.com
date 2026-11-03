@@ -3,7 +3,7 @@ title: "GET /api/status"
 linkTitle: "status"
 description: "Controller status"
 sourceProject: "ctlflow"
-sourcePath: "services/fleetd/node/packages/contracts/src/api.ts"
+sourcePath: "services/fleetd/packages/contracts/src/api.ts"
 operation: "status"
 product: "fleetd"
 generated: true

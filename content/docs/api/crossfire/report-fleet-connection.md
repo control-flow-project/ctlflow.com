@@ -3,7 +3,7 @@ title: "PUT /api/fleets/{fleetId}/controller-connections/{connectionId}"
 linkTitle: "reportFleetConnection"
 description: "Exclusive authenticated controller lease"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "reportFleetConnection"
 product: "crossfire"
 generated: true

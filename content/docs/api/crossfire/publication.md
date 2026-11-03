@@ -3,7 +3,7 @@ title: "GET /api/publications/{publicationId}"
 linkTitle: "publication"
 description: "Report manifest and publication state"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "publication"
 product: "crossfire"
 generated: true

@@ -3,7 +3,7 @@ title: "GET /api/fleets/{fleetId}/agents/{instanceKey}"
 linkTitle: "agent"
 description: "Instance details"
 sourceProject: "ctlflow"
-sourcePath: "services/fleetd/node/packages/contracts/src/api.ts"
+sourcePath: "services/fleetd/packages/contracts/src/api.ts"
 operation: "agent"
 product: "fleetd"
 generated: true

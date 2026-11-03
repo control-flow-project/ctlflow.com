@@ -3,7 +3,7 @@ title: "PUT /api/publications/{publicationId}/files/{fileId}"
 linkTitle: "uploadPublicationFile"
 description: "Stream exactly one declared static file"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "uploadPublicationFile"
 product: "crossfire"
 generated: true

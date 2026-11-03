@@ -109,7 +109,7 @@ Remote update requires an already installed absolute release directory:
 
 ```sh
 fleet --remote office update research \
-  --release-directory /absolute/private/install/node_modules/@ctlflow/fleetd/dist/assets
+  --release-directory /absolute/private/native-release/fleetd/artifacts
 ```
 
 Only previously enabled targets resume. Deliberately stopped targets remain

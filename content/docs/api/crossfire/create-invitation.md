@@ -3,7 +3,7 @@ title: "POST /api/member-invitations"
 linkTitle: "createInvitation"
 description: "Create signup invitation"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "createInvitation"
 product: "crossfire"
 generated: true

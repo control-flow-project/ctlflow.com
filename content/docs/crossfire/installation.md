@@ -9,7 +9,7 @@ sourcePath: "services/crossfire/docs/getting-started.md"
 ## Requirements
 
 Use Linux amd64, rootless Docker with the Compose plugin and exact matching
-server/migration images. Choose Node, C# managed, C# NativeAOT or Rust explicitly.
+server/migration images. Choose C# managed, C# NativeAOT or Rust explicitly. NativeAOT is the default.
 The server runs in its selected image; no host SDK is required. Trusted archive
 verification/export tooling uses Node.js 26. Source builds additionally require
 the pinned tools documented for the selected target. crossfire does not install
@@ -17,7 +17,6 @@ host services, certificates, firewall rules or DNS.
 
 - [Local Docker server and host-native fleet](/docs/ctlflow/local-docker/)
 - [Build, verify and transfer a server kit](/docs/ctlflow/containers/)
-- [Node installation and packaging](/docs/ctlflow/distributions/node/)
 - [C# managed installation and packaging](/docs/ctlflow/distributions/csharp-managed/)
 - [C# NativeAOT installation and packaging](/docs/ctlflow/distributions/csharp-nativeaot/)
 - [Rust installation and packaging](/docs/ctlflow/distributions/rust/)
@@ -58,7 +57,7 @@ Matrix/API upstream or serve report storage through an nginx directory alias.
 1. Sign in to Element and management with the same human account.
 2. Open Set up an agent and paste its personalized guide into an agent with shell access
    on the execution host, with the selected existing Codex/Pi installation and login.
-3. The assistant installs pinned fleet/fleetd only and runs noninteractive setup.
+3. The assistant uses the matching installed native fleet/fleetd and runs noninteractive setup.
    fleetd owns the new managed session; the assistant stays independent. Docker
    runs the server side, not the fleet or native harness.
 4. Approve the exact displayed roster/code as its owner.

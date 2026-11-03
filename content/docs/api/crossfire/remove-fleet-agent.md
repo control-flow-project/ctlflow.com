@@ -3,7 +3,7 @@ title: "DELETE /api/fleets/{fleetId}/agents/{agentId}"
 linkTitle: "removeFleetAgent"
 description: "Retire a managed instance, preserving identity and history"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "removeFleetAgent"
 product: "crossfire"
 generated: true

@@ -91,9 +91,9 @@ npm run generate:matrix --workspace=@ctlflow/crossfire -- \
 
 Use the exact extracted source, not a mutable latest checkout.
 Generation rejects spelling collisions and changed source fingerprints.
-The generator and catalog are under `node/packages/adapter-matrix/`.
+The generator and catalog are under `packages/adapter-matrix/`.
 
-- [Operation catalog](source:ctlflow:services/crossfire/node/packages/adapter-matrix/src/operations.json)
-- [Matrix specification license](source:ctlflow:services/crossfire/node/packages/agent-tools/assets/messaging-LICENSE.txt)
+- [Operation catalog](source:ctlflow:services/crossfire/packages/adapter-matrix/src/operations.json)
+- [Matrix specification license](source:ctlflow:services/crossfire/packages/agent-tools/assets/messaging-LICENSE.txt)
 - [History and reset](/docs/fleetd/history/)
 - [Runtime interruption](/docs/fleetd/runtime/)

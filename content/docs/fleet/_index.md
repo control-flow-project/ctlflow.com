@@ -10,11 +10,11 @@ inspect agents, stop or resume sessions, change delivery settings and install up
 It sends commands to the controller locally or over SSH.
 
 Start with the personalized setup guide in your crossfire management website.
-It installs a specific release of `@ctlflow/fleet` and its fleetd dependency,
-checks prerequisites and waits for the owner to approve enrollment.
+Install the matching native fleet/fleetd distribution first and put fleet on
+PATH. The guide checks prerequisites and waits for owner approval of enrollment.
 
 Even a single agent uses fleetd. The agent running setup remains
 separate from the agents it creates.
 
-- [Node, C# and Rust installation choices](/docs/ctlflow/distributions/)
+- [C# and Rust installation choices](/docs/ctlflow/distributions/)
 - [Private controller API](/docs/api/fleetd/)

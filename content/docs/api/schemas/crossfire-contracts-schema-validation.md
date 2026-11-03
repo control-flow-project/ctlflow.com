@@ -1,9 +1,9 @@
 ---
-title: "crossfire/node/packages/contracts/src/schema/validation.ts"
+title: "crossfire/packages/contracts/src/schema/validation.ts"
 linkTitle: "validation"
 description: "Validation functions, types and constants from the recorded source revision."
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/schema/validation.ts"
+sourcePath: "services/crossfire/packages/contracts/src/schema/validation.ts"
 generated: true
 ---
 
@@ -14,9 +14,9 @@ All code blocks below are TypeScript declarations copied from the server. They d
 
 ### Imported definitions
 
-- [`services/crossfire/node/packages/kernel/src/result.ts`](/docs/api/schemas/crossfire-kernel-result/)
-- [`services/crossfire/node/packages/kernel/src/json.ts`](/docs/api/schemas/crossfire-kernel-json/)
-- [`services/crossfire/node/packages/kernel/src/identifier.ts`](/docs/api/schemas/crossfire-kernel-identifier/)
+- [`services/crossfire/packages/kernel/src/result.ts`](/docs/api/schemas/crossfire-kernel-result/)
+- [`services/crossfire/packages/kernel/src/json.ts`](/docs/api/schemas/crossfire-kernel-json/)
+- [`services/crossfire/packages/kernel/src/identifier.ts`](/docs/api/schemas/crossfire-kernel-identifier/)
 
 ## Parser {#Parser}
 

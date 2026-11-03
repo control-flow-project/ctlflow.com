@@ -3,7 +3,7 @@ title: "POST /api/agents/{agentId}/wake-deliveries"
 linkTitle: "claimWake"
 description: "Claim one due scheduled input for this native session"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "claimWake"
 product: "crossfire"
 generated: true

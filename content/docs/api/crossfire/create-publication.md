@@ -3,7 +3,7 @@ title: "POST /api/publications"
 linkTitle: "createPublication"
 description: "Stage a bounded public static report"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "createPublication"
 product: "crossfire"
 generated: true

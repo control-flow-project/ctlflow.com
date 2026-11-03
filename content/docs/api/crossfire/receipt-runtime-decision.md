@@ -3,7 +3,7 @@ title: "PUT /api/agents/{agentId}/runtime-decisions/{decisionId}/receipt"
 linkTitle: "receiptRuntimeDecision"
 description: "Record native response publication or cancellation, not inferred execution"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "receiptRuntimeDecision"
 product: "crossfire"
 generated: true

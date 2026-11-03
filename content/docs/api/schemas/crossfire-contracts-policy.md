@@ -1,9 +1,9 @@
 ---
-title: "crossfire/node/packages/contracts/src/policy.ts"
+title: "crossfire/packages/contracts/src/policy.ts"
 linkTitle: "policy"
 description: "Validation functions, types and constants from the recorded source revision."
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/policy.ts"
+sourcePath: "services/crossfire/packages/contracts/src/policy.ts"
 generated: true
 ---
 

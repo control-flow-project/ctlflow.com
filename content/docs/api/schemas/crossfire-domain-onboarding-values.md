@@ -1,9 +1,9 @@
 ---
-title: "crossfire/node/packages/domain/src/onboarding/values.ts"
+title: "crossfire/packages/domain/src/onboarding/values.ts"
 linkTitle: "values"
 description: "Validation functions, types and constants from the recorded source revision."
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/domain/src/onboarding/values.ts"
+sourcePath: "services/crossfire/packages/domain/src/onboarding/values.ts"
 generated: true
 ---
 
@@ -24,7 +24,7 @@ export type SetupDescriptor = {
     server: string;
     ownerBackendUserId: string;
     package: {
-        name: '@ctlflow/fleet';
+        name: 'fleet';
         version: string;
     };
     instructions: string;

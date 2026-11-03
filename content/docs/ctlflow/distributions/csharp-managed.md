@@ -49,12 +49,12 @@ runtime files, common web/tool assets, licenses, the implementation README and
 coordinated version, tool release and executable paths.
 
 This command writes local files. It does not create a release upload or publish
-to npm. Only the Node fleet/fleetd packages may be public npm packages.
+to npm. All npm workspaces are private tooling dependencies.
 
 ## Install and run the server
 
 Server deployment uses Docker Compose with the selected csharp-managed image and
-matching one-shot Knex image. Build the four backend kits from source with
+matching one-shot Knex image. Build the three backend kits from source with
 `npm run package:containers -- --output /absolute/packages`. Copy the complete
 selected directory, including release.json, images.tar, package-tool.mjs and
 compose.yaml, to the deployment host. The trusted maintenance helper requires
@@ -152,7 +152,7 @@ npm run verify:csharp
 npm run verify:parity -- /absolute/new-evidence-directory
 ```
 
-The integrated bank covers Node, both C# modes and Rust, installed products,
+The integrated bank covers both C# modes and Rust, installed products,
 actual containers and Knex. EF NativeAOT diagnostics from the other C# build
 remain visible. Supported fixed-query tests do not establish arbitrary EF query,
 reflection or plugin compatibility.

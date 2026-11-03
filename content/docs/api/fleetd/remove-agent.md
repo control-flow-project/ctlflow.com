@@ -3,7 +3,7 @@ title: "DELETE /api/fleets/{fleetId}/agents/{instanceKey}"
 linkTitle: "removeAgent"
 description: "Retire a stopped instance registration while preserving private history"
 sourceProject: "ctlflow"
-sourcePath: "services/fleetd/node/packages/contracts/src/api.ts"
+sourcePath: "services/fleetd/packages/contracts/src/api.ts"
 operation: "removeAgent"
 product: "fleetd"
 generated: true

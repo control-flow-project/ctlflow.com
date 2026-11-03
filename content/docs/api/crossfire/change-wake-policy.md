@@ -3,7 +3,7 @@ title: "PUT /api/agents/{agentId}/wake-policy"
 linkTitle: "changeWakePolicy"
 description: "Replace wake policy"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "changeWakePolicy"
 product: "crossfire"
 generated: true

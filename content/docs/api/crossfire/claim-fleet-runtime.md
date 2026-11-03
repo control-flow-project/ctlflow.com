@@ -3,7 +3,7 @@ title: "PUT /api/fleets/{fleetId}/session-operations/{operationId}/claim"
 linkTitle: "claimFleetRuntime"
 description: "Claim an authorized session operation on the live controller generation"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "claimFleetRuntime"
 product: "crossfire"
 generated: true

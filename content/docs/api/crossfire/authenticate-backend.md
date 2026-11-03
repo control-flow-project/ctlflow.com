@@ -3,7 +3,7 @@ title: "POST /api/backend-authentication"
 linkTitle: "authenticateBackend"
 description: "Authenticate with the configured messaging backend"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "authenticateBackend"
 product: "crossfire"
 generated: true

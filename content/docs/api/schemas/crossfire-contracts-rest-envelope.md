@@ -1,9 +1,9 @@
 ---
-title: "crossfire/node/packages/contracts/src/rest/envelope.ts"
+title: "crossfire/packages/contracts/src/rest/envelope.ts"
 linkTitle: "envelope"
 description: "Validation functions, types and constants from the recorded source revision."
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/envelope.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/envelope.ts"
 generated: true
 ---
 
@@ -14,8 +14,8 @@ All code blocks below are TypeScript declarations copied from the server. They d
 
 ### Imported definitions
 
-- [`services/crossfire/node/packages/contracts/src/schema/validation.ts`](/docs/api/schemas/crossfire-contracts-schema-validation/)
-- [`services/crossfire/node/packages/kernel/src/result.ts`](/docs/api/schemas/crossfire-kernel-result/)
+- [`services/crossfire/packages/contracts/src/schema/validation.ts`](/docs/api/schemas/crossfire-contracts-schema-validation/)
+- [`services/crossfire/packages/kernel/src/result.ts`](/docs/api/schemas/crossfire-kernel-result/)
 
 ## metadata {#metadata}
 

@@ -3,7 +3,7 @@ title: "PUT /api/agents/{agentId}/listener-runs/{runId}"
 linkTitle: "reportListener"
 description: "Report this listener"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "reportListener"
 product: "crossfire"
 generated: true

@@ -1,9 +1,9 @@
 ---
-title: "crossfire/node/packages/contracts/src/publication.ts"
+title: "crossfire/packages/contracts/src/publication.ts"
 linkTitle: "publication"
 description: "Validation functions, types and constants from the recorded source revision."
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/publication.ts"
+sourcePath: "services/crossfire/packages/contracts/src/publication.ts"
 generated: true
 ---
 
@@ -14,10 +14,10 @@ All code blocks below are TypeScript declarations copied from the server. They d
 
 ### Imported definitions
 
-- [`services/crossfire/node/packages/kernel/src/result.ts`](/docs/api/schemas/crossfire-kernel-result/)
-- [`services/crossfire/node/packages/domain/src/publication/values.ts`](/docs/api/schemas/crossfire-domain-publication-values/)
-- [`services/crossfire/node/packages/contracts/src/schema/validation.ts`](/docs/api/schemas/crossfire-contracts-schema-validation/)
-- [`services/crossfire/node/packages/contracts/src/schema/request.ts`](/docs/api/schemas/crossfire-contracts-schema-request/)
+- [`services/crossfire/packages/kernel/src/result.ts`](/docs/api/schemas/crossfire-kernel-result/)
+- [`services/crossfire/packages/domain/src/publication/values.ts`](/docs/api/schemas/crossfire-domain-publication-values/)
+- [`services/crossfire/packages/contracts/src/schema/validation.ts`](/docs/api/schemas/crossfire-contracts-schema-validation/)
+- [`services/crossfire/packages/contracts/src/schema/request.ts`](/docs/api/schemas/crossfire-contracts-schema-request/)
 
 ## publicationState {#publicationState}
 

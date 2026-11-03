@@ -1,9 +1,9 @@
 ---
-title: "fleetd/node/packages/contracts/src/api.ts"
+title: "fleetd/packages/contracts/src/api.ts"
 linkTitle: "api"
 description: "Validation functions, types and constants from the recorded source revision."
 sourceProject: "ctlflow"
-sourcePath: "services/fleetd/node/packages/contracts/src/api.ts"
+sourcePath: "services/fleetd/packages/contracts/src/api.ts"
 generated: true
 ---
 
@@ -14,17 +14,17 @@ All code blocks below are TypeScript declarations copied from the server. They d
 
 ### Imported definitions
 
-- [`services/crossfire/node/packages/kernel/src/history-context.ts`](/docs/api/schemas/crossfire-kernel-history-context/)
-- [`services/crossfire/node/packages/contracts/src/schema/validation.ts`](/docs/api/schemas/crossfire-contracts-schema-validation/)
-- [`services/crossfire/node/packages/contracts/src/schema/controller.ts`](/docs/api/schemas/crossfire-contracts-schema-controller/)
-- [`services/crossfire/node/packages/contracts/src/rest/operation.ts`](/docs/api/schemas/crossfire-contracts-rest-operation/)
-- [`services/crossfire/node/packages/kernel/src/result.ts`](/docs/api/schemas/crossfire-kernel-result/)
-- [`services/crossfire/node/packages/contracts/src/schema/query.ts`](/docs/api/schemas/crossfire-contracts-schema-query/)
-- [`services/fleetd/node/packages/contracts/src/attachment.ts`](/docs/api/schemas/fleetd-contracts-attachment/)
-- [`services/crossfire/node/packages/contracts/src/fleet-control.ts`](/docs/api/schemas/crossfire-contracts-fleet-control/)
-- [`services/fleetd/node/packages/contracts/src/setup.ts`](/docs/api/schemas/fleetd-contracts-setup/)
-- [`services/fleetd/node/packages/contracts/src/configuration.ts`](/docs/api/schemas/fleetd-contracts-configuration/)
-- [`services/fleetd/node/packages/contracts/src/diagnostics.ts`](/docs/api/schemas/fleetd-contracts-diagnostics/)
+- [`services/crossfire/packages/kernel/src/history-context.ts`](/docs/api/schemas/crossfire-kernel-history-context/)
+- [`services/crossfire/packages/contracts/src/schema/validation.ts`](/docs/api/schemas/crossfire-contracts-schema-validation/)
+- [`services/crossfire/packages/contracts/src/schema/controller.ts`](/docs/api/schemas/crossfire-contracts-schema-controller/)
+- [`services/crossfire/packages/contracts/src/rest/operation.ts`](/docs/api/schemas/crossfire-contracts-rest-operation/)
+- [`services/crossfire/packages/kernel/src/result.ts`](/docs/api/schemas/crossfire-kernel-result/)
+- [`services/crossfire/packages/contracts/src/schema/query.ts`](/docs/api/schemas/crossfire-contracts-schema-query/)
+- [`services/fleetd/packages/contracts/src/attachment.ts`](/docs/api/schemas/fleetd-contracts-attachment/)
+- [`services/crossfire/packages/contracts/src/fleet-control.ts`](/docs/api/schemas/crossfire-contracts-fleet-control/)
+- [`services/fleetd/packages/contracts/src/setup.ts`](/docs/api/schemas/fleetd-contracts-setup/)
+- [`services/fleetd/packages/contracts/src/configuration.ts`](/docs/api/schemas/fleetd-contracts-configuration/)
+- [`services/fleetd/packages/contracts/src/diagnostics.ts`](/docs/api/schemas/fleetd-contracts-diagnostics/)
 
 ## releaseDirectory {#releaseDirectory}
 

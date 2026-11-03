@@ -1,9 +1,9 @@
 ---
-title: "crossfire/node/packages/domain/src/wake/types.ts"
+title: "crossfire/packages/domain/src/wake/types.ts"
 linkTitle: "types"
 description: "Validation functions, types and constants from the recorded source revision."
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/domain/src/wake/types.ts"
+sourcePath: "services/crossfire/packages/domain/src/wake/types.ts"
 generated: true
 ---
 

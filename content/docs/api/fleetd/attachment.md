@@ -3,7 +3,7 @@ title: "GET /api/fleets/{fleetId}/agents/{instanceKey}/attachment"
 linkTitle: "attachment"
 description: "Read a private live terminal pointer when a native session is active; eligible input wakes sleeping history"
 sourceProject: "ctlflow"
-sourcePath: "services/fleetd/node/packages/contracts/src/api.ts"
+sourcePath: "services/fleetd/packages/contracts/src/api.ts"
 operation: "attachment"
 product: "fleetd"
 generated: true

@@ -6,19 +6,19 @@ sourceProject: "ctlflow"
 sourcePath: "docs/distributions/releases/0.1.25.md"
 ---
 
-The 0.1.25 images were published on 3 November 2026. They contain four selectable
-crossfire servers and one shared Knex maintenance image, all for Linux amd64.
-Node, managed C#, C# NativeAOT and Rust use the same management UI, HTTP contracts,
-Element and current Knex-created SQLite schema. C# uses .NET 11 RC2.
+This page records the native server and Knex images published on 3 November
+2026 for release 0.1.25. It is a historical registry receipt, not verification
+or publication of the native-only 0.1.26 candidate. Current setup and Compose
+instructions require a matching current distribution and container kit; do not
+mix their tooling with these historical images.
 
-There is no fleet image. fleet/fleetd run on the execution host, using its
-existing Codex or Pi installation and login. Personalized setup installs public
-npm fleet/fleetd 0.1.25, not a harness or provider credentials. No site branding,
-domain fleet, operating data or credentials are included in these server images.
+The listed C# managed, NativeAOT and Rust images use the same management UI,
+HTTP contracts and SQLite schema. C# uses .NET 11 RC2. No site configuration,
+operating data, credentials or fleet image is included.
 
 ## Registry access
 
-All five authenticated immutable pulls were verified. At publication these
+Authenticated immutable pulls of the listed images were verified. At publication these
 GitHub packages were private, and anonymous authorization returned 401. Until
 the owner makes a package Public, your GitHub account needs package read access.
 The server operator logs Docker in on the host using a token granting
@@ -43,7 +43,6 @@ Use a complete immutable reference instead of `latest` or a configuration ID.
 
 | Image | Registry manifest digest |
 | --- | --- |
-| `crossfire-node` | `sha256:59850921130e433ba4c515afa1eefdec71e4810ff841919a5a2f195bc8cf9110` |
 | `crossfire-csharp-managed` | `sha256:cddc67073fd3ab7e471c601530fd4d435dbf9cf56583ede83bdef0069ef7f7ad` |
 | `crossfire-csharp-nativeaot` | `sha256:35dc255c2d4f96be65c3281f62a605077e598571bab11c25d89655facdcaed2e` |
 | `crossfire-rust` | `sha256:18fdb2f0cceed4099e5122005202aec5466aefde864efde7f3d6a3ee2d41f03f` |
@@ -75,7 +74,7 @@ Build-source digest:
 The shared onboarding release is `0.1.25-313654659215a5ff5bf518b9`.
 
 The shared installed suite passes 119 tests per target and the shared container
-suite passes 33 tests per target for Node, managed C#, NativeAOT and Rust, with
+suite passes 33 tests per target for managed C#, NativeAOT and Rust, with
 no failures or skips. Both Codex and Pi are exercised with controlled providers;
 these results do not certify a paid account or model quality. The final fleetd
 source checks pass 221 tests across 40 files. Native ARM64 images and emulation
@@ -83,7 +82,6 @@ are not verified.
 
 - [Local Docker server and host fleet](/docs/ctlflow/local-docker/)
 - [Container packages and upgrades](/docs/ctlflow/containers/)
-- [Node server package](https://github.com/orgs/control-flow-project/packages/container/package/crossfire-node)
 - [Managed C# server package](https://github.com/orgs/control-flow-project/packages/container/package/crossfire-csharp-managed)
 - [NativeAOT C# server package](https://github.com/orgs/control-flow-project/packages/container/package/crossfire-csharp-nativeaot)
 - [Rust server package](https://github.com/orgs/control-flow-project/packages/container/package/crossfire-rust)

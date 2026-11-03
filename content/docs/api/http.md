@@ -124,4 +124,4 @@ Socket peer is the default client identity. Only explicitly configured literal i
 
 - [Instance and trusted-ingress configuration](/docs/crossfire/configuration/)
 - [Exact envelope validators](/docs/api/schemas/crossfire-contracts-rest-envelope/)
-- [HTTP source](source:ctlflow:services/crossfire/node/apps/server/src/http/transport.ts)
+- [HTTP source](source:ctlflow:services/crossfire/csharp/apps/Crossfire.Server/Http/Transport.cs)

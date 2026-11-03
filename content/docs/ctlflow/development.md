@@ -42,9 +42,9 @@ not modify a production daemon or install a persistent service.
 
 | Command | Scope |
 | --- | --- |
-| `npm run typecheck` | Node products and the shared React project |
-| `npm run build` | Compiled packages, products, UI and local distributions |
-| `npm test` | Build once, then all Node-owned tests and workspace checks |
+| `npm run typecheck` | Shared TypeScript contracts, tooling, fixtures and React project |
+| `npm run build` | Shared TypeScript packages, tooling, test fixtures and UI |
+| `npm test` | Build once, then all shared TypeScript tooling/fixture tests and workspace checks |
 | `npm run verify:architecture` | Ownership, imports, packages, installation and current documentation links |
 | `npm run verify:csharp` | Managed and NativeAOT internal/native tests |
 | `npm run test:rust` | Rust internal/native tests, generators and interchange proofs |
@@ -77,8 +77,8 @@ their executables without changing assertions.
 ## Test ownership
 
 External behavior belongs to each product's `tests/contracts/`. One executable
-matrix selects Node, C# managed, C# NativeAOT and Rust distributions explicitly.
-The complete integrated gate requires all four. Assertions do not branch by implementation.
+matrix selects C# managed, C# NativeAOT and Rust distributions explicitly.
+The complete integrated gate requires all three. Assertions do not branch by implementation.
 
 Language-local tests cover internal algorithms, protocol state, storage and
 compiler behavior. Shared scenarios exercise actual HTTP/Unix sockets, SQLite,
@@ -97,8 +97,8 @@ coverage.
 
 ## Database and generated code
 
-Knex creates all fixture schemas. Node queries through Tinqer, C# through EF and
-Rust through Diesel. No runtime migrates at startup. Update database contracts, native models,
+Knex creates all fixture schemas. C# queries through EF and Rust through Diesel.
+Read-only TypeScript inspection uses Tinqer. No runtime migrates at startup. Update database contracts, native models,
 query generation and consumers together when changing storage.
 
 ```sh
@@ -113,19 +113,18 @@ enter production distributions.
 
 ## Distribution
 
-Only `@ctlflow/fleet` and `@ctlflow/fleetd` may be public npm packages.
-All three product versions agree; public dependencies use exact pins.
-Installation gates pack and install the actual archives outside the workspace,
-check their file allowlists and verify private-module bundling.
+All npm workspaces are private tooling dependencies.
+All three product versions agree. Installed-product tests run the actual native
+executables outside the workspace and verify their packaged artifacts and
+exact release metadata.
 
 Separate target guides document build-time and installed prerequisites, exact
 entrypoints, sibling assets and upgrade procedures. Native distributions ship
-the selected guide as their self-contained README; npm archives ship their
-product documentation. Documentation checks validate current repository links
+the selected guide as their self-contained README. Documentation checks validate current repository links
 and reject promotional claims. Standalone-guide checks reject checkout-relative
 links before packaging.
 
-- [Installation and packaging for all four targets](/docs/ctlflow/distributions/)
+- [Installation and packaging for all three targets](/docs/ctlflow/distributions/)
 
 A successful local pack is not registry publication. A running fixture is not a
 deployment. Production activation requires separate authorization, a verified

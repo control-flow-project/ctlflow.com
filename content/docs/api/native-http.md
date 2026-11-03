@@ -56,7 +56,7 @@ POST /_matrix/client/v3/auth/org.crossfire.login.registration/fallback/web?sessi
 The invitation claim route belongs to the REST catalog. Opening a private invitation does not let an arbitrary JSON registration request choose roles. Element JSON registration does not require an ambient invitation token in its body.
 
 - [Invitation claim contract](/docs/api/crossfire/claim-invitation/)
-- [Registration adapter source](source:ctlflow:services/crossfire/node/packages/adapter-matrix/src/web/registration.ts)
+- [Registration adapter source](source:ctlflow:services/crossfire/csharp/packages/Crossfire.AdapterMatrix/RegistrationTransport.cs)
 
 ## Native directory and profile
 
@@ -75,9 +75,9 @@ GET/HEAD /onboarding/setup.json?ownerBackendUserId=@member:example.test
 
 Supply exactly one `ownerBackendUserId`; encode it as a query value. The server resolves one active registered human. These routes are readable setup material, not enrollment approval. Responses are respectively plain text and JSON, no-store, without a REST envelope.
 
-The descriptor contains `schemaVersion: 1`, the exact server origin, `ownerBackendUserId`, the package `{name: "@ctlflow/fleet", version: "<exact release>"}` and bounded administrator instructions. The CLI checks exact origin, owner, installed version, duplicate/unknown fields and redirects. Human enrollment approval remains mandatory.
+The descriptor contains `schemaVersion: 1`, the exact server origin, `ownerBackendUserId`, the package `{name: "fleet", version: "<exact release>"}` and bounded administrator instructions. The CLI checks exact origin, owner, installed version, duplicate/unknown fields and redirects. Human enrollment approval remains mandatory.
 
-The generated guide installs **Node fleet and Node fleetd**, independent of the selected server implementation. It leaves the setup session untouched and starts a separate managed history.
+The generated guide uses the matching installed **native fleet and fleetd** distribution. NativeAOT is the default; managed C# and Rust are explicit native selections. It leaves the setup session untouched and starts a separate managed history.
 
 - [Setup descriptor definition](/docs/api/schemas/crossfire-contracts-onboarding/#setupDescriptorSchema)
 - [fleet setup](/docs/fleet/setup/)
@@ -117,7 +117,7 @@ recalled.
 Anyone holding the link can read every published file. Random URLs and opaque-origin script isolation are not confidential access control. Publication needs explicit authorization to disclose the content.
 
 - [Publication protocol, budgets and browser policy](/docs/crossfire/publications/)
-- [Content listener source](source:ctlflow:services/crossfire/node/apps/server/src/content-server.ts)
+- [Content listener source](source:ctlflow:services/crossfire/csharp/apps/Crossfire.Server/ContentApplication.cs)
 
 ## Health checks
 

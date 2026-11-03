@@ -3,7 +3,7 @@ title: "GET /api/enrollments"
 linkTitle: "enrollments"
 description: "Enrollment requests"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "enrollments"
 product: "crossfire"
 generated: true

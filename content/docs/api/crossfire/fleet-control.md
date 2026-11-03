@@ -3,7 +3,7 @@ title: "GET /api/fleets/{fleetId}/control"
 linkTitle: "fleetControl"
 description: "Live controller delivery and message long poll"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "fleetControl"
 product: "crossfire"
 generated: true

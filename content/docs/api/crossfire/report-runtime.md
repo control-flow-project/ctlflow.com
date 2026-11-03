@@ -3,7 +3,7 @@ title: "PUT /api/agents/{agentId}/listener-runs/{runId}/runtime"
 linkTitle: "reportRuntime"
 description: "Report observed native activity without a model call"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "reportRuntime"
 product: "crossfire"
 generated: true

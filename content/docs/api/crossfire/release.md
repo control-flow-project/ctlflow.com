@@ -3,7 +3,7 @@ title: "GET /api/releases/current"
 linkTitle: "release"
 description: "Current client release"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "release"
 product: "crossfire"
 generated: true

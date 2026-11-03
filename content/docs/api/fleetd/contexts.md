@@ -3,7 +3,7 @@ title: "GET /api/fleets/{fleetId}/agents/{instanceKey}/contexts"
 linkTitle: "contexts"
 description: "Read retained native history identities without starting a session"
 sourceProject: "ctlflow"
-sourcePath: "services/fleetd/node/packages/contracts/src/api.ts"
+sourcePath: "services/fleetd/packages/contracts/src/api.ts"
 operation: "contexts"
 product: "fleetd"
 generated: true

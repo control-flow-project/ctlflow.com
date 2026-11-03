@@ -3,7 +3,7 @@ title: "POST /api/agents/{agentId}/owner-conversation"
 linkTitle: "ownerConversation"
 description: "Create or reuse the private owner DM for an actual permission request"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "ownerConversation"
 product: "crossfire"
 generated: true

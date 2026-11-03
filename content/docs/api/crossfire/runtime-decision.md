@@ -3,7 +3,7 @@ title: "GET /api/agents/{agentId}/runtime-decisions/{decisionId}"
 linkTitle: "runtimeDecision"
 description: "Read-only native decision review"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "runtimeDecision"
 product: "crossfire"
 generated: true

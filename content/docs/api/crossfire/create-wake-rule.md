@@ -3,7 +3,7 @@ title: "POST /api/wake-rules"
 linkTitle: "createWakeRule"
 description: "Create a scheduled Wake-up"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "createWakeRule"
 product: "crossfire"
 generated: true

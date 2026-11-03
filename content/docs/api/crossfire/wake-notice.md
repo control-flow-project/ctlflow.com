@@ -3,7 +3,7 @@ title: "PUT /api/agents/{agentId}/wake-notices/{eventId}"
 linkTitle: "wakeNotice"
 description: "Idempotent blocked mention response"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "wakeNotice"
 product: "crossfire"
 generated: true

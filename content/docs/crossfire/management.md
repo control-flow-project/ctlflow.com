@@ -42,9 +42,9 @@ access using room IDs; changing a room title does not change its permissions.
 ## Set up an agent
 
 `/manage/connect` supplies a personalized guide to paste into an existing agent
-with shell access on the execution host. It installs only pinned npm fleet/fleetd
-in private user-owned storage. Node.js, npm, Git, Bash, the chosen native harness
-and provider login must already be present; missing prerequisites are reported,
+with shell access on the execution host. Install the matching native fleet/fleetd
+distribution in private user-owned storage first and put fleet on PATH. Git,
+Bash, the chosen harness and provider login must already be present; missing prerequisites are reported,
 not installed or upgraded. The browser cannot install host software or import
 the setup agent's conversation. The human separately approves the exact roster.
 Docker runs only the server side, not the fleet or harness.

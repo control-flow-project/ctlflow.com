@@ -1,9 +1,9 @@
 ---
-title: "crossfire/node/packages/contracts/src/schema/plan.ts"
+title: "crossfire/packages/contracts/src/schema/plan.ts"
 linkTitle: "plan"
 description: "Validation functions, types and constants from the recorded source revision."
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/schema/plan.ts"
+sourcePath: "services/crossfire/packages/contracts/src/schema/plan.ts"
 generated: true
 ---
 
@@ -14,9 +14,9 @@ All code blocks below are TypeScript declarations copied from the server. They d
 
 ### Imported definitions
 
-- [`services/crossfire/node/packages/contracts/src/schema/validation.ts`](/docs/api/schemas/crossfire-contracts-schema-validation/)
-- [`services/crossfire/node/packages/contracts/src/schema/response.ts`](/docs/api/schemas/crossfire-contracts-schema-response/)
-- [`services/crossfire/node/packages/contracts/src/schema/request.ts`](/docs/api/schemas/crossfire-contracts-schema-request/)
+- [`services/crossfire/packages/contracts/src/schema/validation.ts`](/docs/api/schemas/crossfire-contracts-schema-validation/)
+- [`services/crossfire/packages/contracts/src/schema/response.ts`](/docs/api/schemas/crossfire-contracts-schema-response/)
+- [`services/crossfire/packages/contracts/src/schema/request.ts`](/docs/api/schemas/crossfire-contracts-schema-request/)
 
 ## preview {#preview}
 

@@ -3,7 +3,7 @@ title: "POST /api/fleets/{fleetId}/agents"
 linkTitle: "addAgent"
 description: "Add defined instance"
 sourceProject: "ctlflow"
-sourcePath: "services/fleetd/node/packages/contracts/src/api.ts"
+sourcePath: "services/fleetd/packages/contracts/src/api.ts"
 operation: "addAgent"
 product: "fleetd"
 generated: true
