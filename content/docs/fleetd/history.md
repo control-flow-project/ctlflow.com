@@ -79,11 +79,11 @@ Ordinary start/resume retains exact history, identity, settings and unread state
 Each activation refreshes provider login from the authorized host source.
 A broken established binding is an error, not an implicit fresh conversation.
 
-Unfinished-work checkpoints retain exact context/session IDs. On restart the
-adapter first resolves any unconfirmed input. It then sends a reminder asking
-the agent to reread applicable AGENTS.md, review completed effects and continue
-unfinished authorized work.
-Idle contexts receive no synthetic task.
+Restored listener bindings keep their exact context/session IDs asleep. Restart
+does not submit a reminder or continue old tasks. Only genuine eligible input
+wakes its recipient. Genuine pending message
+publications retain their receipt evidence and reconcile through the existing
+input producer.
 
 A restarted native process has no old running turn. If earlier input receipt
 cannot be established, its exact text is retained in a private file and supplied

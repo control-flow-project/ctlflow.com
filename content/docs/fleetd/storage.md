@@ -55,8 +55,8 @@ and native conversation files remain owned by the native runtime.
 
 ## Other retained state
 
-Pending input, native confirmations, unfinished-work checkpoints and unacknowledged
-operation outcomes remain recovery state.
+Pending real input, native confirmations and unacknowledged operation outcomes
+remain recovery state. Historical task reminders have no retained checkpoint owner.
 Completed diagnostics/operation history use the logging age policy.
 Each reader accepts one current format. Null fields represent facts that were
 not observed, not accommodation of historical records.

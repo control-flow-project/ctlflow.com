@@ -59,7 +59,7 @@ code; the archive checksum is not authentication of this helper.
 
 ## Format and image contract
 
-The [published 0.1.24 inventory](/docs/ctlflow/container-release/) provides
+The [0.1.25 release inventory](/docs/ctlflow/container-release/) provides
 immutable references for the generic images:
 `ghcr.io/control-flow-project/crossfire-node`, `crossfire-csharp-managed`,
 `crossfire-csharp-nativeaot`, `crossfire-rust` and `crossfire-migrations`.

@@ -18,6 +18,7 @@ uses no external fonts, analytics or remote diagram rendering.
 - [Local verification record](docs/verification/20261017-site.md)
 - [Current-contract cleanup and verification](docs/verification/20261022-current-contract-cleanup.md)
 - [Current container publication documentation](docs/verification/20261023-container-publication.md)
+- [ctlflow 0.1.25 publication and lifecycle guides](docs/verification/20261103-coordinated-release.md)
 - [Toolsmith 0.5.0 guide verification](docs/verification/20261025-toolsmith.md)
 - [Server Docker and host fleet documentation checks](docs/verification/20261018-server-docker-host-fleets.md)
 - [Theme, typography and code-example verification](docs/verification/20261017-theme-typography.md)

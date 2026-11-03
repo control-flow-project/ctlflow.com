@@ -1,19 +1,19 @@
 ---
-title: "Container release 0.1.24"
+title: "Container release 0.1.25"
 description: "Published Linux amd64 server and migration images, exact digests and registry access."
 weight: 49
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/docs/releases/0.1.24.md"
+sourcePath: "docs/distributions/releases/0.1.25.md"
 ---
 
-The 0.1.24 images were published on 23 October 2026. They contain four selectable
+The 0.1.25 images were published on 3 November 2026. They contain four selectable
 crossfire servers and one shared Knex maintenance image, all for Linux amd64.
 Node, managed C#, C# NativeAOT and Rust use the same management UI, HTTP contracts,
 Element and current Knex-created SQLite schema. C# uses .NET 11 RC2.
 
 There is no fleet image. fleet/fleetd run on the execution host, using its
 existing Codex or Pi installation and login. Personalized setup installs public
-npm fleet/fleetd 0.1.24, not a harness or provider credentials. No site branding,
+npm fleet/fleetd 0.1.25, not a harness or provider credentials. No site branding,
 domain fleet, operating data or credentials are included in these server images.
 
 ## Registry access
@@ -38,24 +38,24 @@ anonymous pulls; uploading an image does not change its visibility.
 
 ## Image inventory
 
-The namespace is `ghcr.io/control-flow-project/`. Version tags are `0.1.24`.
+The namespace is `ghcr.io/control-flow-project/`. Version tags are `0.1.25`.
 Use a complete immutable reference instead of `latest` or a configuration ID.
 
 | Image | Registry manifest digest |
 | --- | --- |
-| `crossfire-node` | `sha256:8d7e74389da6da3b0d5cd6cebc012f5ac001d67c58ea1f9bea3011b4595f6587` |
-| `crossfire-csharp-managed` | `sha256:561a058ec71775685ddbc15fea0c93afe02e2c051dcce516106c3b96bdcea917` |
-| `crossfire-csharp-nativeaot` | `sha256:37dc1f30ac1cd7cdf9b1cefc2a8bc65a81a546e3f7842a742797daea4a187f42` |
-| `crossfire-rust` | `sha256:0d20cf2890731d7ceb7f219106e868835a9531420c63a48e1b617aef75c570b7` |
-| `crossfire-migrations` | `sha256:254a215b8d7fbb6e8d82b1dfec3fe5d930f259ad35a75ee8ac6100e82982cf3c` |
+| `crossfire-node` | `sha256:59850921130e433ba4c515afa1eefdec71e4810ff841919a5a2f195bc8cf9110` |
+| `crossfire-csharp-managed` | `sha256:cddc67073fd3ab7e471c601530fd4d435dbf9cf56583ede83bdef0069ef7f7ad` |
+| `crossfire-csharp-nativeaot` | `sha256:35dc255c2d4f96be65c3281f62a605077e598571bab11c25d89655facdcaed2e` |
+| `crossfire-rust` | `sha256:18fdb2f0cceed4099e5122005202aec5466aefde864efde7f3d6a3ee2d41f03f` |
+| `crossfire-migrations` | `sha256:f544454d0fff75bfc1383add8a3cb5fdbe5bd19fca0933f0e0eb171a637cffe8` |
 
 The operator selects the default NativeAOT server and its matching migration
 image with these commands, then follows the Docker quickstart:
 
 ```sh
 export \
-  CROSSFIRE_RUNTIME_IMAGE=ghcr.io/control-flow-project/crossfire-csharp-nativeaot@sha256:37dc1f30ac1cd7cdf9b1cefc2a8bc65a81a546e3f7842a742797daea4a187f42 \
-  CROSSFIRE_MIGRATION_IMAGE=ghcr.io/control-flow-project/crossfire-migrations@sha256:254a215b8d7fbb6e8d82b1dfec3fe5d930f259ad35a75ee8ac6100e82982cf3c
+  CROSSFIRE_RUNTIME_IMAGE=ghcr.io/control-flow-project/crossfire-csharp-nativeaot@sha256:35dc255c2d4f96be65c3281f62a605077e598571bab11c25d89655facdcaed2e \
+  CROSSFIRE_MIGRATION_IMAGE=ghcr.io/control-flow-project/crossfire-migrations@sha256:f544454d0fff75bfc1383add8a3cb5fdbe5bd19fca0933f0e0eb171a637cffe8
 docker pull \
   "$CROSSFIRE_RUNTIME_IMAGE"
 docker pull \
@@ -69,17 +69,17 @@ migrate or restart an existing server or agent.
 ## Verification and source
 
 Runtime source commit:
-`774de415a2b327fde1a7d5be5001737e01776e91`.
+`99c457ece465313565834b27f2b709f2ef1a3ad9`.
 Build-source digest:
-`5654753e2dc919318e6d88d8679e95dbdd019d055c4876a7b26ef1d9c92722ad`.
-The shared onboarding release is `0.1.24-91092feb27e0aa3b2993da07`.
+`8dfbdc5ccf486474218346117bfbcbe7ba3abd051c35d0da1085acd256d0458f`.
+The shared onboarding release is `0.1.25-313654659215a5ff5bf518b9`.
 
-The same Docker/host-fleet checks pass all seven tests for each server variant:
-initialization, matching migration, login, owner-reviewed host attachment,
-publication isolation and preserved histories/stopped selections. A fresh Node
-bank passes 982 tests with Codex and Pi. The Docker host fixture uses real Codex
-with an inert local provider; these checks do not certify a paid account or model
-quality. Native ARM64 images and emulation are not verified.
+The shared installed suite passes 119 tests per target and the shared container
+suite passes 33 tests per target for Node, managed C#, NativeAOT and Rust, with
+no failures or skips. Both Codex and Pi are exercised with controlled providers;
+these results do not certify a paid account or model quality. The final fleetd
+source checks pass 221 tests across 40 files. Native ARM64 images and emulation
+are not verified.
 
 - [Local Docker server and host fleet](/docs/ctlflow/local-docker/)
 - [Container packages and upgrades](/docs/ctlflow/containers/)

@@ -79,16 +79,17 @@ bounded concurrency, current provider login and exact histories.
 Manually stopped targets remain stopped. No filesystem discovery or native
 conversation import is performed.
 
-`resume-work.json` retains working/waiting contexts and exact continuation
-receipts. On resume, older publication settles first. The next continuation asks
-the agent to reread current AGENTS.md and inspect completed effects before
-continuing. Idle contexts receive no synthetic task.
+All restored histories remain asleep, including histories with interrupted old
+tasks. Only genuine eligible input wakes a recipient. No restart-task checkpoint
+or synthetic continuation prompt remains. Pending real-message publications keep
+their existing receipt and reconciliation owner.
 
 ## Failure and recovery
 
-Transient native/listener failures close their exact generation before retry,
-with one-to-sixty-second exponential backoff. Permanent configuration,
-authorization, filesystem or protocol conflicts require action.
+Listener reconnection uses bounded retry with one-to-sixty-second exponential
+backoff. A failed native generation closes and waits for genuine eligible input
+before retrying its exact history. Permanent configuration, authorization,
+filesystem or protocol conflicts require action.
 Explicit Stop cancels recovery. Unconfirmed cleanup blocks replacement.
 
 Controller lease loss closes local delivery immediately when detected; request
