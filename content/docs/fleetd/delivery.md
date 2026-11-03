@@ -58,7 +58,7 @@ A command response, busy state or activity event is not enough.
 
 After that confirmation, the listener saves its unread or control checkpoint and
 acknowledges the delivery. Unconfirmed input is retained. Recovery resolves it
-before sending a continuation reminder or another ordinary message. A busy turn
+before sending another ordinary message. A busy turn
 does not have an arbitrary thirty-second task deadline.
 
 ## Restart cases
@@ -84,9 +84,10 @@ cannot start them again until Resume.
 Sleep closes idle engines but leaves the listener able to resume their saved
 histories. Busy work, pending native decisions and unconfirmed input prevent sleep.
 
-After a controller restart, previously enabled sessions resume. If a saved context
-was working, the continuation asks it to reread applicable `AGENTS.md` files and
-continue unfinished authorized work. Idle and sleeping contexts receive no task.
+After a controller or crossfire restart, previously enabled listeners reconnect
+with their exact saved histories asleep. No synthetic task continuation is sent,
+including for interrupted historical work. Only genuine eligible queued or new
+input wakes the corresponding recipient.
 
 - [Input limits and history reads](/docs/fleetd/history/)
 - [Stop, resume and reset](/docs/fleet/sessions/)

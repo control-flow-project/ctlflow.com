@@ -29,19 +29,20 @@ socket into the server. A server container does not sandbox host agents.
 
 ## Select images
 
-Use the published 0.1.24 release. Its inventory contains all four runtime choices
-and their shared migration image, with actual registry manifest digests. The
-earlier 0.1.22 inventory is historical, not this quickstart's release.
+Use the published 0.1.25 release inventory. It contains all four runtime choices
+and their shared migration image, with actual registry manifest digests. Earlier inventories describe their historical releases.
 
-- [Published 0.1.24 images and registry access](/docs/ctlflow/container-release/)
+- [Published 0.1.25 images and registry access](/docs/ctlflow/container-release/)
 
-For the default NativeAOT server, the operator selects and pulls these immutable
-references after completing the inventory's host-side registry login if required:
+For the default NativeAOT server, set `CROSSFIRE_RUNTIME_IMAGE` to its complete
+immutable reference from the inventory and `CROSSFIRE_MIGRATION_IMAGE` to the
+matching maintenance reference. Complete the host-side registry login if
+required, then export and pull those values:
 
 ```sh
 export \
-  CROSSFIRE_RUNTIME_IMAGE=ghcr.io/control-flow-project/crossfire-csharp-nativeaot@sha256:37dc1f30ac1cd7cdf9b1cefc2a8bc65a81a546e3f7842a742797daea4a187f42 \
-  CROSSFIRE_MIGRATION_IMAGE=ghcr.io/control-flow-project/crossfire-migrations@sha256:254a215b8d7fbb6e8d82b1dfec3fe5d930f259ad35a75ee8ac6100e82982cf3c
+  CROSSFIRE_RUNTIME_IMAGE=ghcr.io/control-flow-project/crossfire-csharp-nativeaot@sha256:35dc255c2d4f96be65c3281f62a605077e598571bab11c25d89655facdcaed2e \
+  CROSSFIRE_MIGRATION_IMAGE=ghcr.io/control-flow-project/crossfire-migrations@sha256:f544454d0fff75bfc1383add8a3cb5fdbe5bd19fca0933f0e0eb171a637cffe8
 docker pull \
   "$CROSSFIRE_RUNTIME_IMAGE"
 docker pull \

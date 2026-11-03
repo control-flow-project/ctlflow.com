@@ -29,10 +29,9 @@ UI and CLI ordinary start resumes full saved history with the same identity and
 configured native parameters. Current provider authentication is recopied on
 activation. Unread positions and pending receipts are retained.
 
-When unfinished-work evidence exists, the adapter first settles older input.
-It then sends a restart reminder to reread AGENTS.md, inspect prior effects and
-continue unfinished authorized work.
-Idle/sleeping contexts receive no dummy task.
+Restored histories remain asleep until genuine eligible input arrives. Restart
+does not submit a task reminder or continue historical work. Pending real-message
+receipts remain available for normal delivery reconciliation.
 
 The native process does not resurrect an old operating-system command or active
 turn. Uncertain earlier delivery is explicitly supplied as restart context, not
@@ -81,12 +80,14 @@ fleet agent attach research analyst-east
 Working, waiting, idle, sleeping, stopped and unknown are different states.
 A heartbeat is not evidence of progress. Context listing is read-only.
 Attach returns the exact running native command; it does not create another
-engine or history. Pi live attachment is unsupported.
+engine or history. A sleeping history must receive eligible input before a live
+terminal exists. Pi live attachment is unsupported.
 
 ## Host/controller restart
 
 Start the original controller root after reboot. Durable desired intent restores
-enabled bindings; explicit stopped selections remain stopped.
+enabled listeners with their retained histories asleep; explicit stopped
+selections remain stopped.
 No boot service is installed automatically.
 
 Every implementation binds its owned native engine group to the controller

@@ -45,9 +45,9 @@ test("Docker and setup guides keep server containers separate from host fleets",
 test("the published container inventory and source mapping retain exact release facts", () => {
   const inventory = read("content/docs/ctlflow/container-release.md");
   assert.equal(inventory.includes(`title: "Container release ${containerRelease.version}"`), true);
-  assert.equal(inventory.includes(`sourcePath: "services/crossfire/docs/releases/${containerRelease.version}.md"`), true);
+  assert.equal(inventory.includes(`sourcePath: "docs/distributions/releases/${containerRelease.version}.md"`), true);
   assert.equal(guideReferences.some(([project, source, destination]) => project === "ctlflow"
-    && source === `services/crossfire/docs/releases/${containerRelease.version}.md`
+    && source === `docs/distributions/releases/${containerRelease.version}.md`
     && destination === "docs/ctlflow/container-release.md"), true);
   for (const [name, digest] of Object.entries(containerRelease.images)) {
     assert.equal(inventory.includes(`| \`${name}\` | \`${digest}\` |`), true, name + " immutable published manifest");
@@ -203,9 +203,9 @@ test("Netlify headers keep site scripts/assets local and only hashed assets immu
 test("hierarchy and source URLs preserve constituents and Toolsmith optionality", () => {
   const sources = JSON.parse(read("data/sources.json"));
   assert.equal(sources.ctlflow.repository, "https://github.com/control-flow-project/ctlflow");
-  assert.equal(sources.ctlflow.revision, "5a89674befa98cff17fbc777886af39bbf195c11");
+  assert.equal(sources.ctlflow.revision, "368a871c0f4eb072b08cd7abf83cac16bc478419");
   assert.equal(sources.ctlflow.version, containerRelease.version);
-  assert.equal(sources.toolsmith.revision, "e1bdc126b21e3f3b1da3434ecc2f2abdde88f476");
+  assert.equal(sources.toolsmith.revision, "1627d931e87cc9fea9de055bbeefa65c84e79fb3");
   assert.equal(sources.toolsmith.version, "0.5.0");
   for (const product of ["crossfire", "fleetd", "fleet"]) assert.equal(read(`content/docs/${product}/_index.md`).includes(`title: ${product}`), true);
   const optional = read("content/docs/toolsmith/_index.md").replace(/\s+/gu, " ");

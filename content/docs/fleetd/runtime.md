@@ -74,7 +74,7 @@ With output mirroring enabled, visible non-thinking native output goes only to
 the verified private owner DM. The operator can select
 [`listener_options.mirror_output = false`](/docs/fleet/configuration/#collection-output)
 to suppress new native-output deliveries for a collector. This requires the
-matching fleetd source build; published 0.1.24 packages do not include it.
+matching fleetd 0.1.25 release; update explicitly before selecting it.
 Explicit messages, activity, usage, approvals and questions remain available.
 Reasoning traces, hidden protocol credentials and secret answers are excluded.
 Shared-room replies require an intentional messaging-tool call with an explicit
@@ -98,16 +98,17 @@ Unsupported shell/TUI prompts are not guessed from prose.
 ## Activity, sleep and failure
 
 Native state distinguishes idle, working, waiting, sleeping, waking, failed and
-unavailable. Initialization stays waking until receipt/continuation readiness.
+unavailable. Message-driven initialization stays waking until input/receipt readiness.
 Unknown activity prevents automatic sleep instead of inventing idle.
 
 Idle timeout defaults to thirty minutes. Busy contexts, questions, pending input,
 startup/cleanup and uncertain receipts veto sleep. Eligible input resumes the
 exact saved history. Explicit Stop cancels desired activation and stays stopped.
 
-Unexpected failure closes the affected generation before bounded recovery.
-Transient retries back off from one to sixty seconds; authorization/configuration
-conflicts require action. Failed cleanup blocks a replacement writer.
+Unexpected native failure closes the affected generation and waits for genuine
+eligible input before retrying the retained history. Listener reconnection uses
+bounded backoff; authorization/configuration conflicts require action. Failed
+cleanup blocks a replacement writer.
 The controller reports incidents to the owner's private crossfire management DM.
 Lost contact is unknown execution state; a dead controller cannot report itself.
 

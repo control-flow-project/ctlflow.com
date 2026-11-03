@@ -1,7 +1,7 @@
 ---
 title: "GET /api/fleets/{fleetId}/agents/{instanceKey}/attachment"
 linkTitle: "attachment"
-description: "Read a private live terminal pointer; sleeping and stopped sessions require explicit resume"
+description: "Read a private live terminal pointer when a native session is active; eligible input wakes sleeping history"
 sourceProject: "ctlflow"
 sourcePath: "services/fleetd/node/packages/contracts/src/api.ts"
 operation: "attachment"
@@ -10,7 +10,7 @@ generated: true
 ---
 
 
-## Read a private live terminal pointer; sleeping and stopped sessions require explicit resume
+## Read a private live terminal pointer when a native session is active; eligible input wakes sleeping history
 
 > Private controller API. Call this route through the user's Unix socket, locally or over SSH, with its OS-user controller credential. It is not exposed on the server's public origin.
 
