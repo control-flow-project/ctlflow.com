@@ -17,7 +17,7 @@ and native login. It does not install a harness or copy credentials into Docker.
 NativeAOT is the default; managed C# and Rust are explicit choices.
 
 - [Local Docker server and host-native fleet](/docs/ctlflow/local-docker/)
-- [0.1.25 server and migration release inventory](/docs/ctlflow/container-release/)
+- [0.1.26 server and migration release inventory](/docs/ctlflow/container-release/)
 
 | Target | Server installation | Fleet/controller installation | Build command |
 | --- | --- | --- | --- |
@@ -36,7 +36,7 @@ resolve its documentation links.
 
 `publish:csharp` and `publish:rust` write local directories. They do not upload
 releases, install host services, publish npm packages or activate an instance.
-All npm workspaces are private tooling dependencies. No native release-download service is assumed.
+All npm workspaces are private tooling dependencies. The target guides provide native release-archive download and checksum commands.
 
 Build dependencies and runtime dependencies differ. Native fleet controllers
 still require Node for the shared agent-tool client; selecting a native backend

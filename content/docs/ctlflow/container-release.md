@@ -1,86 +1,95 @@
 ---
-title: "Container release 0.1.25"
-description: "Published Linux amd64 server and migration images, exact digests and registry access."
+title: "Container release 0.1.26"
+description: "Published Linux amd64 server and migration images, exact digests, access and native archive publication status."
 weight: 49
 sourceProject: "ctlflow"
-sourcePath: "docs/distributions/releases/0.1.25.md"
+sourcePath: "docs/distributions/releases/0.1.26.md"
 ---
 
-This page records the native server and Knex images published on 3 November
-2026 for release 0.1.25. It is a historical registry receipt, not verification
-or publication of the native-only 0.1.26 candidate. Current setup and Compose
-instructions require a matching current distribution and container kit; do not
-mix their tooling with these historical images.
+The four generic Linux amd64 images were published and pulled by immutable digest
+on 4 November 2026. Native archive publication is blocked: the workstation's
+GitHub credential can publish packages but cannot create repository releases.
+The three local archives and SHA256SUMS exist; public download URLs are not yet
+available. This release is not complete until those assets are published and
+downloaded successfully. Deployment status is recorded separately.
 
-The listed C# managed, NativeAOT and Rust images use the same management UI,
-HTTP contracts and SQLite schema. C# uses .NET 11 RC2. No site configuration,
-operating data, credentials or fleet image is included.
+Source commit: `50347261a3c4fc7e5ffd2dcf4f530b76f144acab`.
 
-## Registry access
+Build-source digest:
+`48ca3827203b2f11e46b1c829a937876e7334eebbd413e8bad622692e9012009`.
 
-Authenticated immutable pulls of the listed images were verified. At publication these
-GitHub packages were private, and anonymous authorization returned 401. Until
-the owner makes a package Public, your GitHub account needs package read access.
-The server operator logs Docker in on the host using a token granting
-`read:packages`:
+Shared listener artifact release: `0.1.26-b7e34a99858ded6e9f76b372`.
 
-```sh
-docker login \
-  ghcr.io \
-  --username YOUR_GITHUB_USERNAME
-```
+## Registry images
 
-Enter the token at Docker's password prompt. Do not paste it into chat, a fleet
-configuration, container environment or server volume. Public packages permit
-anonymous pulls; uploading an image does not change its visibility.
-
-- [GitHub registry authentication](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#authenticating-to-the-container-registry)
-
-## Image inventory
-
-The namespace is `ghcr.io/control-flow-project/`. Version tags are `0.1.25`.
-Use a complete immutable reference instead of `latest` or a configuration ID.
+Namespace: `ghcr.io/control-flow-project/`. Exact version tag: `0.1.26`.
+All four packages are public. Anonymous Docker pulls of every complete image
+passed on 4 November 2026 with a new empty credential configuration, no registry
+login and no credential helpers. Registry manifest bytes, config identities,
+source/version/platform labels and published digests were verified unchanged. No site configuration, credentials, operating
+data or fleet image is included. All npm workspaces are private.
 
 | Image | Registry manifest digest |
 | --- | --- |
-| `crossfire-csharp-managed` | `sha256:cddc67073fd3ab7e471c601530fd4d435dbf9cf56583ede83bdef0069ef7f7ad` |
-| `crossfire-csharp-nativeaot` | `sha256:35dc255c2d4f96be65c3281f62a605077e598571bab11c25d89655facdcaed2e` |
-| `crossfire-rust` | `sha256:18fdb2f0cceed4099e5122005202aec5466aefde864efde7f3d6a3ee2d41f03f` |
-| `crossfire-migrations` | `sha256:f544454d0fff75bfc1383add8a3cb5fdbe5bd19fca0933f0e0eb171a637cffe8` |
+| `crossfire-migrations` | `sha256:c543c0af875aed6865cfc8549d954514baa1adbe73d34e97040175aad10c8c47` |
+| `crossfire-csharp-managed` | `sha256:dcc8bed0c9546f001be6c71394d07f3b64967e985c9b8f1e2effc9a6b6aa62dc` |
+| `crossfire-csharp-nativeaot` | `sha256:721054592f99bafd21b7ec4c22154063f4d7d696b9ccf82ae8f2f2682ae51f19` |
+| `crossfire-rust` | `sha256:63cb443602b3adeeb8b4f1aae95e9b6e0051f03a96fc66a6360f4d7c15db560d` |
 
-The operator selects the default NativeAOT server and its matching migration
-image with these commands, then follows the Docker quickstart:
+For the default NativeAOT server, select its matching immutable migration image
+and then follow the [Docker quickstart](/docs/ctlflow/local-docker/):
 
 ```sh
 export \
-  CROSSFIRE_RUNTIME_IMAGE=ghcr.io/control-flow-project/crossfire-csharp-nativeaot@sha256:35dc255c2d4f96be65c3281f62a605077e598571bab11c25d89655facdcaed2e \
-  CROSSFIRE_MIGRATION_IMAGE=ghcr.io/control-flow-project/crossfire-migrations@sha256:f544454d0fff75bfc1383add8a3cb5fdbe5bd19fca0933f0e0eb171a637cffe8
-docker pull \
-  "$CROSSFIRE_RUNTIME_IMAGE"
-docker pull \
-  "$CROSSFIRE_MIGRATION_IMAGE"
+  CROSSFIRE_RUNTIME_IMAGE=ghcr.io/control-flow-project/crossfire-csharp-nativeaot@sha256:721054592f99bafd21b7ec4c22154063f4d7d696b9ccf82ae8f2f2682ae51f19 \
+  CROSSFIRE_MIGRATION_IMAGE=ghcr.io/control-flow-project/crossfire-migrations@sha256:c543c0af875aed6865cfc8549d954514baa1adbe73d34e97040175aad10c8c47
+docker pull --platform linux/amd64 "$CROSSFIRE_RUNTIME_IMAGE"
+docker pull --platform linux/amd64 "$CROSSFIRE_MIGRATION_IMAGE"
 ```
 
-Do not mix releases. The server never runs schema migrations at startup; the
-matching one-shot Knex command must succeed first. Registry publication does not
-migrate or restart an existing server or agent.
+The four concurrent downloads completed in 28.0 seconds overall. Individual
+pulls took 11.7 seconds for migrations, 17.9 for managed C#, 28.0 for NativeAOT
+and 23.0 for Rust; shared layers and overlapping durations are not added.
 
-## Verification and source
+Do not mix releases. A registry manifest digest is not Docker's local image ID.
+Registry publication does not migrate or restart a deployment.
 
-Runtime source commit:
-`99c457ece465313565834b27f2b709f2ef1a3ad9`.
-Build-source digest:
-`8dfbdc5ccf486474218346117bfbcbe7ba3abd051c35d0da1085acd256d0458f`.
-The shared onboarding release is `0.1.25-313654659215a5ff5bf518b9`.
+## Native archives
 
-The shared installed suite passes 119 tests per target and the shared container
-suite passes 33 tests per target for managed C#, NativeAOT and Rust, with
-no failures or skips. Both Codex and Pi are exercised with controlled providers;
-these results do not certify a paid account or model quality. The final fleetd
-source checks pass 221 tests across 40 files. Native ARM64 images and emulation
-are not verified.
+These locally built files each retain the sibling crossfire, fleetd and fleet
+layout. They are candidates for ordinary GitHub release `v0.1.26`, not npm
+packages or fleet containers. SHA256SUMS covers all three archives.
 
-- [Local Docker server and host fleet](/docs/ctlflow/local-docker/)
+| File | Bytes | SHA256 |
+| --- | ---: | --- |
+| `ctlflow-csharp-managed-0.1.26-linux-x64.tar.gz` | 145682999 | `82c1d0edc7686b8ce283e6cb6138372b31ec47267b260c9e57234defb0f20f44` |
+| `ctlflow-csharp-nativeaot-0.1.26-linux-x64.tar.gz` | 84139890 | `77374b017ad94d1a2645ae3db32b2c578365b07d2674c236b7938d05a2330161` |
+| `ctlflow-rust-0.1.26-linux-x64.tar.gz` | 22574286 | `6d73adf3b6e7a4ec914d35cb481818d1ec02a0fedca116c86d8aa3ccb17231c9` |
+
+## Verification
+
+The installed-product bank passed 120 checks per target; the actual container
+bank passed 33 per target for managed C#, NativeAOT and Rust. Both banks completed
+with no failures, cancellations or skips. It covers API/same-file data, the shared
+React and Element UI, artifacts, Compose migration gating and project isolation.
+The shared Knex image separately passed initialization and repeat execution.
+
+C# managed and NativeAOT core and actual Codex/Pi runtime checks passed on the
+patched .NET SDK `11.0.100-rc.3.26522.148` and EF/SQLite
+`11.0.0-rc.3.26522.148`. RC2 restore attempts failed the security audit and were
+not waived. Existing EF/trimming/AOT diagnostics remain visible.
+
+There is no schema change. Standard Compose stops existing writers and runs a
+fresh matching one-shot Knex job before server activation. No data reset or
+runtime fallback is part of this release. Absolute latency and throughput are
+reported without a comparative speed gate. Fixed-provider tests do not certify
+paid-provider entitlements, model quality or untested host platforms.
+
+The [4 November verification record](source:ctlflow:docs/verification/20261104-native-release.md)
+contains current suite counts, durations and all 18 absolute HTTP summaries.
+The final patched timing run completed 6300 requests with zero failures in
+85.1 seconds.
+
 - [Container packages and upgrades](/docs/ctlflow/containers/)
 - [Managed C# server package](https://github.com/orgs/control-flow-project/packages/container/package/crossfire-csharp-managed)
 - [NativeAOT C# server package](https://github.com/orgs/control-flow-project/packages/container/package/crossfire-csharp-nativeaot)

@@ -270,5 +270,5 @@ explicitly incomplete.
 
 - [Database layout and migrations](/docs/ctlflow/database/)
 - [Container packages](/docs/ctlflow/containers/)
-- [Published 0.1.25 image inventory](/docs/ctlflow/container-release/)
+- [Published 0.1.26 image inventory](/docs/ctlflow/container-release/)
 - [Development and verification](/docs/ctlflow/development/)

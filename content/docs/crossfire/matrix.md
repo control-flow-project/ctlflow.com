@@ -80,18 +80,20 @@ records had been consumed.
 ## Generated source
 
 This is a maintainer check for regenerating the catalog from an extracted Matrix
-specification. Run it in the ctlflow source repository; an ordinary fleet setup
-does not need this command or a specification checkout:
+specification. Build the shared tooling first, then run it in the ctlflow source
+repository; an ordinary fleet setup does not need this command or a specification
+checkout:
 
 ```sh
-npm run generate:matrix --workspace=@ctlflow/crossfire -- \
+node services/crossfire/dist/scripts/generate-matrix-api.js \
   --root /absolute/ctlflow \
   --source /absolute/matrix-spec-v1.12/data/api/client-server --check
 ```
 
 Use the exact extracted source, not a mutable latest checkout.
 Generation rejects spelling collisions and changed source fingerprints.
-The generator and catalog are under `packages/adapter-matrix/`.
+The generator is under `services/crossfire/scripts/`; its catalog is under
+`services/crossfire/packages/adapter-matrix/`.
 
 - [Operation catalog](source:ctlflow:services/crossfire/packages/adapter-matrix/src/operations.json)
 - [Matrix specification license](source:ctlflow:services/crossfire/packages/agent-tools/assets/messaging-LICENSE.txt)

@@ -89,8 +89,8 @@ and reset. Changes apply at a stopped-to-running transition.
 
 An operator can suppress automatic native-output mirroring for a noisy collector
 while keeping intentional messages, required owner decisions, activity and usage
-reporting. Use the coordinated fleet/fleetd 0.1.25 packages and update explicitly
-before configuring this setting.
+reporting. Use the matching fleet/fleetd distribution and update explicitly before
+configuring this setting.
 
 For a collector instance, the fleet author adds this table to its roster entry
 in `research/runtime.toml`:

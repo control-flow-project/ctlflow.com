@@ -675,7 +675,7 @@ test("quiet collection guides preserve explicit messaging and released package r
     const response = await page.goto(preview.origin + "/docs/fleet/configuration/#collection-output");
     assert.equal(response.status(), 200);
     const guide = await page.locator("main").innerText();
-    for (const value of ["mirror_output = false", "fleet/fleetd 0.1.25 packages", "required owner decisions", "already journaled"])
+    for (const value of ["mirror_output = false", "matching fleet/fleetd distribution", "required owner decisions", "already journaled"])
       assert.equal(guide.toLowerCase().includes(value.toLowerCase()), true, value);
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);
     await page.goto(preview.origin + "/docs/fleetd/runtime/");

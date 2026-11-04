@@ -53,11 +53,17 @@ not modify a production daemon or install a persistent service.
 | `npm run publish:rust -- --output /absolute/new-distribution` | Native products, shared assets, pinned data and notices |
 | `npm run verify:contracts -- /absolute/matrix.json` | Shared installed-product scenarios for every configured target |
 | `npm run verify:container -- /absolute/matrix.json` | Actual operator, image, browser and persistent-container scenarios |
+| `npm run verify:performance -- /absolute/matrix.json /absolute/new-report-directory` | Native HTTP measurements, complete workloads and zero failed requests |
 | `npm run verify:parity -- /absolute/new-evidence-directory` | Serialized integrated gate, including migration containers |
 
 Do not precede `npm test` with another build. Do not run two build coordinators
 against the same output directories. A failed configured target fails the gate;
 it is not silently removed from the matrix.
+
+The performance bank records p50/p95/p99 latency and throughput for every native
+target. All configured targets, rounds and workloads must complete with zero
+request failures. There are no speed thresholds or comparisons against another
+target or an earlier release.
 
 For a local-impact change, select the affected tests. Cross-layer or uncertain
 changes require the integrated gate.
