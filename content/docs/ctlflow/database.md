@@ -7,7 +7,8 @@ sourcePath: "services/crossfire/database/README.md"
 ---
 
 Knex creates and migrates every owned SQL database, independent of application
-language. Node uses Tinqer, C# uses EF and Rust uses Diesel for application queries.
+language. C# uses EF and Rust uses Diesel for application queries.
+Read-only TypeScript inspection uses Tinqer.
 No application creates tables, seeds reference data or migrates on open.
 
 ## Layout
@@ -66,7 +67,7 @@ CROSSFIRE_DATA_DIR=/absolute/private/runtime \
 ```
 
 The migration-make script creates the next ESM migration.
-Runtime deployment uses the same one-shot migration image for Node, both C#
+Runtime deployment uses the same one-shot migration image for both C#
 outputs and Rust. It needs no provider/model work or Matrix credentials.
 
 The one initial migration creates tables, constraints, indexes, triggers and

@@ -3,7 +3,7 @@ title: "POST /api/room-grant-changes"
 linkTitle: "applyGrants"
 description: "Apply reviewed room plan"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "applyGrants"
 product: "crossfire"
 generated: true

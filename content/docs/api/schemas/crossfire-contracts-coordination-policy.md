@@ -1,9 +1,9 @@
 ---
-title: "crossfire/node/packages/contracts/src/coordination-policy.ts"
+title: "crossfire/packages/contracts/src/coordination-policy.ts"
 linkTitle: "coordination-policy"
 description: "Validation functions, types and constants from the recorded source revision."
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/coordination-policy.ts"
+sourcePath: "services/crossfire/packages/contracts/src/coordination-policy.ts"
 generated: true
 ---
 
@@ -14,8 +14,8 @@ All code blocks below are TypeScript declarations copied from the server. They d
 
 ### Imported definitions
 
-- [`services/crossfire/node/packages/contracts/src/schema/validation.ts`](/docs/api/schemas/crossfire-contracts-schema-validation/)
-- [`services/crossfire/node/packages/domain/src/coordination/values.ts`](/docs/api/schemas/crossfire-domain-coordination-values/)
+- [`services/crossfire/packages/contracts/src/schema/validation.ts`](/docs/api/schemas/crossfire-contracts-schema-validation/)
+- [`services/crossfire/packages/domain/src/coordination/values.ts`](/docs/api/schemas/crossfire-domain-coordination-values/)
 
 ## backendWakeSelection {#backendWakeSelection}
 

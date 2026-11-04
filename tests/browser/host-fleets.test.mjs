@@ -37,11 +37,13 @@ test("server-only Docker and host setup are readable on desktop and mobile", asy
       await page.getByRole("heading", { level: 1, name: "Local Docker server and host fleet", exact: true }).waitFor();
       const text = await page.locator("main").innerText();
       for (const expected of ["Your fleet runs on the execution host, not in Docker.", `published ${containerRelease.version}`,
-        "server-state", "Stopping the server does not stop host agents.", "native provider login"])
+        "server-state", "Stopping the server does not stop host agents.", "existing login"])
         assert.equal(text.includes(expected), true, expected);
       const commands = await page.locator("main pre").allTextContents();
-      assert.equal(commands.some(command => command.includes(`CROSSFIRE_RUNTIME_IMAGE=ghcr.io/control-flow-project/crossfire-csharp-nativeaot@${containerRelease.images["crossfire-csharp-nativeaot"]}`)), true);
-      assert.equal(commands.some(command => command.includes(`CROSSFIRE_MIGRATION_IMAGE=ghcr.io/control-flow-project/crossfire-migrations@${containerRelease.images["crossfire-migrations"]}`)), true);
+      assert.equal(commands.some(command => command.includes("package-tool.mjs verify")), true);
+      assert.equal(commands.some(command => command.includes("jq -r .runtimeImage")), true);
+      assert.equal(commands.some(command => command.includes("jq -r .migrationImage")), true);
+      assert.equal(text.includes("0.1.26 candidate has not been"), true);
       assert.equal(commands.some(command => command.includes("MANIFEST_DIGEST")), false);
       assert.equal(await page.getByRole("link", { name: "container packages", exact: true }).count(), 1);
       assert.equal(commands.some(command => command.includes("--profile maintenance run --rm migrate")), false);
@@ -50,21 +52,21 @@ test("server-only Docker and host setup are readable on desktop and mobile", asy
       assert.equal(commands.some(command => command.includes("down --volumes")), false);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);
       await page.screenshot({ path: path.join(artifacts, "docker-" + width + ".png"), fullPage: true });
-      await page.getByRole("link", { name: `Published ${containerRelease.version} images and registry access`, exact: true }).click();
+      await page.getByRole("link", { name: `Historical ${containerRelease.version} native images and registry access`, exact: true }).click();
       await page.getByRole("heading", { level: 1, name: `Container release ${containerRelease.version}`, exact: true }).waitFor();
       const inventory = await page.locator("main").innerText();
       for (const [name, digest] of Object.entries(containerRelease.images)) {
         assert.equal(inventory.includes(name), true, name);
         assert.equal(inventory.includes(digest), true, name + " published digest");
       }
-      assert.equal(await page.locator("main table tbody tr").count(), 5);
+      assert.equal(await page.locator("main table tbody tr").count(), 4);
       assert.equal(inventory.includes("anonymous authorization returned 401"), true);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);
       await page.screenshot({ path: path.join(artifacts, "release-" + width + ".png"), fullPage: true });
       await page.goto(preview.origin + "/docs/fleet/setup/");
       const setup = await page.locator("main").innerText();
-      assert.equal(setup.includes("not Codex/Pi"), true);
-      assert.equal(setup.includes("node_modules/.bin/fleet"), true);
+      assert.equal(setup.includes("never installs or upgrades Codex/Pi"), true);
+      assert.equal(setup.includes("node_modules/.bin/fleet"), false);
       assert.equal(await page.getByRole("link", { name: "Local Docker server and host-native fleet", exact: true }).count(), 1);
       await page.goto(preview.origin + "/docs/fleetd/authentication/");
       assert.equal((await page.locator("main").innerText()).includes("Do not delete the socket or bypass authentication"), true);

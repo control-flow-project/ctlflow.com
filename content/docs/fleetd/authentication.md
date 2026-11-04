@@ -63,11 +63,9 @@ connection profiles or error messages. The noninteractive SSH environment must
 select the same HOME/XDG_CONFIG_HOME as the remote controller. A missing remote
 configuration is an error; start fleetd on that host first.
 
-Node controllers support Linux and macOS. Current C#/Rust native distributions
-and filesystem adapters are verified on Linux x64 only. Matching macOS path
+Current C#/Rust distributions and filesystem adapters are verified on Linux x64 only. Matching macOS path
 rules do not establish native macOS runtime support. Windows is not supported.
-Management-generated setup continues to use pinned npm fleet and Node fleetd,
-regardless of the crossfire server implementation.
+Management-generated setup uses the matching installed native fleet/fleetd distribution.
 
 ## Upgrade and recovery
 

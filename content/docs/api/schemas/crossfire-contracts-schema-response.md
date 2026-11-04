@@ -1,9 +1,9 @@
 ---
-title: "crossfire/node/packages/contracts/src/schema/response.ts"
+title: "crossfire/packages/contracts/src/schema/response.ts"
 linkTitle: "response"
 description: "Validation functions, types and constants from the recorded source revision."
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/schema/response.ts"
+sourcePath: "services/crossfire/packages/contracts/src/schema/response.ts"
 generated: true
 ---
 
@@ -14,13 +14,13 @@ All code blocks below are TypeScript declarations copied from the server. They d
 
 ### Imported definitions
 
-- [`services/crossfire/node/packages/contracts/src/schema/controller.ts`](/docs/api/schemas/crossfire-contracts-schema-controller/)
-- [`services/crossfire/node/packages/contracts/src/policy.ts`](/docs/api/schemas/crossfire-contracts-policy/)
-- [`services/crossfire/node/packages/contracts/src/schema/validation.ts`](/docs/api/schemas/crossfire-contracts-schema-validation/)
-- [`services/crossfire/node/packages/contracts/src/fleet-control.ts`](/docs/api/schemas/crossfire-contracts-fleet-control/)
-- [`services/crossfire/node/packages/contracts/src/coordination-policy.ts`](/docs/api/schemas/crossfire-contracts-coordination-policy/)
-- [`services/crossfire/node/packages/contracts/src/runtime.ts`](/docs/api/schemas/crossfire-contracts-runtime/)
-- [`services/crossfire/node/packages/contracts/src/client.ts`](/docs/api/schemas/crossfire-contracts-client/)
+- [`services/crossfire/packages/contracts/src/schema/controller.ts`](/docs/api/schemas/crossfire-contracts-schema-controller/)
+- [`services/crossfire/packages/contracts/src/policy.ts`](/docs/api/schemas/crossfire-contracts-policy/)
+- [`services/crossfire/packages/contracts/src/schema/validation.ts`](/docs/api/schemas/crossfire-contracts-schema-validation/)
+- [`services/crossfire/packages/contracts/src/fleet-control.ts`](/docs/api/schemas/crossfire-contracts-fleet-control/)
+- [`services/crossfire/packages/contracts/src/coordination-policy.ts`](/docs/api/schemas/crossfire-contracts-coordination-policy/)
+- [`services/crossfire/packages/contracts/src/runtime.ts`](/docs/api/schemas/crossfire-contracts-runtime/)
+- [`services/crossfire/packages/contracts/src/client.ts`](/docs/api/schemas/crossfire-contracts-client/)
 
 ## backendLink {#backendLink}
 

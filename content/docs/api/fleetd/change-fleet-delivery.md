@@ -3,7 +3,7 @@ title: "PUT /api/fleets/{fleetId}/delivery"
 linkTitle: "changeFleetDelivery"
 description: "Change Crossfire delivery intent"
 sourceProject: "ctlflow"
-sourcePath: "services/fleetd/node/packages/contracts/src/api.ts"
+sourcePath: "services/fleetd/packages/contracts/src/api.ts"
 operation: "changeFleetDelivery"
 product: "fleetd"
 generated: true

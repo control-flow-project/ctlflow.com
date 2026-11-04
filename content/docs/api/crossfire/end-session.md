@@ -3,7 +3,7 @@ title: "DELETE /api/sessions/current"
 linkTitle: "endSession"
 description: "End this session"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "endSession"
 product: "crossfire"
 generated: true

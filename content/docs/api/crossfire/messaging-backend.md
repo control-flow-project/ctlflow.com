@@ -3,7 +3,7 @@ title: "GET /api/messaging-backend"
 linkTitle: "messagingBackend"
 description: "Configured messaging backend and public client entry points"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "messagingBackend"
 product: "crossfire"
 generated: true

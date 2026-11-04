@@ -3,7 +3,7 @@ title: "GET /api/agents/{agentId}/room-grants/{roomId}/permissions"
 linkTitle: "grantPermissions"
 description: "Scoped permission assignment"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "grantPermissions"
 product: "crossfire"
 generated: true

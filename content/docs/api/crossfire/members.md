@@ -3,7 +3,7 @@ title: "GET /api/members"
 linkTitle: "members"
 description: "Members"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "members"
 product: "crossfire"
 generated: true

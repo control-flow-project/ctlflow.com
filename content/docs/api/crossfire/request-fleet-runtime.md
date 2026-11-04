@@ -3,7 +3,7 @@ title: "POST /api/fleets/{fleetId}/session-operations"
 linkTitle: "requestFleetRuntime"
 description: "Request stop, resume or confirmed fresh history through the controller"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "requestFleetRuntime"
 product: "crossfire"
 generated: true

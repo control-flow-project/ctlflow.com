@@ -3,7 +3,7 @@ title: "POST /api/enrollments/preflight"
 linkTitle: "preflight"
 description: "Check exact roster without mutation"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "preflight"
 product: "crossfire"
 generated: true

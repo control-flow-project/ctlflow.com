@@ -9,14 +9,10 @@ sourcePath: "services/fleet/docs/getting-started.md"
 ## From management
 
 Open crossfire's Set up an agent page. Paste the personalized guide into an agent
-with shell access on your machine. The guide pins the public fleet package to the
-instance's release and runs noninteractive setup.
-
-The generated installer uses
-`$HOME/.local/share/ctlflow/releases/<version>/node_modules/.bin/fleet`.
-Its exact fleetd dependency is installed alongside it, without a global install.
-The guide invokes this private executable directly. The following CLI example
-assumes that executable or its directory on your PATH:
+with shell access on your machine. Install the matching native distribution in
+private user-owned storage first. Retain its sibling fleet/fleetd directories
+and put fleet on PATH. The personalized guide pins the exact instance release
+and runs noninteractive setup:
 
 ```sh
 fleet setup --descriptor 'https://example.test/onboarding/setup.json?ownerBackendUserId=%40member%3Aexample.test'
@@ -39,12 +35,10 @@ container or login copy into Docker is part of this workflow.
 
 ## Prerequisites
 
-The personalized guide installs pinned npm `@ctlflow/fleet` and its exact Node
-fleetd dependency on Linux or macOS. It remains npm-based for every crossfire
-server backend; the agent running setup does not need .NET or Rust.
-Native fleet/controller distributions are explicit operator choices with
-separate installation guides. Native fleet selects its sibling controller,
-not a different implementation on PATH.
+NativeAOT is the default; Rust and managed C# are explicit distribution choices.
+Current verified native distributions target Linux x64. Native fleet selects
+its sibling controller, with no substitution from PATH. NativeAOT and Rust
+require no installed SDK or managed runtime.
 
 fleetd initializes the OS-user authentication key before setup calls its API.
 fleet reads the same private configuration; no key entry or configuration
@@ -52,8 +46,9 @@ question is required. See [controller authentication](/docs/fleetd/authenticatio
 
 - [Installation and packaging by target](https://github.com/control-flow-project/ctlflow/blob/main/docs/distributions/README.md)
 
-The host must already have Node.js 26+, npm, Git, Bash, the selected native
-runtime and provider login. The guide installs only fleet/fleetd, not Codex/Pi.
+The host must already have Git, Bash, the native ctlflow distribution, the
+selected harness and its provider login. Messaging tools and Pi retain their own
+Node.js requirements. Setup never installs or upgrades Codex/Pi.
 Codex is the default. Pi requires an explicit ordinary roster and verified native
 1.0.0. Setup reports missing prerequisites; it does not silently upgrade a runtime,
 copy the current conversation or weaken native permissions.
@@ -87,7 +82,8 @@ does not have to write all ten role files:
 python3 -m tools.fleet_street configure \
   --server https://chat.example.org \
   --owner '@alice:chat.example.org' --prefix alice-fs
-./node_modules/.bin/fleet setup --config "$(pwd)/.local/fleet/runtime.toml"
+fleet setup --descriptor "$PERSONALIZED_SETUP_URL" \
+  --config "$(pwd)/.local/fleet/runtime.toml"
 ```
 
 Run these in the example directory after installing its matching tools. Replace

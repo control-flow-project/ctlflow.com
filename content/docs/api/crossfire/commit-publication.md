@@ -3,7 +3,7 @@ title: "PUT /api/publications/{publicationId}/commit"
 linkTitle: "commitPublication"
 description: "Atomically make a complete report public"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "commitPublication"
 product: "crossfire"
 generated: true

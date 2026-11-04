@@ -3,7 +3,7 @@ title: "POST /api/setup"
 linkTitle: "setup"
 description: "Set up an ordinary fleet without configuration questions; preserve prior stop intent"
 sourceProject: "ctlflow"
-sourcePath: "services/fleetd/node/packages/contracts/src/api.ts"
+sourcePath: "services/fleetd/packages/contracts/src/api.ts"
 operation: "setup"
 product: "fleetd"
 generated: true
@@ -100,8 +100,8 @@ object; fields below; unknown fields rejected ([`setupInput`](/docs/api/schemas/
 | `descriptor.server` | string; 1–2048 UTF-16 units; well-formed Unicode; no C0/DEL controls; constraint: Use an exact HTTPS or loopback HTTP origin ([`setupOrigin`](/docs/api/schemas/crossfire-contracts-onboarding/#setupOrigin)) |
 | `descriptor.ownerBackendUserId` | opaque backend user ID; 1–255 UTF-16 units, well-formed Unicode without control characters |
 | `descriptor.package` | object; fields below; unknown fields rejected |
-| `descriptor.package.name` | `@ctlflow/fleet` |
-| `descriptor.package.version` | string; 1–100 UTF-16 units; well-formed Unicode; no C0/DEL controls; constraint: Use one exact npm version ([`setupVersion`](/docs/api/schemas/crossfire-contracts-onboarding/#setupVersion)) |
+| `descriptor.package.name` | `fleet` |
+| `descriptor.package.version` | string; 1–100 UTF-16 units; well-formed Unicode; no C0/DEL controls; constraint: Use one exact release version ([`setupVersion`](/docs/api/schemas/crossfire-contracts-onboarding/#setupVersion)) |
 | `descriptor.instructions` | plain-text string; at most 131072 UTF-8 bytes; allowed whitespace controls only |
 | `workspace` | string; 1–4096 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `configuration` | string; 1–4096 UTF-16 units; well-formed Unicode; no C0/DEL controls; optional property |

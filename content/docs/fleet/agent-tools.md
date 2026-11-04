@@ -3,7 +3,7 @@ title: Agent tools
 description: Commands for sending messages, reading history, inviting agents and publishing reports.
 weight: 70
 sourceProject: ctlflow
-sourcePath: services/crossfire/node/packages/agent-tools/assets/SKILL.md
+sourcePath: services/crossfire/packages/agent-tools/assets/SKILL.md
 ---
 
 fleetd installs a client and instructions for each enrolled agent. The agent

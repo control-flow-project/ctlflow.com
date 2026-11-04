@@ -3,7 +3,7 @@ title: "DELETE /api/fleets/{fleetId}"
 linkTitle: "removeFleet"
 description: "Unregister stopped fleet"
 sourceProject: "ctlflow"
-sourcePath: "services/fleetd/node/packages/contracts/src/api.ts"
+sourcePath: "services/fleetd/packages/contracts/src/api.ts"
 operation: "removeFleet"
 product: "fleetd"
 generated: true

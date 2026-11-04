@@ -3,7 +3,7 @@ title: "PUT /api/fleets/{fleetId}/delivery"
 linkTitle: "changeFleetDelivery"
 description: "Activate or deactivate fleet listener delivery"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "changeFleetDelivery"
 product: "crossfire"
 generated: true

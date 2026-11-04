@@ -3,7 +3,7 @@ title: "PUT /api/fleets/{fleetId}/agents/{agentId}/native-stop"
 linkTitle: "recordFleetNativeStop"
 description: "Record actual native close on the current controller generation after all receipts settle"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "recordFleetNativeStop"
 product: "crossfire"
 generated: true

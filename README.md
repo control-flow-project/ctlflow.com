@@ -1,13 +1,13 @@
 # ctlflow.com
 
 Hugo technical documentation for running agent fleets with ctlflow's crossfire
-server, fleetd controller and fleet CLI. Node, C# and Rust are documented under
+server, fleetd controller and fleet CLI. C# and Rust are documented under
 those components. Toolsmith provides optional Python functions and commands for
 files, downloads, archives and search.
 
 Docker documentation covers server/Matrix/UI/content and one-shot Knex only.
 Fleet attachment remains host-native with the user's installed Codex/Pi and
-native login; the personalized guide installs only pinned npm fleet/fleetd.
+native login; the personalized guide uses matching installed native fleet/fleetd.
 The [local Docker walkthrough](content/docs/ctlflow/local-docker.md) documents
 image selection, loopback access, host attachment and persistent state.
 

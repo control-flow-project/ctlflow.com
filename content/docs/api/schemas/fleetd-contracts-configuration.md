@@ -1,9 +1,9 @@
 ---
-title: "fleetd/node/packages/contracts/src/configuration.ts"
+title: "fleetd/packages/contracts/src/configuration.ts"
 linkTitle: "configuration"
 description: "Validation functions, types and constants from the recorded source revision."
 sourceProject: "ctlflow"
-sourcePath: "services/fleetd/node/packages/contracts/src/configuration.ts"
+sourcePath: "services/fleetd/packages/contracts/src/configuration.ts"
 generated: true
 ---
 
@@ -14,10 +14,10 @@ All code blocks below are TypeScript declarations copied from the server. They d
 
 ### Imported definitions
 
-- [`services/crossfire/node/packages/contracts/src/schema/validation.ts`](/docs/api/schemas/crossfire-contracts-schema-validation/)
-- [`services/crossfire/node/packages/kernel/src/result.ts`](/docs/api/schemas/crossfire-kernel-result/)
-- [`services/crossfire/node/packages/contracts/src/runtime.ts`](/docs/api/schemas/crossfire-contracts-runtime/)
-- [`services/crossfire/node/packages/contracts/src/coordination-policy.ts`](/docs/api/schemas/crossfire-contracts-coordination-policy/)
+- [`services/crossfire/packages/contracts/src/schema/validation.ts`](/docs/api/schemas/crossfire-contracts-schema-validation/)
+- [`services/crossfire/packages/kernel/src/result.ts`](/docs/api/schemas/crossfire-kernel-result/)
+- [`services/crossfire/packages/contracts/src/runtime.ts`](/docs/api/schemas/crossfire-contracts-runtime/)
+- [`services/crossfire/packages/contracts/src/coordination-policy.ts`](/docs/api/schemas/crossfire-contracts-coordination-policy/)
 
 ## runtimeOptions {#runtimeOptions}
 

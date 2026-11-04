@@ -3,7 +3,7 @@ title: "GET /api/operations/{operationId}"
 linkTitle: "operation"
 description: "Observe operation"
 sourceProject: "ctlflow"
-sourcePath: "services/fleetd/node/packages/contracts/src/api.ts"
+sourcePath: "services/fleetd/packages/contracts/src/api.ts"
 operation: "operation"
 product: "fleetd"
 generated: true

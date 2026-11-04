@@ -3,7 +3,7 @@ title: "GET /api/agents/{agentId}/listener-runs"
 linkTitle: "listenerRuns"
 description: "Listener history"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "listenerRuns"
 product: "crossfire"
 generated: true

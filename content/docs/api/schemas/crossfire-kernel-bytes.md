@@ -1,9 +1,9 @@
 ---
-title: "crossfire/node/packages/kernel/src/bytes.ts"
+title: "crossfire/packages/kernel/src/bytes.ts"
 linkTitle: "bytes"
 description: "Validation functions, types and constants from the recorded source revision."
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/kernel/src/bytes.ts"
+sourcePath: "services/crossfire/packages/kernel/src/bytes.ts"
 generated: true
 ---
 

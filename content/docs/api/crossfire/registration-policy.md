@@ -3,7 +3,7 @@ title: "GET /api/registration-policy"
 linkTitle: "registrationPolicy"
 description: "Public signup availability"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "registrationPolicy"
 product: "crossfire"
 generated: true

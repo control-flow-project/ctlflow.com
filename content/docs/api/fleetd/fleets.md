@@ -3,7 +3,7 @@ title: "GET /api/fleets"
 linkTitle: "fleets"
 description: "Registered fleets"
 sourceProject: "ctlflow"
-sourcePath: "services/fleetd/node/packages/contracts/src/api.ts"
+sourcePath: "services/fleetd/packages/contracts/src/api.ts"
 operation: "fleets"
 product: "fleetd"
 generated: true

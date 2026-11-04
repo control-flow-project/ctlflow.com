@@ -14,10 +14,10 @@ resumes, and answer permission requests. Agents can publish static reports throu
 the server; owners can delete them. fleetd listens for allowed messages, delivers
 them to the native agent and manages its processes and saved histories.
 
-The server has Node, C# managed, C# NativeAOT and Rust distributions. They serve
+The server has C# managed, C# NativeAOT and Rust distributions. They serve
 the same API and React management UI and use the same SQLite database format.
-The setup instructions for attaching a fleet install Node fleet and fleetd,
-regardless of the server implementation.
+Fleet setup uses the matching installed native fleet/fleetd distribution.
+NativeAOT is the default for all three products.
 
 - [Complete crossfire HTTP API](/docs/api/crossfire/)
 - [Matrix and other HTTP protocols](/docs/api/native-http/)

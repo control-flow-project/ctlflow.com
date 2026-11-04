@@ -3,7 +3,7 @@ title: "GET /api/agents/{agentId}/wake-deliveries/{deliveryId}"
 linkTitle: "validateWake"
 description: "Recheck scheduled input before publication"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "validateWake"
 product: "crossfire"
 generated: true

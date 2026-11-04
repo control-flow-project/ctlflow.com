@@ -8,7 +8,7 @@ noCards: true
 ---
 
 
-The crossfire server exposes these routes. Its Node, C# managed, C# NativeAOT and Rust implementations serve the same API.
+The crossfire server exposes these routes. Its C# managed, C# NativeAOT and Rust implementations serve the same API.
 
 These pages are generated from the operation definitions and validation functions. Each page includes field limits and custom validation code.
 

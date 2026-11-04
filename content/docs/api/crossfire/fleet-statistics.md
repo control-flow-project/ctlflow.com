@@ -3,7 +3,7 @@ title: "GET /api/fleets/{fleetId}/statistics"
 linkTitle: "fleetStatistics"
 description: "Periodic fleet traffic and native usage summaries"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "fleetStatistics"
 product: "crossfire"
 generated: true

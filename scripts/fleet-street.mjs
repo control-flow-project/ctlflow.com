@@ -82,7 +82,7 @@ export function syncFleetStreet(sourceRoot, check, root = website) {
     for (const relative of reportFiles) outputs.set(`static/examples/fleet-street/report/${relative}`, fs.readFileSync(path.join(fixture, "output", relative), "utf8"));
   } finally { fs.rmSync(fixture, { recursive: true, force: true }); }
   const metadata = { repository: "https://github.com/control-flow-project/fleet-street", revision: source.revision, version: JSON.parse(source.read("package.json")).version,
-    fleetRelease: JSON.parse(source.read("package.json")).devDependencies["@ctlflow/fleet"], agentCount: 10, snippets,
+    fleetRelease: JSON.parse(source.read("package.json")).ctlflow.version, agentCount: 10, snippets,
     generator: sha256(fs.readFileSync(path.join(root, "scripts/fleet-street.mjs"))), inputs: Object.fromEntries(source.consumed),
     outputs: Object.fromEntries([...outputs].map(([relative, content]) => [relative, sha256(content)])) };
   const previousFile = target(root, metadataPath);

@@ -3,7 +3,7 @@ title: "GET /api/fleets/{fleetId}/map"
 linkTitle: "fleetMap"
 description: "Fleet connection map"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "fleetMap"
 product: "crossfire"
 generated: true

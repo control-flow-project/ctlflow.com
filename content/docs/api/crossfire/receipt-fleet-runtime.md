@@ -3,7 +3,7 @@ title: "PUT /api/fleets/{fleetId}/session-operations/{operationId}/receipt"
 linkTitle: "receiptFleetRuntime"
 description: "Record the actual native session outcome"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "receiptFleetRuntime"
 product: "crossfire"
 generated: true

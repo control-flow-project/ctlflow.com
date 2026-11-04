@@ -3,7 +3,7 @@ title: "GET /api/agents/{agentId}/runtime-observations"
 linkTitle: "runtimeObservations"
 description: "Public configured and effective native runtime settings"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "runtimeObservations"
 product: "crossfire"
 generated: true

@@ -1,9 +1,9 @@
 ---
-title: "crossfire/node/packages/kernel/src/history-context.ts"
+title: "crossfire/packages/kernel/src/history-context.ts"
 linkTitle: "history-context"
 description: "Validation functions, types and constants from the recorded source revision."
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/kernel/src/history-context.ts"
+sourcePath: "services/crossfire/packages/kernel/src/history-context.ts"
 generated: true
 ---
 
@@ -14,7 +14,7 @@ All code blocks below are TypeScript declarations copied from the server. They d
 
 ### Imported definitions
 
-- [`services/crossfire/node/packages/kernel/src/identifier.ts`](/docs/api/schemas/crossfire-kernel-identifier/)
+- [`services/crossfire/packages/kernel/src/identifier.ts`](/docs/api/schemas/crossfire-kernel-identifier/)
 
 ## MAX_HISTORY_CONTEXT {#MAX_HISTORY_CONTEXT}
 

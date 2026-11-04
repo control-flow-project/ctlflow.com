@@ -3,7 +3,7 @@ title: "GET /api/diagnostics"
 linkTitle: "diagnostics"
 description: "Read bounded diagnostics without starting sessions, refreshing credentials or repairing state"
 sourceProject: "ctlflow"
-sourcePath: "services/fleetd/node/packages/contracts/src/api.ts"
+sourcePath: "services/fleetd/packages/contracts/src/api.ts"
 operation: "diagnostics"
 product: "fleetd"
 generated: true

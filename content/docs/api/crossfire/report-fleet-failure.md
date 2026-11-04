@@ -3,7 +3,7 @@ title: "POST /api/fleets/{fleetId}/runtime-incidents"
 linkTitle: "reportFleetFailure"
 description: "Scoped controller reports an actual instance failure"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "reportFleetFailure"
 product: "crossfire"
 generated: true

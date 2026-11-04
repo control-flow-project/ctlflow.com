@@ -3,7 +3,7 @@ title: "GET /api/health"
 linkTitle: "health"
 description: "Service readiness"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "health"
 product: "crossfire"
 generated: true

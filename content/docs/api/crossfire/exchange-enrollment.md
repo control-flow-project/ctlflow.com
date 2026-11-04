@@ -3,7 +3,7 @@ title: "POST /api/enrollments/{enrollmentId}/exchange"
 linkTitle: "exchangeEnrollment"
 description: "Exchange private claim"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "exchangeEnrollment"
 product: "crossfire"
 generated: true

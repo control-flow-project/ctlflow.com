@@ -44,11 +44,11 @@ mixed brief is not a broadcast assignment to all ten.
 
 ## Set up the example
 
-You need a crossfire account, a working Codex installation and login, Node 26+,
-npm 11.17+ and Python 3.11+. The example's offline configuration tool prepares
-the roster. Install fleet/fleetd through your server's personalized setup guide,
-which selects its matching release; do not use the example's development
-dependency as a separate fleet installation.
+You need a crossfire account, a working Codex installation and login, Python
+3.11+ and the native fleet/fleetd distribution matching the server. Retain its
+sibling product directories and put fleet on PATH. Node.js is required for the
+shared messaging tools; npm is used only for this example's build and tests.
+The offline configuration tool prepares the roster. The personalized setup guide uses the installed native release.
 
 Get the {{< fleet-street-link path="README.md" label="example" >}} to follow along:
 
@@ -206,8 +206,8 @@ view the report. See the
 ## Resume, adapt and verify
 
 ```sh
-./node_modules/.bin/fleet agent stop fleet-street budget-analyst
-./node_modules/.bin/fleet agent start fleet-street budget-analyst
+fleet agent stop fleet-street budget-analyst
+fleet agent start fleet-street budget-analyst
 ```
 
 Start reuses saved history; it is not a fresh context. Preserve `.local/fleet/`

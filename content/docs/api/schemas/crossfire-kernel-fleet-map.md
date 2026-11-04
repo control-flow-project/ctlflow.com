@@ -1,9 +1,9 @@
 ---
-title: "crossfire/node/packages/kernel/src/fleet-map.ts"
+title: "crossfire/packages/kernel/src/fleet-map.ts"
 linkTitle: "fleet-map"
 description: "Validation functions, types and constants from the recorded source revision."
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/kernel/src/fleet-map.ts"
+sourcePath: "services/crossfire/packages/kernel/src/fleet-map.ts"
 generated: true
 ---
 

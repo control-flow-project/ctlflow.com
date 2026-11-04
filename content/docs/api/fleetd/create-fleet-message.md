@@ -3,7 +3,7 @@ title: "POST /api/fleets/{fleetId}/messages"
 linkTitle: "createFleetMessage"
 description: "Message the enrolled roster through its controller"
 sourceProject: "ctlflow"
-sourcePath: "services/fleetd/node/packages/contracts/src/api.ts"
+sourcePath: "services/fleetd/packages/contracts/src/api.ts"
 operation: "createFleetMessage"
 product: "fleetd"
 generated: true

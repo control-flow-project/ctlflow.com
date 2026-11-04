@@ -3,7 +3,7 @@ title: "GET /api/audit-events"
 linkTitle: "audit"
 description: "Scoped audit events"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "audit"
 product: "crossfire"
 generated: true

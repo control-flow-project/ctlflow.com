@@ -117,4 +117,4 @@ Management retains attribution and dates, and never embeds report scripts.
 
 - [Reports UI](/docs/crossfire/reports-ui/)
 - [Instance configuration](/docs/crossfire/configuration/)
-- [Operator content check](source:ctlflow:services/crossfire/node/tools/README.md)
+- [Operator content check](source:ctlflow:services/crossfire/tools/README.md)

@@ -1,9 +1,9 @@
 ---
-title: "crossfire/node/packages/contracts/src/rest/limits.ts"
+title: "crossfire/packages/contracts/src/rest/limits.ts"
 linkTitle: "limits"
 description: "Validation functions, types and constants from the recorded source revision."
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/limits.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/limits.ts"
 generated: true
 ---
 

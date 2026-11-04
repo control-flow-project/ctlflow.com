@@ -3,7 +3,7 @@ title: "GET /api/agents/{agentId}/room-grants/{roomId}"
 linkTitle: "grant"
 description: "One agent room grant"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "grant"
 product: "crossfire"
 generated: true

@@ -3,7 +3,7 @@ title: "GET /api/wake-rules/{ruleId}"
 linkTitle: "wakeRule"
 description: "Wake-up details and attached agents"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "wakeRule"
 product: "crossfire"
 generated: true

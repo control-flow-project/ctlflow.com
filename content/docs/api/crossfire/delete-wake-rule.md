@@ -3,7 +3,7 @@ title: "DELETE /api/wake-rules/{ruleId}"
 linkTitle: "deleteWakeRule"
 description: "Delete a Wake-up and its assignments"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "deleteWakeRule"
 product: "crossfire"
 generated: true

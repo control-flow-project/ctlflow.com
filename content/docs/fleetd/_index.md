@@ -16,9 +16,9 @@ OS-user controller key from the same private configuration read by fleet.
 fleetd creates a missing key automatically on first start and preserves it on
 restart. This is not a public HTTP service.
 
-Node, C# and Rust controllers provide the same API. C# and Rust controllers
-still need Node to run the agent-tool client. The default fleet setup installs
-Node fleetd.
+C# and Rust controllers provide the same API. NativeAOT is the default.
+The shared messaging-tool client retains its Node.js prerequisite; the controller
+itself is a native executable.
 
 - [Complete private fleetd API](/docs/api/fleetd/)
 - [Controller authentication](/docs/fleetd/authentication/)

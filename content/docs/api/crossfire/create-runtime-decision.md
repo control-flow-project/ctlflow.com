@@ -3,7 +3,7 @@ title: "POST /api/agents/{agentId}/runtime-decisions"
 linkTitle: "createRuntimeDecision"
 description: "Bind a human decision to its original native request"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "createRuntimeDecision"
 product: "crossfire"
 generated: true

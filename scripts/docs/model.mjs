@@ -24,9 +24,9 @@ export function createModel(root, source = {}) {
         let dependency;
         if (specifier.startsWith(".")) dependency = path.resolve(path.dirname(absolute), specifier.replace(/\.js$/u, ".ts"));
         const aliases = {
-          "@ctlflow/crossfire-contracts/": "services/crossfire/node/packages/contracts/src/",
-          "@ctlflow/crossfire-domain/": "services/crossfire/node/packages/domain/src/",
-          "@ctlflow/crossfire-kernel/": "services/crossfire/node/packages/kernel/src/",
+          "@ctlflow/crossfire-contracts/": "services/crossfire/packages/contracts/src/",
+          "@ctlflow/crossfire-domain/": "services/crossfire/packages/domain/src/",
+          "@ctlflow/crossfire-kernel/": "services/crossfire/packages/kernel/src/",
         };
         for (const [prefix, target] of Object.entries(aliases)) if (specifier.startsWith(prefix)) dependency = path.join(root, target, `${specifier.slice(prefix.length)}.ts`);
         if (!dependency || !(source.exists ? source.exists(path.relative(root, dependency)) : fs.existsSync(dependency))) continue;
@@ -169,7 +169,7 @@ export function extractOperations(model, filename) {
 }
 
 export function schemaId(module) {
-  return module.relative.replace(/^services\//u, "").replace(/\/node\/packages\//u, "/").replace(/\/src\//u, "/").replace(/\.ts$/u, "").replaceAll("/", "-");
+  return module.relative.replace(/^services\//u, "").replace(/\/packages\//u, "/").replace(/\/src\//u, "/").replace(/\.ts$/u, "").replaceAll("/", "-");
 }
 
 export function sourceText(expression, module) {

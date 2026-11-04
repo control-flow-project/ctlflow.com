@@ -3,7 +3,7 @@ title: "POST /api/principal-resolutions"
 linkTitle: "resolvePrincipals"
 description: "Resolve verified sender kinds and agent owners"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "resolvePrincipals"
 product: "crossfire"
 generated: true

@@ -9,7 +9,7 @@ sourcePath: "services/crossfire/docs/onboarding/README.md"
 ## Start setup
 
 Management's Set up an agent page supplies one personalized guide URL.
-The guide verifies the active registered human and pins the exact public fleet
+The guide verifies the active registered human and pins the exact native fleet
 release. Its JSON descriptor is at:
 
 ```text
@@ -23,8 +23,8 @@ The CLI checks the fixed path, exact origin/owner/version, strict schema and
 response bounds. Redirects, ambiguous queries and credential-bearing URLs fail.
 No default deployment account or inferred owner is used.
 
-All server implementations emit pinned npm setup for fleet and Node fleetd.
-Run the guide on the Linux/macOS computer where agents will execute. It requires
+All server implementations use the matching installed native fleet/fleetd.
+Retain its sibling directories and put fleet on PATH. Run the guide on the Linux x64 execution host. It requires
 the selected existing Codex/Pi installation and native login; it does not install
 or upgrade a harness. Docker runs crossfire/Matrix/UI/content and one-shot Knex
 maintenance only, not fleets. fleetd creates its private OS-native key and fleet
@@ -73,7 +73,7 @@ Rejected/expired requests cannot yield credentials.
 
 ## Software
 
-The installed fleetd package or native distribution owns a pinned local tool release:
+The installed native fleetd distribution owns a pinned local tool release:
 README, skill, client and Matrix license. The manifest verifies artifact sizes and SHA-256 values. Obtain releases from
 a trusted publisher.
 
@@ -84,7 +84,7 @@ release. Sleeping engines are not woken for that notice.
 
 After explicit consent:
 
-1. Install the exact new fleet/fleetd npm release or native distribution in
+1. Install the exact new native fleet/fleetd distribution in
    private storage; keep native product directories together.
 2. Use its new CLI to update the selected fleet/instances.
 3. Restart fleetd from the installed executable with the same root.
@@ -96,9 +96,8 @@ Changed instructions are delivered through the runtime adapter.
 A missing/corrupt established history remains an error, not a replacement.
 Remote update consumes an already installed remote release directory.
 
-Only `@ctlflow/fleet` and `@ctlflow/fleetd` may be public npm packages.
-Internal modules and crossfire remain private. Local pack/install evidence is
-not registry publication.
+All npm workspaces are private tooling dependencies.
+Local native builds are not registry publication or deployment.
 
 - [CLI update commands](/docs/fleet/commands/)
 - [Server operations](/docs/crossfire/operations/)

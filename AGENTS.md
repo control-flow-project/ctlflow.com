@@ -9,13 +9,13 @@ Use direct technical prose, Markdown content, a single shared layout and locally
 served assets. Avoid stock AI phrasing and promotional language. No analytics,
 external fonts, runtime servers, GitHub Actions or client-side framework is
 required. ctlflow is the parent monorepo; crossfire, fleetd and fleet are its
-products. Node, C# and Rust
+products. C# and Rust
 are implementations beneath those owners. Toolsmith is a separate optional
 related project, not a constituent or required fleet dependency.
 
 Docker runs crossfire/Matrix/UI/content and one-shot initialization/migrations
 only. Fleet setup runs on the execution host using its existing supported native
-harness and login; the personalized guide installs only pinned npm fleet/fleetd.
+harness and login; the personalized guide uses the matching installed native fleet/fleetd distribution.
 Do not document a fleet image, relay or provider-credential mount into Docker.
 
 Every coordinated product publication includes this website: review edited

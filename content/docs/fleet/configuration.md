@@ -106,7 +106,7 @@ and final output from being queued for the owner DM. It preserves native history
 telemetry, approvals, questions and explicit messaging-tool calls. A delivery
 already journaled before the change keeps its recorded identity and completion
 rules. Changes apply at the next stopped-to-running transition. Use the same
-setting for Codex and Pi on Node, managed C#, NativeAOT and Rust.
+setting for Codex and Pi on managed C#, NativeAOT and Rust.
 
 Keep exhaustive collection progress in the application's run records. Agents can
 send a few deliberate final, blocker or requested-status messages without posting

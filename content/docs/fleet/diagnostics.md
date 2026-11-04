@@ -17,7 +17,7 @@ fleet --remote office diagnose research
 ```
 
 A fleet key or UUID selects a registered fleet; agent scope also requires its
-immutable instance key. Node, managed C#, NativeAOT C# and Rust expose the same
+immutable instance key. Managed C#, NativeAOT C# and Rust expose the same
 report. No model turn is submitted.
 
 ## Findings

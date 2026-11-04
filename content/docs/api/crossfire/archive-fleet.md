@@ -3,7 +3,7 @@ title: "POST /api/fleets/{fleetId}/archive"
 linkTitle: "archiveFleet"
 description: "Decommission a fleet, preserving identity and history"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "archiveFleet"
 product: "crossfire"
 generated: true

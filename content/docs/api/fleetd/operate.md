@@ -3,7 +3,7 @@ title: "POST /api/operations"
 linkTitle: "operate"
 description: "Request lifecycle operation"
 sourceProject: "ctlflow"
-sourcePath: "services/fleetd/node/packages/contracts/src/api.ts"
+sourcePath: "services/fleetd/packages/contracts/src/api.ts"
 operation: "operate"
 product: "fleetd"
 generated: true

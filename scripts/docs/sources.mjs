@@ -5,7 +5,6 @@ export const guideReferences = [
   ["ctlflow","docs/development.md","docs/ctlflow/development.md"],
   ["ctlflow","services/crossfire/database/README.md","docs/ctlflow/database.md"],
   ["ctlflow","docs/distributions/README.md","docs/ctlflow/distributions/_index.md"],
-  ["ctlflow","docs/distributions/node.md","docs/ctlflow/distributions/node.md"],
   ["ctlflow","docs/distributions/csharp-managed.md","docs/ctlflow/distributions/csharp-managed.md"],
   ["ctlflow","docs/distributions/csharp-nativeaot.md","docs/ctlflow/distributions/csharp-nativeaot.md"],
   ["ctlflow","docs/distributions/rust.md","docs/ctlflow/distributions/rust.md"],
@@ -38,7 +37,7 @@ export const guideReferences = [
   ["ctlflow","services/fleet/docs/sessions.md","docs/fleet/sessions.md"],
   ["ctlflow","services/fleet/docs/remote.md","docs/fleet/remote.md"],
   ["ctlflow","services/fleet/docs/pi.md","docs/fleet/pi.md"],
-  ["ctlflow","services/crossfire/node/packages/agent-tools/assets/SKILL.md","docs/fleet/agent-tools.md"],
+  ["ctlflow","services/crossfire/packages/agent-tools/assets/SKILL.md","docs/fleet/agent-tools.md"],
   ["toolsmith","docs/installation.md","docs/toolsmith/installation.md"],
   ["toolsmith","docs/library.md","docs/toolsmith/library.md"],
   ["toolsmith","docs/cli.md","docs/toolsmith/cli.md"],
@@ -53,8 +52,8 @@ export const guideReferences = [
 ];
 
 export const catalogSources = {
-  crossfire: "services/crossfire/node/packages/contracts/src/rest/operations.ts",
-  fleetd: "services/fleetd/node/packages/contracts/src/api.ts",
+  crossfire: "services/crossfire/packages/contracts/src/rest/operations.ts",
+  fleetd: "services/fleetd/packages/contracts/src/api.ts",
 };
 
 export function frontmatter(values) {

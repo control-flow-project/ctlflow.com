@@ -3,7 +3,7 @@ title: "GET /api/agents/{agentId}"
 linkTitle: "agent"
 description: "Agent details"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "agent"
 product: "crossfire"
 generated: true

@@ -113,8 +113,7 @@ The controller reports incidents to the owner's private crossfire management DM.
 Lost contact is unknown execution state; a dead controller cannot report itself.
 
 Every implementation's process adapter guards the owned native engine group
-against controller death, including SIGKILL. Node uses its parent IPC connection,
-C# an exact parent process handle and Rust an exact parent pidfd. The guard
+against controller death, including SIGKILL. C# uses an exact parent process handle and Rust an exact parent pidfd. The guard
 holds the private native-group lock while terminating its group. The history
 lock also refuses competing writers. These mechanisms do not contain arbitrary
 subprocesses that escape the group.

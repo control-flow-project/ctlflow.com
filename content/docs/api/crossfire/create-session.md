@@ -3,7 +3,7 @@ title: "POST /api/sessions"
 linkTitle: "createSession"
 description: "Human login"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "createSession"
 product: "crossfire"
 generated: true

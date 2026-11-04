@@ -3,7 +3,7 @@ title: "DELETE /api/publications/{publicationId}"
 linkTitle: "deletePublication"
 description: "Fence public reads and remove report files"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "deletePublication"
 product: "crossfire"
 generated: true

@@ -31,8 +31,7 @@ for (const [project, root] of Object.entries(roots)) {
 }
 for (const [project, source] of guideReferences) read(project, source);
 const model = createModel(roots.ctlflow, snapshots.ctlflow);
-for (const filename of ["rest/envelope.ts", "rest/limits.ts"]) model.closure(model.load(path.join(roots.ctlflow, "services/crossfire/node/packages/contracts/src", filename)));
-model.closure(model.load(path.join(roots.ctlflow, "services/crossfire/node/packages/adapter-matrix/src/directory.ts")));
+for (const filename of ["rest/envelope.ts", "rest/limits.ts"]) model.closure(model.load(path.join(roots.ctlflow, "services/crossfire/packages/contracts/src", filename)));
 const inventories = {};
 for (const [product, catalog] of Object.entries(catalogSources)) {
   const operations = extractOperations(model, path.join(roots.ctlflow, catalog));
@@ -44,26 +43,23 @@ for (const [product, catalog] of Object.entries(catalogSources)) {
 for (const module of [...model.modules.values()]) {
   outputs.set(`content/docs/api/schemas/${schemaId(module)}.md`, schemaPage(model, module));
 }
-const matrixPath = "services/crossfire/node/packages/adapter-matrix/src/operations.json";
+const matrixPath = "services/crossfire/packages/adapter-matrix/src/operations.json";
 const matrix = JSON.parse(read("ctlflow", matrixPath));
 for (const filename of [
-  "services/crossfire/node/apps/server/src/router.ts",
-  "services/crossfire/node/apps/server/src/content-server.ts",
-  "services/crossfire/node/apps/server/src/artifacts.ts",
-  "services/crossfire/node/apps/server/src/http/create-server.ts",
-  "services/crossfire/node/apps/server/src/http/messaging.ts",
-  "services/crossfire/node/packages/adapter-matrix/src/web/transport.ts",
-  "services/crossfire/node/packages/adapter-matrix/src/web/registration.ts",
-  "services/crossfire/node/packages/adapter-matrix/src/web/registration-page.ts",
-  "services/crossfire/node/packages/adapter-matrix/src/web/directory.ts",
-  "services/crossfire/node/packages/adapter-matrix/src/directory.ts",
-  "services/crossfire/node/packages/adapter-matrix/src/web/profile.ts",
-  "services/crossfire/node/apps/server/src/http/binary.ts",
-  "services/crossfire/node/packages/contracts/src/rest/limits.ts",
-  "services/fleetd/node/apps/daemon/src/http.ts",
-  "services/fleetd/node/apps/daemon/src/main.ts",
-  "services/fleetd/node/packages/storage/src/authentication.ts",
-  "services/fleet/node/packages/ssh-transport/assets/authentication.json",
+  "services/crossfire/csharp/apps/Crossfire.Server/PublicApplication.cs",
+  "services/crossfire/csharp/apps/Crossfire.Server/ContentApplication.cs",
+  "services/crossfire/csharp/apps/Crossfire.Server/ApiApplication.cs",
+  "services/crossfire/csharp/apps/Crossfire.Server/Http/Transport.cs",
+  "services/crossfire/csharp/apps/Crossfire.Server/Http/MessagingHttp.cs",
+  "services/crossfire/csharp/packages/Crossfire.AdapterMatrix/NativeWeb.cs",
+  "services/crossfire/csharp/packages/Crossfire.AdapterMatrix/RegistrationTransport.cs",
+  "services/crossfire/csharp/packages/Crossfire.AdapterMatrix/RegistrationPage.cs",
+  "services/crossfire/csharp/packages/Crossfire.AdapterMatrix/NativeResponses.cs",
+  "services/crossfire/packages/contracts/src/rest/limits.ts",
+  "services/fleetd/csharp/apps/Fleetd.Daemon/DaemonApi.cs",
+  "services/fleetd/csharp/apps/Fleetd.Daemon/DaemonHost.cs",
+  "services/fleetd/csharp/packages/Fleetd.Storage/Authentication.cs",
+  "services/fleet/assets/authentication.json",
   "services/crossfire/database/management/sqlite/contract.json",
   "global.json", "rust-toolchain.toml",
 ]) read("ctlflow", filename);

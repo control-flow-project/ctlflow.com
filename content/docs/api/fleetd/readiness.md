@@ -3,7 +3,7 @@ title: "GET /api/fleets/{fleetId}/readiness"
 linkTitle: "readiness"
 description: "Verify desired listeners through their live model-free native diagnostic without starting sessions"
 sourceProject: "ctlflow"
-sourcePath: "services/fleetd/node/packages/contracts/src/api.ts"
+sourcePath: "services/fleetd/packages/contracts/src/api.ts"
 operation: "readiness"
 product: "fleetd"
 generated: true

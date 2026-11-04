@@ -45,13 +45,12 @@ records implementation, mode, platform, coordinated version, tool release and
 executable paths. Retain all files, including native dependency data/notices.
 
 Local publication does not upload a release, publish npm packages or activate
-an instance. No managed backend is embedded as a fallback. Only the Node
-fleet/fleetd products may be public npm packages.
+an instance. No managed backend is embedded as a fallback. All npm workspaces are private tooling dependencies.
 
 ## Install and run the server
 
 Server deployment uses Docker Compose with the selected csharp-nativeaot image and
-matching one-shot Knex image. Build the four backend kits from source with
+matching one-shot Knex image. Build the three backend kits from source with
 `npm run package:containers -- --output /absolute/packages`. Copy the complete
 selected directory, including release.json, images.tar, package-tool.mjs and
 compose.yaml, to the deployment host. The trusted maintenance helper requires
@@ -148,7 +147,7 @@ npm run verify:parity -- /absolute/new-evidence-directory
 ```
 
 The C# bank executes actual managed and NativeAOT programs. The integrated bank
-also runs Node/Rust, shared installed/browser/container behavior and migrations.
+also runs Rust, shared installed/browser/container behavior and migrations.
 Passing fixed supported EF queries does not establish arbitrary dynamic query,
 reflection or plugin support. Linux x64 inert-provider results do not certify
 other hosts, paid models or all subprocess failure cases.

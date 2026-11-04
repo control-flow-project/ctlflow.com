@@ -1,8 +1,8 @@
 {
   "repository": "https://github.com/control-flow-project/fleet-street",
-  "revision": "c0a5e2fd089a3d7c888829048820a3d3a50d2efa",
+  "revision": "6fddca79fd64c39d1194bc1a5238cfda7d452db7",
   "version": "0.1.0",
-  "fleetRelease": "0.1.23",
+  "fleetRelease": "0.1.26",
   "agentCount": 10,
   "snippets": {
     "roster": {
@@ -41,7 +41,7 @@
       "asset": "examples/fleet-street/send.sh"
     }
   },
-  "generator": "ea6f1d798879da508d6dae1bdaf7912525db0a0c71d78057f3b453b2af06a943",
+  "generator": "7538cb067b8d0f365366b65f43b8bcc204d81bbce046bdce20bebbb4c2c83c7a",
   "inputs": {
     "fleet/runtime.toml": "0a4b8d96874ae24aad8a52556de65a6c393d0c8a3b3a6722f66792cdd4c9053c",
     "fleet/agents/stage-manager/agent.toml": "8c9bfff4da25b80d3d84eb7856c51fd65aa000d984a538503725539a70006e02",
@@ -62,7 +62,7 @@
     "tools/fleet_street/assets/report.css": "bf23b0c9415a789917b68d823f0ff7986a56fbed28fe3343b9c7de5c34e98804",
     "tools/fleet_street/assets/proscenium.svg": "69cbb0ecd8a4e96caf7032a52c919a6258c76bbc653636b6de5ad6eb5a92b80b",
     "tools/fleet_street/assets/LICENSE.txt": "0427caf38db38327cdffd1b815970de83a0d5f283c8984a8327443a9f31fac24",
-    "package.json": "d3655fa0c1423256239d483d60c752224c749e20d33853cb8f9d37b12329becd"
+    "package.json": "54ff244a32e89a3423fc603f184088ddabfaa9942a19db8ab9efeb46a09e3f5f"
   },
   "outputs": {
     "assets/examples/fleet-street/roster.toml": "0a4b8d96874ae24aad8a52556de65a6c393d0c8a3b3a6722f66792cdd4c9053c",

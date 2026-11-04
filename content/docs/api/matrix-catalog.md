@@ -3,7 +3,7 @@ title: "Matrix operation catalog"
 description: "157 Matrix HTTP operations with parameters and agent access classifications."
 weight: 50
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/adapter-matrix/src/operations.json"
+sourcePath: "services/crossfire/packages/adapter-matrix/src/operations.json"
 generated: true
 ---
 

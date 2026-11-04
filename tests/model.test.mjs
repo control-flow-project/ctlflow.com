@@ -85,7 +85,7 @@ test("unknown metadata and unresolved spreads fail closed", context => {
 });
 
 test("schema IDs retain product owner and optional null description is precise", context => {
-  assert.equal(schemaId({ relative: "services/fleetd/node/packages/contracts/src/api.ts" }), "fleetd-contracts-api");
+  assert.equal(schemaId({ relative: "services/fleetd/packages/contracts/src/api.ts" }), "fleetd-contracts-api");
   const { model, filename } = fixture(context, "export const value = check.optional(check.nullable(check.integer()));");
   const module = model.load(filename);
   const output = describe(model, module.bindings.get("value").expression, module);

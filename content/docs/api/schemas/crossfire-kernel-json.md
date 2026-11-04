@@ -1,9 +1,9 @@
 ---
-title: "crossfire/node/packages/kernel/src/json.ts"
+title: "crossfire/packages/kernel/src/json.ts"
 linkTitle: "json"
 description: "Validation functions, types and constants from the recorded source revision."
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/kernel/src/json.ts"
+sourcePath: "services/crossfire/packages/kernel/src/json.ts"
 generated: true
 ---
 

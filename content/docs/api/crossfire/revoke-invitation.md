@@ -3,7 +3,7 @@ title: "DELETE /api/member-invitations/{invitationId}"
 linkTitle: "revokeInvitation"
 description: "Revoke signup invitation"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "revokeInvitation"
 product: "crossfire"
 generated: true

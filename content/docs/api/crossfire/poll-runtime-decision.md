@@ -3,7 +3,7 @@ title: "GET /api/agents/{agentId}/runtime-decisions/{decisionId}/answer"
 linkTitle: "pollRuntimeDecision"
 description: "Original listener retrieves the private answer"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "pollRuntimeDecision"
 product: "crossfire"
 generated: true

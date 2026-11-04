@@ -1,9 +1,9 @@
 ---
-title: "crossfire/node/packages/domain/src/port/messaging.ts"
+title: "crossfire/packages/domain/src/port/messaging.ts"
 linkTitle: "messaging"
 description: "Validation functions, types and constants from the recorded source revision."
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/domain/src/port/messaging.ts"
+sourcePath: "services/crossfire/packages/domain/src/port/messaging.ts"
 generated: true
 ---
 
@@ -14,8 +14,8 @@ All code blocks below are TypeScript declarations copied from the server. They d
 
 ### Imported definitions
 
-- [`services/crossfire/node/packages/kernel/src/result.ts`](/docs/api/schemas/crossfire-kernel-result/)
-- [`services/crossfire/node/packages/kernel/src/json.ts`](/docs/api/schemas/crossfire-kernel-json/)
+- [`services/crossfire/packages/kernel/src/result.ts`](/docs/api/schemas/crossfire-kernel-result/)
+- [`services/crossfire/packages/kernel/src/json.ts`](/docs/api/schemas/crossfire-kernel-json/)
 
 ## BackendAccount {#BackendAccount}
 

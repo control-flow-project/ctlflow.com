@@ -3,7 +3,7 @@ title: "PUT /api/wake-rules/{ruleId}"
 linkTitle: "changeWakeRule"
 description: "Replace the Wake-up configuration"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "changeWakeRule"
 product: "crossfire"
 generated: true

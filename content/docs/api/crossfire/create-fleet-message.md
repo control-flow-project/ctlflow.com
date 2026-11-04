@@ -3,7 +3,7 @@ title: "POST /api/fleets/{fleetId}/messages"
 linkTitle: "createFleetMessage"
 description: "Explicit idempotent direct fleet input"
 sourceProject: "ctlflow"
-sourcePath: "services/crossfire/node/packages/contracts/src/rest/operations.ts"
+sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "createFleetMessage"
 product: "crossfire"
 generated: true
