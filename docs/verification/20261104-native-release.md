@@ -1,7 +1,7 @@
 # Native-only 0.1.26 release documentation
 
 The website records ctlflow source
-`928b36b9d0076899e98225f8cec0d5399856b9ac` and Toolsmith
+`0f5715687d8fdd40f1fa739bd604df5ca56ed24f` and Toolsmith
 `1627d931e87cc9fea9de055bbeefa65c84e79fb3`. Generated inventory remains
 94 crossfire operations, 20 private fleetd operations, 157 Matrix entries,
 42 validation modules and 50 edited product guides.
@@ -29,8 +29,8 @@ On Linux amd64, Node 26.8.1, Hugo 0.168.0, Playwright 1.63.0 and Chrome
 | Check | Result |
 | --- | --- |
 | Production Hugo build | 233 pages, 30 processed images, no warnings |
-| Unit tests | 45 passed; no failures, cancellations or skips; 302.944 ms |
-| Real-browser tests | 17 passed; no failures, cancellations or skips; 15.702 s |
+| Unit tests | 45 passed; no failures, cancellations or skips; 308.120 ms |
+| Real-browser tests | 17 passed; no failures, cancellations or skips; 16.607 s |
 | Resource group | 8 GiB memory, zero swap, 1024 tasks; desktop D-Bus disabled |
 | Desktop/mobile release inventory | Four image rows, three archive rows, exact digests, private access and blocked archive status |
 | Generated HTML | Internal links, anchors, code examples, responsive layout, source links and local-only CSP checked |

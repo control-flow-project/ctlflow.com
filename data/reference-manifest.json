@@ -2,7 +2,7 @@
   "sources": {
     "ctlflow": {
       "repository": "https://github.com/control-flow-project/ctlflow",
-      "revision": "928b36b9d0076899e98225f8cec0d5399856b9ac",
+      "revision": "0f5715687d8fdd40f1fa739bd604df5ca56ed24f",
       "version": "0.1.26"
     },
     "toolsmith": {
@@ -18,7 +18,7 @@
     "ctlflow:docs/distributions/README.md": "b255bf645a197c00b70aca593e32071ef0dfa03d2c2ee8ed7d48bd42b5271e2f",
     "ctlflow:docs/distributions/csharp-managed.md": "2bb34a32010232c8ee1fba5639fa12a526731b8acd192e4eb84b4fed35159272",
     "ctlflow:docs/distributions/csharp-nativeaot.md": "571806b221ed86ef3ea6cfe75d9b6795c5ef008bf8f963adbbb4bbefc35a1fa9",
-    "ctlflow:docs/distributions/releases/0.1.26.md": "e32316c7ae809ae68c565ae5a8c5bb8eac9b69263fe4bc4ba61fa25d18b56b55",
+    "ctlflow:docs/distributions/releases/0.1.26.md": "d66de2056e75d04e660833c76623e40a60992ad1af0656ac1e0462d6d3b824d2",
     "ctlflow:docs/distributions/rust.md": "92a2a7eae027c29f487ae0a4a46083cb0f9a7ad3ea915f36ac1092b8f577e61b",
     "ctlflow:docs/specification.md": "6891d318b4be46d88d57e847edd976c187df59b48b0f773cdf689c449b0e8213",
     "ctlflow:global.json": "be8663081fd82196ac86e65e9021d58d7c03a13574ce8cd4dc803937fc3ba30e",
@@ -294,7 +294,7 @@
     "content/docs/api/schemas/fleetd-contracts-diagnostics.md": "352e4a93c8d370857a94884d6466c0bb30f5409d8ce2b8487fb96f0a7acf632f",
     "content/docs/api/schemas/fleetd-contracts-setup.md": "fd8b8a8d5430b2fd2c10cbd6d95fc46e8b67e6eec43f0a39221a24d031fc0f7e",
     "data/operations.json": "0a9895a23ad3459200fbb28d9a48cab3824b5b64e939949e2c1f882f25c3a0bf",
-    "data/sources.json": "40aa4c3770ea668f32416e2f5e5e7794caf6036f1b1e8fee502b6acd7f61d013"
+    "data/sources.json": "fdded6388343c409b7bafa2f0733db9099bb75d02edf51028ccff08fe44b6aaf"
   },
   "counts": {
     "crossfire": 94,
