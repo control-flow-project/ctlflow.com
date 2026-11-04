@@ -22,7 +22,7 @@ Sleeping can be ready without a running native engine.
    active/stopped instances.
 2. Verify a private backup of controller/fleet/native state, credentials and
    receipt journals.
-3. Install the approved exact npm package or selected native distribution in
+3. Install the approved exact native distribution in
    private storage; retain the native products' sibling layout.
 4. Use the newly installed CLI to update the selected fleet or instances.
 5. Restart fleetd with the same root using that installed executable.

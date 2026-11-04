@@ -21,7 +21,7 @@ test("Docker and setup guides keep server containers separate from host fleets",
   assert.equal(quickstart.includes("docker compose exec"), false);
   assert.equal(quickstart.includes("CTLFLOW_FLEET_IMAGE"), false);
   assert.equal(quickstart.includes("MANIFEST_DIGEST"), false);
-  assert.equal(quickstart.includes("0.1.26 candidate has not been"), true);
+  assert.equal(quickstart.includes("Native executable archive publication\nremains blocked"), true);
   assert.equal(quickstart.includes("package-tool.mjs verify"), true);
   assert.equal(quickstart.includes("jq -r .runtimeImage"), true);
   assert.equal(quickstart.includes("jq -r .migrationImage"), true);
@@ -38,8 +38,8 @@ test("Docker and setup guides keep server containers separate from host fleets",
   assert.equal(setup.includes("npm install"), false);
   assert.equal(setup.includes("never installs or upgrades Codex/Pi"), true);
   const implementation = read("content/docs/ctlflow/implementations.md");
-  assert.equal(implementation.includes("11.0.100-rc.2.26504.105"), true);
-  assert.equal(implementation.includes("11.0.0-rc.2.26504.105"), true);
+  assert.equal(implementation.includes("11.0.100-rc.3.26522.148"), true);
+  assert.equal(implementation.includes("11.0.0-rc.3.26522.148"), true);
   assert.equal(implementation.includes("current schema 1"), true);
   assert.equal(read("content/docs/toolsmith/installation.md").includes("Toolsmith 0.5.0"), true);
 });
@@ -54,7 +54,8 @@ test("the published container inventory and source mapping retain exact release 
   for (const [name, digest] of Object.entries(containerRelease.images)) {
     assert.equal(inventory.includes(`| \`${name}\` | \`${digest}\` |`), true, name + " immutable published manifest");
   }
-  assert.equal(inventory.includes("anonymous authorization returned 401"), true);
+  assert.equal(inventory.includes("All four packages remain private"), true);
+  assert.equal(inventory.includes("public download URLs are not yet"), true);
   assert.equal(inventory.includes("or fleet image is included"), true);
   assert.doesNotMatch(inventory, /MANIFEST_DIGEST|CTLFLOW_FLEET_IMAGE|@latest/u);
   for (const filename of ["content/docs/ctlflow/local-docker.md", "content/docs/ctlflow/containers.md", "content/docs/ctlflow/distributions/_index.md"])
@@ -211,7 +212,7 @@ test("Netlify headers keep site scripts/assets local and only hashed assets immu
 test("hierarchy and source URLs preserve constituents and Toolsmith optionality", () => {
   const sources = JSON.parse(read("data/sources.json"));
   assert.equal(sources.ctlflow.repository, "https://github.com/control-flow-project/ctlflow");
-  assert.equal(sources.ctlflow.revision, "eeb8e621268dcb60d9ff527db1e330eb33b02c12");
+  assert.equal(sources.ctlflow.revision, "928b36b9d0076899e98225f8cec0d5399856b9ac");
   assert.equal(sources.ctlflow.version, "0.1.26");
   assert.equal(sources.toolsmith.revision, "1627d931e87cc9fea9de055bbeefa65c84e79fb3");
   assert.equal(sources.toolsmith.version, "0.5.0");

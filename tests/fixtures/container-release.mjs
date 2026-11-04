@@ -1,9 +1,9 @@
 export const containerRelease = {
-  "version": "0.1.25",
+  "version": "0.1.26",
   "images": {
-    "crossfire-csharp-managed": "sha256:cddc67073fd3ab7e471c601530fd4d435dbf9cf56583ede83bdef0069ef7f7ad",
-    "crossfire-csharp-nativeaot": "sha256:35dc255c2d4f96be65c3281f62a605077e598571bab11c25d89655facdcaed2e",
-    "crossfire-rust": "sha256:18fdb2f0cceed4099e5122005202aec5466aefde864efde7f3d6a3ee2d41f03f",
-    "crossfire-migrations": "sha256:f544454d0fff75bfc1383add8a3cb5fdbe5bd19fca0933f0e0eb171a637cffe8"
+    "crossfire-migrations": "sha256:c543c0af875aed6865cfc8549d954514baa1adbe73d34e97040175aad10c8c47",
+    "crossfire-csharp-managed": "sha256:dcc8bed0c9546f001be6c71394d07f3b64967e985c9b8f1e2effc9a6b6aa62dc",
+    "crossfire-csharp-nativeaot": "sha256:721054592f99bafd21b7ec4c22154063f4d7d696b9ccf82ae8f2f2682ae51f19",
+    "crossfire-rust": "sha256:63cb443602b3adeeb8b4f1aae95e9b6e0051f03a96fc66a6360f4d7c15db560d"
   }
 };

@@ -15,6 +15,7 @@ The site contains edited Markdown guides, generated API references, architecture
 diagrams and browser-based search. Layouts and assets are maintained here. It
 uses no external fonts, analytics or remote diagram rendering.
 
+- [Native-only 0.1.26 release documentation](docs/verification/20261104-native-release.md)
 - [Local verification record](docs/verification/20261017-site.md)
 - [Current-contract cleanup and verification](docs/verification/20261022-current-contract-cleanup.md)
 - [Current container publication documentation](docs/verification/20261023-container-publication.md)

@@ -31,12 +31,12 @@ socket into the server. A server container does not sandbox host agents.
 
 ## Select images
 
-Use a matching current native-only container kit. Build it from the selected
-source as described in the package guide; the 0.1.26 candidate has not been
-published. The published 0.1.25 inventory below records historical registry
-bytes and does not certify current setup commands.
+Use a matching native-only container kit. The published 0.1.26 server and Knex
+images were pulled by immutable digest. Native executable archive publication
+remains blocked; the release inventory distinguishes those surfaces. Build a
+kit from the selected source or use the matching published image references.
 
-- [Historical 0.1.25 native images and registry access](/docs/ctlflow/container-release/)
+- [0.1.26 native images and registry access](/docs/ctlflow/container-release/)
 
 For the default NativeAOT kit, verify/import the package and select the immutable
 handles returned by its trusted maintenance tool:

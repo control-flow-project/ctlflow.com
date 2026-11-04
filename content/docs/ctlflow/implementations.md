@@ -98,8 +98,8 @@ No import/export is needed when changing between verified implementations.
 
 ## .NET dependencies
 
-The SDK is pinned to `11.0.100-rc.2.26504.105`; EF/SQLite packages are pinned
-to `11.0.0-rc.2.26504.105`. Managed initial deployment is permitted.
+The SDK is pinned to `11.0.100-rc.3.26522.148`; EF/SQLite packages are pinned
+to `11.0.0-rc.3.26522.148`. Managed initial deployment is permitted.
 There is no automatic managed fallback inside a NativeAOT executable.
 
 Managed and NativeAOT publication precompile the same fixed EF models and
