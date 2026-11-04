@@ -23,9 +23,10 @@ Shared listener artifact release: `0.1.26-b7e34a99858ded6e9f76b372`.
 ## Registry images
 
 Namespace: `ghcr.io/control-flow-project/`. Exact version tag: `0.1.26`.
-All four packages remain private and require authorized package-read access.
-Registry manifest bytes, config identities, source/version/platform labels and
-actual digest pulls were verified. No site configuration, credentials, operating
+All four packages are public. Anonymous Docker pulls of every complete image
+passed on 4 November 2026 with a new empty credential configuration, no registry
+login and no credential helpers. Registry manifest bytes, config identities,
+source/version/platform labels and published digests were verified unchanged. No site configuration, credentials, operating
 data or fleet image is included. All npm workspaces are private.
 
 | Image | Registry manifest digest |
@@ -35,16 +36,6 @@ data or fleet image is included. All npm workspaces are private.
 | `crossfire-csharp-nativeaot` | `sha256:721054592f99bafd21b7ec4c22154063f4d7d696b9ccf82ae8f2f2682ae51f19` |
 | `crossfire-rust` | `sha256:63cb443602b3adeeb8b4f1aae95e9b6e0051f03a96fc66a6360f4d7c15db560d` |
 
-The server operator authenticates Docker on the host with a GitHub account
-allowed to read these packages and a token granting `read:packages`:
-
-```sh
-docker login ghcr.io --username YOUR_GITHUB_USERNAME
-```
-
-Enter the token at Docker's password prompt. Keep registry credentials out of
-chat, fleet configuration, container environments and server volumes.
-
 For the default NativeAOT server, select its matching immutable migration image
 and then follow the [Docker quickstart](/docs/ctlflow/local-docker/):
 
@@ -52,9 +43,13 @@ and then follow the [Docker quickstart](/docs/ctlflow/local-docker/):
 export \
   CROSSFIRE_RUNTIME_IMAGE=ghcr.io/control-flow-project/crossfire-csharp-nativeaot@sha256:721054592f99bafd21b7ec4c22154063f4d7d696b9ccf82ae8f2f2682ae51f19 \
   CROSSFIRE_MIGRATION_IMAGE=ghcr.io/control-flow-project/crossfire-migrations@sha256:c543c0af875aed6865cfc8549d954514baa1adbe73d34e97040175aad10c8c47
-docker pull "$CROSSFIRE_RUNTIME_IMAGE"
-docker pull "$CROSSFIRE_MIGRATION_IMAGE"
+docker pull --platform linux/amd64 "$CROSSFIRE_RUNTIME_IMAGE"
+docker pull --platform linux/amd64 "$CROSSFIRE_MIGRATION_IMAGE"
 ```
+
+The four concurrent downloads completed in 28.0 seconds overall. Individual
+pulls took 11.7 seconds for migrations, 17.9 for managed C#, 28.0 for NativeAOT
+and 23.0 for Rust; shared layers and overlapping durations are not added.
 
 Do not mix releases. A registry manifest digest is not Docker's local image ID.
 Registry publication does not migrate or restart a deployment.

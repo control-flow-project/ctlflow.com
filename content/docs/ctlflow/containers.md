@@ -62,13 +62,12 @@ The [0.1.26 release inventory](/docs/ctlflow/container-release/) provides
 immutable references for the generic images:
 `ghcr.io/control-flow-project/crossfire-csharp-managed`,
 `crossfire-csharp-nativeaot`, `crossfire-rust` and `crossfire-migrations`.
-Registry access follows the package's visibility setting. Publication is separate
-from production activation; it does not migrate or restart a deployment.
-Use verified immutable references from a coordinated current release package.
-The current inventory records verified authenticated pulls of the listed native images and Knex image;
-private packages still require authorized host-side registry access. A registry manifest digest
-and Docker's local image ID name different objects; do not substitute one for the
-other or use `latest`.
+The four listed 0.1.26 images are public and allow anonymous pulls; no GHCR login
+is required. Publication is separate from production activation; it does not
+migrate or restart a deployment. Use verified immutable references from a
+coordinated current release package. A registry manifest digest and Docker's
+local image ID name different objects; do not substitute one for the other or
+use `latest`.
 Never publish domain instructions, operating data, site configuration or secrets.
 
 `release.json` is a UTF-8 JSON object of at most 8192 bytes. It has exactly:

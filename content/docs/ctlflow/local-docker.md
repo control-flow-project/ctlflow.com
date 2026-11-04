@@ -38,24 +38,22 @@ kit from the selected source or use the matching published image references.
 
 - [0.1.26 native images and registry access](/docs/ctlflow/container-release/)
 
-For the default NativeAOT kit, verify/import the package and select the immutable
-handles returned by its trusted maintenance tool:
+For the default NativeAOT server, select and pull the matching immutable images:
 
 ```sh
-node /absolute/packages/csharp-nativeaot/package-tool.mjs verify \
-  /absolute/packages/csharp-nativeaot > /absolute/private/verified-images.json
-export CROSSFIRE_RUNTIME_IMAGE=$(jq -r .runtimeImage /absolute/private/verified-images.json)
-export CROSSFIRE_MIGRATION_IMAGE=$(jq -r .migrationImage /absolute/private/verified-images.json)
+export CROSSFIRE_RUNTIME_IMAGE=ghcr.io/control-flow-project/crossfire-csharp-nativeaot@sha256:721054592f99bafd21b7ec4c22154063f4d7d696b9ccf82ae8f2f2682ae51f19
+export CROSSFIRE_MIGRATION_IMAGE=ghcr.io/control-flow-project/crossfire-migrations@sha256:c543c0af875aed6865cfc8549d954514baa1adbe73d34e97040175aad10c8c47
+docker pull --platform linux/amd64 "$CROSSFIRE_RUNTIME_IMAGE"
+docker pull --platform linux/amd64 "$CROSSFIRE_MIGRATION_IMAGE"
 ```
 
-The package tool requires Node.js 26; this extraction uses jq. Managed C# and Rust
-kits use the same workflow. Keep runtime/migration releases coordinated and use
-immutable image handles. Do not mix releases or use `latest`.
-
-Access follows each package's GitHub visibility setting: private packages need
-an authorized host-side GHCR login; public packages allow anonymous pulls.
-Registry credentials stay outside the containers. Maintainers may instead select
-exact image IDs from a verified local build. Do not substitute `latest` or build a different backend
+The four listed 0.1.26 server and Knex images are public and allow anonymous
+pulls. No GHCR login is required. Pulling these images needs no host Node.js or jq.
+Managed C# and Rust use their selected runtime reference from the same inventory.
+Transferred kits follow the [package verification procedure](/docs/ctlflow/containers/).
+Keep runtime/migration releases coordinated and use immutable image handles.
+Do not mix releases or use `latest`. Maintainers may instead select exact image
+IDs from a verified local build. Do not switch to a source build automatically
 after an image pull fails.
 
 ## Start a new server
