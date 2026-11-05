@@ -8,7 +8,7 @@ sourcePath: "docs/distributions/csharp-managed.md"
 
 ## Prerequisites
 
-The current publisher targets Linux x64. Building requires an authorized source
+The current publisher targets Linux x64. Building requires a source
 checkout, Node.js 26+, npm 11.17+, the SDK pinned in `global.json`, the repository's
 EF/NuGet pins and native compilation tools for shared assets. The .NET 11 and
 EF dependencies are previews; use the exact pins, not an assumed compatible SDK.
@@ -165,7 +165,12 @@ Deliberately stopped bindings stay stopped. Closing the CLI does not stop fleetd
 
 ## Upgrade and verify
 
-Record the exact source revision and distribution manifest. Use the newly installed CLI for `fleet update FLEET` or
+Record the exact source revision and distribution manifest. Use the server's
+Compose upgrade sequence above, retaining the common Knex-created database.
+Do not merge files into an active executable release directory. Stop the old
+controller normally before selecting a new executable with its original root.
+
+Use the newly installed CLI for `fleet update FLEET` or
 `fleet agent update FLEET INSTANCE`, then restart the controller with its original
 root. For remote updates, explicitly select the installed remote
 `/absolute/releases/csharp-managed/fleetd/artifacts` directory. Inspect operation

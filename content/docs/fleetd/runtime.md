@@ -57,7 +57,8 @@ model work. Cancellation does not roll back prior tool effects.
 The adapter journals exact input identity/text and history boundary before sending.
 Only an exact native receipt advances unread state. RPC success or a client
 correlation ID alone is insufficient. Confirmed input survives restart without
-replay; pending work is resolved before a new reminder/message.
+replay; genuine pending input is resolved before another ordinary message.
+Restart does not create a historical-task reminder.
 
 A restarted process has no old running turn. If delivery of the previous message
 cannot be confirmed from history, that message is saved to a private file. A new

@@ -36,7 +36,11 @@ resolve its documentation links.
 
 `publish:csharp` and `publish:rust` write local directories. They do not upload
 releases, install host services, publish npm packages or activate an instance.
-All npm workspaces are private tooling dependencies. The target guides provide native release-archive download and checksum commands.
+The source repository and the four listed 0.1.26 server/migration images are
+public. Private npm workspaces are build, UI, test and maintenance dependencies;
+they do not make the native products or server images private. The
+[release inventory](/docs/ctlflow/container-release/) records actual native archive
+availability. The target guides distinguish pending downloads from local builds.
 
 Build dependencies and runtime dependencies differ. Native fleet controllers
 still require Node for the shared agent-tool client; selecting a native backend

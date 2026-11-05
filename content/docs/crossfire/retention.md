@@ -28,7 +28,7 @@ cannot be selected by whichever remote instance connected first.
 | Scheduled deliveries | Delivered time, or cancelled creation time; pending remains |
 | Fleet messages/outcomes | Message expiry plus retention |
 | Session operations | Completion time; pending/running and required latest successful Stop remain |
-| Enrollment archives | Creation time; rejected/expired requests use decision/expiry once claims release |
+| Rejected/expired enrollment requests and children | Decision/expiry once name claims release; approved exchange identities remain |
 | Member invitations | Expiry after unconsumed native signup claims clear |
 | Native-close receipts | Native stop time; latest sequence per agent remains |
 | fleetd operation files | Completion time; unfinished/unacknowledged remain |
@@ -63,9 +63,8 @@ Links, hardlinks, unowned/public files and malformed records are retained with
 an error for inspection. Files are 0600; directories 0700.
 
 Only daily diagnostic partitions and UUID operation files are current storage.
-Controller roots containing `daemon.log` or `operations.json` fail before
-operation recovery. Startup does not import, convert or delete these files.
-Verify a private offline backup and resolve obsolete files before starting.
+Startup reads only those current formats. It does not inspect, convert or import
+historical files.
 Profiles/listener state use immutable instance keys, never display-name lookup
 or relocation. There is no alternate reader or count-only history cap.
 
@@ -84,10 +83,9 @@ execution admission. Existing ownership/generation conflicts still fail.
 
 Verify production backup before the forward migration.
 Migration retains rows; later maintenance applies the policy.
-Prior name-canonicalization audit records follow that same audit retention rule;
-they are historical logs, not another identity authority. Without explicit
-retention proof, preservation requires their exact content. Equality at the
-cutoff, fresh migration evidence and altered retained rows remain failures.
+Without explicit retention proof, preservation requires exact record content.
+Equality at the cutoff, fresh migration evidence and altered retained rows remain
+failures.
 
 Strict operator preservation may explicitly allow absent age-eligible logging:
 

@@ -8,7 +8,7 @@ sourcePath: "docs/distributions/csharp-nativeaot.md"
 
 ## Prerequisites
 
-The current publisher targets Linux x64. Building requires an authorized source
+The current publisher targets Linux x64. Building requires a source
 checkout, Node.js 26+, npm 11.17+, the .NET SDK pinned in `global.json`, the
 repository's EF/NuGet pins, GCC and the NativeAOT native-link dependencies.
 Use the exact .NET 11/EF preview pins. NativeAOT build diagnostics are not
@@ -160,7 +160,12 @@ stopped bindings stay stopped. No boot service is installed automatically.
 
 ## Upgrade and verify
 
-Record the exact source revision and distribution manifest. Use the new CLI's `fleet update FLEET` or
+Record the exact source revision and distribution manifest. Use the server's
+Compose upgrade sequence above, retaining the common Knex-created database.
+Do not merge files into an active executable release directory. Stop the old
+controller normally before selecting a new executable with its original root.
+
+Use the new CLI's `fleet update FLEET` or
 `fleet agent update FLEET INSTANCE`, then restart fleetd with the same root.
 Remote updates require the exact installed remote
 `/absolute/releases/csharp-nativeaot/fleetd/artifacts` directory. Inspect outcomes,

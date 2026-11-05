@@ -67,8 +67,9 @@ The operation's output schema applies to `data`. Application IDs and request IDs
 | `native` | 502 |
 | `unavailable` | 503 |
 
-HTTP 202 means the operation was accepted for processing. Inspect its status for
-completion. Message delivery confirmation means the input reached the runtime,
+HTTP 202 means the request was accepted for processing. Inspect the affected
+resource's application state or the returned operation outcome for completion.
+Message delivery confirmation means the input reached the runtime,
 not that the agent finished its task. Owner answers are recorded before they
 are sent to the runtime.
 
@@ -89,7 +90,7 @@ GET operations have no client JSON body: use their declared query parameters. Th
 
 ## Pagination and queries
 
-For paginated collections, `page` and `pageSize` are canonical positive ASCII decimal text, defaults 1 and 20. Page is at most 100000; page size is at most 100. Leading zeroes, signs, whitespace, fractions, exponent/hex forms and duplicate/unknown query parameters fail.
+For paginated collections, `page` and `pageSize` are canonical positive ASCII decimal text. Unless the operation declares a smaller bound, their defaults are 1 and 20; page is at most 100000 and page size is at most 100. Fleet message receipt history defaults to 10 items and permits at most 10. Leading zeroes, signs, whitespace, fractions, exponent/hex forms and duplicate/unknown query parameters fail.
 
 For example, a client's list request with `?page=1&pageSize=20` can receive the
 empty result below. The service calculates the pagination metadata; the client

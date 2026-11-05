@@ -92,11 +92,14 @@ new process. Every activation refreshes the current authorized provider login
 from the host. It does not import host conversations.
 
 Idle sleep defaults to thirty minutes. Working agents, pending decisions and
-unconfirmed input do not sleep. After a same-root controller restart, previously
-enabled agents resume. Explicitly stopped agents remain stopped.
+unconfirmed input do not sleep. A same-root controller restart restores previously
+enabled listener bindings with their exact native histories asleep. Explicitly
+stopped agents remain stopped.
 
-Before resuming unfinished work, the controller asks the agent to reread applicable
-`AGENTS.md` instructions. Idle or sleeping contexts receive no invented task.
+Restart does not create a task reminder, reread request or model turn, including
+when historical work was interrupted. Genuine eligible input wakes only its
+intended recipient. Pending real-message receipts retain their existing recovery
+and acknowledgment owners.
 
 Missing or corrupt established history is an error, not permission to create a
 replacement. Fresh history requires an explicit reset. Reset exports available
@@ -161,8 +164,8 @@ A matching user entry in the native history proves delivery. A busy indicator
 or command response alone does not.
 
 After confirmation, the listener saves its unread position and acknowledges the
-delivery. Unconfirmed input is retained and resolved before a restart reminder
-or another ordinary input.
+delivery. Unconfirmed input is retained and resolved before another ordinary
+input. Restart does not invent task-continuation messages.
 
 If a restarted process cannot prove whether earlier input arrived, the next input
 states that uncertainty and points to the complete earlier message in a private
@@ -195,9 +198,11 @@ Recorded answers and confirmed native transmission have different states.
 Completed, cancelled, expired or superseded questions cannot be answered.
 Arbitrary terminal prose or subprocess prompts are not converted into questions.
 
-Visible nonthinking terminal output goes to the owner DM. That includes
-room-derived commentary even if the owner is not in the room. Owners are trusted
-by this model. Room replies must be sent deliberately through the tool.
+With automatic output mirroring enabled, visible nonthinking terminal output
+goes to the owner DM. That includes room-derived commentary even if the owner is
+not in the room. Owners are trusted by this model. Operators can disable new
+mirrored output without disabling decisions, activity or intentional messages.
+Room replies must be sent deliberately through the tool.
 
 The Element thinking indicator applies to the last room whose input reached the
 agent. It expires after thirty seconds and clears on completion, interruption or

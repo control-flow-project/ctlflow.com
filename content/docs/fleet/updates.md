@@ -8,7 +8,9 @@ sourcePath: "services/fleet/docs/operations.md"
 
 ## Inspect before acting
 
-Use `fleet daemon status`, `fleet show`, `fleet agent list` and `fleet test`.
+Use `fleet diagnose`, `fleet diagnose FLEET`, `fleet daemon status`, `fleet show`
+and `fleet agent list`. Use `fleet test` for an explicit fail-fast readiness
+assertion, rather than collecting all independent diagnostic findings.
 Read controller contact, listener readiness, native state and original error
 separately. Saved credentials are not readiness evidence.
 
@@ -20,8 +22,8 @@ Sleeping can be ready without a running native engine.
 
 1. Record exact controller root, fleet directory, selected release and desired
    active/stopped instances.
-2. Verify a private backup of controller/fleet/native state, credentials and
-   receipt journals.
+2. Verify a private backup of controller/fleet/native state, OS-user
+   `ctlflow/fleetd.json`, credentials and receipt journals.
 3. Install the approved exact native distribution in
    private storage; retain the native products' sibling layout.
 4. Use the newly installed CLI to update the selected fleet or instances.

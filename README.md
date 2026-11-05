@@ -15,10 +15,11 @@ The site contains edited Markdown guides, generated API references, architecture
 diagrams and browser-based search. Layouts and assets are maintained here. It
 uses no external fonts, analytics or remote diagram rendering.
 
+- [5 November comprehensive documentation review](docs/verification/20261105-comprehensive-review.md)
 - [Native-only 0.1.26 release documentation](docs/verification/20261104-native-release.md)
 - [Local verification record](docs/verification/20261017-site.md)
-- [Current-contract cleanup and verification](docs/verification/20261022-current-contract-cleanup.md)
-- [Current container publication documentation](docs/verification/20261023-container-publication.md)
+- [22 October contract cleanup and verification](docs/verification/20261022-current-contract-cleanup.md)
+- [23 October container publication documentation](docs/verification/20261023-container-publication.md)
 - [ctlflow 0.1.25 publication and lifecycle guides](docs/verification/20261103-coordinated-release.md)
 - [Toolsmith 0.5.0 guide verification](docs/verification/20261025-toolsmith.md)
 - [Server Docker and host fleet documentation checks](docs/verification/20261018-server-docker-host-fleets.md)
