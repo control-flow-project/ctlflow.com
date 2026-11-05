@@ -32,9 +32,9 @@ socket into the server. A server container does not sandbox host agents.
 ## Select images
 
 Use a matching native-only container kit. The published 0.1.26 server and Knex
-images were pulled by immutable digest. Native executable archive publication
-remains blocked; the release inventory distinguishes those surfaces. Build a
-kit from the selected source or use the matching published image references.
+images were pulled by immutable digest. Native executable archives and
+SHA256SUMS are public, with anonymous downloads verified on 5 November 2026.
+Build a kit from the selected source or use the matching published image references.
 
 - [0.1.26 native images and registry access](/docs/ctlflow/container-release/)
 
