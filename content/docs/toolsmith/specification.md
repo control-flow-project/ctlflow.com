@@ -90,6 +90,12 @@ state requires owned directories, private modes and single-link files. Atomic
 writes and fsync protect normal crash recovery. Locks coordinate cooperating
 callers; they do not sandbox arbitrary same-user code.
 
+Directory inventory and synchronization default to 10,000 visited entries and
+accept a caller-selected positive signed 64-bit entry budget. There is no separate
+100,000-entry ceiling. Directory entries count toward the budget; byte, depth,
+ownership, no-link and regular-file checks still apply. Inventory materializes
+metadata, so callers own the memory budget for their selected population.
+
 HTTP permits approved DNS hosts over HTTPS port 443. It rejects credentials,
 secret-like query keys, fragments and control characters. DNS answers must all
 be public unicast addresses. The connection uses a validated numeric address,
