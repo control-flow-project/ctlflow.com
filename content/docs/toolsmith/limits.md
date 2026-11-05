@@ -50,7 +50,7 @@ of stored entries.
 | Download batch | 32 MiB manifest; all caller-defined groups concurrent by default, optional explicit network ceiling, bounded total deadline and unfinished outcomes; no item-count cap |
 | Batch search | 32 MiB query input; per-query expression/model/output bounds, without a corpus-count or query-count sample |
 | CSV | 32 MiB compressed / 64 MiB expanded, 256 columns; row budget is explicit and configurable |
-| Tree inventory | Default 10,000 / maximum 100,000 returned entries, explicit byte budget, depth 64; a bounded materialized tree report |
+| Tree inventory | Default 10,000 visited entries; caller-selected positive signed 64-bit entry budget, explicit byte budget, depth 64. Inventory materializes metadata; callers own the selected memory budget. |
 | Journal | 64 KiB event / 32 MiB journal; caller owns retention, no automatic deletion or replacement |
 | Optional archive import | 4 MiB combined text / 1,000 parts per immutable import, with explicit citation paging; not a corpus limit |
 | Optional archive list | At most 100 returned records per page; offset does not cap total retained records |
