@@ -21,7 +21,7 @@ test("Docker and setup guides keep server containers separate from host fleets",
   assert.equal(quickstart.includes("docker compose exec"), false);
   assert.equal(quickstart.includes("CTLFLOW_FLEET_IMAGE"), false);
   assert.equal(quickstart.includes("MANIFEST_DIGEST"), false);
-  assert.equal(quickstart.includes("Native executable archive publication\nremains blocked"), true);
+  assert.equal(quickstart.includes("Native executable archives and\nSHA256SUMS are public"), true);
   assert.equal(quickstart.includes("docker pull --platform linux/amd64"), true);
   assert.equal(quickstart.includes(containerRelease.images["crossfire-csharp-nativeaot"]), true);
   assert.equal(quickstart.includes(containerRelease.images["crossfire-migrations"]), true);
@@ -58,7 +58,8 @@ test("the published container inventory and source mapping retain exact release 
   }
   assert.equal(inventory.includes("All four packages are public"), true);
   assert.equal(inventory.includes("docker login"), false);
-  assert.equal(inventory.includes("public download URLs are not yet"), true);
+  assert.equal(inventory.includes("Anonymous downloads of all four assets passed"), true);
+  assert.equal(inventory.includes("https://github.com/control-flow-project/ctlflow/releases/tag/v0.1.26"), true);
   assert.equal(inventory.includes("or fleet image is included"), true);
   assert.doesNotMatch(inventory, /MANIFEST_DIGEST|CTLFLOW_FLEET_IMAGE|@latest/u);
   for (const filename of ["content/docs/ctlflow/local-docker.md", "content/docs/ctlflow/containers.md", "content/docs/ctlflow/distributions/_index.md"])
@@ -215,7 +216,7 @@ test("Netlify headers keep site scripts/assets local and only hashed assets immu
 test("hierarchy and source URLs preserve constituents and Toolsmith optionality", () => {
   const sources = JSON.parse(read("data/sources.json"));
   assert.equal(sources.ctlflow.repository, "https://github.com/control-flow-project/ctlflow");
-  assert.equal(sources.ctlflow.revision, "92da9d00da972e69bb4bd7203a448a622ee94dee");
+  assert.equal(sources.ctlflow.revision, "5a4fda8eae701a13a3212eb2df3b668a95f88fac");
   assert.equal(sources.ctlflow.version, "0.1.26");
   assert.equal(sources.toolsmith.revision, "c27d8d9c90a66aae16fa99ae836d6c30ee7cd24e");
   assert.equal(sources.toolsmith.version, "0.5.0");

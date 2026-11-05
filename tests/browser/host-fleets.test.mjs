@@ -45,7 +45,7 @@ test("server-only Docker and host setup are readable on desktop and mobile", asy
       assert.equal(commands.some(command => command.includes(containerRelease.images["crossfire-migrations"])), true);
       assert.equal(commands.some(command => command.includes("package-tool.mjs verify")), false);
       assert.equal(commands.some(command => command.includes("jq -r")), false);
-      assert.equal(text.includes("Native executable archive publication remains blocked"), true);
+      assert.equal(text.includes("Native executable archives and SHA256SUMS are public"), true);
       assert.equal(commands.some(command => command.includes("MANIFEST_DIGEST")), false);
       assert.equal(await page.getByRole("link", { name: "container packages", exact: true }).count(), 1);
       assert.equal(commands.some(command => command.includes("--profile maintenance run --rm migrate")), false);
@@ -63,7 +63,9 @@ test("server-only Docker and host setup are readable on desktop and mobile", asy
       }
       assert.equal(await page.locator("main table").first().locator("tbody tr").count(), 4);
       assert.equal(inventory.includes("All four packages are public"), true);
-      assert.equal(inventory.includes("public download URLs are not yet available"), true);
+      assert.equal(inventory.includes("Anonymous downloads of all four assets passed"), true);
+      assert.equal(await page.getByRole("link", { name: "Native release v0.1.26", exact: true }).getAttribute("href"),
+        "https://github.com/control-flow-project/ctlflow/releases/tag/v0.1.26");
       assert.equal(await page.locator("main table").nth(1).locator("tbody tr").count(), 3);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);
       await page.screenshot({ path: path.join(artifacts, "release-" + width + ".png"), fullPage: true });
