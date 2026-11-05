@@ -1,7 +1,7 @@
 ---
 title: "PUT /api/fleets/{fleetId}/delivery"
 linkTitle: "changeFleetDelivery"
-description: "Change Crossfire delivery intent"
+description: "Change crossfire delivery intent"
 sourceProject: "ctlflow"
 sourcePath: "services/fleetd/packages/contracts/src/api.ts"
 operation: "changeFleetDelivery"
@@ -10,7 +10,7 @@ generated: true
 ---
 
 
-## Change Crossfire delivery intent
+## Change crossfire delivery intent
 
 > Private controller API. Call this route through the user's Unix socket, locally or over SSH, with its OS-user controller credential. It is not exposed on the server's public origin.
 

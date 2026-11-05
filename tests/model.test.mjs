@@ -111,3 +111,37 @@ export const badSpreadChoice = check.choice(...['known', unknownChoice]);`;
   for (const name of ["badText", "badInteger", "badList", "badMinimum"]) assert.throws(() => describe(model, module.bindings.get(name).expression, module), /Unresolved numeric contract bound/u, name);
   for (const name of ["badChoice", "badSpreadChoice"]) assert.throws(() => describe(model, module.bindings.get(name).expression, module), /Unresolved/u, name);
 });
+
+
+test("query names include imported pagination helpers without inventing fields on no-query routes", context => {
+  const { model, filename } = fixture(context, `
+import { checked } from './schema/query.js';
+function paged(input) { const params = checked(input, ['status']); return params.get('status'); }
+function none(input) { return input; }
+const common = { auth: 'human', status: 200, collection: false, permissions: [], method: 'GET',
+  params: check.empty, input: check.empty, output: check.empty, description: 'Read' };
+export const operations = {
+  paged: operation({ ...common, path: '/api/items', query: paged }),
+  none: operation({ ...common, path: '/api/item', query: none })
+};`);
+  fs.writeFileSync(path.join(path.dirname(filename), "schema/query.ts"), `
+export function checked(input, allowed) { return listQuery(['page', 'pageSize', ...allowed])(input); }
+function listQuery(allowed) { return input => input; }
+function unrelated(input) { return input.get('notAccepted'); }`);
+  const operations = extractOperations(model, filename);
+  const page = operationPage(model, operations[0], "crossfire");
+  const accepted = page.split("\n").find(line => line.startsWith("Accepted query parameters:"));
+  assert.deepEqual([...accepted.matchAll(/`([^`]+)`/gu)].map(match => match[1]).sort(), ["page", "pageSize", "status"]);
+  assert.doesNotMatch(page, /notAccepted/u);
+  assert.doesNotMatch(operationPage(model, operations[1], "crossfire"), /Accepted query parameters:/u);
+});
+
+
+test("collection response illustrations fit a bounded ten-item endpoint", context => {
+  const { model, filename } = fixture(context, `export const operations = { messages: operation({ method: 'GET',
+    path: '/api/messages', auth: 'human', params: check.empty, query: check.empty, input: check.empty,
+    output: check.list(check.empty, 10), status: 200, collection: true, permissions: [], description: 'Read messages' }) };`);
+  const page = operationPage(model, extractOperations(model, filename)[0], "crossfire");
+  const response = JSON.parse(page.match(/```json\n([\s\S]*?)\n```/u)[1]);
+  assert.deepEqual(response.meta, { requestId: "00000000-0000-0000-0000-000000000001", page: 1, pageSize: 1, totalItems: 0, totalPages: 1 });
+});

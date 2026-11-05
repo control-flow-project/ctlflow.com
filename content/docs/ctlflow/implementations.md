@@ -43,7 +43,7 @@ Language-specific code is inside each product's implementation directory.
 
 | Concern | Shared contract | Implementation difference |
 | --- | --- | --- |
-| API | Same routes, input validation, errors and response fields | ASP.NET / Axum |
+| API | Same routes, input validation, errors and response fields | ASP.NET / Hyper |
 | Domain | Functional operations, explicit ports, expected failure values | C# static modules and records / Rust modules and values |
 | Data | Same SQLite file and normalized schema | EF / Diesel |
 | Migrations | One service-owned Knex image | No runtime or EF migrations |
@@ -132,9 +132,9 @@ owner, with its upstream notices retained; they are not runtime query fallbacks.
 
 ## Evidence
 
-- [Rust implementation review and verification boundaries](source:ctlflow:docs/verification/20261017-rust-integration-review.md)
+- [Historical Rust implementation review](source:ctlflow:docs/verification/20261017-rust-integration-review.md)
 
-- [Current correction record and issue IDs](source:ctlflow:docs/verification/20261015-outside-review-fixes.md)
+- [Historical correction record and issue IDs](source:ctlflow:docs/verification/20261015-outside-review-fixes.md)
 - [Shared contract execution](source:ctlflow:docs/verification/shared-contracts.md)
 - [Development gates](/docs/ctlflow/development/)
 

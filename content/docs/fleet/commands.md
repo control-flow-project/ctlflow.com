@@ -55,7 +55,8 @@ fleet agent remove research analyst-west
 
 Add registers explicit configuration; it does not discover directories.
 Enroll proposes the stopped roster and policies for owner review without enabling
-execution. Start resumes saved histories. Stop removes desired activation before
+execution. Start restores listeners with their saved native histories asleep;
+eligible input wakes only its target. Stop removes desired activation before
 closing listeners/native processes. Remove retires or archives the agent after a confirmed stop; files and histories
 remain.
 
@@ -68,14 +69,15 @@ mean native completion; inspect its per-instance outcome.
 ```sh
 fleet agent contexts research analyst-west
 fleet agent attach research analyst-west
-fleet agent attach research analyst-west --context '!EXACT_ROOM_ID:example.test'
+fleet agent attach research analyst-west --context 'room/!EXACT_ROOM_ID:example.test'
 fleet start research --fresh-history
 fleet agent start research analyst-west --fresh-history
 ```
 
 Contexts is read-only. Attach prints the exact running native terminal command;
-it does not start/fork a conversation or launch another listener.
-Pi does not support live TUI attachment.
+it does not start/fork a conversation or launch another listener. Use the exact
+key from `contexts`: private histories use `shared` or `control`; room histories
+use `room/` followed by the opaque room ID. Pi does not support live TUI attachment.
 
 Fresh history explicitly calls controller reset. Normal start does not.
 Reset preserves identity, permissions, Matrix data and archived native histories.

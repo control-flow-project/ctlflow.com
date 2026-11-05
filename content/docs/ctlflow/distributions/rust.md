@@ -8,7 +8,7 @@ sourcePath: "docs/distributions/rust.md"
 
 ## Prerequisites
 
-The current publisher targets Linux x64. Building requires an authorized source
+The current publisher targets Linux x64. Building requires a source
 checkout, the toolchain pinned in `rust-toolchain.toml`, Node.js 26+, npm 11.17+
 and a native C/link toolchain. Dependencies come from the checked-in lockfiles.
 The generated executables use the GNU Linux target and host system libraries;
@@ -78,14 +78,14 @@ This writes a local distribution, not a release upload, npm package or deploymen
 All npm workspaces are private tooling dependencies.
 
 Server image construction is separate from executable packaging. After the shared
-shared build, the root command builds managed C#, NativeAOT C# and Rust packages:
+build, the root command builds managed C#, NativeAOT C# and Rust packages:
 
 ```sh
 npm run package:containers -- --output /absolute/packages/release
 ```
 
-Each backend directory contains `release.json`, `images.tar` and trusted build-side
-`package-tool.mjs`. Copy the chosen complete package to the deployment host. The
+Each backend directory contains `release.json`, `images.tar`, `compose.yaml` and
+trusted build-side `package-tool.mjs`. Copy the chosen complete package to the deployment host. The
 archive contains its runtime and the common Knex image, selected by immutable IDs.
 
 ## Install and run the server

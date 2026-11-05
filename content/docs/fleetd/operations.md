@@ -75,7 +75,8 @@ explicit Stop. Normal controller shutdown preserves intent.
 Repeated Stop does not erase it; an empty selection resumes nobody.
 
 After reboot, start the same controller root. Desired bindings restore with
-bounded concurrency, current provider login and exact histories.
+bounded concurrency and exact sleeping histories. Provider login refreshes only
+when eligible input activates native execution.
 Manually stopped targets remain stopped. No filesystem discovery or native
 conversation import is performed.
 
@@ -126,6 +127,6 @@ Optional private `config.json` contains `loggingRetentionDays`, default seven.
 Completed operation/diagnostic history expires by age; pending/unacknowledged
 work, credentials, histories and stop selections remain protected.
 
-- [Storage and conversions](/docs/fleetd/storage/)
+- [Storage ownership](/docs/fleetd/storage/)
 - [Logging policy](https://github.com/control-flow-project/ctlflow/blob/main/services/crossfire/docs/logging.md)
 - [Fleet session controls](https://github.com/control-flow-project/ctlflow/blob/main/services/fleet/docs/sessions.md)

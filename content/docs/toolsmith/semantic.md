@@ -144,8 +144,8 @@ Synthetic million-entry acceptance is in `scripts/accept_corpus.py`; actual
 model acceptance is separate in `scripts/accept_semantic.py`. The synthetic
 fixture proves capacity, late-position matches, permission filtering, bounded
 Python vector decoding and no added threads. It is not a million-article
-embedding-quality or production-latency certification. See verification.md for
-measured hardware/run evidence.
+embedding-quality or production-latency certification. See the
+[verification record](source:toolsmith:docs/verification.md) for measured hardware/run evidence.
 
 ## Bounds and correctness
 

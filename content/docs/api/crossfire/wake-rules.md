@@ -54,7 +54,7 @@ Your HTTP client supplies these values in the URL query string.
 
 custom validation: [`fleets`](/docs/api/schemas/crossfire-contracts-schema-query/#fleets); see function below
 
-Accepted query parameters: `ownerId`, `search`.
+Accepted query parameters: `ownerId`, `search`, `page`, `pageSize`.
 
 Query parameters are URL text. The validation function below specifies their format, defaults and combinations. Pagination applies only to operations that use it.
 
@@ -188,7 +188,7 @@ This JSON illustrates a response returned by the service, not a request to send.
   "meta": {
     "requestId": "00000000-0000-0000-0000-000000000001",
     "page": 1,
-    "pageSize": 20,
+    "pageSize": 1,
     "totalItems": 0,
     "totalPages": 1
   }

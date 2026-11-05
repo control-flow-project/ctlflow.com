@@ -7,9 +7,12 @@ import { describe, fieldRows, references } from "./fields.mjs";
 const escaped = value => String(value).replaceAll("|", "\\|").replaceAll("\n", " ");
 export const slug = name => name.replace(/([a-z0-9])([A-Z])/gu, "$1-$2").toLowerCase();
 
-function queryNames(expression) {
-  const names = new Set();
-  function visit(node) {
+function queryNames(model, expression, module) {
+  const names = new Set(), visited = new Set();
+  function visit(node, owner) {
+    const key = `${owner.filename}:${node.pos}:${node.end}`;
+    if (visited.has(key)) return;
+    visited.add(key);
     if (ts.isCallExpression(node)) {
       if (ts.isPropertyAccessExpression(node.expression) && ["get", "getAll", "has"].includes(node.expression.name.text)) {
         const first = node.arguments[0];
@@ -18,10 +21,13 @@ function queryNames(expression) {
       if (ts.isIdentifier(node.expression) && ["listQuery", "checked"].includes(node.expression.text)) {
         for (const argument of node.arguments) if (ts.isArrayLiteralExpression(argument)) for (const item of argument.elements) if (ts.isStringLiteral(item)) names.add(item.text);
       }
+      const called = model.resolve(node.expression, owner);
+      if (called.expression !== node.expression
+        && (ts.isFunctionDeclaration(called.expression) || ts.isArrowFunction(called.expression) || ts.isFunctionExpression(called.expression))) visit(called.expression, called.module);
     }
-    ts.forEachChild(node, visit);
+    ts.forEachChild(node, child => visit(child, owner));
   }
-  visit(expression);
+  visit(expression, module);
   return [...names];
 }
 
@@ -41,7 +47,7 @@ function parserSection(model, field, label) {
   }
   const resolved = model.resolve(field.expression, field.module);
   if (label === "Query parameters") {
-    const names = queryNames(resolved.expression);
+    const names = queryNames(model, resolved.expression, resolved.module);
     if (names.length) lines.push(`Accepted query parameters: ${names.map(name => `\`${name}\``).join(", ")}.`, "");
     lines.push("Query parameters are URL text. The validation function below specifies their format, defaults and combinations. Pagination applies only to operations that use it.", "");
   }
@@ -83,7 +89,7 @@ export function operationPage(model, operation, product) {
     `| Maximum request body | ${operation.requestBytes ?? (product === "fleetd" ? 1048576 : 2097152)} bytes${operation.requestBytes === undefined ? " (service default)" : " (operation-specific)"} |`,
     `| Permission codes | ${operation.permissions.length ? operation.permissions.map(permission => `\`${permission}\``).join(", ") : "None declared"} |`, "",
     "Listed permission codes are alternatives, not token scopes. The service also checks access to the requested records and rejects stale revisions or controller generations.", "");
-  if (operation.status === 202) lines.push("HTTP 202 means the request was accepted for processing. Check the operation's status to find out whether it completed.", "");
+  if (operation.status === 202) lines.push("HTTP 202 means the request was accepted for processing. Read the affected resource's application state or returned operation outcome to confirm completion.", "");
   if (operation.requestFormat === "binary") lines.push("Send raw declared file bytes. The length, SHA-256 and media type must match the staged manifest. Commit the publication after uploading its files.", "");
   lines.push("- [Authentication, envelopes and pagination](/docs/api/http/)", "- [Language-neutral client examples](/docs/api/client-examples/)", "");
   for (const [key, label] of [["params", "Path parameters"], ["query", "Query parameters"], ["input", "Request body"], ["output", "Response data"]]) {
@@ -91,7 +97,7 @@ export function operationPage(model, operation, product) {
       lines.push("## Request body", "", "Use `Content-Type: application/octet-stream` and a canonical decimal `Content-Length` matching the staged file. The body must remain within the operation limit and match the declared SHA-256. Do not wrap it in JSON or base64.", "", "`BinaryInput` below describes the server's representation of the upload stream. `chunks` is not an HTTP request field.", "", "### Server-side stream validation", "", "```typescript", sourceText(operation.fields.get(key).expression, operation.module), "```", "", ...references(model, operation.fields.get(key).expression, operation.module).map(link => `- ${link}`), "");
     } else lines.push(parserSection(model, operation.fields.get(key), label));
   }
-  lines.push("## Response envelope", "", "This JSON illustrates a response returned by the service, not a request to send. The service fills `data` with the operation result and `meta` with request metadata. The string below marks where the actual response data appears; it is not an example record. Errors contain `error` instead of `data`.", "", "```json", JSON.stringify({ data: "<value matching the response-data validator>", meta: { requestId: "00000000-0000-0000-0000-000000000001", ...(operation.collection ? { page: 1, pageSize: 20, totalItems: 0, totalPages: 1 } : {}) } }, null, 2), "```", "");
+  lines.push("## Response envelope", "", "This JSON illustrates a response returned by the service, not a request to send. The service fills `data` with the operation result and `meta` with request metadata. The string below marks where the actual response data appears; it is not an example record. Errors contain `error` instead of `data`.", "", "```json", JSON.stringify({ data: "<value matching the response-data validator>", meta: { requestId: "00000000-0000-0000-0000-000000000001", ...(operation.collection ? { page: 1, pageSize: 1, totalItems: 0, totalPages: 1 } : {}) } }, null, 2), "```", "");
   return lines.join("\n");
 }
 

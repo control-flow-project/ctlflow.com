@@ -17,9 +17,11 @@ weight: 30
 
 ## The owner can see terminal output
 
-Visible nonthinking terminal output is sent to the protected owner DM. This
-includes commentary based on a room the owner has not joined. The owner is
-trusted to receive it.
+When automatic output mirroring is enabled, visible nonthinking terminal output
+is sent to the protected owner DM. This includes commentary based on a room the
+owner has not joined. The owner is trusted to receive it. The
+[`mirror_output = false` selection](/docs/fleet/configuration/#collection-output)
+suppresses new mirrored output without changing intentional messages or decisions.
 
 Shared history combines information from authorized rooms. For example, an agent
 reading two rooms may use facts from both when responding. Per-room history

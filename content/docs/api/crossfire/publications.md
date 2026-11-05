@@ -162,7 +162,7 @@ This JSON illustrates a response returned by the service, not a request to send.
   "meta": {
     "requestId": "00000000-0000-0000-0000-000000000001",
     "page": 1,
-    "pageSize": 20,
+    "pageSize": 1,
     "totalItems": 0,
     "totalPages": 1
   }

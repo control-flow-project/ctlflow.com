@@ -1,7 +1,7 @@
 ---
 title: "PATCH /api/agents/{agentId}"
 linkTitle: "changeAgent"
-description: "Change agent lifecycle or name"
+description: "Change agent account status"
 sourceProject: "ctlflow"
 sourcePath: "services/crossfire/packages/contracts/src/rest/operations.ts"
 operation: "changeAgent"
@@ -10,7 +10,7 @@ generated: true
 ---
 
 
-## Change agent lifecycle or name
+## Change agent account status
 
 | Property | Value |
 | --- | --- |
@@ -27,7 +27,7 @@ generated: true
 
 Listed permission codes are alternatives, not token scopes. The service also checks access to the requested records and rejects stale revisions or controller generations.
 
-HTTP 202 means the request was accepted for processing. Check the operation's status to find out whether it completed.
+HTTP 202 means the request was accepted for processing. Read the affected resource's application state or returned operation outcome to confirm completion.
 
 - [Authentication, envelopes and pagination](/docs/api/http/)
 - [Language-neutral client examples](/docs/api/client-examples/)
