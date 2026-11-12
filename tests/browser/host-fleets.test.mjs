@@ -76,6 +76,14 @@ test("server-only Docker and host setup are readable on desktop and mobile", asy
       assert.equal(await page.getByRole("link", { name: "Local Docker server and host-native fleet", exact: true }).count(), 1);
       await page.goto(preview.origin + "/docs/fleetd/authentication/");
       assert.equal((await page.locator("main").innerText()).includes("Do not delete the socket or bypass authentication"), true);
+      const vm = await page.goto(preview.origin + "/docs/fleetd/vm-execution/");
+      assert.equal(vm.status(), 200);
+      await page.getByRole("heading", { level: 1, name: "Fleet VM execution", exact: true }).waitFor();
+      const execution = await page.locator("main").innerText();
+      for (const expected of ["unreleased", "0.1.26 archives do not contain", "native-ownership", "not an egress", "original absolute paths"])
+        assert.equal(execution.includes(expected), true, expected);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true);
+      await page.screenshot({ path: path.join(artifacts, "vm-" + width + ".png"), fullPage: true });
       assert.deepEqual(errors, []);
     } finally { await page.close(); }
   }

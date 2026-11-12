@@ -20,7 +20,12 @@ C# and Rust controllers provide the same API. NativeAOT is the default.
 The shared messaging-tool client retains its Node.js prerequisite; the controller
 itself is a native executable.
 
+Unreleased source builds can select a fleet-owned VM image/profile for each
+agent. The controller and listener remain on the host, along with native
+histories and approved data. Published 0.1.26 archives do not contain VM support.
+
 - [Complete private fleetd API](/docs/api/fleetd/)
 - [Controller authentication](/docs/fleetd/authentication/)
+- [Selective VM execution](/docs/fleetd/vm-execution/)
 - [fleet command interface](/docs/fleet/commands/)
 - [History-preserving stop and resume](/docs/fleet/sessions/)

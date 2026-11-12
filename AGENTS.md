@@ -17,6 +17,10 @@ Docker runs crossfire/Matrix/UI/content and one-shot initialization/migrations
 only. Fleet setup runs on the execution host using its existing supported native
 harness and login; the personalized guide uses the matching installed native fleet/fleetd distribution.
 Do not document a fleet image, relay or provider-credential mount into Docker.
+Unreleased source VM execution is separate from Docker: fleetd/listener remain
+on the host, selected native engines use fleet-owned QEMU/KVM images, and native
+sessions/data remain on approved host exports. Keep source capabilities distinct
+from published 0.1.26 archives; do not imply that those archives contain VM support.
 
 Every coordinated product publication includes this website: review edited
 guides, synchronize generated references to the released source, update image

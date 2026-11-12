@@ -124,6 +124,7 @@ object; fields below; unknown fields rejected ([`instanceView`](/docs/api/schema
 | `instance.definition` | lowercase name; pattern `[a-z][a-z0-9-]{0,39}` |
 | `instance.workarea` | string; 1–1024 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `instance.workspace` | string; 1–4096 UTF-16 units; well-formed Unicode; no C0/DEL controls; optional property |
+| `instance.execution` | custom validation: [`executionPlacement`](/docs/api/schemas/fleetd-contracts-execution/#executionPlacement); see function below; optional property |
 | `instance.runtimeOptions` | custom validation: [`runtimeOptions`](/docs/api/schemas/fleetd-contracts-configuration/#runtimeOptions); see function below; optional property |
 | `instance.listenerOptions` | object; fields below; unknown fields rejected; optional property |
 | `instance.listenerOptions.historyMode` | `shared` or `per-room`; optional property |
@@ -140,6 +141,16 @@ object; fields below; unknown fields rejected ([`instanceView`](/docs/api/schema
 ### Additional checks
 
 The following checks apply in addition to the field limits.
+
+Constraint on `instance.execution`:
+
+```typescript
+export function executionPlacement(input: unknown): Result<ExecutionPlacement> {
+    if (!input || typeof input !== 'object' || Array.isArray(input) || !('kind' in input))
+        return failure('invalid', 'Select host or VM execution');
+    return input.kind === 'host' ? host(input) : vm(input);
+}
+```
 
 Constraint on `instance.runtimeOptions`:
 

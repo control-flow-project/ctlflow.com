@@ -12,8 +12,30 @@ weight: 30
 | Room grant and Matrix membership | Whether an agent can read, reply or invite in a room | Permission for every sender to wake it |
 | Wake policy | Who can deliver a message that starts or interrupts an agent | New room access or permission to approve tools |
 | Runtime permissions | What the engine can do with files and tools | Matrix authorization |
+| Selected VM execution (unreleased) | Separate guest kernel, approved exports and a bounded execution group | Isolation from the agent's own login or an outbound-network allowlist |
 | Per-room histories | Separate saved conversations | Separate files, credentials, processes or security sandboxes |
 | Report sandbox | Separation from the application's cookies, storage and API | Confidentiality or trustworthiness of report contents |
+
+## Selected VM execution
+
+Published 0.1.26 archives run agents on the execution host. Source builds also
+support fleet-owned QEMU/KVM images selected per instance. fleetd and its listener
+stay on the host; native engines and tools use the selected guest. Only approved
+state, workspace and data directories are exported. Controller credentials,
+ownership gates, peer state and global native homes cannot be exported.
+
+The agent can read its own provider login and writable exports. This boundary
+does not make its own credentials confidential from it. Disabled networking
+creates no guest NIC; the own authenticated listener still uses a private SSH
+forward. Outbound networking permits reachable host/LAN services and is not an
+egress allowlist. A VM error never runs the agent on the host.
+
+Fleet and execution cgroups bound memory and tasks without reserving physical
+RAM. Admission checks a configured host reserve; later memory pressure can still
+cause an OOM. The host-only writer gate and full execution-group teardown prevent
+overlapping native database writers after controller or supervisor failure.
+
+- [Configuration, prerequisites and exact limits](/docs/fleetd/vm-execution/)
 
 ## The owner can see terminal output
 
@@ -91,9 +113,11 @@ If delivery cannot be established after a restart, a new input points to the
 complete previous message and states that earlier delivery is unknown. The agent
 is asked to inspect history and external effects before continuing.
 
-This cannot guarantee exactly-once tool actions, contain arbitrary escaped
-subprocesses or make an unavailable provider work. Lost contact means execution
-state is unknown, not that the agent is confirmed stopped.
+Neither selection guarantees exactly-once tool actions or makes an unavailable
+provider work. Host process guards do not contain arbitrary escaped subprocesses;
+selected VM execution closes its exact resource group before accepting a
+replacement. Lost contact means execution state is unknown, not that the agent
+is confirmed stopped.
 
 - [Runtime behavior](/docs/fleetd/runtime/)
 - [Delivery and restart cases](/docs/fleetd/delivery/)
