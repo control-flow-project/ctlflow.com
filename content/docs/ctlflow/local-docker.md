@@ -94,6 +94,14 @@ docker compose \
 
 The report root normally returns 404. Published reports have opaque URLs.
 
+## Selected agent VMs in source builds
+
+The controller and listener run on the execution host. Unreleased source builds
+can place selected native agents in fleet-owned VMs on that host while retaining
+their histories and approved data there. Published 0.1.26 archives do not include
+this feature. It is separate from the server containers and is configured through
+the [fleet VM catalog](/docs/fleetd/vm-execution/), not Docker Compose.
+
 ## Connect a host fleet
 
 1. Open **Agent setup** in management. Copy its personalized instruction into an existing agent with shell access, opened in the intended project on the execution host.

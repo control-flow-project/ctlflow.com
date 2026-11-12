@@ -19,6 +19,7 @@ created by fleetd. Create the roster and role instructions, not the `.fleet/`,
 ```text
 research/
   runtime.toml
+  execution.toml     # optional fleet image/resource catalog
   rooms.toml
   .fleet/
   agents/
@@ -84,6 +85,37 @@ A definition supplies defaults. Each provided top-level native instance value
 replaces its default; nested tables replace whole values, not recursive fields.
 The adapter validates the same result during inspection, start/resume, recovery
 and reset. Changes apply at a stopped-to-running transition.
+
+## Execution selection
+
+Selective VM execution is unreleased and is absent from the published 0.1.26
+archives. Source builds of managed C#, NativeAOT and Rust use the same selection
+for both Codex and Pi. Omitted execution selects the host.
+
+The fleet author adds this table inside the chosen `[[instances]]` entry in
+`research/runtime.toml`, before the next instance:
+
+```toml
+[instances.execution]
+kind = "vm"
+image = "research"
+profile = "restricted"
+```
+
+The image and profile belong to this fleet's `execution.toml`. The operator
+creates that file using an existing private image, its actual SHA256, a finite
+fleet memory budget and approved mounts. The
+[complete VM guide](/docs/fleetd/vm-execution/#configuration) contains the catalog
+format and prerequisites. An intentional host selection uses `kind = "host"`
+without image/profile. Native sandbox and approval options are separate.
+
+Stop the instance before changing placement. Keep its exact workarea and native
+histories; native sessions and approved data stay on host storage. Images must
+contain the selected harness and dependencies at their configured paths. Setup
+does not install them. A VM failure never changes execution to host.
+
+Sleeping fleet restoration makes no model turn or VM boot. Explicit inspection
+and first approved native-history creation may boot without inference.
 
 ## Collection output
 

@@ -1,12 +1,12 @@
 ---
 title: "Installation"
-description: "Build and install Toolsmith, then select HTTP, PDF, XLS or semantic search dependencies."
+description: "Build and install Toolsmith, then select HTML, HTTP, PDF, XLS or semantic search dependencies."
 weight: 10
 sourceProject: "toolsmith"
 sourcePath: "docs/installation.md"
 ---
 
-Toolsmith 0.5.0 has public MIT-licensed source and wheel/sdist artifacts. Metadata
+Toolsmith 0.5.1 has public MIT-licensed source and wheel/sdist artifacts. Metadata
 declares the SPDX expression `MIT`; both artifacts include LICENSE. There is no
 PyPI/npm release yet and no automatic publishing workflow. Build from the public
 repository or install a built wheel:
@@ -23,17 +23,21 @@ store/network requirement. Unsupported filesystem primitives cause an error.
 
 ```sh
 python3 -m venv .venv
-.venv/bin/python -m pip install dist/ctlflow_toolsmith-0.5.0-py3-none-*.whl
+.venv/bin/python -m pip install dist/ctlflow_toolsmith-0.5.1-py3-none-*.whl
 .venv/bin/toolsmith --json capabilities
 ```
+
+HTML and RSS/Atom reading require the `html` extra: `beautifulsoup4==4.15.0` and
+`lxml==6.1.3`. Without them the base package still imports, but an HTML read returns
+an explicit unavailable result. No alternate parser is selected.
 
 For selected network acquisition:
 
 ```sh
-.venv/bin/python -m pip install "$(printf '%s' dist/ctlflow_toolsmith-0.5.0-py3-none-*.whl)[http]"
+.venv/bin/python -m pip install "$(printf '%s' dist/ctlflow_toolsmith-0.5.1-py3-none-*.whl)[http]"
 ```
 
-The `http` extra installs `dnspython==2.8.0` and `aiohttp==3.14.5`. One
+The `http` extra installs `dnspython==2.9.0` and `aiohttp==3.14.5`. One
 cooperative asynchronous transport serves both synchronous and asynchronous
 callers without worker threads. The `pdf` extra installs `pypdfium2==5.14.0`
 and `Pillow==13.0.0` for in-process text extraction and PNG page rendering.

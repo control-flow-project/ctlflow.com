@@ -13,6 +13,11 @@ Source links point to those versions so you can inspect the corresponding
 implementation. Check your installed release before applying commands or
 configuration from a guide.
 
+Recorded source revisions can include unreleased capabilities. In particular,
+fleet VM execution is available in source builds but absent from published
+0.1.26 archives. Its guides mark that distinction; recording a source version
+does not establish registry publication or deployment.
+
 ## Generated reference
 
 The reference includes all declared crossfire and fleetd HTTP operations:

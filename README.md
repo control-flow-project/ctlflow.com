@@ -11,6 +11,12 @@ native login; the personalized guide uses matching installed native fleet/fleetd
 The [local Docker walkthrough](content/docs/ctlflow/local-docker.md) documents
 image selection, loopback access, host attachment and persistent state.
 
+The [VM execution guide](content/docs/fleetd/vm-execution.md) describes per-agent
+execution in fleet-owned QEMU/KVM images, with the controller, native sessions
+and approved data retained on the host. It covers unreleased source builds;
+published 0.1.26 archives do not contain VM support. Keep this distinction in
+configuration, runtime, security and distribution pages when updating the site.
+
 The site contains edited Markdown guides, generated API references, architecture
 diagrams and browser-based search. Layouts and assets are maintained here. It
 uses no external fonts, analytics or remote diagram rendering.

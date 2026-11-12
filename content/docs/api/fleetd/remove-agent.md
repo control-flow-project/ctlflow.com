@@ -140,6 +140,7 @@ object; fields below; unknown fields rejected ([`fleetView`](/docs/api/schemas/f
 | `instances[].instance.definition` | lowercase name; pattern `[a-z][a-z0-9-]{0,39}` |
 | `instances[].instance.workarea` | string; 1–1024 UTF-16 units; well-formed Unicode; no C0/DEL controls |
 | `instances[].instance.workspace` | string; 1–4096 UTF-16 units; well-formed Unicode; no C0/DEL controls; optional property |
+| `instances[].instance.execution` | custom validation: [`executionPlacement`](/docs/api/schemas/fleetd-contracts-execution/#executionPlacement); see function below; optional property |
 | `instances[].instance.runtimeOptions` | custom validation: [`runtimeOptions`](/docs/api/schemas/fleetd-contracts-configuration/#runtimeOptions); see function below; optional property |
 | `instances[].instance.listenerOptions` | object; fields below; unknown fields rejected; optional property |
 | `instances[].instance.listenerOptions.historyMode` | `shared` or `per-room`; optional property |
@@ -176,6 +177,16 @@ function metadata(input: unknown): Result<Record<string, string>> {
         output[key] = value;
     }
     return success(output);
+}
+```
+
+Constraint on `instances[].instance.execution`:
+
+```typescript
+export function executionPlacement(input: unknown): Result<ExecutionPlacement> {
+    if (!input || typeof input !== 'object' || Array.isArray(input) || !('kind' in input))
+        return failure('invalid', 'Select host or VM execution');
+    return input.kind === 'host' ? host(input) : vm(input);
 }
 ```
 

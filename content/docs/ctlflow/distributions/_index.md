@@ -16,6 +16,12 @@ on PATH. Personalized setup uses the existing supported Codex/Pi installation
 and native login. It does not install a harness or copy credentials into Docker.
 NativeAOT is the default; managed C# and Rust are explicit choices.
 
+Selective VM execution is available in source builds of all three targets, not
+the published 0.1.26 archives. Source publishers include `vm/README.md`, the host
+prerequisite helper and Packer recipe. The
+[VM guide](/docs/fleetd/vm-execution/) defines the supported host, images,
+configuration and security limits. Server Docker deployment is unchanged.
+
 - [Local Docker server and host-native fleet](/docs/ctlflow/local-docker/)
 - [0.1.26 server and migration release inventory](/docs/ctlflow/container-release/)
 

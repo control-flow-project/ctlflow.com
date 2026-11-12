@@ -26,6 +26,7 @@ export const guideReferences = [
   ["ctlflow","services/fleetd/docs/setup.md","docs/fleetd/setup.md"],
   ["ctlflow","services/fleetd/docs/authentication.md","docs/fleetd/authentication.md"],
   ["ctlflow","services/fleetd/docs/storage.md","docs/fleetd/storage.md"],
+  ["ctlflow","docs/architecture/vm-execution.md","docs/fleetd/vm-execution.md"],
   ["ctlflow","services/fleetd/docs/coordination.md","docs/fleetd/coordination.md"],
   ["ctlflow","services/crossfire/docs/runtime.md","docs/fleetd/runtime.md"],
   ["ctlflow","services/crossfire/docs/history.md","docs/fleetd/history.md"],

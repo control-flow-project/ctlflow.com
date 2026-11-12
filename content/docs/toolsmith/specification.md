@@ -32,6 +32,11 @@ are not implemented. HTML table markup is retained for interpretation rather
 than converted into inferred rows and columns. CSV and JSON readers parse their
 declared formats.
 
+HTML and RSS/Atom title/description normalization use Beautiful Soup with the
+explicit lxml HTML parser from the optional `html` extra. A missing dependency
+returns unavailable; no other parser is selected. Implied HTML wrappers count
+toward the same node/depth budgets.
+
 HTML inspection reports markup signals; it does not compute CSS visibility.
 Document-title access screens and unresolved access dialogs remain failures.
 A caller that owns a browser validates its computed-visible DOM through the same
@@ -42,11 +47,22 @@ converter validates the complete document before returning converted results;
 no malformed tail becomes a successful prefix. Its explicit byte ceiling is
 144 MiB with a 32 MiB default. HTML keeps a 4 MiB/50,000-node default and accepts
 explicit bounds to 8 MiB/500,000 nodes, retaining depth, access and output checks.
+`semantic_html` retains headings, paragraphs, lists, quotations, emphasis and
+table structure. It removes decorative attributes while preserving table
+`rowspan`/`colspan`. Unused attributes have no separate count cutoff. Literal
+links and metadata remain typed observations; cleaning does not certify article
+completeness or interpret table values.
+
+Caller-selected acquisition buckets share four active operations by default,
+explicitly selectable from one to 64. Each bucket remains sequential with its
+own start spacing. Interrupted response bodies report unavailable. Invalid
+headers and unsupported encodings remain terminal format failures. Transport
+does not retry; the application owns recovery.
 
 ## Installation and platforms
 
 The package is MIT-licensed. Its base installation has no third-party runtime
-dependencies. HTTP, PDF, XLS and semantic encoding use optional extras. Model weights are
+dependencies. HTML/feed, HTTP, PDF, XLS and semantic encoding use optional extras. Model weights are
 not redistributed or downloaded automatically.
 
 Python 3.13+ is required. Secure persistence requires Linux filesystem primitives
@@ -98,7 +114,7 @@ metadata, so callers own the memory budget for their selected population.
 
 HTTP permits approved DNS hosts over HTTPS port 443. It rejects credentials,
 secret-like query keys, fragments and control characters. DNS answers must all
-be public unicast addresses. The connection uses a validated numeric address,
+be public unicast addresses. The native connector receives the complete validated pinned address set,
 while TLS verifies the original hostname. Every redirect repeats these checks.
 
 Requests do not inherit proxy settings or forward cookies or authorization.
@@ -137,6 +153,11 @@ that a source is true.
 Encoding happens outside the source transaction. Publication rechecks source text
 and the previous digest. Index changes participate in the caller's SQLite
 transaction. Clearing an index removes derivatives, not original text.
+
+Ordinary embedding profile, document and chunk tables use STRICT typing and
+non-null keys; profile references are indexed. The vector virtual table retains
+its extension-defined schema. Applications own any forward migration when
+adopting these constraints. Toolsmith has no automatic migration or old reader.
 
 - [Semantic model and index API](/docs/toolsmith/semantic/)
 - [Limits](/docs/toolsmith/limits/)

@@ -88,7 +88,7 @@ content/titles are not auto-redacted. Returned tool metadata excludes incidental
 machine paths and credentials, but consumers must decide which retained content
 can be shared. Store metadata and source-limit state are private local records.
 
-Base installation has no runtime dependencies. Optional HTTP and PDF dependencies
+Base installation has no runtime dependencies. Optional HTML, HTTP and PDF dependencies
 are pinned; dependency audit is part of release verification. PDF text extraction
 and rendering run in process. The native parser is not an OS sandbox; callers
 own process-level controls. Browser automation and OCR are not implemented.

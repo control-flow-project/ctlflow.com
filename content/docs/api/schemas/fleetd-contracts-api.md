@@ -23,6 +23,7 @@ All code blocks below are TypeScript declarations copied from the server. They d
 - [`services/fleetd/packages/contracts/src/attachment.ts`](/docs/api/schemas/fleetd-contracts-attachment/)
 - [`services/crossfire/packages/contracts/src/fleet-control.ts`](/docs/api/schemas/crossfire-contracts-fleet-control/)
 - [`services/fleetd/packages/contracts/src/setup.ts`](/docs/api/schemas/fleetd-contracts-setup/)
+- [`services/fleetd/packages/contracts/src/execution.ts`](/docs/api/schemas/fleetd-contracts-execution/)
 - [`services/fleetd/packages/contracts/src/configuration.ts`](/docs/api/schemas/fleetd-contracts-configuration/)
 - [`services/fleetd/packages/contracts/src/diagnostics.ts`](/docs/api/schemas/fleetd-contracts-diagnostics/)
 
@@ -43,7 +44,7 @@ Related definitions:
 ```typescript
 instance = check.object({ key: check.name, name: check.name, definition: check.name, workarea: check.text(1024),
     workspace: check.optional(check.text(4096)),
-    runtimeOptions: check.optional(runtimeOptions),
+    execution: check.optional(executionPlacement), runtimeOptions: check.optional(runtimeOptions),
     listenerOptions: check.optional(check.object({ historyMode: check.optional(check.choice('shared', 'per-room')), mirrorOutput: check.optional(check.boolean) })) })
 ```
 
@@ -53,6 +54,7 @@ Related definitions:
 - [`name`](/docs/api/schemas/crossfire-contracts-schema-validation/#name)
 - [`text`](/docs/api/schemas/crossfire-contracts-schema-validation/#text)
 - [`optional`](/docs/api/schemas/crossfire-contracts-schema-validation/#optional)
+- [`executionPlacement`](/docs/api/schemas/fleetd-contracts-execution/#executionPlacement)
 - [`runtimeOptions`](/docs/api/schemas/fleetd-contracts-configuration/#runtimeOptions)
 - [`choice`](/docs/api/schemas/crossfire-contracts-schema-validation/#choice)
 - [`boolean`](/docs/api/schemas/crossfire-contracts-schema-validation/#boolean)

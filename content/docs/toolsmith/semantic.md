@@ -70,6 +70,13 @@ versions, change row factories or commit an existing transaction. Existing or
 partial index schemas fail. There is one current index structure and no
 historical converter or alternate runtime reader.
 
+The ordinary `embedding_profile`, `embedding_document` and `embedding_chunk`
+tables use SQLite STRICT typing. Text primary keys reject null; chunk IDs use
+generated integer primary keys. The document's `profile_id` foreign key has an
+index. The native vector virtual table retains its extension-defined schema.
+Applications adopting these constraints in existing databases own the forward
+migration; Toolsmith does not migrate them automatically.
+
 The following application code creates an in-memory index and an authorization
 table. Its `Source` contains literal sample text, not an article downloaded by
 Toolsmith. The application supplies that text, encodes it with the previously

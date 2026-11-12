@@ -110,6 +110,26 @@ new context.
 - [Controller operations](/docs/fleetd/operations/)
 - [Native histories](/docs/fleetd/storage/)
 
+## Selected VM execution
+
+Unreleased source builds support `execution` on each roster instance and a
+fleet-owned `execution.toml` image/profile catalog. The published 0.1.26 archives
+do not contain VM support. The same configuration applies to Codex and Pi in
+managed C#, NativeAOT and Rust.
+
+fleetd and its listener stay on the host. The selected native engine and tools
+run in the guest; exact sessions, histories, workspace and approved data retain
+their original host paths. A host-only writer gate and finite execution group
+prevent a replacement from opening those databases before cleanup completes.
+No VM failure selects host execution. Native permission options remain separate.
+
+Sleeping fleet restoration makes no model turn or VM boot. Explicit inspection
+and first approved native-history creation may boot without inference. Memory
+ceilings may overcommit the fleet cap without reserving physical RAM; no claim
+is made that concurrent guest peaks or external host pressure cannot cause OOM.
+
+- [VM prerequisites, images, configuration and security](/docs/fleetd/vm-execution/)
+
 ## Rooms and direct messages
 
 People create rooms in Element. crossfire manages agent participation by immutable

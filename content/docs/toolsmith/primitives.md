@@ -27,6 +27,10 @@ toolsmith --output "$PWD/records.json" read jsonl "$PWD/records.jsonl"
 ```
 
 HTML inspection returns cleaned text, literal links and metadata together.
+It requires the optional `html` extra. `semantic_html` preserves headings,
+paragraphs, lists, quotations, emphasis and table structure without decorative
+attributes. Table `rowspan`/`colspan` remain; cleaning does not interpret values
+or prove article completeness.
 Scripts and styles are excluded from prose; literal JSON/JSON-LD remains separate
 untrusted data. Ordinary form-wrapped content stays readable, while interactive
 controls and their values do not become prose. Use retained text and metadata
@@ -103,8 +107,8 @@ outcomes in `downloads.json`; successful bodies go to their selected files.
 toolsmith --output "$PWD/downloads.json" http batch --profiles "$PWD/profiles.json" --requests "$PWD/requests.json" --network-state "$PWD/network-state" --task assignment --deadline-seconds 300
 ```
 
-By default every caller-defined group runs concurrently, with sequential requests
-inside each group. Optional `--concurrency` imposes an explicit network ceiling.
+Four operations run concurrently by default, with sequential requests inside
+each group. `--concurrency` selects an explicit ceiling from one to 64.
 Cooperating invocations share persistent slots, spacing, quotas and cooldowns.
 Existing destinations cause no HTTP request. Local spacing/slot waits consume
 the current deadline; upstream cooldowns and exhausted quotas defer immediately.
@@ -115,8 +119,9 @@ An application owning asynchronous acquisition can use
 `Bucket(id, items, minimum_interval_seconds)` and `run_buckets_async` from
 `toolsmith.acquisition.buckets`. It supplies the operation and owns its effects,
 authorization, time bounds and durable outcomes. The same finite scheduler runs
-all buckets concurrently, sequentially spaces their items, preserves result
-order, and cancels and joins peers on cancellation or unexpected producer failure.
+four operations concurrently by default; `maximum_concurrency` selects one to 64.
+It sequentially spaces each bucket's items, preserves result order, and cancels
+and joins peers on cancellation or unexpected producer failure.
 It starts no thread or process. Local spacing never replaces shared upstream controls.
 
 ## Read selected PDF pages

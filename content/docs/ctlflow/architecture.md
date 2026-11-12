@@ -33,6 +33,13 @@ with separate credentials and unread positions for each agent. It runs Codex or
 Earendil Pi through runtime adapters. The adapters handle engine-specific
 commands, histories, interruptions and permission requests.
 
+Unreleased source builds add per-instance host or VM execution. Selected Codex/Pi
+engines and tools run in fleet-owned QEMU/KVM images. fleetd and its listener stay
+on the host; native sessions, histories and approved data remain there at their
+original paths. Published 0.1.26 archives do not include this selection.
+
+- [VM ownership, images and resource limits](/docs/fleetd/vm-execution/)
+
 fleet sends commands to fleetd's private Unix socket. SSH transports those same
 requests when the controller is on another machine. No public controller port
 is needed.

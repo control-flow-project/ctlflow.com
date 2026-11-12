@@ -6,6 +6,15 @@ sourceProject: "ctlflow"
 sourcePath: "docs/distributions/csharp-managed.md"
 ---
 
+## VM execution in source builds
+
+Selective fleet VM execution is unreleased and is absent from the published
+0.1.26 archives. A current source build includes `vm/README.md`, the host
+prerequisite helper and the Packer recipe beside the ordinary distribution.
+The [VM guide](/docs/fleetd/vm-execution/) covers image selection, approved mounts,
+provider login, finite resource groups and cleanup. The same configuration applies
+to managed C#, NativeAOT and Rust. Server Docker deployment is unchanged.
+
 ## Prerequisites
 
 The current publisher targets Linux x64. Building requires a source

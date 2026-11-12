@@ -53,7 +53,7 @@ HTTP client for a Toolsmith service, skill installation or fleet integration.
 | `toolsmith.search_batch` | `SearchQuery`, `EmbeddingQuery`, `QueryResult`, `SearchBatch`, `read_queries` |
 | `toolsmith.acquisition.urls` | `resolve_url`, `resolve_urls`, `ResolvedUrl`; resolution grants no HTTP authority |
 | `toolsmith.acquisition.batch` | `DownloadRequest`, `DownloadedFile`, `DownloadOutcome`, `DownloadBatch`, `download_batch`, `download_batch_async` |
-| `toolsmith.acquisition.buckets` | `Bucket`, `BucketResult`, `run_buckets_async`; finite caller-selected operations and spacing |
+| `toolsmith.acquisition.buckets` | `Bucket`, `BucketResult`, `run_buckets_async`; sequential per-bucket spacing with `maximum_concurrency=4`, explicitly selectable from 1–64 |
 | `toolsmith.acquisition.transport` | `HttpMethod`, `NativeResolver`, `NativeTransport.request`/`request_async`, `request_pinned`, `request_pinned_async` |
 | `toolsmith.journal` | `Record`, `read_journal`, `append_record` |
 
@@ -216,5 +216,11 @@ only after the entire document validates, including its tail.
 regular-file `read_bytes` share that explicit ceiling without changing their
 defaults or retained-artifact limits. HTML `read_html` and `inspect_html` accept
 `maximum_bytes` (default 4 MiB, ceiling 8 MiB) and `maximum_nodes` (default 50,000,
-ceiling 500,000). Access/password, depth, attribute and extracted-output checks
-still apply.
+ceiling 500,000). The optional `html` extra supplies Beautiful Soup/lxml; parsed
+nodes include implied wrappers. Depth 128, access/password and extracted-output
+checks remain. Reading attributes share the input byte bound; unused attributes
+have no separate count cutoff. `HtmlInspection.semantic_html` preserves headings,
+paragraphs, lists, quotations, emphasis and table structure. Decorative attributes
+are removed, while table `rowspan`/`colspan` remain. Links and metadata remain
+separate typed observations. This does not certify article completeness or table
+meaning.
