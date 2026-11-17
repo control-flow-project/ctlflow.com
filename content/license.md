@@ -5,10 +5,9 @@ description: MIT licenses and third-party notices.
 
 ## First-party code
 
-ctlflow, Toolsmith and this website use the MIT license.
+ctlflow and this website use the MIT license.
 
 - [ctlflow license](https://github.com/control-flow-project/ctlflow/blob/main/LICENSE)
-- [Toolsmith license](https://github.com/control-flow-project/toolsmith/blob/main/LICENSE)
 - [Website license](https://github.com/control-flow-project/ctlflow.com/blob/main/LICENSE)
 
 ## Dependencies

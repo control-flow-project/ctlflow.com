@@ -43,5 +43,4 @@ For source synchronization, builds and website tests, see the
 Product verification records are linked from the implementation guides.
 
 - [ctlflow source](https://github.com/control-flow-project/ctlflow)
-- [Toolsmith source](https://github.com/control-flow-project/toolsmith)
 - [Website source](https://github.com/control-flow-project/ctlflow.com)

@@ -1,8 +1,7 @@
 # Server Docker and host fleet documentation
 
-Date: 2026-10-18. Source snapshots: ctlflow
-`482dbe4a07d9f864437161016769745527a24aa6` (0.1.22) and Toolsmith
-`9fb2183fd6c6ff9b7c270314965f83d1ea838abe` (0.4.1).
+Date: 2026-10-18. Source snapshot: ctlflow
+`482dbe4a07d9f864437161016769745527a24aa6` (0.1.22).
 
 ## Reviewed changes
 
@@ -14,8 +13,7 @@ Date: 2026-10-18. Source snapshots: ctlflow
   label 1. Image publication remains separate; no available GHCR digest is invented.
 - Updated RC2 pins, schema 18/index migration, managed EF/JIT behavior, native
   parent-lifetime guards, rejected obsolete state and authenticated socket recovery.
-- Refreshed immutable API/source references and Toolsmith's optional 0.4.1
-  installation/HTML inspection guidance. Authored guides were edited, not regenerated.
+- Refreshed immutable API/source references. Authored guides were edited, not regenerated.
 
 ## Verification
 

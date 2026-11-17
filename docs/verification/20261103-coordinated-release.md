@@ -1,10 +1,7 @@
 # ctlflow 0.1.25 documentation verification
 
 On 3 November 2026 the site was synchronized against ctlflow source
-368a871c0f4eb072b08cd7abf83cac16bc478419 and Toolsmith
-1627d931e87cc9fea9de055bbeefa65c84e79fb3 (version 0.5.0). The latter differs
-from the earlier source pin only by a test lint correction; no library API
-or publication changed.
+368a871c0f4eb072b08cd7abf83cac16bc478419.
 
 Current guides describe listener-only startup and genuine-input wake behavior,
 retained histories, explicit decisions and quiet collection output. The release

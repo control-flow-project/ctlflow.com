@@ -99,7 +99,8 @@ test("the checked-in source, generator and output ledger is complete", () => {
   assert.equal(manifest.counts.fleetd, 20);
   assert.equal(manifest.counts.matrix, 157);
   assert.equal(manifest.counts.schemaModules >= 30, true);
-  assert.equal(Object.keys(manifest.inputs).every(filename => /^(ctlflow|toolsmith):/u.test(filename)), true);
+  assert.deepEqual(Object.keys(manifest.sources), ["ctlflow"]);
+  assert.equal(Object.keys(manifest.inputs).every(filename => /^ctlflow:/u.test(filename)), true);
 });
 
 test("unsafe symlink output parents fail before any stale file is removed", context => {

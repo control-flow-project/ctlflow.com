@@ -3,8 +3,7 @@
 The review starts from website `b19d7b5a04ef83f198ec800ac36ac00c942a8580`
 and covers all 253 tracked prose/reference records, plus 43 templates,
 configuration, example and license resources. Generated references now use
-ctlflow `92da9d00da972e69bb4bd7203a448a622ee94dee` and Toolsmith
-`c27d8d9c90a66aae16fa99ae836d6c30ee7cd24e`.
+ctlflow `92da9d00da972e69bb4bd7203a448a622ee94dee`.
 
 Current guides distinguish public source/server images, private npm workspaces
 and unpublished native archives. They describe installed native setup, lazy

@@ -98,6 +98,8 @@ test("home loads under Netlify CSP without external resources, errors or missing
   assert.equal(await page.locator('meta[name="description"]').getAttribute("content").then(text => text.includes("agent fleet")), true);
   assert.deepEqual(await page.locator(".message-flow li strong").allTextContents(), ["Matrix room", "crossfire", "fleetd", "Agent"]);
   assert.deepEqual(await page.locator(".product-entry h3").evaluateAll(elements => elements.map(element => element.firstChild.textContent.trim())), ["crossfire", "fleetd", "fleet"]);
+  assert.deepEqual(await page.locator(".primary-nav a").evaluateAll(links => links.map(link => link.getAttribute("href"))), ["/docs/", "/docs/api/"]);
+  assert.equal(await page.locator(".related-project").count(), 1);
   const introduction = await page.locator(".hero-description").innerText();
   assert.equal(introduction.includes("People and agents work together in the same Matrix rooms."), true);
   assert.equal(introduction.includes("your own roles, instructions and tools"), true);
@@ -105,10 +107,6 @@ test("home loads under Netlify CSP without external resources, errors or missing
   assert.equal(await page.locator(".message-flow li").filter({ has: page.locator("strong", { hasText: /^crossfire$/u }) }).innerText().then(text => text.includes("message routing")), true);
   const serverDescription = await page.locator(".product-entry").filter({ has: page.getByRole("heading", { name: "crossfire", exact: true }) }).innerText();
   for (const responsibility of ["routes messages", "enrollment", "identities", "room access", "wake-up rules", "permission requests", "activity and usage", "static reports"]) assert.equal(serverDescription.includes(responsibility), true, responsibility);
-  const toolsmith = await page.locator(".related-project").filter({ has: page.getByRole("heading", { name: "Toolsmith", exact: true }) }).innerText();
-  assert.equal(toolsmith.includes("Python libraries and command-line tools"), true);
-  assert.equal(toolsmith.includes("HTTP downloads, file handling, text extraction and local search"), true);
-  assert.equal(toolsmith.includes("ctlflow does not require them"), true);
   assert.equal(await page.locator(".fleet-example").innerText().then(text => text.includes("Ten Codex agents")), true);
   assert.equal(/Knex|React|SQLite|wire contract|constituent/u.test(await page.locator(".hero").innerText()), false);
   await page.screenshot({ path: path.join(artifacts, "home-desktop.png"), fullPage: true });
@@ -159,7 +157,7 @@ test("homepage uses typography instead of panels and keeps message arrows betwee
           radius: getComputedStyle(element).borderRadius, fit: getComputedStyle(element.querySelector("img")).objectFit })),
         ornamentDownloads: performance.getEntriesByType("resource").filter(resource => ornaments.some(element => new URL(resource.name).pathname.startsWith(`/assets/artwork/${element.dataset.artwork}-`))).length };
     });
-    assert.equal(layout.panels.length, 6);
+    assert.equal(layout.panels.length, 5);
     for (const panel of layout.panels) {
       assert.equal(panel.background, "rgba(0, 0, 0, 0)");
       assert.equal(panel.radius, "0px");
@@ -191,7 +189,7 @@ test("homepage uses typography instead of panels and keeps message arrows betwee
     }
     assert.equal(layout.overflow <= 1, true, `${width}px ${theme}: no page overflow`);
     assert.equal(layout.pageArtworkVisible, true, "page-level decoration remains visible");
-    assert.deepEqual(layout.ornaments.map(ornament => ornament.name), ["playbill", "multitool"]);
+    assert.deepEqual(layout.ornaments.map(ornament => ornament.name), ["playbill"]);
     assert.equal(layout.ornaments.every(ornament => ornament.visible === (width >= 1000)), true, "section ornaments are desktop-only");
     for (const ornament of layout.ornaments) {
       assert.equal(ornament.sizes, "288px");
@@ -296,10 +294,10 @@ test("every generated HTML link, exact anchor and code example renders correctly
         codeExamples[language] = (codeExamples[language] ?? 0) + 1;
       }
       const illustratedPages = {
-        "/": ["collaboration", "playbill", "multitool"],
+        "/": ["collaboration", "playbill"],
         "/docs/ctlflow/": ["ctlflow"],
         "/docs/crossfire/": ["crossfire"], "/docs/fleetd/": ["fleetd"], "/docs/fleet/": ["fleet"],
-        "/docs/examples/": ["examples"], "/docs/api/": ["api"], "/docs/toolsmith/": ["toolsmith"],
+        "/docs/examples/": ["examples"], "/docs/api/": ["api"],
       };
       const illustrations = [...document.querySelectorAll(".landing-art")].map(element => element.dataset.artwork);
       artworkPlacements.push(...illustrations);
@@ -349,7 +347,7 @@ test("landing illustrations decode with transparent backgrounds in both themes a
   const landings = {
     "/": "collaboration", "/docs/ctlflow/": "ctlflow",
     "/docs/crossfire/": "crossfire", "/docs/fleetd/": "fleetd", "/docs/fleet/": "fleet",
-    "/docs/examples/": "examples", "/docs/api/": "api", "/docs/toolsmith/": "toolsmith",
+    "/docs/examples/": "examples", "/docs/api/": "api",
   };
   for (const width of [390, 1440]) {
     await page.setViewportSize({ width, height: 1000 });
@@ -411,8 +409,8 @@ test("landing illustrations decode with transparent backgrounds in both themes a
   }
   await page.goto(preview.origin);
   assert.equal(await page.locator(".hero .landing-art img").getAttribute("fetchpriority"), "high");
-  assert.equal(await page.locator('.related-project img[loading="lazy"]').count(), 2);
-  for (const name of ["playbill", "multitool"]) {
+  assert.equal(await page.locator('.related-project img[loading="lazy"]').count(), 1);
+  for (const name of ["playbill"]) {
     const card = page.locator(".related-project").filter({ has: page.locator(`.landing-art[data-artwork="${name}"]`) });
     await card.scrollIntoViewIfNeeded();
     await card.locator("img").evaluate(image => image.decode());
@@ -422,7 +420,7 @@ test("landing illustrations decode with transparent backgrounds in both themes a
   await page.emulateMedia({ media: "print" });
   assert.equal(await page.locator(".landing-art").first().isVisible(), false);
   assert.deepEqual(failures, []);
-  evidence.tests.push("home-and-all-seven-sidebar-sections-two-themes-two-widths-alpha-responsive-local-assets");
+  evidence.tests.push("home-and-all-six-sidebar-sections-two-themes-two-widths-alpha-responsive-local-assets");
 });
 
 test("search is URL-addressable, escapes input and supports the keyboard shortcut", async context => {

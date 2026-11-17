@@ -1,7 +1,6 @@
 # Quiet collection documentation — 26 October 2026
 
 Source revision: ctlflow `75234d6f6b625fc1ff2c52f7e370ffbdd97bad96`.
-Toolsmith references remain at `621d5cd046896fc7a11663073846131e24ee32b0`.
 
 The configuration, agent tools, Pi, runtime and operations guides describe the
 per-instance `listener_options.mirror_output` selection. Generated API and schema

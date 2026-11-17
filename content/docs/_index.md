@@ -41,9 +41,3 @@ fleet/fleetd distribution installed on the execution host. Setup checks its exac
 the selected harness's existing installation and provider login on that machine.
 Agents can share a history across rooms or keep a history per room.
 Separate histories do not isolate files, credentials or processes.
-
-## Optional tools
-
-[Toolsmith](/docs/toolsmith/) provides Python functions and commands for HTTP
-downloads, file handling, text readers, local archives and search. Fleets do not
-need it to use ctlflow.

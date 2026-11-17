@@ -10,9 +10,7 @@ successful-migration dependency. Backups remain optional and operator-managed.
 The operations guide now states the actual initial schema version, 1.
 
 Generated references were synchronized and checked against the selected ctlflow
-source and Toolsmith revision `621d5cd046896fc7a11663073846131e24ee32b0`
-(version 0.5.0). All twelve recorded Toolsmith inputs were unchanged from the
-previously recorded source tree. The fleet-street source snapshot was refreshed
+source. The fleet-street source snapshot was refreshed
 to `c0a5e2fd089a3d7c888829048820a3d3a50d2efa`; its selected fleet version
 remains 0.1.23. Its recorded example bytes were unchanged. Four stale repository
 source links and the messaging-license asset name were corrected.

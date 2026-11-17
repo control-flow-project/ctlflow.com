@@ -1,8 +1,7 @@
 # Native-only 0.1.26 release documentation
 
 The website records ctlflow source
-`3501d2c30a6350018cd534047731425f057ced17` and Toolsmith
-`1627d931e87cc9fea9de055bbeefa65c84e79fb3`. Generated inventory remains
+`3501d2c30a6350018cd534047731425f057ced17`. Generated inventory remains
 94 crossfire operations, 20 private fleetd operations, 157 Matrix entries,
 42 validation modules and 50 edited product guides.
 
