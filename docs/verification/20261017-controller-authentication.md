@@ -1,8 +1,8 @@
 # Controller authentication documentation — 2026-10-17
 
-Sources are ctlflow `243553f70c8b573ff4f7b6e89fe12f4b42ade2d4` and Toolsmith
-`5984e888a6cd24a9963de546c504e49480af5ee2`. Source snapshots contain committed
-public files only. These revisions identify documentation inputs, not production
+The ctlflow source is `243553f70c8b573ff4f7b6e89fe12f4b42ade2d4`.
+Source snapshots contain committed public files only. This revision identifies
+documentation inputs, not production
 deployment or package-registry receipts.
 
 ## Changes
@@ -15,9 +15,6 @@ deployment or package-registry receipts.
 - Regenerate all 19 fleetd operation pages with the `controller` authentication
   audience and common header/error requirements. Record the canonical auth source
   files in the source manifest; retain authored guide prose.
-- Align Toolsmith installation and library/security guides with public 0.4 APIs,
-  including descriptor-relative paths, configured quotas and database-resident
-  readiness/matching relations. No optional toolkit becomes a fleet dependency.
 - Preserve the merged landing-page work. The browser fixture now owns a short
   OS-temporary runtime directory instead of assigning the long checkout path to
   global TMPDIR; this avoids Chrome's native Unix-socket pathname failure.

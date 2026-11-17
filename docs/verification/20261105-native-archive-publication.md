@@ -2,8 +2,7 @@
 
 The release inventory, three target installation guides and Docker quickstart
 now describe the public ctlflow 0.1.26 archives and SHA256SUMS. The source
-snapshot is ctlflow `5a4fda8eae701a13a3212eb2df3b668a95f88fac`; Toolsmith remains
-at its existing `c27d8d9c90a66aae16fa99ae836d6c30ee7cd24e` snapshot.
+snapshot is ctlflow `5a4fda8eae701a13a3212eb2df3b668a95f88fac`.
 
 - [Published native release](https://github.com/control-flow-project/ctlflow/releases/tag/v0.1.26)
 

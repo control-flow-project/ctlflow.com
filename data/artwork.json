@@ -3,10 +3,8 @@
   "ctlflow": "artwork/ctlflow.png",
   "examples": "artwork/examples.png",
   "playbill": "artwork/playbill.png",
-  "multitool": "artwork/multitool.png",
   "crossfire": "artwork/crossfire.png",
   "fleetd": "artwork/fleetd.png",
   "fleet": "artwork/fleet.png",
-  "api": "artwork/api.png",
-  "toolsmith": "artwork/toolsmith.png"
+  "api": "artwork/api.png"
 }

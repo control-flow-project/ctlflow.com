@@ -43,7 +43,6 @@ test("Docker and setup guides keep server containers separate from host fleets",
   assert.equal(implementation.includes("11.0.100-rc.3.26522.148"), true);
   assert.equal(implementation.includes("11.0.0-rc.3.26522.148"), true);
   assert.equal(implementation.includes("current schema 1"), true);
-  assert.equal(read("content/docs/toolsmith/installation.md").includes("Toolsmith 0.5.1"), true);
 });
 
 test("the published container inventory and source mapping retain exact release facts", () => {
@@ -104,8 +103,7 @@ test("example introductions describe the task without incidental licensing or si
     assert.match(introduction, /(?:task|brief|production)/u, filename);
   }
   assert.equal(read("content/docs/examples/fleet-street.md").includes("MIT asset notice"), false);
-  assert.equal(read("content/license.md").includes("ctlflow, Toolsmith and this website use the MIT license."), true);
-  assert.equal(read("content/docs/toolsmith/installation.md").includes("MIT-licensed source"), true);
+  assert.equal(read("content/license.md").includes("ctlflow and this website use the MIT license."), true);
   assert.equal(read("layouts/partials/sidebar.html").includes("Source-based documentation"), false);
 });
 
@@ -213,17 +211,13 @@ test("Netlify headers keep site scripts/assets local and only hashed assets immu
   assert.equal(fs.existsSync(path.join(root, ".github/workflows")), false);
 });
 
-test("hierarchy and source URLs preserve constituents and Toolsmith optionality", () => {
+test("hierarchy and source URLs contain only the platform products", () => {
   const sources = JSON.parse(read("data/sources.json"));
   assert.equal(sources.ctlflow.repository, "https://github.com/control-flow-project/ctlflow");
-  assert.equal(sources.ctlflow.revision, "42ac62743f0e87204084ed46d8750bfd7dd0f1c9");
+  assert.equal(sources.ctlflow.revision, "41af21243dddc5b26380d44183737c9bfe308ba8");
   assert.equal(sources.ctlflow.version, "0.1.26");
-  assert.equal(sources.toolsmith.revision, "2aeffa56e1772ca3030987392c9455383d0fda62");
-  assert.equal(sources.toolsmith.version, "0.5.1");
   for (const product of ["crossfire", "fleetd", "fleet"]) assert.equal(read(`content/docs/${product}/_index.md`).includes(`title: ${product}`), true);
-  const optional = read("content/docs/toolsmith/_index.md").replace(/\s+/gu, " ");
-  assert.equal(optional.includes("separate project"), true);
-  assert.equal(optional.includes("omit it completely"), true);
+  assert.deepEqual(Object.keys(sources), ["ctlflow"]);
   assert.equal(read("AGENTS.md").includes("parent monorepo; crossfire, fleetd and fleet"), true);
 });
 
@@ -242,13 +236,13 @@ test("current guides match neutral identities and the sole current storage contr
     assert.equal(database.includes(expected), true, expected);
   for (const expected of ["same Compose project", "completed migrate job", "Backups are optional and operator-managed"])
     assert.equal(database.includes(expected), true, expected);
-  for (const page of ["fleetd/storage", "toolsmith/semantic", "toolsmith/operations"])
+  for (const page of ["fleetd/storage"])
     assert.equal(read(`content/docs/${page}.md`).includes("current"), true, page);
 });
 
 test("guides are edited independently of generated API contracts", () => {
   const manifest = JSON.parse(read("data/reference-manifest.json"));
-  assert.equal(guideReferences.length, 51);
+  assert.equal(guideReferences.length, 40);
   assert.equal(manifest.counts.guides, guideReferences.length);
   for (const [project, source, output] of guideReferences) {
     const filename = `content/${output}`;
@@ -285,19 +279,6 @@ test("controller guides and every generated operation require the same OS-user c
   assert.equal(client.includes("Authorization: Bearer %s"), true);
   assert.equal(client.includes("--header @-"), true);
   assert.equal(client.includes("Do not attach `Cookie`, `Origin` or `Authorization`"), false);
-});
-
-test("Toolsmith guides match the recorded public 0.5 library ownership", () => {
-  const installation = read("content/docs/toolsmith/installation.md");
-  assert.equal(installation.includes("ctlflow_toolsmith-0.5.1"), true);
-  assert.equal(installation.includes("0.3.0"), false);
-  const library = read("content/docs/toolsmith/library.md");
-  const rows = library.split("\n");
-  assert.equal(rows.find(line => line.startsWith("| `toolsmith.files` |")).includes("`replace_bytes`"), true);
-  assert.equal(rows.find(line => line.startsWith("| `toolsmith.filesystem` |")).includes("replace_bytes"), false);
-  for (const symbol of ["toolsmith.paths", "toolsmith.acquisition.configuration", "indexed_scope", "matching_scope", "prepare_connection", "HtmlInspection"])
-    assert.equal(library.includes(symbol), true, symbol);
-  assert.equal(read("content/docs/toolsmith/security.md").includes("stale approval"), true);
 });
 
 test("documented SQL values use named parameters", () => {

@@ -1,8 +1,7 @@
 # Published container references
 
 Date: 2026-10-18. Website source: ctlflow commit
-`74b51eac5493b63832899e319344bf2ec8f37715` (0.1.22), Toolsmith commit
-`9fb2183fd6c6ff9b7c270314965f83d1ea838abe` (0.4.1).
+`74b51eac5493b63832899e319344bf2ec8f37715` (0.1.22).
 
 Replaced the local Docker guide's placeholder digests with the published
 NativeAOT and matching Knex image references. Linked the complete five-image
@@ -13,8 +12,8 @@ There is no fleet image or provider-credential mount.
 
 Documentation synchronization/checks passed: 47 authored guide sources, 92
 crossfire operations, 19 fleetd operations, 157 Matrix operations and 37 schema
-modules. Only source revision/input metadata changed; generated API contents and
-Toolsmith's source revision are unchanged.
+modules. Only source revision/input metadata changed; generated API contents
+are unchanged.
 
 The pinned Hugo 0.168.0 build passed, followed by 41 static tests and all 16
 browser tests. The Docker guide was checked at 1440- and 390-pixel widths,

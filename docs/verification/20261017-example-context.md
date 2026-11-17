@@ -14,14 +14,13 @@ pages, including the homepage, search and the supplied report.
 - API pages distinguish client-supplied fields, server validation code and
   server-produced responses. A response placeholder is not presented as input
   the reader must construct.
-- Agent tools, native questions, configuration and Toolsmith examples identify
+- Agent tools, native questions and configuration examples identify
   who creates each input, where it is saved and which command reads it.
   Recovery commands are separate from the normal success sequence.
 - The private controller client example includes required authentication and
   passes the header through standard input rather than a process argument.
 - The component introduction follows its heading with a 96 px gap on desktop.
-  The Toolsmith overview has no decorative illustration; the homepage preview
-  remains. Existing mobile decoration rules are unchanged.
+  Existing mobile decoration rules are unchanged.
 
 ## Verification
 
@@ -39,7 +38,7 @@ pages, including the homepage, search and the supplied report.
 | Internal links and anchors | 34,432 checked |
 | Syntax-highlighted code blocks | 1,242 |
 | Homepage layout | Six widths in both themes; component and image spacing checked |
-| Image-free indexes | Documentation and Toolsmith at phone/desktop widths in both themes |
+| Image-free indexes | Documentation at phone/desktop widths in both themes |
 | Artwork | Nine distinct sources and placements; 27 responsive variants |
 | Example calculator and report commands | Run offline from the recorded public example source; saved calculation and report data match |
 | Example break-even | 297 paid tickets; GBP 4,745.25 net receipts and GBP 5,203.00 costs |

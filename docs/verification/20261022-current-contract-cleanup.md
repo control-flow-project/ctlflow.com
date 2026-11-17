@@ -1,6 +1,6 @@
 # Current-contract documentation — 2026-10-22
 
-The website source now documents ctlflow 0.1.23 and Toolsmith 0.4.2. It is not
+The website source now documents ctlflow 0.1.23. It is not
 published or deployed by this change. Exact source commits and input/output
 hashes are recorded in `data/sources.json` and `data/reference-manifest.json`.
 

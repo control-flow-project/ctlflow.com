@@ -3,8 +3,7 @@
 ## Sources and changes
 
 The website now records ctlflow 0.1.24 at commit
-`38c859ebca9d32071a43f481edf8171c7e8c601f` and Toolsmith 0.4.2 at
-`08704c92e647ce8d901d7dca2232ef420dee1760`. The synchronizer reads committed
+`38c859ebca9d32071a43f481edf8171c7e8c601f`. The synchronizer reads committed
 Git snapshots, not dirty sibling source. It reports 94 crossfire operations,
 20 fleetd operations, 157 Matrix operations, 43 schema modules and 50 edited
 guide references. Generated API contracts are unchanged; their source records
@@ -32,7 +31,7 @@ mount was introduced.
 | Check | Result |
 | --- | --- |
 | Pinned tools | Hugo 0.168.0, current locked npm dependencies; no global installation |
-| Source synchronization check | No drift against the selected committed ctlflow/Toolsmith snapshots |
+| Source synchronization check | No drift against the selected committed ctlflow snapshot |
 | Production Hugo build | Passed, including artwork/output checks |
 | Static tests | 44 pass; zero failures, skips, cancellations or TODOs |
 | Browser tests | 16 pass; zero failures, skips, cancellations or TODOs |

@@ -75,8 +75,3 @@ priority over marginal performance gains.
 - [System behavior](/docs/ctlflow/specification/)
 - [Implementation requirements](/docs/ctlflow/implementations/)
 - [Database migrations](/docs/ctlflow/database/)
-
-## Optional tools
-
-Toolsmith is a separate Python library and command-line toolkit. Fleet code can
-use it for downloads, files, archives and search. ctlflow does not require it.

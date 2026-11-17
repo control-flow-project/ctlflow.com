@@ -39,17 +39,6 @@ export const guideReferences = [
   ["ctlflow","services/fleet/docs/remote.md","docs/fleet/remote.md"],
   ["ctlflow","services/fleet/docs/pi.md","docs/fleet/pi.md"],
   ["ctlflow","services/crossfire/packages/agent-tools/assets/SKILL.md","docs/fleet/agent-tools.md"],
-  ["toolsmith","docs/installation.md","docs/toolsmith/installation.md"],
-  ["toolsmith","docs/library.md","docs/toolsmith/library.md"],
-  ["toolsmith","docs/cli.md","docs/toolsmith/cli.md"],
-  ["toolsmith","docs/primitives.md","docs/toolsmith/primitives.md"],
-  ["toolsmith","docs/tools.md","docs/toolsmith/capabilities.md"],
-  ["toolsmith","docs/semantic.md","docs/toolsmith/semantic.md"],
-  ["toolsmith","docs/limits.md","docs/toolsmith/limits.md"],
-  ["toolsmith","docs/operations.md","docs/toolsmith/operations.md"],
-  ["toolsmith","docs/security.md","docs/toolsmith/security.md"],
-  ["toolsmith","docs/specification.md","docs/toolsmith/specification.md"],
-  ["toolsmith","docs/architecture.md","docs/toolsmith/architecture.md"],
 ];
 
 export const catalogSources = {

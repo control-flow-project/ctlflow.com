@@ -14,11 +14,11 @@ const supplied = new Map();
 for (let index = 0; index < argumentsList.length; index += 1) {
   const key = argumentsList[index];
   if (key === "--check") continue;
-  if (!["--ctlflow", "--toolsmith"].includes(key) || supplied.has(key) || !argumentsList[index + 1]) throw new Error("Use --ctlflow PATH --toolsmith PATH [--check]; no other flags are accepted");
+  if (!["--ctlflow"].includes(key) || supplied.has(key) || !argumentsList[index + 1]) throw new Error("Use --ctlflow PATH [--check]; no other flags are accepted");
   supplied.set(key, path.resolve(argumentsList[++index]));
 }
-if (!supplied.has("--ctlflow") || !supplied.has("--toolsmith")) throw new Error("Supply explicit --ctlflow and --toolsmith source directories");
-const roots = { ctlflow: supplied.get("--ctlflow"), toolsmith: supplied.get("--toolsmith") };
+if (!supplied.has("--ctlflow")) throw new Error("Supply an explicit --ctlflow source directory");
+const roots = { ctlflow: supplied.get("--ctlflow") };
 const sources = {};
 const snapshots = Object.fromEntries(Object.entries(roots).map(([project, root]) => [project, createSnapshot(root)]));
 const outputs = new Map();
@@ -27,7 +27,7 @@ function read(project, relative) {
 }
 for (const [project, root] of Object.entries(roots)) {
   const revision = snapshots[project].revision;
-  sources[project] = { repository: `https://github.com/control-flow-project/${project}`, revision, version: project === "ctlflow" ? JSON.parse(read(project, "package.json")).version : /^version = "([^"]+)"/mu.exec(read(project, "pyproject.toml"))[1] };
+  sources[project] = { repository: `https://github.com/control-flow-project/${project}`, revision, version: JSON.parse(read(project, "package.json")).version };
 }
 for (const [project, source] of guideReferences) read(project, source);
 const model = createModel(roots.ctlflow, snapshots.ctlflow);

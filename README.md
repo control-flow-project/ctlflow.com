@@ -2,8 +2,7 @@
 
 Hugo technical documentation for running agent fleets with ctlflow's crossfire
 server, fleetd controller and fleet CLI. C# and Rust are documented under
-those components. Toolsmith provides optional Python functions and commands for
-files, downloads, archives and search.
+those components.
 
 Docker documentation covers server/Matrix/UI/content and one-shot Knex only.
 Fleet attachment remains host-native with the user's installed Codex/Pi and
@@ -21,13 +20,13 @@ The site contains edited Markdown guides, generated API references, architecture
 diagrams and browser-based search. Layouts and assets are maintained here. It
 uses no external fonts, analytics or remote diagram rendering.
 
+- [17 November platform documentation verification](docs/verification/20261117-platform-docs.md)
 - [5 November comprehensive documentation review](docs/verification/20261105-comprehensive-review.md)
 - [Native-only 0.1.26 release documentation](docs/verification/20261104-native-release.md)
 - [Local verification record](docs/verification/20261017-site.md)
 - [22 October contract cleanup and verification](docs/verification/20261022-current-contract-cleanup.md)
 - [23 October container publication documentation](docs/verification/20261023-container-publication.md)
 - [ctlflow 0.1.25 publication and lifecycle guides](docs/verification/20261103-coordinated-release.md)
-- [Toolsmith 0.5.0 guide verification](docs/verification/20261025-toolsmith.md)
 - [Server Docker and host fleet documentation checks](docs/verification/20261018-server-docker-host-fleets.md)
 - [Theme, typography and code-example verification](docs/verification/20261017-theme-typography.md)
 - [fleet-street integration and homepage verification](docs/verification/20261017-fleet-street.md)
@@ -75,7 +74,7 @@ For a local preview, build first and run `npm run serve` under the same scope.
 It binds `http://127.0.0.1:4321` only. `PORT` may select another local port.
 The preview applies the checked-in Netlify response headers so browser tests
 exercise the real site's CSP rather than an unrestricted development page.
-It is development tooling, not a service shipped with ctlflow or Toolsmith.
+It is development tooling, not a service shipped with ctlflow.
 
 ## Presentation and code examples
 
@@ -103,7 +102,7 @@ Each image has one placement only, including home previews. Production builds
 verify the rendered output and reject repeated illustrations, duplicate source
 bytes, unknown selections or unused registered art.
 On mobile layouts below 1000 px, retain page-level ornamental images but hide
-section ornaments, including the two home previews. Informative images,
+section ornaments, including the home preview. Informative images,
 screenshots and diagrams remain content and are not hidden by this policy.
 
 ## Netlify
@@ -137,11 +136,9 @@ commit link and does not pull, build or edit those repositories.
 
 ```sh
 npm run docs:sync -- \
-  --ctlflow /absolute/ctlflow \
-  --toolsmith /absolute/toolsmith
+  --ctlflow /absolute/ctlflow
 npm run docs:check -- \
-  --ctlflow /absolute/ctlflow \
-  --toolsmith /absolute/toolsmith
+  --ctlflow /absolute/ctlflow
 ```
 
 These commands also require the finite scope. Only the maintainer-facing sync

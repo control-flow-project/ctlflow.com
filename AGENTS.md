@@ -9,9 +9,7 @@ Use direct technical prose, Markdown content, a single shared layout and locally
 served assets. Avoid stock AI phrasing and promotional language. No analytics,
 external fonts, runtime servers, GitHub Actions or client-side framework is
 required. ctlflow is the parent monorepo; crossfire, fleetd and fleet are its
-products. C# and Rust
-are implementations beneath those owners. Toolsmith is a separate optional
-related project, not a constituent or required fleet dependency.
+products. C# and Rust are implementations beneath those owners.
 
 Docker runs crossfire/Matrix/UI/content and one-shot initialization/migrations
 only. Fleet setup runs on the execution host using its existing supported native
@@ -59,7 +57,7 @@ rules, not enclosing cards. Boxes remain appropriate for code and diagrams.
 Landing illustrations are decorative transparent cutouts, selected explicitly by
 `artwork` front matter and rendered through `landing-art.html`. Every top-level
 documentation section, represented by a bold sidebar heading, has exactly one
-panoramic 3:1 illustration. This includes API reference and Toolsmith. No child
+panoramic 3:1 illustration. This includes API reference. No child
 page, nested section, technical guide or operation reference has ornamental art;
 the fleet-street walkthrough is a child page, not an exception. The documentation
 index has none. The shared page-heading template rejects missing section art and
@@ -84,7 +82,7 @@ Refresh through `npm run example:sync -- --source /absolute/fleet-street`; never
 import private operating state, dirty source bytes or real fleet data. Ordinary
 builds verify stored examples without a sibling checkout or Python.
 
-`npm run docs:sync -- --ctlflow /absolute/source --toolsmith /absolute/source`
+`npm run docs:sync -- --ctlflow /absolute/source`
 updates generated API references and guide source revisions from selected sources.
 `npm run docs:check` verifies that generated content matches those sources.
 Ordinary site builds require only this repository and the pinned Hugo binary.
